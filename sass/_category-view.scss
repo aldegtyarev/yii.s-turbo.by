@@ -1,0 +1,58 @@
+.category-view {
+	.categories-list {
+		margin: 0 -5px;
+	}
+	
+	
+	.category-item {
+		
+		
+		@extend %fl;
+		@extend %w_25;
+	}
+	
+	.category-item-wr {
+		margin: 0 5px 15px 5px;
+		
+		padding: 10px;
+		background: #fff;
+		border: 1px solid #fff;
+
+		@include border-radius(4px);
+		@include box-shadow(#dbdbdb 2px 2px 5px);
+		
+		&:hover {
+			border-color: #d70000;
+			@include box-shadow(#ef959c 2px 2px 5px);
+		}
+		
+		img {
+			//@extend %db;
+			margin: 0 0 10px 0;
+			
+			@include border-radius(4px);
+		}
+		
+		a {
+			height: 140px;
+			
+			@extend %db;
+			@extend %text_c;
+			@extend %bold;
+			@extend %pos_rel;
+			
+			span {
+				bottom: 0;
+				width: 100%;
+				
+				@extend %db;
+				@extend %pos_abs;
+				@extend %text_c;
+				
+			}
+		}
+		
+		
+	}
+	
+}

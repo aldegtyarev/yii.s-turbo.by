@@ -1,0 +1,193 @@
+/* Поиск по автомобилю */
+
+.search-auto-block {
+  border-top: 3px solid #d70000;
+}
+
+.search-auto-block-title {
+	padding: 40px 55px 40px 45px;
+	width: 95px;
+	background: #d70000;
+	font-weight: bold;
+	font-style: italic;
+	position: relative;
+	z-index: 1;
+	
+	@extend %italic;
+	@extend %c_fff;
+	@extend %uppercase;
+	@extend %fl;
+		
+	&:after {
+		content: '';
+		position: absolute;
+		right: -10px;
+		top: 49px;
+		border: 5px solid transparent;
+		border-left: 5px solid #d70000;
+	}
+}
+
+.search-auto-form {
+	padding: 0 18px 0 0;
+	height: 109px;
+	width: 782px;
+	border-top: 1px solid #452a2b;
+	background: #2f3435;
+	background: rgba(47, 52, 53, 0.8);
+	
+	@extend %pos_rel;
+	@extend %fl;
+	
+	.step-wr {
+		position: relative;
+		padding-left: 50px;
+		height: 98%;
+		z-index: 1;
+		
+		@extend %fl;
+	}
+	
+	.step1,
+	.step2 {
+		padding-right: 18px;
+		border-right: 1px solid #212425;	
+	}
+
+	.step-num {
+		width: 24px;
+		height: 24px;
+		background: #d70000;
+		line-height: 24px;
+		left: 17px;
+		top: 50%;
+		margin-top: -12px;		
+		
+		@include border-radius(12px);
+		
+		@extend %db;
+		@extend %pos_abs;
+		@extend %text_c;
+		@extend %c_fff;
+		@extend %font_13;
+	}
+	
+	.jq-selectbox__select {
+		height: 37px;
+		border-color: #505960;
+		background: transparent;
+		box-shadow: none;
+		text-shadow: none;
+		margin: 34px 0 0 0;
+		width: 118px;
+		
+		@include border-radius(4px);
+		
+		&:hover {
+			background-color: transparent;
+			
+			.jq-selectbox__trigger-arrow {
+				@extend .ico-select-arrowhover;
+			}
+		}
+	}
+	
+	.jq-selectbox__select-text {
+		line-height: 37px;
+		
+		@extend %c_999;
+		@extend %bold;
+		@extend %font_14;
+		
+		&:hover {
+			@extend %c_fff;
+		}
+	}
+	
+	.jq-selectbox__trigger {
+		border-color: #505960;
+	}
+	
+	.jq-selectbox__trigger-arrow {
+		border: none;
+		opacity: 1;
+	}
+	
+	.jq-selectbox__dropdown {
+		background: #2f3435;
+		border-color: #505960;
+	}
+	
+	.step2 .jq-selectbox__select {
+		width: 130px;
+	}
+	
+	.jq-selectbox__trigger-arrow {
+		border: none;
+		opacity: 1;
+		
+		@extend .ico-select-arrow;
+	}
+	
+	.jq-selectbox__dropdown li {
+		padding: 10px;
+		
+		@extend %c_999;
+		@extend %bold;
+		@extend %font_14;
+	}
+	
+}
+
+.clear-search-auto {
+	top: 7px;
+	right: 18px;
+	z-index: 7;
+	padding: 0 0 0 16px;
+	
+	@extend %pos_abs;
+	@extend %c_999;
+	@extend %underline_y_n;
+	@extend %font_13;
+	@extend %for_sprite;
+	
+	&:before {
+		top: 2px;
+		left: 0;
+		@extend .ico-clear-filter;
+	}
+}
+
+.search-auto-button {
+	width: 36px;
+	height: 36px;
+	background: #d70000;
+	border: none;
+	padding: 0;
+	margin: 35px 0 0 0;
+	outline: none;
+	
+	
+	@include border-radius(3px);
+	@include transition-property(background-color);
+	@include transition-duration(500ms);
+	
+	@extend %db;
+	@extend %for_sprite;
+	@extend %pointer;
+	@extend %fr;
+	
+	
+	&:before {
+		top: 50%;
+		left: 50%;
+		margin: -7px 0 0 -7px;
+		
+		@extend .ico-search-btn-white;
+	}
+	
+	&:hover {
+		background: #be0000;
+	}	
+}
+/* end Поиск по автомобилю */

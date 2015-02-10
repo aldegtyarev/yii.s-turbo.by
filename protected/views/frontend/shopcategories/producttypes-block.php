@@ -1,0 +1,3 @@
+<?
+echo 'producttypes-block.php'
+?>

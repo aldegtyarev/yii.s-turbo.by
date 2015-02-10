@@ -1,0 +1,35 @@
+$(document).ready(function(){
+	$('.sidebar-banner a').click(function(){
+
+	});
+	
+	jQuery(".menu-cat li a").click(function(){		//кликнули на пункт бокового меню
+		//$(this).parent('li').addClass("asdsad11");
+		var elem = $(this).parent('li').find('ul');
+		//console.log(elem.length);
+		
+		if(elem.length)	{
+			//console.log('1111');
+			$(this).next('ul').slideToggle();
+		}
+		
+		//alert('cucu');
+		/*
+		if(jQuery(this).parent('li').hasClass("deeper") && !jQuery(this).hasClass('end'))	{	//если данный пункт имеет подпункты
+			if(!jQuery(this).parent('li').hasClass("active"))	{
+			
+				jQuery(this).parent('li').parent('ul').find('li.active').children('ul').slideUp(speed);
+				jQuery(this).parent('li').parent('ul').find('li.active').removeClass('active');
+				//alert(jQuery(this).parent('li').parent('ul').find('li.active').attr('class'));
+				jQuery(this).next('ul').slideDown(speed);
+				jQuery(this).parent('li').addClass('active');
+			}	else	{
+				jQuery(this).next('ul').slideUp(speed);
+				jQuery(this).parent('li').removeClass('active');
+			}
+			return false;
+		}
+		*/
+		return false;
+	});	
+});

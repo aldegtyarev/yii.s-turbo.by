@@ -1,0 +1,109 @@
+/* Футер */
+
+
+.footer {
+	height: 472px;
+	margin: -476px 0 0 0;
+	border-top: 4px solid #d70000;
+	background: url("/img/footer-bg.jpg") no-repeat left center #3b3b3b;
+	position: relative;
+	z-index: 2;
+
+	div,
+	p,
+	a,
+	span{
+		@extend %c_fff;
+	}
+	
+	& > div {
+		padding: 27px 0 0 0;
+	}
+	
+	.contacts {
+		width: 300px;
+		
+		@extend %fl;
+	}
+	
+	.ur-data {
+		width: 285px;
+		margin: 0 25px 0 0;
+		
+		@extend %fl;
+			
+		.txt {
+			margin: 0 0 29px 0;
+			&:last-of-type {
+				margin-bottom: 0;
+			}
+		}
+	}
+	.our-shop {
+		@extend %fr;
+	}
+	
+	.view-map {
+		img {
+			width: 375px;
+		}
+	}
+	
+	.adress,
+	.phones,
+	.email {
+		padding: 0 0 0 45px;
+		margin: 0 0 28px 0;
+		
+		@extend %for_sprite;
+	}
+	
+	.email {
+		height: 19px;
+		line-height: 19px;
+		
+		&:before {
+			left: 0;
+			top: 0;
+			
+			@extend .ico-email;
+		}
+	}
+	
+	.phones {
+		
+		&:before {
+			left: 0;
+			top: 2px;
+			
+			@extend .ico-phone;
+		}
+	}
+	
+	.adress {
+		&:before {
+			left: 0;
+			top: 2px;
+			
+			@extend .ico-adress;
+		}		
+	}
+	
+	.site-name {
+		padding: 0 17px 0 0;
+	}
+	
+	.copyright {
+		margin: 20px 0 0 0;
+	}
+}
+
+.footer-hdr {
+	margin: 0 0 30px 0;
+	
+	@extend %bold;
+	@extend %uppercase;
+	@extend %font_17;
+}
+
+/* end Футер */

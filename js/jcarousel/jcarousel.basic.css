@@ -1,0 +1,142 @@
+.jcarousel-wrapper {
+	position: relative;
+}
+
+
+/** Carousel **/
+
+.jcarousel {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+
+jcarousel jcarousel-new-positions {
+	height: 350px;
+}
+
+
+.jcarousel ul {
+    width: 20000em;
+    position: relative;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.jcarousel li{
+	position: relative;
+	display: block;
+	
+}
+
+/*
+990 / 5.2174 189 | 189 * 5 + 20 + 30
+1200 / 230 5.2174
+*/
+
+.jcarousel li > img {
+	/*
+	width: 192px;
+	height: 144px;
+	*/
+}
+
+
+/** Carousel Controls **/
+/*
+.jcarousel-control-prev,
+.jcarousel-control-next {
+    position: absolute;
+    top: -61px;
+    width: 40px;
+    height: 35px;
+    text-align: center;
+    background: url(../../img/sprites.png) no-repeat;
+	text-decoration: none;
+	text-indent: 7777px;
+	overflow: hidden;
+}
+
+.jcarousel-control-prev {
+	background-position: 0 -405px;
+    right: 50px;
+}
+
+.jcarousel-control-next {
+    right: 0;
+	background-position: -45px -405px;
+}
+
+.jcarousel-control-prev:hover {
+	background-position: 0 -445px;
+}
+.jcarousel-control-next:hover {
+	background-position: -45px -445px;
+}
+
+*/
+
+
+.jcarousel-control-prev.inactive,
+.jcarousel-control-next.inactive {
+    opacity: .5;
+    cursor: default;
+}
+
+/** Carousel Pagination **/
+
+.jcarousel-pagination {
+    position: absolute;
+    bottom: 19px;
+    left: 26px;
+}
+/*
+.jcarousel-pagination a {
+    text-decoration: none;
+    display: inline-block;
+    
+    font-size: 11px;
+    line-height: 14px;
+    min-width: 14px;
+    
+    background: #fff;
+    color: #4E443C;
+    border-radius: 14px;
+    padding: 3px;
+    text-align: center;
+    
+    margin-right: 2px;
+    
+    opacity: .75;
+}
+/*
+.jcarousel-pagination a.active {
+    background: #4E443C;
+    color: #fff;
+    opacity: 1;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.75);
+}
+*/
+
+.jcarousel-pagination a {
+	background: #ababab;
+	text-indent: -9999px;
+	display: block;
+	width: 12px;
+	height: 12px;
+	margin: 0 3px;
+	outline: 0;
+	border: 2px solid #fff;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	-khtml-border-radius: 8px;
+	border-radius: 8px;
+	float: left;
+}
+
+.jcarousel-pagination a:hover,
+.jcarousel-pagination a.active {
+	background: #589fa5;
+}
+

@@ -1,0 +1,72 @@
+/* Боковое меню */
+.menu-cat {
+	margin: 0 0 35px 0;
+	
+	h3 {
+		margin: 5px 40px;
+		
+		@extend %c_d70000;
+		@extend %uppercase;
+	}
+	
+	.body {
+		
+	}
+	
+
+	li {
+		a {
+			line-height: 28px;
+			padding-left: 40px;
+			padding-right: 10px;
+			
+			@extend %db;
+			@extend %underline_n_n;
+			@extend %c_777;
+			
+			&:hover {
+				@extend %c_242424;
+			}
+			
+		}
+		
+		& > ul {
+			margin-left: 10px;
+		}
+	}
+	
+	& .active > ul {
+		@extend %db;
+	}
+	
+	& .active > a {
+		@extend %c_242424;
+	}
+}
+
+.categories-menu {
+	
+	& > li > a {
+		@extend %c_242424;
+		@extend %uppercase;
+		@extend %bold;
+		@extend %for_sprite;
+		@extend %pos_rel;
+		
+		&:before {
+			right: 10px;
+			top: 50%;
+			margin-top: -3px;
+
+			@extend .ico-arrow-down;
+		}
+		
+		
+	}
+	
+	ul {
+		@extend %hide;
+	}
+}
+
+/* end Боковое меню */

@@ -1,0 +1,21 @@
+.products-on-auto {
+	
+	.jcarousel-control-prev,
+	.jcarousel-control-next {
+		top: -36px;
+	}
+}
+
+.products-on-auto-item {
+	width: 250px;
+	margin: 0 5px 0 0;
+	overflow: hidden;
+	
+	@include border-radius(4px);
+	
+	@extend %fl;
+	
+	img {
+		width: 100%;
+	}
+}

@@ -1,0 +1,336 @@
+/* Шапка сайта */
+.top-line {
+  height: 43px;
+  background: #fff;
+}
+
+.main-menu	{
+	ul {
+		padding: 0 0 0 29px;
+	}
+	
+	li {		
+		margin: 0 0 0 -29px;
+		height: 43px;
+		
+		@extend %fl;
+		@extend %pos_rel;
+		
+		
+		
+		&:after {
+			top: 50%;
+			right: 10px;
+			margin: -7px 0 0 0;
+			content: ' ';
+			position: absolute;
+			
+			@extend .ico-top-menu-separator;
+			
+		}
+		
+		a {
+			@extend %underline_n_n;
+			@extend %bold;
+		}
+		
+		&:hover {
+			a {
+  				background: #ff0013;
+				
+				@extend %for_sprite;
+				@extend %c_fff;
+				
+				&:before {
+					
+					top: 0;
+					left: -28px;
+					@extend .ico-top-menu-active-left;
+				}
+				
+				&:after {
+					top: 0;
+					right: -28px;
+					margin: 0;
+					content: ' ';
+					position: absolute;
+					
+					
+					@extend .ico-top-menu-active-right;
+				}
+				
+				
+			}
+		}
+		
+		&:hover:after {
+  			display: none;			
+		}
+		
+	}
+	
+	.last-item	{
+		&:after {
+			display: none;
+		}
+	}
+	
+	a {
+		position: relative;
+		display: block;
+		margin: 0 28px;
+		padding: 0 10px;
+		line-height: 43px;
+	}
+	
+}
+	
+	
+
+
+
+/* login / logout block */
+
+/* cart */
+.cartBlock {
+	padding: 0 15px 0 0;
+	border-right: 1px solid #f3f3f3;
+	width: 280px;
+	height: 43px;
+
+	@extend %fr;
+	@extend %pos_rel;
+	
+	.total-products {
+		display: inline-block;
+		margin-top: 3px;
+		width: 15px;
+		height: 15px;
+		background: #d70000;
+		text-align: center;
+		line-height: 15px;
+		@include border-radius(7px);
+	}
+	
+	.to-cart {
+		white-space: nowrap;
+		text-indent: 7777px;
+		left: 0;
+		top: 0;
+		
+		@extend %db;
+		@extend %underline_n_n;
+		@extend %pos_abs;
+		@extend .ico-cart;
+		
+		
+		
+	}
+	
+	.cart-row {
+		right: 15px;
+		
+		@extend %pos_abs;
+		
+		span {
+			@extend %text_r;
+			@extend %db;
+			@extend %fl;
+			@extend %font_14;
+		}
+		
+		.cart-row-left {
+			width: 120px;
+			
+			@extend %c_777;
+		}
+		.cart-row-right {
+			width: 120px;
+			
+			@extend %c_d70000;
+		}
+	}
+	
+	.cart-row-1 {
+		top: 7px;
+	}
+	
+	.cart-row-2 {
+		bottom: 6px;
+	}
+	
+	
+}
+
+.logo-top {
+
+	width: 279px;
+	
+	@extend %db;
+	@extend %text_c;
+	@extend %italic;
+	@extend %c_fff;
+	@extend %underline_n_n;
+	@extend %uppercase;
+	@extend %font_13;
+
+	img {
+		@extend %db;
+		margin: 0 0 7px 0;
+	}		
+}
+
+
+.header-block {
+	height: 215px;
+	
+	
+	.block1 {
+		position: relative;
+		margin: 62px 0 0 0;
+		padding: 26px 7px;
+		width: 531px;
+		border-top: 2px solid #d70000;
+		border-bottom: 2px solid #d70000;
+	}
+	
+	.block2 {
+		margin: 64px 0 0 0;
+		width: 418px;
+	}	
+}
+
+
+
+/* search-block */
+.search-block {
+	position: absolute;
+	top: 26px;
+	right: 7px;
+	
+	form {
+		position: relative;
+	}
+	
+	.searchbox {
+		padding-right: 40px;
+		width: 155px;
+		background: #586168;
+		background: rgba(88, 97, 104, 0.8);
+		line-height: 36px;
+		
+		@extend %font_13;
+		@extend %c_8f9090;
+	}
+	
+	.search-btn {
+		position: absolute;
+		top: 9px;
+		right: 13px;
+		border: none;
+		background-color: transparent;
+		
+		@extend .ico-search-btn;
+		@extend %pointer;
+	}	
+}
+
+/* contacts */
+.top-contacts {
+	padding: 3px 27px 3px 0;
+	border-right: 1px solid #4c5154;
+	margin: 15px 0 0 0;
+	
+	.email,
+	.velcom,
+	.mts {
+		margin: 0 0 1px 0;
+		text-indent: 22px;
+		
+		@extend %for_sprite;
+		@extend %font_19;
+		@extend %c_e1e1e3;
+	}
+	
+	.mts:before {
+		top: 3px;
+		left: 0;
+		
+		@extend .ico-mts;
+	}
+	
+	.velcom:before {
+		top: 3px;
+		left: 0;
+		
+		@extend .ico-velcom;
+	}
+	
+	.email:before {
+		top: 3px;
+		left: -1px;
+		
+		@extend .ico-email1;
+		
+	}
+	
+	.work-time {
+		margin: 5px 0 0 0;
+	}
+}
+
+
+/* consultant-block */
+.consultant-block {
+	padding: 5px 0 0 88px;
+	margin: 15px 0 0 0;
+	
+	@extend %for_sprite;
+	@extend %c_fff;	
+	
+	&:before {
+		top: 0;
+		left: 12px;
+		
+		@extend .ico-consultant;
+
+	}
+	
+	.status {
+		position: relative;
+		display: inline-block;
+		padding: 2px 11px 2px 21px;
+		margin: 0 0 5px 0;
+		border: 1px solid #8d8f90;
+		
+		@include border-radius(7px);
+		
+		@extend %pos_rel;
+		@extend %font_13;
+		
+		&:before {
+			content: ' ';
+			width: 9px;
+			height: 9px;
+			top: 4px;
+			left: 8px;
+			@include border-radius(7px);
+			@extend %pos_abs;
+		}
+	}
+		
+
+	.online:before {
+		background: #70b328;			
+	}
+		
+	.title {
+		margin: 0 0 2px 0;
+	}
+	
+	.consultant-call {
+		color: inherit;
+		
+		@extend %font_13;
+	}
+}

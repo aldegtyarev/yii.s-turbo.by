@@ -1,0 +1,12 @@
+#content{padding:0;}
+/*.company-page{background: url(/images/r_foto1.jpg) no-repeat scroll 0 0 #fdfdfd;}*/
+.company-page{background: url(/images/r_foto2.jpg) no-repeat scroll 0 0 #fdfdfd;}
+.company-page-top{background:none;}
+.company-page-bottom{background:none;}
+#k2Container{height:372px;border-bottom:none;}
+.company-page-top{padding:0;}
+.company-page-top .company-page #middle{margin:0;}
+.left-side{display:none;}
+.right-side{margin:0 0 0 480px;-margin:0 0 0 332px;}
+.right-side h1,span.infoArticle.author,
+div.additional-info,div.additional-info *{color:#ffffff !important;}

@@ -1,0 +1,101 @@
+/* Как это работает */
+.how-it-work {
+	margin: 70px 0 0 0;
+}
+
+.how-it-work-list {
+	margin: 60px 0 0 0;
+
+	
+	li {
+		width: 191px;
+		height: 178px;
+		background: url("../img/we-work-bg.png") no-repeat;
+		margin: 0 -20px 0 0;
+		
+		@extend %fl;
+		@extend %pos_rel;
+		@extend %for_sprite;
+		
+		&:before {
+			top: 23px;
+			left: 41px;
+		}
+	
+		
+	}
+
+	.wr {
+		position: absolute;
+		top: 85px;
+		left: 43px;
+		padding: 0 45px 0 0;
+		
+		@extend %bold;
+		@extend %font_13;
+		@extend %for_sprite;
+		
+		&:before {
+			top: 5px;
+			right: 20px;
+			
+			@extend .ico-arrow-right-red;
+		}
+	}
+
+	.arrow {
+		display: block;
+		width: 10px;
+		height: 20px;
+		background-position: -95px -445px;
+		position: absolute;
+		right: 23px;
+		top: 50%;
+		margin: -10px 0 0 0;
+	}
+
+	
+	.step1 {
+		 z-index: 4;
+		
+		&:before {
+			left: 23px;
+			
+			@extend .ico-we-work1;
+		}
+		
+		.wr {
+			left: 28px;
+		}
+	}
+	.step2 {
+		 z-index: 3;
+		&:before {
+			@extend .ico-we-work2;
+		}		
+	}
+	.step3 {
+		 z-index: 2;
+		&:before {
+			@extend .ico-we-work3;
+		}		
+	}
+	.step4 {
+		 z-index: 1;
+		width: 213px;
+		height: 178px;
+		background: url("../img/we-work4-bg.png") no-repeat;
+		
+		&:before {
+			left: 50px;
+			
+			@extend .ico-we-work4;
+		}
+		
+		.wr {
+			left: 50px;
+		}
+		
+	}
+}
+/* end Как это работает */

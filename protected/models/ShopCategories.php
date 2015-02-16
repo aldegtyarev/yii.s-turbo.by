@@ -253,12 +253,14 @@ class ShopCategories extends CActiveRecord
 	// возвращает дерево категорий
 	public function getTreeCategories($id = 0)
 	{
+
 		$criteria = new CDbCriteria;
 		if($id != 0) {
 			$criteria->condition = "`root` = $id AND `show_in_menu` = 1 AND `level` <= 4";
 		}
 		$criteria->order = 't.root, t.lft'; // или 't.root, t.lft' для множественных деревьев
 		$categories = $this->findAll($criteria);
+		
 		$cat_arr = array();
 		$cat_arr_inner = array();
 		$level_arr = array();
@@ -279,6 +281,7 @@ class ShopCategories extends CActiveRecord
 		//echo'<pre>';print_r($_GET['path']);echo'</pre>';
 		//echo'<pre>';print_r($current_category_id);echo'</pre>';
 		//echo'<pre>';print_r(count($current_category_ancestors));echo'</pre>';
+		
 		
 		foreach($categories as $n => $category)
 		{
@@ -319,6 +322,8 @@ class ShopCategories extends CActiveRecord
 		}
 
 		$cat_arr = $this->mapTree($cat_arr);
+		
+		//echo'<pre>';print_r($cat_arr);echo'</pre>';die;
 
 		return $cat_arr[1]['items'];
 	}

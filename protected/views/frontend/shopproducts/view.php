@@ -161,7 +161,7 @@ $model_images = $model->Images;
 	$this->endWidget();
 
 	$this->beginWidget('system.web.widgets.CClipWidget', array('id'=>"Установка"));
-	echo "Установка";
+	echo $model->installation;
 	$this->endWidget();
 
 	$tabParameters = array();

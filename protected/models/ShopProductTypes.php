@@ -78,11 +78,6 @@ class ShopProductTypes extends CActiveRecord
 
 		$criteria->compare('type_id',$this->type_id);
 		$criteria->compare('type_name',$this->type_name,true);
-<<<<<<< HEAD
-		
-		$criteria->condition = 't.type_id > 0';
-=======
->>>>>>> origin/master
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

@@ -99,7 +99,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
             array('product_name, product_sku', 'required'),
             array('published, firm_id, type_id, protect_copy, product_availability, product_ordered, manufacturer_id, override', 'numerical', 'integerOnly'=>true),
             array('metatitle, manuf, material, code, in_stock, delivery, prepayment', 'length', 'max'=>255),
-            array('product_s_desc, product_desc, metadesc', 'length', 'max'=>17000),
+            array('product_s_desc, product_desc, installation, metadesc', 'length', 'max'=>17000),
             array('product_name', 'length', 'max'=>180),
             array('product_sku', 'length', 'max'=>64),
             array('metakey, slug', 'length', 'max'=>192),
@@ -144,6 +144,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
             'product_id' => 'id',
             'product_s_desc' => 'Краткое описание',
             'product_desc' => 'Описание',
+            'installation' => 'Установка',
             'product_name' => 'Название',
             'product_sku' => 'Код товара',
             'published' => 'Публикация',
@@ -486,7 +487,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		return $product_price;
     }	
 	
-	public function findProductsInCat($category_id = 0)
+	public function findProductsInCat($category_id = 0, $type = 0, $firm = 0)
 	{		
 		$criteria = new CDbCriteria();
 		/*
@@ -499,22 +500,30 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		*/
 		
 		$criteria->select = "t.product_id";
-		$criteria->join = '
-		inner join {{shop_products_categories}} AS pc USING (`product_id`) 
-		';
+		$criteria->join = 'INNER JOIN {{shop_products_categories}} AS pc USING (`product_id`) ';
 		
 		
 		//$criteria->condition = "pc.`category_id` = $category_id AND t.`published` = 1";
-		$criteria->condition = "pc.`category_id` = $category_id";
+		$condition_arr = array();
+		$condition_arr[] = "pc.`category_id` = $category_id";
+		
+		
+		$criteria->condition = implode(' AND ', $condition_arr);
 		$criteria->order = "pc.`ordering`, t.`product_id`";
 		//echo'<pre>';print_r($criteria,0);echo'</pre>';
-		if ($ids !='') {
-			$ids = explode(',',$ids);
-			$criteria->addInCondition('u_id', $ids) ;
-		}
 		
 		//получаем сначала все позиции для получения их id без учета пагинации
 		$rows = $this->findAll($criteria);
+		
+		if($type != 0)	{
+			$condition_arr[] = "t.type_id = $type";
+		}
+		
+		if($firm != 0)	{
+			$condition_arr[] = "t.firm_id = $firm";
+		}
+		
+		$criteria->condition = implode(' AND ', $condition_arr);
 		
 		$product_ids = array();
 		if(count($rows))	{
@@ -637,7 +646,8 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 			}	else	{
 				$Image -> resize($img_width_config, $img_height_config, Image::WIDTH);
 			}
-			$Image->crop($img_width_config, $img_height_config, 'top', 'center')->quality(75);
+			//$Image->crop($img_width_config, $img_height_config, 'top', 'center')->quality(75);
+			$Image->resize($img_width_config, $img_height_config)->quality(75);
 			//echo'<pre>';print_r($app->params->product_tmb_params,0);echo'</pre>';die;
 			$Image->save($product_imagePath . DIRECTORY_SEPARATOR . 'thumb_'.$filename);
 			

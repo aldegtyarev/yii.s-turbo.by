@@ -87,10 +87,16 @@ class ShopCategoriesController extends Controller
 		}	else	{
 			if(isset($app->session['Shopcategories.selected_view']))	{
 				$selected_view = $app->session['Shopcategories.selected_view'];
+			}	else	{
+				$selected_view = 'row';
 			}
 		}
 		
+		$type_request = (int)$app->request->getParam('type', 0);
+		$firm_request = (int)$app->request->getParam('firm', 0);
+		
 		//echo'$selected_view = <pre>';print_r($selected_view);echo'</pre>';
+		//echo'$id = <pre>';print_r($id);echo'</pre>';
 		
 		
 		
@@ -99,7 +105,7 @@ class ShopCategoriesController extends Controller
 		$category = ShopCategories::model()->findByPk($id);
 		$descendants = $category->children()->findAll(array('order'=>'ordering'));
 		//echo'descendants = <pre>';print_r($descendants);echo'</pre>';
-		$products_and_pages = ShopProducts::model()->findProductsInCat($category->id);
+		$products_and_pages = ShopProducts::model()->findProductsInCat($category->id, $type_request, $firm_request);
 		//echo'products_and_pages = <pre>';print_r($products_and_pages['rows']);echo'</pre>';
 		if(count($descendants))	{
 			ShopCategories::model()->getCategoriesMedias($descendants);
@@ -107,6 +113,7 @@ class ShopCategoriesController extends Controller
 		
 		if(count($products_and_pages['product_ids']))	{
 			//загрузить фирмы
+			/*
 			$firms = array(
 				array('name' => 'Польша', 'count' => 3),
 				array('name' => 'Беларусь', 'count' => 4),
@@ -117,7 +124,10 @@ class ShopCategoriesController extends Controller
 				array('name' => 'Беларусь', 'count' => 4),
 				array('name' => 'Германия (ABS-пластик)', 'count' => 9),
 			);
+			*/
+			$firms = ShopFirms::model()->getFirmsForProductList($connection, $products_and_pages['product_ids']);
 			
+			/*
 			$producttypes = array(
 				array('name' => 'Бампер передний', 'count' => 48),
 				array('name' => 'Бампер задний', 'count' => 2),
@@ -126,6 +136,9 @@ class ShopCategoriesController extends Controller
 				array('name' => 'Бампер передний', 'count' => 48),
 				array('name' => 'Бампер задний', 'count' => 2),
 			);
+			*/
+			
+			$producttypes = ShopProductTypes::model()->getProductTypesForProductList($connection, $products_and_pages['product_ids']);
 		
 			//загрузить группы товаров
 		}	else	{
@@ -156,6 +169,8 @@ class ShopCategoriesController extends Controller
 		$breadcrumbs = $this->createBreadcrumbs($category);
 		
 		$data = array(
+			'type_request'=> $type_request,
+			'firm_request'=> $firm_request,
 			'category_id'=> $category_id,
 			'selected_view'=> $selected_view,
 			'category'=> $category,

@@ -57,6 +57,7 @@ class PagesController extends Controller
 		$aadThumbnails = new AadThumbnails();	
 		
 		$model = $this->loadModel($id);
+		//var_dump($model);
 
 		//$mvThumbnails = new aadThumbnails();
 		$aadThumbnails->onPrepareContent($model);

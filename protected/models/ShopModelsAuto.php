@@ -355,7 +355,6 @@ class ShopModelsAuto extends CActiveRecord
 	//получает список id дочерних категорий и текущей
 	public function getChildrensIds($parentId)
 	{
-		echo'<pre>';print_r($parentId);echo'</pre>';
 		$category = $this->findByPk($parentId);
 		$descendants = $category->descendants()->findAll();
 		$ids_arr = array();

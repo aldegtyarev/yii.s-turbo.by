@@ -88,7 +88,7 @@
 							),'htmlOptions' => array('class'=>'main-menu clearfix', 'id'=>'main-menu')
 						)); ?>
 					</div>
-					<a href="http://turbo/admin.php">Адм</a>
+					<? /* <a href="http://turbo/admin.php">Адм</a> */ ?>
 				
 					<?php //$this->widget('application.components.MsiLogin'); ?>
 					<?php $this->widget('application.components.CartWidget'); ?>

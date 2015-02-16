@@ -214,6 +214,18 @@ $cs->registerScript('loading', "
 				<?php echo $form->error($model,'product_desc'); ?>
 			</div>
 			
+			<div class="row">
+				<?php echo $form->labelEx($model,'installation'); ?>
+				<?php $this->widget('application.extensions.ckeditor.ECKEditor', array(
+					  'model'=>$model,
+					  'attribute'=>'installation',
+					  'language'=>'ru',
+					  'editorTemplate'=>'full',
+					  'height'=>'200px'
+				)); ?>	
+				<?php echo $form->error($model,'installation'); ?>
+			</div>
+			
 		</div>
 		
 		

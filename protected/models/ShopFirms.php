@@ -85,11 +85,8 @@ class ShopFirms extends CActiveRecord
 		$criteria->compare('firm_name',$this->firm_name,true);
 		$criteria->compare('firm_description',$this->firm_description,true);
 		$criteria->compare('firm_logo',$this->firm_logo,true);
-<<<<<<< HEAD
 		
 		$criteria->condition = 't.firm_id > 0';
-=======
->>>>>>> origin/master
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

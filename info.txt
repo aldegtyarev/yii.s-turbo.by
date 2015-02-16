@@ -2,6 +2,11 @@ http://www.prostosem.in.ua/article/primer-ispolzovaniya-yii-user-i-rights
 http://www.prostosem.in.ua/article/yii-dlja-nachinajushih-chast-2
 http://habrahabr.ru/post/73172/
 
+<<<<<<< HEAD
+=======
+11111111111111111111111111111111
+
+>>>>>>> origin/master
 yii@s-turbo.by
 v&p39$SFUr2R
 
@@ -9,7 +14,11 @@ superman
 eclipse8891
 
 
+<<<<<<< HEAD
 "Фирма" "Группа товаров" добавить пустышку в списке.+++
+=======
+"Фирма" "Группа товаров" добавить пустышку в списке.
+>>>>>>> origin/master
 
 В наличии и под заказ. В наличии убираем. Оставить только под заказ. И добавить пустышку.
 

@@ -136,7 +136,7 @@ class ShopProductsImages extends CActiveRecord
 		$res = $command->execute();
 	}
 	
-	public function setMainFoto(&$connection, $image_id, $product_id)		
+	public function setMainFoto(&$connection, $image_id, $product_id)
 	{
 		/*
 		echo'<pre>';print_r($image_id);echo'</pre>';

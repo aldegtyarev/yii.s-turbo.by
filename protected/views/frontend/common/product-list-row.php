@@ -46,7 +46,7 @@
 			<div class="product-list-item-row-info-block">
 				<a href="<?=$product_url?>" class="product-title"><?=$row->product_name?></a>
 
-				<p class="small">пр-во: <span><?=$row->manuf?></span><br />код: <span><?=$row->product_sku?></span></p>
+				<p class="small">Производитель: <span><?=$row->manuf?></span><br />Артикул: <span><?=$row->product_sku?></span></p>
 				
 				<div class="short-description"><?=$row->product_s_desc?></div>
 				
@@ -56,10 +56,22 @@
 					<p class="price"><?=number_format($row->product_price, 0, '.', ' ')?> у.е.</p>
 					<p class="price-byr"><?=number_format(($row->product_price * 16300), 0, '.', ' ')?> бел.руб</p>
 				</div>
-
+				
 				<a href="<?=$product_url?>" class="button product-detail">Подробнее</a>
+				
+				<? if($row->product_availability > 0)	{	?>
+					<?
+					if($row->product_availability == 2) {
+						$status_class = 'status-available';
+					}	else	{
+						$status_class = 'status-on-request';
+					}
+					?>
+				
+					
 
-				<p class="status <?=$status_class?>"><?=$row->ProductAvailabilityArray[$row->product_availability]['name'] ?></p>				
+					<p class="status <?=$status_class?>"><?=$row->ProductAvailabilityArray[$row->product_availability]['name'] ?></p>				
+				<?	}	?>
 				
 			</div>
 			

@@ -112,4 +112,28 @@ class ShopFirms extends CActiveRecord
 		return CHtml::listData($rows, 'firm_id','firm_name');
 	}
 	
+	//получаем фирмы  для списка товаров категории
+	public function getFirmsForProductList(&$connection, $product_ids = array() )
+	{
+		if(count($product_ids))	{
+			$sql = "
+SELECT pr.`firm_id` AS id, f.`firm_name` AS name, count(pr.`product_id`)  AS count
+FROM `3hnspc_shop_products` AS pr INNER JOIN `3hnspc_shop_firms` AS f USING(`firm_id`)
+WHERE pr.`product_id` IN (".implode(',', $product_ids).")
+GROUP BY pr.`firm_id`
+			
+			";
+			$command = $connection->createCommand($sql);
+			//$command->bindParam(":product_id", $product_ids_str);
+			$rows = $command->queryAll();
+		}	else	{
+			$rows = array();
+		}
+		//echo'<pre>';print_r($product_ids_str);echo'</pre>';
+		//echo'<pre>';print_r($rows);echo'</pre>';
+		
+		return $rows;
+	}
+	
+	
 }

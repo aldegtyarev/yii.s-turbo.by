@@ -69,8 +69,8 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 	public $DropDownProductAvailability;
 	public $SelectedProductAvailabilityId;
 	public $ProductAvailabilityArray = array(
+		0 => array('id' => 0, 'name' => 'Не указано'),
 		1 => array('id' => 1, 'name' => 'Под заказ'),
-		2 => array('id' => 2, 'name' => 'В наличии'),
 	);
 	
 	public $product_ids;
@@ -275,6 +275,13 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		if(parent::beforeSave())	{
 			$app = Yii::app();
 			
+			//echo'<pre>';print_r($this->product_name);echo'</pre>';//die;
+			
+			//приводим название к верхнему регистру
+			$this->product_name = mb_strtoupper($this->product_name, 'UTF-8');
+			
+			//echo'<pre>';print_r($this->product_name);echo'</pre>';die;
+			
 			$delete_foto = $app->request->getParam('delete_foto', array());
 			
 			//если не удаялем фото - то назначаем выбранное основным
@@ -313,7 +320,6 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		$no_watermark = $app->request->getParam('no_watermark', 0);
 		//echo'<pre>';print_r($no_watermark);echo'</pre>';die;
 		$this->uploadFoto($no_watermark);
-		
 	}
 	
 	//проверяем, не изменились ли категории...
@@ -655,6 +661,18 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 			$foto->product_id = $this->product_id;
 			$foto->image_file = $filename;
 			$foto->save();
+			
+			$Images = $this->Images;
+			//echo'<pre>';print_r($Images, 0);echo'</pre>';die;
+			
+			if(count($Images) == 1)	{
+				$connection = $app->db;				
+				
+				ShopProductsImages::model()->setMainFoto($connection, $Images[0]->image_id, $this->product_id);
+				
+				$this->setProductImage(&$connection,  $Images[0]->image_file, $this->product_id);
+			}
+			
 		}
 	}
 	
@@ -721,7 +739,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		$command->insert('{{shop_products}}', array(
 			'product_s_desc' => $this->product_s_desc,
 			'product_desc' => $this->product_desc,
-			'product_name' => 'Copy '.$this->product_name,
+			'product_name' => $this->product_name.' copy',
 			'product_sku' => $this->product_sku,
 			'manufacturer_id' => $this->manufacturer_id,
 			'firm_id' => $this->firm_id,
@@ -910,5 +928,15 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		if ($c!=-1) return $c;
 		return imagecolorclosest($im, $r, $g, $b);
 	} # EBD _get_image_color()
+	
+	//устанавливает главное фото товара
+	public function setProductImage(&$connection, $product_image, $product_id)
+	{
+		$sql = "UPDATE {{shop_products}} SET `product_image` = :product_image WHERE `product_id` = :product_id";
+		$command = $connection->createCommand($sql);
+		$command->bindParam(":product_id", $product_id);
+		$command->bindParam(":product_image", $product_image);
+		$res = $command->execute();
+	}
 	
 }

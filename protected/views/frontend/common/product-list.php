@@ -21,7 +21,9 @@
 				//}
 			?>
 			<div class="product-image" style="background-image: url(<?=$product_image ?>)"></div>
-			<p class="small">пр-во: <span><?=$row->manuf?></span><br />код: <span><?=$row->product_sku?></span></p>
+			<p class="small">Производитель: <span><?=$row->manuf?></span><br />Артикул: <span><?=$row->product_sku?></span></p>
+			
+			<? if($row->product_availability > 0)	{	?>
 			<? 
 				if($row->product_availability == 2) {
 					$status_class = 'status-available';
@@ -30,6 +32,7 @@
 				}
 			?>
 			<p class="status <?=$status_class?>"><?=$row->ProductAvailabilityArray[$row->product_availability]['name'] ?></p>
+			<?	}	?>
 			<div class="product-bottom clearfix">
 				<div class="product-prices">
 					<?//if($row->product_override_price != 0) {	?>

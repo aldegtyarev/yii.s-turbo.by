@@ -143,10 +143,12 @@ $params = $app->params;
 		<a href="?select-view=tile" class="<? if($selected_view == 'tile') echo'view-tile-active'; else echo'view-tile'; ?>">tile</a>
 	</div>
 	
+	<?/*
 	<div class="container-block sorting-block-conteiner">
 		<span class="sorting-block">Сортировать по: <a href="#" class="active">цене</a> <a href="#">товар в наличии</a></span>
 		<span class="currency-select">Цены в: <a href="#" class="active">USD</a> <a href="#">BR</a> <a href="#">RUB</a></span>
 	</div>
+	*/?>
 	
 <?
 	$rows = $products;
@@ -170,9 +172,11 @@ $params = $app->params;
 		</div>
 
 
-	<? if($pagination)	{	?>
+	<? 
+//echo'<pre>';print_r($pagination->itemCount);echo'</pre>';							
+	if($pagination && ($pagination->pageSize < $pagination->itemCount))	{	?>
 		<a href="#" class="more-products button">Ещё товары</a>
-		<div class="pagination hidden">
+		<div class="pagination">
 			<?php 
 				
 					$this->widget('CLinkPager', array(	

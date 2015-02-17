@@ -204,7 +204,7 @@ return array(
 	'params'=>array(
 		// this is used in contact page
 		'adminEmail'=>'webmaster@example.com',
-		'pagination' => array('per_page' => 30, 'products_per_page' => 15),		//параметры для пагинации
+		'pagination' => array('per_page' => 30, 'products_per_page' => 50),		//параметры для пагинации
 		'images_live_url' => 'http://s-turbo.by/',
 		'product_imagePath' => 'webroot.images.shop.products',
 		'product_images_liveUrl' => '/images/shop/products/',

@@ -78,6 +78,8 @@ class ShopProductTypes extends CActiveRecord
 
 		$criteria->compare('type_id',$this->type_id);
 		$criteria->compare('type_name',$this->type_name,true);
+		
+		$criteria->condition = 't.type_id > 0';
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -103,25 +105,32 @@ class ShopProductTypes extends CActiveRecord
 		return CHtml::listData($rows, 'type_id','type_name');
 	}
 	
-	//получаем фото товаров для списка товаров категории
+	//получаем типы товаро для списка товаров категории
 	public function getProductTypesForProductList(&$connection, $product_ids = array() )
 	{
 		
 /*
-SELECT `type_id`, count(`product_id`) FROM `3hnspc_shop_products`
+SELECT pr.`type_id` AS id, pt.`type_name` AS name, count(pr.`product_id`)  AS count
 
-where `product_id` IN (132,4232,453121,64564,123213,5432)
-group by `type_id`
+FROM `3hnspc_shop_products` AS pr INNER JOIN `3hnspc_shop_product_types` AS pt USING(`type_id`)
+
+where pr.`product_id` IN (25,26,27,28,29,30)
+group by pr.`type_id`
 */
 		if(count($product_ids))	{
-			$sql = "SELECT `image_id`, `product_id`, `image_file` FROM ". $this->tableName()." WHERE `main_foto` = 0 AND `product_id` IN (".implode(',', $product_ids).") ORDER BY `product_id`, `ordering`";
+			$sql = "
+SELECT pr.`type_id` AS id, pt.`type_name` AS name, count(pr.`product_id`)  AS count
+FROM `3hnspc_shop_products` AS pr INNER JOIN `3hnspc_shop_product_types` AS pt USING(`type_id`)
+WHERE pr.`product_id` IN (".implode(',', $product_ids).")
+GROUP BY pr.`type_id`
+			";
 			$command = $connection->createCommand($sql);
 			//$command->bindParam(":product_id", $product_ids_str);
 			$rows = $command->queryAll();
 		}	else	{
 			$rows = array();
 		}
-		//echo'<pre>';print_r($product_ids_str);echo'</pre>';
+		//echo'<pre>';print_r($rows);echo'</pre>';
 		return $rows;
 	}
 	

@@ -271,17 +271,11 @@ class ShopProductsController extends Controller
 		$model->SelectedProductAvailabilityId = array();
 		$model->SelectedProductAvailabilityId[$model->product_availability] = array('selected' => 'selected');
 		
-		
-		
-		
-		
-		
-		$params = Yii::app()->params;
 		//echo'<pre>';print_r($params,0);echo'</pre>';
 
 		$this->render('update',array(
 			'model'=>$model,
-			'params'=>$params,
+			'params'=>$app->params,
 		));
 	}
 	

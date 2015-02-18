@@ -74,6 +74,11 @@ $model_images = $model->Images;
 							<span class="value"><?=$model->manuf?></span>
 						</p>
 						<?	}	?>
+						
+						<p class="row clearfix">
+							<span class="label">Артикул:</span>
+							<span class="value"><?=$model->product_sku?></span>
+						</p>
 
 						<?if(!empty($model->material))	{	?>
 						<p class="row clearfix">
@@ -81,13 +86,8 @@ $model_images = $model->Images;
 							<span class="value"><?=$model->material?></span>
 						</p>
 						<?	}	?>
-
-						<?if(!empty($model->code))	{	?>
-						<p class="row clearfix">
-							<span class="label">Код товара:</span>
-							<span class="value"><?=$model->product_sku?></span>
-						</p>
-						<?	}	?>
+						
+						<? if($model->product_availability > 0)	{	?>
 
 						<? if(!empty($model->product_availability))	{	?>
 							<? 
@@ -118,6 +118,8 @@ $model_images = $model->Images;
 						</p>
 						<?	}	?>
 					</div>
+					
+					<?	}	?>
 
 
 					<form method="post" class="productview-tocart js-recalculate" action="index.php">

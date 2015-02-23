@@ -26,7 +26,11 @@ $cs->registerScript('loading', "
 ");
 
 ?>
-
+<style>
+	#cke_ShopProducts_product_s_desc #cke_1_top,
+	#cke_ShopProducts_product_s_desc #cke_1_bottom
+	{display:none;}
+</style>
 <div class="form product-edit-form">
 
 <?php $form=$this->beginWidget('bootstrap.widgets.BsActiveForm', array(
@@ -89,6 +93,11 @@ $cs->registerScript('loading', "
 				</table>
 			</div>
 			
+			<div class="row chosen-row">
+				<?php echo $form->labelEx($model,'admin_category_ids'); ?>
+				<?php echo $form->dropDownList($model, 'admin_category_ids', $model->DropDownListAdminCategories, array('multiple' => true, 'class'=>'chosen_select', 'data-placeholder'=>'выберите категорию', 'style'=>'width:400px;', 'options' => $model->SelectedAdminCategories));?>
+				<?php echo $form->error($model,'admin_category_ids'); ?>
+			</div>
 			
 			
 
@@ -137,17 +146,38 @@ $cs->registerScript('loading', "
 		</div>
 		
 		<div class="tab-pane" id="tab2">
+			<?/*
 			<div class="row">
 				<?php echo $form->labelEx($model,'manuf'); ?>
 				<?php echo $form->textField($model,'manuf'); ?>
 				<?php echo $form->error($model,'manuf'); ?>
 			</div>
+			*/?>
 			
 			<div class="row">
 				<?php echo $form->labelEx($model,'material'); ?>
 				<?php echo $form->textField($model,'material'); ?>
 				<?php echo $form->error($model,'material'); ?>
 			</div>
+			
+			<div class="row">
+				<?php echo $form->labelEx($model,'side'); ?>
+				<?php echo $form->dropDownList($model, 'side', $model->DropDownProductSide, array('data-placeholder'=>'выберите...', 'options' => $model->SelectedProductSideId));?>
+				<?php echo $form->error($model,'side'); ?>
+			</div>
+			
+			<div class="row">
+				<?php echo $form->labelEx($model,'lamps'); ?>
+				<?php echo $form->textField($model,'lamps'); ?>
+				<?php echo $form->error($model,'lamps'); ?>
+			</div>
+			
+			<div class="row">
+				<?php echo $form->labelEx($model,'adjustment'); ?>
+				<?php echo $form->textField($model,'adjustment'); ?>
+				<?php echo $form->error($model,'adjustment'); ?>
+			</div>
+			
 			
 			<?
 			/*
@@ -189,6 +219,7 @@ $cs->registerScript('loading', "
 				<?php echo $form->error($model,'prepayment'); ?>
 			</div>
 			
+			
 			<div class="row">
 				<?php echo $form->labelEx($model,'product_s_desc'); ?>
 				<?php $this->widget('application.extensions.ckeditor.ECKEditor', array(
@@ -197,7 +228,7 @@ $cs->registerScript('loading', "
 					  'language'=>'ru',
 					  'editorTemplate'=>'full',
 					  'height'=>'200px'
-				)); ?>	
+				)); ?>
 				<?php echo $form->error($model,'product_s_desc'); ?>
 			</div>
 			
@@ -390,11 +421,13 @@ $cs->registerScript('loading', "
 		<?php echo BsHtml::submitButton('Применить', array('color' => BsHtml::BUTTON_COLOR_SUCCESS, 'name'=>'apply')); ?>
 		<?php echo BsHtml::submitButton('Отмена', array('name'=>'cancel')); ?>		
 	</div>
+	
+	<input type="hidden" name="current-tab" id="current-tab" value="<?=$current_tab?>" />
 <?php $this->endWidget(); ?>
 
-			<div class="suggestionsBox" id="suggestions" style="display: none;">
-				<div class="suggestionList" id="autoSuggestionsList"></div>
-			</div>
+<div class="suggestionsBox" id="suggestions" style="display: none;">
+	<div class="suggestionList" id="autoSuggestionsList"></div>
+</div>
 
 
 </div><!-- form -->

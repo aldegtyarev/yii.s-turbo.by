@@ -125,7 +125,11 @@ GROUP BY pr.`firm_id`
 			";
 			$command = $connection->createCommand($sql);
 			//$command->bindParam(":product_id", $product_ids_str);
-			$rows = $command->queryAll();
+			$rows_ = $command->queryAll();
+			$rows = array();
+			foreach($rows_ as $row)	{
+				$rows[$row['id']] = $row;
+			}
 		}	else	{
 			$rows = array();
 		}

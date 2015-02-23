@@ -2,7 +2,8 @@
 <?
 // http://yii.s-turbo.by/category/3470.html
 
-//echo'<pre>';print_r($ProductsImages);echo'</pre>';
+//echo'<pre>';print_r($firms);echo'</pre>';
+
 ?>
 
 <? foreach($rows as $key=>$row) {	?>
@@ -46,9 +47,31 @@
 			<div class="product-list-item-row-info-block">
 				<a href="<?=$product_url?>" class="product-title"><?=$row->product_name?></a>
 
-				<p class="small">Производитель: <span><?=$row->manuf?></span><br />Артикул: <span><?=$row->product_sku?></span></p>
+				<p class="small">
+					Производитель: <span><?=$firms[$row->firm_id]['name']?></span><br />
+					Артикул: <span><?=$row->product_sku?></span><br />
+					
+					<? if(!empty($row->side))	{	?>
+						Сторона: <span><?=$row->ProductSideArray[$row->side]['name']?></span><br />
+					<?	}	?>
+					
+					<? if(!empty($row->lamps))	{	?>
+						Лампочки: <span><?=$row->lamps?></span><br />
+					<?	}	?>
+					
+					<? if(!empty($row->adjustment))	{	?>
+						Регулировка: <span><?=$row->material?></span><br />
+					<?	}	?>
+					
+					<? if(!empty($row->material))	{	?>
+						Материал: <span><?=$row->material?></span><br />
+					<?	}	?>
+					
+				</p>
 				
-				<div class="short-description"><?=$row->product_s_desc?></div>
+				<? if($row->product_s_desc)	{	?>
+					<div class="short-description"><?=$row->product_s_desc?></div>
+				<?	}	?>
 				
 			</div>
 			<div class="product-list-item-row-price-block">

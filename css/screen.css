@@ -1364,7 +1364,7 @@ span sup {
   margin-bottom: 20px;
 }
 .product-list-item-row-info-block .short-description {
-  margin-top: 20px;
+  margin-top: 5px;
 }
 .product-list-item-row-info-block .short-description li:before {
   content: '-';

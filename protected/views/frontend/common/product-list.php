@@ -21,7 +21,7 @@
 				//}
 			?>
 			<div class="product-image" style="background-image: url(<?=$product_image ?>)"></div>
-			<p class="small">Производитель: <span><?=$row->manuf?></span><br />Артикул: <span><?=$row->product_sku?></span></p>
+			<p class="small">Производитель: <span><?=$firms[$row->firm_id]['name']?></span><br />Артикул: <span><?=$row->product_sku?></span></p>
 			
 			<? if($row->product_availability > 0)	{	?>
 			<? 

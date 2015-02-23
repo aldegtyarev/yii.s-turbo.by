@@ -108,7 +108,7 @@ class ShopProductsImages extends CActiveRecord
 	
 	
 	//удаление фото
-	public function deleteFoto($id)
+	public function deleteFoto($id, $product_id)
 	{
 		$app = Yii::app();
 		$connection = $app->db;
@@ -121,13 +121,24 @@ class ShopProductsImages extends CActiveRecord
 		
 		//$full_imagePath = Yii::getPathOfAlias($app->params->catalog_full_imagePath);
 		//$tmb_imagePath = Yii::getPathOfAlias($app->params->catalog_tmb_imagePath);
-		$product_imagePath = Yii::getPathOfAlias($app->params->product_imagePath);
-		if (file_exists($product_imagePath . DIRECTORY_SEPARATOR . 'full_'.$row['image_file'])) {
-			unlink($product_imagePath . DIRECTORY_SEPARATOR . 'full_'.$row['image_file']);
-		}
 		
-		if (file_exists($product_imagePath . DIRECTORY_SEPARATOR . 'thumb_'.$row['image_file'])) {
-			unlink($product_imagePath . DIRECTORY_SEPARATOR . 'thumb_'.$row['image_file']);
+		
+		//проверяем наличие таких же файлов у других товаров
+		$sql = "SELECT count(*) as k FROM {{shop_products_images}} WHERE `image_file` = :image_file AND product_id != :product_id ";
+		$command = $connection->createCommand($sql);
+		$command->bindParam(":image_file", $row['image_file']);
+		$command->bindParam(":product_id", $product_id);
+		$count = $command->queryScalar();
+		if($count == 0)	{
+			//если у других таких нет то удаляем файл
+			$product_imagePath = Yii::getPathOfAlias($app->params->product_imagePath);
+			if (file_exists($product_imagePath . DIRECTORY_SEPARATOR . 'full_'.$row['image_file'])) {
+				unlink($product_imagePath . DIRECTORY_SEPARATOR . 'full_'.$row['image_file']);
+			}
+
+			if (file_exists($product_imagePath . DIRECTORY_SEPARATOR . 'thumb_'.$row['image_file'])) {
+				unlink($product_imagePath . DIRECTORY_SEPARATOR . 'thumb_'.$row['image_file']);
+			}
 		}
 		
 		$sql = "DELETE FROM {{shop_products_images}} WHERE `image_id` = :id";

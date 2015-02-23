@@ -65,6 +65,7 @@ echo Yii::app()->theme->baseUrl . '/assets/js/respond.min.js';
 		<?php $this->widget('zii.widgets.CMenu',array(
 			'items'=>array(
 				//array('label'=>'Home', 'url'=>array('/site/index')),
+				array('label'=>'Адм. категории', 'url'=>array('shopadmincategories/admin'), 'visible'=>!Yii::app()->user->isGuest),
 				array('label'=>'Категории магазина', 'url'=>array('shopcategories/admin'), 'visible'=>!Yii::app()->user->isGuest),
 				array('label'=>'Модельный ряд', 'url'=>array('shopmodelsauto/admin'), 'visible'=>!Yii::app()->user->isGuest),
 				array('label'=>'Товары', 'url'=>array('shopproducts/admin'), 'visible'=>!Yii::app()->user->isGuest),

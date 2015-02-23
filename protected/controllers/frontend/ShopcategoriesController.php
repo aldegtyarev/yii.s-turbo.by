@@ -113,31 +113,7 @@ class ShopCategoriesController extends Controller
 		
 		if(count($products_and_pages['product_ids']))	{
 			//загрузить фирмы
-			/*
-			$firms = array(
-				array('name' => 'Польша', 'count' => 3),
-				array('name' => 'Беларусь', 'count' => 4),
-				array('name' => 'Германия (ABS-пластик)', 'count' => 9),
-				array('name' => 'Польша', 'count' => 3),
-				array('name' => 'Беларусь', 'count' => 4),
-				array('name' => 'Польша', 'count' => 3),
-				array('name' => 'Беларусь', 'count' => 4),
-				array('name' => 'Германия (ABS-пластик)', 'count' => 9),
-			);
-			*/
 			$firms = ShopFirms::model()->getFirmsForProductList($connection, $products_and_pages['product_ids']);
-			
-			/*
-			$producttypes = array(
-				array('name' => 'Бампер передний', 'count' => 48),
-				array('name' => 'Бампер задний', 'count' => 2),
-				array('name' => 'Бампер передний', 'count' => 48),
-				array('name' => 'Бампер задний', 'count' => 2),
-				array('name' => 'Бампер передний', 'count' => 48),
-				array('name' => 'Бампер задний', 'count' => 2),
-			);
-			*/
-			
 			$producttypes = ShopProductTypes::model()->getProductTypesForProductList($connection, $products_and_pages['product_ids']);
 		
 			//загрузить группы товаров

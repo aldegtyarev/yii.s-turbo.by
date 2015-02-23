@@ -14,4 +14,4 @@ $this->menu=array(
 
 <h1>Новая товарная позиция</h1>
 
-<?php $this->renderPartial('_form', array('model'=>$model, 'params'=>$params,)); ?>
+<?php $this->renderPartial('_form', array('model'=>$model, 'params'=>$params, 'current_tab'=>$current_tab)); ?>

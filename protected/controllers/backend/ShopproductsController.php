@@ -65,6 +65,10 @@ class ShopProductsController extends Controller
 		$model = new ShopProducts;
 		$model->operate_method = 'insert';
 		
+		$app = Yii::app();
+		
+		$current_tab = $app->request->getParam('current-tab', '#tab1');
+		
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -135,18 +139,24 @@ class ShopProductsController extends Controller
 		$model->DropDownListTypes = ShopProductTypes::model()->getDropDownlistTypes();
 		$model->SelectedTypeId = array();
 		
-		//подготавливаем выпадающий список производителей
+		//подготавливаем выпадающий список наличия товара
 		$model->DropDownProductAvailability = ShopProducts::model()->getDropDownProductAvailability();
 		$model->SelectedProductAvailabilityId = array();
 		$model->SelectedProductAvailabilityId[$model->product_availability] = array('selected' => 'selected');
 		
+		//подготавливаем выпадающий список для стороны товара
+		$model->DropDownProductSide = ShopProducts::model()->getDropDownProductSide();
+		$model->SelectedProductSideId = array();
+		$model->SelectedProductSideId[$model->side] = array('selected' => 'selected');
 		
 		
-		$params = Yii::app()->params;
+		
+		$params = $app->params;
 
 		$this->render('create',array(
 			'model'=>$model,
 			'params'=>$params,
+			'current_tab'=>$current_tab,
 		));
 	}
 
@@ -165,7 +175,23 @@ class ShopProductsController extends Controller
 		}
 		
 		
-
+		//$current_tab_request = $app->request->getParam('current-tab', '#tab1');
+		$current_tab_request = $app->request->getParam('current-tab', '');
+		
+		if(isset($app->session['ShopproductForm.current_tab']))	{
+			$current_tab_session = $app->session['ShopproductForm.current_tab'];
+		}	else	{
+			$current_tab_session = '#tab1';
+		}
+		
+		if($current_tab_request != '')	{
+			$current_tab = $current_tab_request;
+		}	else	{
+			$current_tab = $current_tab_session;
+		}
+				
+		//echo'<pre>';print_r($current_tab);echo'</pre>';die;
+			
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 		
@@ -189,7 +215,8 @@ class ShopProductsController extends Controller
 					//echo'<pre>';print_r($model);echo'</pre>';die;
 				}
 				
-				ShopProductsImages::model()->deleteFoto($foto_id);
+				ShopProductsImages::model()->deleteFoto($foto_id, $model->product_id);
+				$app->session['ShopproductForm.current_tab'] = $current_tab;
 				$this->redirect(array('update','id'=>$id));
 			}
 		}
@@ -201,6 +228,13 @@ class ShopProductsController extends Controller
 		if(isset($_POST['ShopProducts']))
 		{
 			$model->attributes=$_POST['ShopProducts'];
+			
+			$SelectedCategories = isset($_POST['ShopProducts']['admin_category_ids']) ? $_POST['ShopProducts']['admin_category_ids'] : array();
+			$selectedValues = array();
+			foreach($SelectedCategories as $cat)	{
+				$selectedValues[$cat] = Array ( 'selected' => 'selected' );
+			}
+			$model->SelectedAdminCategories = $selectedValues;
 			
 			$SelectedCategories = isset($_POST['ShopProducts']['category_ids']) ? $_POST['ShopProducts']['category_ids'] : array();
 			$selectedValues = array();
@@ -232,12 +266,18 @@ class ShopProductsController extends Controller
 			if($model->save())
 				//$this->redirect(array('admin'));
 				if(isset($_POST['save']))	{
+					$app->session['ShopproductForm.current_tab'] = '#tab1';
 					$this->redirect(array('admin'));
 				}	elseif(isset($_POST['apply']))	{
+					$app->session['ShopproductForm.current_tab'] = $current_tab;
 					$this->redirect(array('update','id'=>$model->product_id));
 				}
 			
 		}
+		
+		//подготавливаем выпадающий список адм. категорий
+		$model->DropDownListAdminCategories = ShopAdminCategories::model()->getDropDownlistDataProduct();
+		$model->getSelectedAdminCategories();
 		
 		//подготавливаем выпадающий список категорий
 		$model->DropDownListCategories = ShopCategories::model()->getDropDownlistDataProduct();
@@ -266,16 +306,23 @@ class ShopProductsController extends Controller
 		$model->DropDownListBodies = ShopBodies::model()->getDropDownlistBodies();
 		$model->getSelectedBodies();
 
-		//подготавливаем выпадающий список производителей
+		//подготавливаем выпадающий список наличия товара
 		$model->DropDownProductAvailability = ShopProducts::model()->getDropDownProductAvailability();
 		$model->SelectedProductAvailabilityId = array();
 		$model->SelectedProductAvailabilityId[$model->product_availability] = array('selected' => 'selected');
+		
+		//подготавливаем выпадающий список для стороны товара
+		$model->DropDownProductSide = ShopProducts::model()->getDropDownProductSide();
+		$model->SelectedProductSideId = array();
+		$model->SelectedProductSideId[$model->side] = array('selected' => 'selected');
+		
 		
 		//echo'<pre>';print_r($params,0);echo'</pre>';
 
 		$this->render('update',array(
 			'model'=>$model,
 			'params'=>$app->params,
+			'current_tab'=>$current_tab,
 		));
 	}
 	
@@ -293,6 +340,7 @@ class ShopProductsController extends Controller
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.
 	 * @param integer $id the ID of the model to be deleted
 	 */
+	
 	public function actionDelete($id)
 	{
 		$model = $this->loadModel($id);
@@ -300,7 +348,7 @@ class ShopProductsController extends Controller
 		$Images = $model->Images;
 		if(count($Images))	{
 			foreach($Images as $row)	{
-				ShopProductsImages::model()->deleteFoto($row['image_id']);
+				ShopProductsImages::model()->deleteFoto($row['image_id'], $model->pdoduct_id);
 			}
 		}
 		

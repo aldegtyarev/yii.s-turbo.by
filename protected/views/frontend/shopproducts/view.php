@@ -67,29 +67,38 @@ $model_images = $model->Images;
 								<p class="price-byr"><?=number_format(($model->product_price * 16300), 0, '.', ' ')?> бел.руб</p>
 							</div>
 						</div>
-
+						
+						<p class="row clearfix">
+							<span class="label">Артикул:</span>
+							<span class="value"><?=$model->product_sku?></span>
+						</p>
+						
+						<?/*
 						<?if(!empty($model->manuf))	{	?>
 						<p class="row clearfix">
 							<span class="label">Производитель:</span>
 							<span class="value"><?=$model->manuf?></span>
 						</p>
 						<?	}	?>
+						*/?>
 
+						
+						<p class="row clearfix">
+							<span class="label">Производитель:</span>
+							<span class="value"><?=$model->firm->firm_name?></span>
+						</p>
+						
+						
+						<?/*
 						<?if(!empty($model->material))	{	?>
 						<p class="row clearfix">
 							<span class="label">Материал:</span>
 							<span class="value"><?=$model->material?></span>
 						</p>
 						<?	}	?>
+						*/?>
 
-						<?if(!empty($model->code))	{	?>
-						<p class="row clearfix">
-							<span class="label">Код товара:</span>
-							<span class="value"><?=$model->product_sku?></span>
-						</p>
-						<?	}	?>
-
-						<? if(!empty($model->product_availability))	{	?>
+						<? if($model->product_availability != 0)	{	?>
 							<? 
 								if($model->product_availability == 2) {
 									$status_class = 'status-available';
@@ -98,25 +107,29 @@ $model_images = $model->Images;
 								}
 							?>
 
-						<p class="row clearfix">
-							<span class="label">Наличие:</span>
-							<span class="value <?=$status_class?>"><?=$model->ProductAvailabilityArray[$model->product_availability]['name'] ?></span>
-						</p>
-						<?	}	?>
+							<p class="row clearfix">
+								<span class="label">Наличие:</span>
+								<span class="value <?=$status_class?>"><?=$model->ProductAvailabilityArray[$model->product_availability]['name'] ?></span>
+							</p>
 
-						<?if(!empty($model->delivery))	{	?>
-						<p class="row clearfix">
-							<span class="label">Доставка:</span>
-							<span class="value"><?=$model->delivery?></span>
-						</p>
-						<?	}	?>
 
-						<?if(!empty($model->prepayment))	{	?>
-						<p class="row clearfix">
-							<span class="label">Предоплата:</span>
-							<span class="value"><?=$model->prepayment?></span>
-						</p>
-						<?	}	?>
+
+
+							<?if(!empty($model->delivery))	{	?>
+							<p class="row clearfix">
+								<span class="label">Доставка:</span>
+								<span class="value"><?=$model->delivery?></span>
+							</p>
+							<?	}	?>
+
+							<?if(!empty($model->prepayment))	{	?>
+							<p class="row clearfix">
+								<span class="label">Предоплата:</span>
+								<span class="value"><?=$model->prepayment?></span>
+							</p>
+							<?	}	?>
+						
+						<?	}	?>						
 					</div>
 
 

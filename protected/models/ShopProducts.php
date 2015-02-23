@@ -45,6 +45,10 @@ class ShopProducts extends CActiveRecord implements IECartPosition
     
 	public $operate_method;
 	
+    public $DropDownListAdminCategories;
+    public $SelectedAdminCategories;
+    public $admin_category_ids;
+	
     public $DropDownListCategories;
     public $SelectedCategories;
     public $category_ids;
@@ -73,6 +77,15 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		1 => array('id' => 1, 'name' => 'Под заказ'),
 	);
 	
+	
+	public $DropDownProductSide;
+	public $SelectedProductSideId;
+	public $ProductSideArray = array(
+		1 => array('id' => 1, 'name' => 'Левая (водительская)'),
+		2 => array('id' => 2, 'name' => 'Правая (пассажирская)'),
+		3 => array('id' => 3, 'name' => 'Левая + Правая'),
+	);
+	
 	public $product_ids;
 	public $SelectedCategory;
 	public $SelectedModel;
@@ -97,8 +110,8 @@ class ShopProducts extends CActiveRecord implements IECartPosition
         // will receive user inputs.
         return array(
             array('product_name, product_sku', 'required'),
-            array('published, firm_id, type_id, protect_copy, product_availability, product_ordered, manufacturer_id, override', 'numerical', 'integerOnly'=>true),
-            array('metatitle, manuf, material, code, in_stock, delivery, prepayment', 'length', 'max'=>255),
+            array('published, firm_id, type_id, protect_copy, product_availability, product_ordered, manufacturer_id, override, side', 'numerical', 'integerOnly'=>true),
+            array('metatitle, manuf, material, code, in_stock, delivery, prepayment, lamps, adjustment', 'length', 'max'=>255),
             array('product_s_desc, product_desc, installation, metadesc', 'length', 'max'=>17000),
             array('product_name', 'length', 'max'=>180),
             array('product_sku', 'length', 'max'=>64),
@@ -107,7 +120,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 			array('uploading_foto', 'file', 'types'=>'JPG,JPEG,PNG', 'minSize' => 1024,'maxSize' => 1048576, 'wrongType'=>'Не формат. Только {extensions}', 'tooLarge' => 'Допустимый вес 1Мб', 'tooSmall' => 'Не формат', 'on'=>self::SCENARIO_UPLOADING_FOTO),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('product_id, product_s_desc, product_desc, product_name, product_sku, published, metadesc, metakey, metatitle, slug, firm_id, type_id, protect_copy, product_availability, manuf, material, code, in_stock, delivery, prepayment, category_ids, manufacturer_id, product_price, override, product_override_price, product_ids, SelectedCategory', 'safe', 'on'=>'search'),
+            array('product_id, product_s_desc, product_desc, product_name, product_sku, published, metadesc, metakey, metatitle, slug, firm_id, type_id, protect_copy, product_availability, manuf, material, code, in_stock, delivery, prepayment, category_ids, manufacturer_id, product_price, override, product_override_price, product_ids, SelectedCategory, side, lamps, adjustment', 'safe', 'on'=>'search'),
         );
     }
 
@@ -130,6 +143,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 			'ProductsModelsAutos' => array(self::HAS_MANY, 'ShopProductsModelsAuto', 'product_id'),
 			'ProductsRelations' => array(self::HAS_MANY, 'ShopProductsRelations', 'product_id'),
 			'ProductsRelations1' => array(self::HAS_MANY, 'ShopProductsRelations', 'product_related_id'),
+			'ProductsAdminCategories' => array(self::HAS_MANY, 'ShopProductsAdminCategories', 'product_id'),			
 		);
 		
 		
@@ -152,8 +166,8 @@ class ShopProducts extends CActiveRecord implements IECartPosition
             'metakey' => 'meta keywords',
             'metatitle' => 'meta title',
             'slug' => 'Псевдоним',
-            'manufacturer_id' => 'Производитель',
-            'firm_id' => 'Фирма',
+            'manufacturer_id' => 'Производитель (для меня)',
+            'firm_id' => 'Производитель',
             'type_id' => 'Группа товаров',
             'protect_copy' => 'Защита от копирования',
             'product_availability' => 'Наличие',
@@ -170,6 +184,10 @@ class ShopProducts extends CActiveRecord implements IECartPosition
             'product_price' => 'Цена',
             'override' => 'Выводить акционную цену',
             'product_override_price' => 'Акционная цена',
+            'side' => 'Сторона',
+            'lamps' => 'Лампочки',
+            'adjustment' => 'Регулировка',
+            'admin_category_ids' => 'Внутренние категории',
         );
     }
 
@@ -302,12 +320,14 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		
 		switch($this->operate_method)	{
 			case 'insert':
+				ShopProductsAdminCategories::model()->insertItemCategories($this->SelectedAdminCategories, $this->product_id, $connection);
 				ShopProductsCategories::model()->insertItemCategories($this->SelectedCategories, $this->product_id, $connection);
 				ShopProductsModelsAuto::model()->insertItemModels($this->SelectedModels, $this->product_id, $connection);
 				ShopProductsBodies::model()->insertItemBodies($this->SelectedBodies, $this->product_id, $connection);
 				break;
 			
 			case 'update':
+				$this->checkProductAdminCategories($connection);
 				$this->checkProductCategories($connection);
 				$this->checkProductsModels($connection);
 				$this->checkProductsBodies($connection);
@@ -320,6 +340,39 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		$no_watermark = $app->request->getParam('no_watermark', 0);
 		//echo'<pre>';print_r($no_watermark);echo'</pre>';die;
 		$this->uploadFoto($no_watermark);
+	}
+	
+	//проверяем, не изменились ли адм. категории...
+	function checkProductAdminCategories(&$connection)
+	{
+		$ProductsAdminCategories = $this->ProductsAdminCategories;
+		if(count($ProductsAdminCategories))	{
+			$arrays_of_identical = true;
+		}	else	{
+			$arrays_of_identical = false;
+		}
+
+		//проверяем, не изменились ли категории...
+		if(count($ProductsAdminCategories) != count($this->SelectedAdminCategories))	{
+			$arrays_of_identical = false;
+		}	else	{
+			foreach($ProductsAdminCategories as $cat_item)	{
+				$cat_is_present = false;
+				foreach($this->SelectedAdminCategories as $key=>$val)	{
+					if($cat_item['category']['id'] == $key)	{
+						$cat_is_present = true;
+					}
+				}
+				if($cat_is_present == false)	{
+					$arrays_of_identical = false;
+				}
+			}
+		}
+
+		if($arrays_of_identical == false)	{
+			ShopProductsAdminCategories::model()->clearItemCategories($this->product_id, $connection);
+			ShopProductsAdminCategories::model()->insertItemCategories($this->SelectedAdminCategories, $this->product_id, $connection);
+		}
 	}
 	
 	//проверяем, не изменились ли категории...
@@ -348,14 +401,6 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 				}
 			}
 		}
-
-
-
-		//echo'<pre>';var_dump($arrays_of_identical);echo'</pre>';
-		//echo'<pre>';print_r($this->SelectedCategories);echo'</pre>';
-		//die;
-
-
 
 		if($arrays_of_identical == false)	{
 			ShopProductsCategories::model()->clearItemCategories($this->product_id, $connection);
@@ -698,6 +743,20 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		$this->SelectedCategories = $selectedValues;		
 	}
 	
+	//получает выбранные адм. категории для товара
+	function getSelectedAdminCategories()
+	{
+		$selectedValues = array();
+		//echo'<pre>';print_r($this->ProductsCategories,0);echo'</pre>';die;
+		
+		foreach($this->ProductsAdminCategories as $cat) {
+			//echo'<pre>';print_r($cat,0);echo'</pre>';
+			//echo'<pre>';print_r($cat['category']['id'],0);echo'</pre>';die;
+			$selectedValues[$cat['category']['id']] = Array ( 'selected' => 'selected' );
+		}
+		$this->SelectedAdminCategories = $selectedValues;		
+	}
+	
 	//получает выбранные модели для товара
 	function getSelectedModels()
 	{
@@ -730,10 +789,20 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		return $result;
 	}
 	
+	function getDropDownProductSide()
+	{
+		$result = CHtml::listData($this->ProductSideArray, 'id', 'name');
+		return $result;
+	}
+	
 	//копирование товара
 	function copyProduct()
 	{
 		$app = Yii::app();
+		
+		//создаем копию изображений товара
+		
+		
 		$command = $app->db->createCommand();
 		
 		$command->insert('{{shop_products}}', array(
@@ -767,15 +836,15 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		
 		$command->reset();
 		
-		// дублируем изображения товара
-		$Images = $this->Images;
-		if(count($Images))	{
-			foreach($Images as $row)	{
-				$command->insert('{{shop_products_images}}', array(
+		
+		// дублируем адм. категории товара
+		$ProductsAdminCategories = $this->ProductsAdminCategories;
+		if(count($ProductsAdminCategories))	{
+			foreach($ProductsAdminCategories as $row)	{
+				$command->insert('{{shop_products_admin_categories}}', array(
 					'product_id' => $new_product_id,
-					'image_file' => $row['image_file'],
+					'category_id' => $row['category_id'],
 					'ordering' => $row['ordering'],
-					'main_foto' => $row['main_foto'],
 				));
 				$command->reset();
 			}
@@ -818,6 +887,25 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 				$command->reset();
 			}
 		}
+		
+		// дублируем изображения товара
+		$Images = $this->Images;
+		if(count($Images))	{
+			foreach($Images as $row)	{
+				$filename = md5(date);
+				
+				
+				$command->insert('{{shop_products_images}}', array(
+					'product_id' => $new_product_id,
+					'image_file' => $row['image_file'],
+					'ordering' => $row['ordering'],
+					'main_foto' => $row['main_foto'],
+				));
+				$command->reset();
+			}
+		}
+		
+		
 		
 		
 		
@@ -936,6 +1024,17 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		$command = $connection->createCommand($sql);
 		$command->bindParam(":product_id", $product_id);
 		$command->bindParam(":product_image", $product_image);
+		$res = $command->execute();
+	}
+	
+	
+	//устанавливает новую цену товара
+	public function updateProductPrice(&$connection, $product_id, $product_price)
+	{
+		$sql = "UPDATE {{shop_products}} SET `product_price` = :product_price WHERE `product_id` = :product_id";
+		$command = $connection->createCommand($sql);
+		$command->bindParam(":product_id", $product_id);
+		$command->bindParam(":product_price", $product_price);
 		$res = $command->execute();
 	}
 	

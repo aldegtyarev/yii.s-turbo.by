@@ -80,7 +80,15 @@ $model_images = $model->Images;
 							<span class="value"><?=$model->manuf?></span>
 						</p>
 						<?	}	?>
+<<<<<<< HEAD
 						*/?>
+=======
+						
+						<p class="row clearfix">
+							<span class="label">Артикул:</span>
+							<span class="value"><?=$model->product_sku?></span>
+						</p>
+>>>>>>> origin/master
 
 						
 						<p class="row clearfix">
@@ -96,9 +104,16 @@ $model_images = $model->Images;
 							<span class="value"><?=$model->material?></span>
 						</p>
 						<?	}	?>
+<<<<<<< HEAD
 						*/?>
 
 						<? if($model->product_availability != 0)	{	?>
+=======
+						
+						<? if($model->product_availability > 0)	{	?>
+
+						<? if(!empty($model->product_availability))	{	?>
+>>>>>>> origin/master
 							<? 
 								if($model->product_availability == 2) {
 									$status_class = 'status-available';
@@ -131,6 +146,8 @@ $model_images = $model->Images;
 						
 						<?	}	?>						
 					</div>
+					
+					<?	}	?>
 
 
 					<form method="post" class="productview-tocart js-recalculate" action="index.php">

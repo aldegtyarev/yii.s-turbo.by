@@ -71,19 +71,57 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 
 
 
-<?php $this->widget('bootstrap.widgets.BsGridView', array(
+<?php $this->widget('BsBatchGridView', array(
 	'id'=>'shop-products-grid',
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'ajaxUpdate' => false,
+	'groupActions'=>array(
+		'batchdelete'=>'Удалить',
+	),	
 	'columns'=>array(
-		'product_id',
-		'product_name',
-		'product_sku',
+		array(
+			'name' =>'product_id',
+			'headerHtmlOptions' => array(
+				'class' => 'id_column',
+			),			
+		),
+		
+		array(
+			'name' =>'product_name',
+			'headerHtmlOptions' => array(
+				'class' => 'product_name_column',
+			),			
+		),
+		
+		array(
+			'name' =>'product_sku',
+			'headerHtmlOptions' => array(
+				'class' => 'product_sku_column',
+			),			
+		),
+		
+		array(
+			'name' => 'modelsList',
+			'type' => 'raw',
+			'headerHtmlOptions' => array(
+				'class' => 'modelsList_column'
+			),
+			'htmlOptions' => array('class'=>'modelsList'),
+			'filter' => '',
+		),
+		
+		array(
+			'name' =>'product_price',
+			'headerHtmlOptions' => array(
+				'class' => 'product_price_column',
+			),			
+		),
+		
 		array(
 			'class' => 'CButtonColumn',
 			//'template' => '{update}&nbsp;{delete}&nbsp;{moveup}&nbsp;{movedown}',
-			'template' => '{update}&nbsp;{delete}&nbsp;{copy}',
+			'template' => '{update}&nbsp;{delete}&nbsp;{copy}&nbsp;{publish_up}&nbsp;{publish_down}',
 			'buttons' => array(
 				'update' => array(
 					'imageUrl'=>'/img/grid-icons/update.png',
@@ -97,7 +135,71 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 					'imageUrl'=>'/img/grid-icons/copy.png',
 					'url' => 'Yii::app()->createUrl("shopproducts/copy", array("id"=>$data->product_id))',
 				),
+				'publish_up' => array(
+                    'label'=>'Опубликовать',
+					'imageUrl'=>'/img/grid-icons/publish_x.png',
+					'url' => 'Yii::app()->createUrl("shopproducts/publishup", array("id"=>$data->product_id))',
+                    'visible'=>'!$data->published',
+				),
+				'publish_down' => array(
+                    'label'=>'Снять с публикации',
+					'imageUrl'=>'/img/grid-icons/publish_g.png',
+					'url' => 'Yii::app()->createUrl("shopproducts/publishdown", array("id"=>$data->product_id))',
+                    'visible'=>'$data->published',
+				),
 			),
 		),
 	),
 )); ?>
+
+
+<?php /*$this->widget('bootstrap.widgets.BsGridView', array(
+	'id'=>'shop-products-grid',
+	'dataProvider'=>$model->search(),
+	'filter'=>$model,
+	'ajaxUpdate' => false,
+	'columns'=>array(
+		'product_id',
+		'product_name',
+		'product_sku',
+		array(
+			'name' => 'modelsList',
+			'type' => 'raw',
+			'htmlOptions' => array('class'=>'modelsList'),
+			'filter' => '',
+		),
+		
+		'product_price',
+		array(
+			'class' => 'CButtonColumn',
+			//'template' => '{update}&nbsp;{delete}&nbsp;{moveup}&nbsp;{movedown}',
+			'template' => '{update}&nbsp;{delete}&nbsp;{copy}&nbsp;{publish_up}&nbsp;{publish_down}',
+			'buttons' => array(
+				'update' => array(
+					'imageUrl'=>'/img/grid-icons/update.png',
+				),
+
+				'delete' => array(
+					'imageUrl'=>'/img/grid-icons/delete.png',
+				),
+					
+				'copy' => array(
+					'imageUrl'=>'/img/grid-icons/copy.png',
+					'url' => 'Yii::app()->createUrl("shopproducts/copy", array("id"=>$data->product_id))',
+				),
+				'publish_up' => array(
+                    'label'=>'Опубликовать',
+					'imageUrl'=>'/img/grid-icons/publish_x.png',
+					'url' => 'Yii::app()->createUrl("shopproducts/publishup", array("id"=>$data->product_id))',
+                    'visible'=>'!$data->published',
+				),
+				'publish_down' => array(
+                    'label'=>'Снять с публикации',
+					'imageUrl'=>'/img/grid-icons/publish_g.png',
+					'url' => 'Yii::app()->createUrl("shopproducts/publishdown", array("id"=>$data->product_id))',
+                    'visible'=>'$data->published',
+				),
+			),
+		),
+	),
+));*/ ?>

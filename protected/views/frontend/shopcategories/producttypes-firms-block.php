@@ -53,6 +53,16 @@ $main_url = '/'.Yii::app()->getRequest()->getPathInfo();
 				
 			</div>
 		<?	}	?>
+		
+		<? if(count($bodies))	{ ?>
+			<div class="bodies-block">
+				<p class="filter-block-header">Кузов</p>
+				<ul class="product-types-list filter-block-list clearfix">
+					<? showFilterItems($bodies, $productsTotal, 'body', $main_url, $firm_request); ?>
+				</ul>
+				
+			</div>
+		<?	}	?>		
 		<a href="<?=$main_url?>" class="clear-filter">Сбросить фильтр</a>
 	</div>
 <?	}	?>

@@ -56,6 +56,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
     public $DropDownListModels;
     public $SelectedModels;
     public $model_ids;
+    public $AllModelslist;
 	
     public $DropDownListBodies;
     public $SelectedBodies;
@@ -73,17 +74,19 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 	public $DropDownProductAvailability;
 	public $SelectedProductAvailabilityId;
 	public $ProductAvailabilityArray = array(
-		0 => array('id' => 0, 'name' => 'Не указано'),
-		1 => array('id' => 1, 'name' => 'Под заказ'),
+		0 => array('id' => 0, 'name' => 'не указано'),
+		1 => array('id' => 1, 'name' => 'под заказ'),
 	);
 	
 	
 	public $DropDownProductSide;
 	public $SelectedProductSideId;
 	public $ProductSideArray = array(
-		1 => array('id' => 1, 'name' => 'Левая (водительская)'),
-		2 => array('id' => 2, 'name' => 'Правая (пассажирская)'),
-		3 => array('id' => 3, 'name' => 'Левая + Правая'),
+        0 => array('id' => 0, 'name' => 'не указано'),
+		1 => array('id' => 1, 'name' => 'левая (водительская)'),
+		2 => array('id' => 2, 'name' => 'правая (пассажирская)'),
+		3 => array('id' => 3, 'name' => 'левая + правая'),
+		3 => array('id' => 3, 'name' => 'левая = правая'),
 	);
 	
 	public $product_ids;
@@ -91,6 +94,10 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 	public $SelectedModel;
 	
 	public $AdditionalImages = array();
+    
+    public $_modelsList = '';
+    
+    
 	
 	
 	/**
@@ -111,8 +118,8 @@ class ShopProducts extends CActiveRecord implements IECartPosition
         return array(
             array('product_name, product_sku', 'required'),
             array('published, firm_id, type_id, protect_copy, product_availability, product_ordered, manufacturer_id, override, side', 'numerical', 'integerOnly'=>true),
-            array('metatitle, manuf, material, code, in_stock, delivery, prepayment, lamps, adjustment', 'length', 'max'=>255),
-            array('product_s_desc, product_desc, installation, metadesc', 'length', 'max'=>17000),
+            array('metatitle, manuf, material, code, in_stock, delivery, prepayment, lamps, adjustment, product_s_desc', 'length', 'max'=>255),
+            array('product_desc, installation, metadesc', 'length', 'max'=>17000),
             array('product_name', 'length', 'max'=>180),
             array('product_sku', 'length', 'max'=>64),
             array('metakey, slug', 'length', 'max'=>192),
@@ -140,7 +147,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
             'ProductsCategories' => array(self::HAS_MANY, 'ShopProductsCategories', 'product_id'),
             'Images' => array(self::HAS_MANY, 'ShopProductsImages', 'product_id'),
             'shopProductsMediases' => array(self::HAS_MANY, 'ShopProductsMedias', 'product_id', 'with'=>'media'),
-			'ProductsModelsAutos' => array(self::HAS_MANY, 'ShopProductsModelsAuto', 'product_id'),
+			'ProductsModelsAutos' => array(self::HAS_MANY, 'ShopProductsModelsAuto', 'product_id', 'with'=>'model'),
 			'ProductsRelations' => array(self::HAS_MANY, 'ShopProductsRelations', 'product_id'),
 			'ProductsRelations1' => array(self::HAS_MANY, 'ShopProductsRelations', 'product_related_id'),
 			'ProductsAdminCategories' => array(self::HAS_MANY, 'ShopProductsAdminCategories', 'product_id'),			
@@ -156,11 +163,11 @@ class ShopProducts extends CActiveRecord implements IECartPosition
     {
         return array(
             'product_id' => 'id',
-            'product_s_desc' => 'Краткое описание',
-            'product_desc' => 'Описание',
+            'product_s_desc' => 'Описание',
+            'product_desc' => 'Полное описание',
             'installation' => 'Установка',
             'product_name' => 'Название',
-            'product_sku' => 'Код товара',
+            'product_sku' => 'Артикул',
             'published' => 'Публикация',
             'metadesc' => 'meta description',
             'metakey' => 'meta keywords',
@@ -168,7 +175,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
             'slug' => 'Псевдоним',
             'manufacturer_id' => 'Производитель (для меня)',
             'firm_id' => 'Производитель',
-            'type_id' => 'Группа товаров',
+            'type_id' => 'Внутренние категории',
             'protect_copy' => 'Защита от копирования',
             'product_availability' => 'Наличие',
             'manuf' => 'Производитель',
@@ -187,9 +194,35 @@ class ShopProducts extends CActiveRecord implements IECartPosition
             'side' => 'Сторона',
             'lamps' => 'Лампочки',
             'adjustment' => 'Регулировка',
-            'admin_category_ids' => 'Внутренние категории',
+            'admin_category_ids' => 'Админ. категории',
+            'modelsList' => 'Модельный ряд',
         );
     }
+    
+    public function getModelsList()
+    {
+        $this->_modelsList = '';
+		$list = array();
+		
+		$model_ids = ShopProductsModelsAuto::model()->getModelIdsFromProduct($this->product_id);
+        //echo'<pre>AllModelslist';print_r($this->AllModelslist,0);echo'</pre>';
+        //echo'<pre>$model_ids';print_r($model_ids,0);echo'</pre>';
+
+        if(is_array($model_ids))	{
+			foreach($model_ids as $model_id)   {
+				$list[] = ShopModelsAuto::model()->getFullNameModel($model_id);
+			}
+
+			$this->_modelsList = implode(',<br>', $list);			
+		}
+        
+        return $this->_modelsList;
+    }
+
+    public function setModelsList($value)
+    {
+        $this->_modelsList = $value;
+    }    
 
     /**
      * Retrieves a list of models based on the current search/filter conditions.
@@ -629,7 +662,8 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 
 		
 		
-		$criteria->condition = "t.`published` = 1 AND (t.`product_id` IN (117,112,158,288,2026,7292,1102))";
+		//$criteria->condition = "t.`published` = 1 AND (t.`product_id` IN (117,112,158,288,2026,7292,1102))";
+		$criteria->condition = "t.`published` = 1";
 		$criteria->order = "t.`product_id` DESC";
 		$criteria->limit = 7;
 		//echo'<pre>';print_r($criteria, 0);echo'</pre>';
@@ -715,7 +749,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 				
 				ShopProductsImages::model()->setMainFoto($connection, $Images[0]->image_id, $this->product_id);
 				
-				$this->setProductImage(&$connection,  $Images[0]->image_file, $this->product_id);
+				$this->setProductImage($connection,  $Images[0]->image_file, $this->product_id);
 			}
 			
 		}
@@ -825,6 +859,9 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 			'manuf' => $this->manuf,
 			'material' => $this->material,
 			'code' => $this->code,
+			'side' => $this->side,
+			'lamps' => $this->lamps,
+			'adjustment' => $this->adjustment,
 			'in_stock' => $this->in_stock,
 			'delivery' => $this->delivery,
 			'prepayment' => $this->prepayment,

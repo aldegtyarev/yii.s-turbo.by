@@ -180,6 +180,15 @@ h3 {
 	@extend %font_19;
 }
 
+b,
+strong {
+    @extend %bold;
+}
+
+i {
+    @extend %italic;
+}
+
 .clr{clear:both;}
 .clr-l{clear:left;}
 .inner{width:1000px; margin:0 auto;}
@@ -215,6 +224,10 @@ span sup{text-decoration:none;}
 	width: 50%;
 }
 
+.grey {
+    @extend %c_999;
+}
+
 .button {
 	display: inline-block;
 	border: 1px solid #dadada;
@@ -223,7 +236,7 @@ span sup{text-decoration:none;}
 	
 	@extend %font_13;
 	@extend %bold;
-	@extend %c_000;
+	@extend %c_7e7e7e;
 	@extend %underline_n_n;
 	
 	

@@ -36,7 +36,14 @@ class ShopProductsController extends Controller
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete','updateprice'),
+				'actions'=>array(
+					'admin',
+					'delete',
+					'updateprice',
+					'publishup',
+					'publishdown',
+					'batchdelete',
+				),
 				'users'=>array('superman'),
 			),
 			array('deny',  // deny all users
@@ -114,6 +121,11 @@ class ShopProductsController extends Controller
 			if($model->save())
 				$this->redirect(array('admin'));
 		}
+        
+		//подготавливаем выпадающий список адм. категорий
+		$model->DropDownListAdminCategories = ShopAdminCategories::model()->getDropDownlistDataProduct();
+		$model->getSelectedAdminCategories();
+        
 		
 		//подготавливаем выпадающий список категорий
 		$model->DropDownListCategories = ShopCategories::model()->getDropDownlistDataProduct();
@@ -216,9 +228,41 @@ class ShopProductsController extends Controller
 				}
 				
 				ShopProductsImages::model()->deleteFoto($foto_id, $model->product_id);
-				$app->session['ShopproductForm.current_tab'] = $current_tab;
-				$this->redirect(array('update','id'=>$id));
+				//$app->session['ShopproductForm.current_tab'] = $current_tab;
+				//$this->redirect(array('update','id'=>$id));
 			}
+            
+			$Images = $model->Images;
+			//echo'<pre>';print_r($Images, 0);echo'</pre>';die;
+			/*
+            echo'<pre>';print_r(count($Images), 0);echo'</pre>';//die;
+			echo'<pre>';print_r($Images[0]->image_id, 0);echo'</pre>';//die;
+			echo'<pre>';print_r($Images[0]->image_file, 0);echo'</pre>';//die;
+			echo'<pre>';print_r($model->product_id, 0);echo'</pre>';//die;
+			*/
+			
+			if(count($Images))	{
+                $main_foto_present = false;
+                
+                foreach($Images as $img) {
+                    if($img->main_foto == 1)    {
+                        $main_foto_present = true;
+                        break;
+                    }
+                }
+                
+                if($main_foto_present == false) {
+                    $connection = $app->db;				
+
+                    //ShopProductsImages::model()->setMainFoto($connection, $Images[0]->image_id, $model->product_id);
+                    $_POST['main_foto'] = $Images[0]->image_id;
+                    ShopProducts::model()->setProductImage($connection,  $Images[0]->image_file, $model->product_id);
+                    
+                }
+                //die;
+			}
+            
+            
 		}
 		
 		
@@ -268,7 +312,8 @@ class ShopProductsController extends Controller
 				if(isset($_POST['save']))	{
 					$app->session['ShopproductForm.current_tab'] = '#tab1';
 					$this->redirect(array('admin'));
-				}	elseif(isset($_POST['apply']))	{
+				//}	elseif(isset($_POST['apply']))	{
+				}	else	{
 					$app->session['ShopproductForm.current_tab'] = $current_tab;
 					$this->redirect(array('update','id'=>$model->product_id));
 				}
@@ -331,6 +376,7 @@ class ShopProductsController extends Controller
 		$app = Yii::app();
 		$model = $this->loadModel($id);
 		$model->copyProduct();
+        $app->session['ShopproductForm.current_tab'] = '#tab1';
 		$this->redirect(array('admin'));
 	}
 	
@@ -348,7 +394,7 @@ class ShopProductsController extends Controller
 		$Images = $model->Images;
 		if(count($Images))	{
 			foreach($Images as $row)	{
-				ShopProductsImages::model()->deleteFoto($row['image_id'], $model->pdoduct_id);
+				ShopProductsImages::model()->deleteFoto($row['image_id'], $model->product_id);
 			}
 		}
 		
@@ -378,6 +424,8 @@ class ShopProductsController extends Controller
 	{
 		$model = new ShopProducts('search');
 		$model->unsetAttributes();  // clear any default values
+        
+        $model->AllModelslist = ShopModelsAuto::model()->getAllModelslist();
 		
 		if(isset($_GET['ShopProducts']))
 			$model->attributes = $_GET['ShopProducts'];
@@ -506,4 +554,39 @@ class ShopProductsController extends Controller
 		}
 	}
 	*/
+	
+	public function actionPublishup($id)
+	{
+		$model = $this->loadModel($id);
+		$model->published = 1;
+		$model->save(false);
+		$this->redirect(array('admin'));
+	}
+	
+	public function actionPublishdown($id)
+	{
+		$model = $this->loadModel($id);
+		$model->published = 0;
+		$model->save(false);
+		$this->redirect(array('admin'));
+	}
+	
+	public function actionBatchdelete()
+	{
+		//echo'<pre>';print_r($_POST,0);echo'</pre>';die;
+		
+		$batchId = Yii::app()->request->getParam('batchId', array());
+		foreach($batchId as $id) {
+			
+			$model = $this->loadModel($id);
+
+			$Images = $model->Images;
+			if(count($Images))	{
+				foreach($Images as $row)	{
+					ShopProductsImages::model()->deleteFoto($row['image_id'], $model->product_id);
+				}
+			}
+			$model->delete();			
+		}		
+	}
 }

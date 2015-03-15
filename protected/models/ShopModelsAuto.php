@@ -304,16 +304,41 @@ class ShopModelsAuto extends CActiveRecord
 		return $list_data;
 	}	
 	
-	public function 	getDropDownlistItems()
+	public function getDropDownlistItems()
 	{
 		$criteria = new CDbCriteria;
 		$criteria->order = 't.root, t.lft'; // или 't.root, t.lft' для множественных деревьев
 		$categories = $this->findAll($criteria);
 		$level = 0;
+        $parent_name = array();
+		
 		foreach($categories as $c){
-			$separator = '';
+
+            //if($c->level == 1) $parent_name = $c->name;
+            $parent_name[$c->level] = $c->name;
+			
+            if($c->level > 1)  {
+                //$c->name = $parent_name . ' ' . $c->name;
+            }
+            
+            $separator = '';
+            
 			for ($x=1; $x++ < $c->level;) $separator .= '-';
-			$c->name = $separator.$c->name;
+			
+			$parent_name_str = '';
+			
+			//echo'<pre>';print_r($parent_name);echo'</pre>';
+			
+			for ($x=0; $x++ < $c->level;)	{
+				if($parent_name[$x] != $c->name) {
+					$parent_name_str .= $parent_name[$x].' ';
+					//echo'<pre>';print_r($parent_name[$x].' '.$x);echo'</pre>';
+				}
+					
+			}
+			
+            //$c->name = $separator.$c->name;
+            $c->name = $separator.$parent_name_str.$c->name;
 		}
 		
 		$result = CHtml::listData($categories, 'id','name');
@@ -322,6 +347,47 @@ class ShopModelsAuto extends CActiveRecord
 		
 		return $result;
 	}
+    
+    public function getAllModelslist() {
+		$criteria = new CDbCriteria;
+		$criteria->order = 't.root, t.lft'; // или 't.root, t.lft' для множественных деревьев
+		$categories = $this->findAll($criteria);
+        $parent_name = array();
+        $result = array();
+		foreach($categories as $c){
+
+            //if($c->level == 1) $parent_name = $c->name;
+			$parent_name[$c->level] = $c->name;
+            
+			/*
+            if($c->level > 1)  {
+                //$c->name = $parent_name . ' ' . $c->name;
+            }
+            
+            
+			*/
+			
+			$parent_name_str = '';
+			
+			//echo'<pre>';print_r($parent_name);echo'</pre>';
+			
+			for ($x=0; $x++ < $c->level;)	{
+				if($parent_name[$x] != $c->name) {
+					$parent_name_str .= $parent_name[$x].' ';
+					//echo'<pre>';print_r($parent_name[$x].' '.$x);echo'</pre>';
+				}
+					
+			}
+			
+            //$c->name = $separator.$c->name;
+            $c->name = $separator.$parent_name_str.$c->name;
+			
+			$result[$c->id] = $c->name;
+			
+		}
+		
+		return $result;
+    }
 	
 	
 	function setparentid()
@@ -366,6 +432,20 @@ class ShopModelsAuto extends CActiveRecord
 		return implode(',', $ids_arr);		
 		//echo'<pre>';print_r($ids_arr);echo'</pre>';
 	}
+	
+	public function getFullNameModel($model_id)
+	{	
+		$model = $this->findByPk($model_id);
+		$ancestors = $model->ancestors()->findAll();
+		//echo'<pre>$ancestors';print_r($ancestors,0);echo'</pre>';
+		$result = '';
+		foreach($ancestors as $ancestor) {
+			$result .= $ancestor->name.' ';
+		}
+		
+		$result .= $model->name;
+		return $result;
+	}	
 	
 	
 	

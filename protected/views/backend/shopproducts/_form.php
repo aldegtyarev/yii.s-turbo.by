@@ -25,6 +25,8 @@ $cs->registerScript('loading', "
 	
 ");
 
+
+///echo'<pre>';print_r($model->modelsList,0);echo'</pre>';
 ?>
 <style>
 	#cke_ShopProducts_product_s_desc #cke_1_top,
@@ -71,26 +73,22 @@ $cs->registerScript('loading', "
 				<?php echo $form->error($model,'product_name'); ?>
 			</div>
 			
+            <div class="row chosen-row">
+                <?php echo $form->labelEx($model,'model_ids'); ?>
+                <?php echo $form->dropDownList($model, 'model_ids', $model->DropDownListModels, array('multiple' => true, 'class'=>'chosen_select', 'data-placeholder'=>'выберите модель', 'style'=>'width:400px;', 'options' => $model->SelectedModels));?>
+                <?php echo $form->error($model,'model_ids'); ?>
+            </div>
+			
+            <div class="row chosen-row">
+                <?php echo $form->labelEx($model,'category_ids'); ?>
+                <?php echo $form->dropDownList($model, 'category_ids', $model->DropDownListCategories, array('multiple' => true, 'class'=>'chosen_select', 'data-placeholder'=>'выберите категорию', 'style'=>'width:400px;', 'options' => $model->SelectedCategories));?>
+                <?php echo $form->error($model,'category_ids'); ?>
+            </div>
+						
 			<div class="row">
-				<table style="width:100%">
-					<tr>
-						<td style="width:50%;vertical-align:top;">
-							<div class="row1 chosen-row">
-								<?php echo $form->labelEx($model,'category_ids'); ?>
-								<?php echo $form->dropDownList($model, 'category_ids', $model->DropDownListCategories, array('multiple' => true, 'class'=>'chosen_select', 'data-placeholder'=>'выберите категорию', 'style'=>'width:400px;', 'options' => $model->SelectedCategories));?>
-								<?php echo $form->error($model,'category_ids'); ?>
-							</div>
-						</td>
-						<td style="width:50%;vertical-align:top;">
-							<div class="row1 chosen-row">
-								<?php echo $form->labelEx($model,'model_ids'); ?>
-								<?php echo $form->dropDownList($model, 'model_ids', $model->DropDownListModels, array('multiple' => true, 'class'=>'chosen_select', 'data-placeholder'=>'выберите модель', 'style'=>'width:400px;', 'options' => $model->SelectedModels));?>
-								<?php echo $form->error($model,'model_ids'); ?>
-							</div>
-						</td>
-					</tr>
-					
-				</table>
+				<?php echo $form->labelEx($model,'type_id'); ?>
+				<?php echo $form->dropDownList($model, 'type_id', $model->DropDownListTypes, array('data-placeholder'=>'выберите тип', 'options' => $model->SelectedTypeId));?>
+				<?php echo $form->error($model,'type_id'); ?>
 			</div>
 			
 			<div class="row chosen-row">
@@ -99,37 +97,26 @@ $cs->registerScript('loading', "
 				<?php echo $form->error($model,'admin_category_ids'); ?>
 			</div>
 			
-			
-
-			<div class="row">
-				<?php echo $form->labelEx($model,'product_sku'); ?>
-				<?php echo $form->textField($model,'product_sku',array('size'=>60,'maxlength'=>64)); ?>
-				<?php echo $form->error($model,'product_sku'); ?>
-			</div>
-		
 			<div class="row">
 				<?php echo $form->checkBoxControlGroup($model, 'published'); ?>
 				<?php echo $form->error($model,'published'); ?>
 			</div>
 			
+			<div class="row">
+				<?php echo $form->checkBoxControlGroup($model, 'protect_copy'); ?>
+				<?php echo $form->error($model,'protect_copy'); ?>
+			</div>
 			
+			
+
+		
+			<?/*
 			<div class="row">
 				<?php echo $form->labelEx($model,'manufacturer_id'); ?>
 				<?php echo $form->dropDownList($model, 'manufacturer_id', $model->DropDownListManufacturers, array('data-placeholder'=>'выберите категорию', 'options' => $model->SelectedManufacturerId));?>
 				<?php echo $form->error($model,'manufacturer_id'); ?>
-			</div>
+			</div>*/?>
 			
-			<div class="row">
-				<?php echo $form->labelEx($model,'firm_id'); ?>
-				<?php echo $form->dropDownList($model, 'firm_id', $model->DropDownListFirms, array('data-placeholder'=>'выберите фирму', 'options' => $model->SelectedFirmId));?>
-				<?php echo $form->error($model,'firm_id'); ?>
-			</div>
-			
-			<div class="row">
-				<?php echo $form->labelEx($model,'type_id'); ?>
-				<?php echo $form->dropDownList($model, 'type_id', $model->DropDownListTypes, array('data-placeholder'=>'выберите тип', 'options' => $model->SelectedTypeId));?>
-				<?php echo $form->error($model,'type_id'); ?>
-			</div>
 			
 			<div class="row chosen-row">
 				<?php echo $form->labelEx($model,'body_ids'); ?>
@@ -138,10 +125,6 @@ $cs->registerScript('loading', "
 			</div>
 			
 
-			<div class="row">
-				<?php echo $form->checkBoxControlGroup($model, 'protect_copy'); ?>
-				<?php echo $form->error($model,'protect_copy'); ?>
-			</div>
 			
 		</div>
 		
@@ -153,6 +136,18 @@ $cs->registerScript('loading', "
 				<?php echo $form->error($model,'manuf'); ?>
 			</div>
 			*/?>
+			
+			<div class="row">
+				<?php echo $form->labelEx($model,'firm_id'); ?>
+				<?php echo $form->dropDownList($model, 'firm_id', $model->DropDownListFirms, array('data-placeholder'=>'выберите фирму', 'options' => $model->SelectedFirmId));?>
+				<?php echo $form->error($model,'firm_id'); ?>
+			</div>			
+			
+			<div class="row">
+				<?php echo $form->labelEx($model,'product_sku'); ?>
+				<?php echo $form->textField($model,'product_sku',array('size'=>60,'maxlength'=>64)); ?>
+				<?php echo $form->error($model,'product_sku'); ?>
+			</div>	
 			
 			<div class="row">
 				<?php echo $form->labelEx($model,'material'); ?>
@@ -177,6 +172,13 @@ $cs->registerScript('loading', "
 				<?php echo $form->textField($model,'adjustment'); ?>
 				<?php echo $form->error($model,'adjustment'); ?>
 			</div>
+			
+			<div class="row">
+				<?php echo $form->labelEx($model,'product_s_desc'); ?>
+				<?php echo $form->textField($model,'product_s_desc',array('size'=>60,'maxlength'=>255)); ?>
+				<?php echo $form->error($model,'product_s_desc'); ?>
+			</div>
+			
 			
 			
 			<?
@@ -219,7 +221,7 @@ $cs->registerScript('loading', "
 				<?php echo $form->error($model,'prepayment'); ?>
 			</div>
 			
-			
+            <?/*			
 			<div class="row">
 				<?php echo $form->labelEx($model,'product_s_desc'); ?>
 				<?php $this->widget('application.extensions.ckeditor.ECKEditor', array(
@@ -231,7 +233,7 @@ $cs->registerScript('loading', "
 				)); ?>
 				<?php echo $form->error($model,'product_s_desc'); ?>
 			</div>
-			
+*/?>			
 			
 			<div class="row">
 				<?php echo $form->labelEx($model,'product_desc'); ?>

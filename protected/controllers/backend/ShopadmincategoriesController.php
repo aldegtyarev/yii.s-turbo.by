@@ -120,7 +120,7 @@ class ShopadmincategoriesController extends Controller
 					foreach($rows as $row)	{
 						$product_price = $row['product_price'] - ($row['product_price'] / 100 * $model->price_discount);
 						//echo'<pre>';print_r($product_price);echo'</pre>';die;
-						ShopProducts::model()->updateProductPrice(&$connection, $row['product_id'], $product_price);
+						ShopProducts::model()->updateProductPrice($connection, $row['product_id'], $product_price);
 					}
 				}
 				//die;
@@ -143,7 +143,8 @@ class ShopadmincategoriesController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		$this->loadModel($id)->delete();
+		//$this->loadModel($id)->delete();
+        $this->loadModel($id)->deleteNode();
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))

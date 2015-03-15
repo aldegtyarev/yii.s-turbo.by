@@ -107,5 +107,32 @@ class ShopBodies extends CActiveRecord
 		$rows = $this->findAll($criteria);
 		return CHtml::listData($rows, 'body_id', 'name');
 	}
+    
+    	//получаем фирмы  для списка товаров категории
+	public function getBodiesForProductList(&$connection, $product_ids = array() )
+	{
+		if(count($product_ids))	{
+			$sql = "
+SELECT pr.`body_id` AS id, b.`name` AS name, count(pr.`product_id`)  AS count
+FROM `3hnspc_shop_products_bodies` AS pr INNER JOIN `3hnspc_shop_bodies` AS b USING(`body_id`)
+WHERE pr.`product_id` IN (".implode(',', $product_ids).")
+GROUP BY pr.`body_id`
+			
+			";
+			$command = $connection->createCommand($sql);
+			//$command->bindParam(":product_id", $product_ids_str);
+			$rows_ = $command->queryAll();
+			$rows = array();
+			foreach($rows_ as $row)	{
+				$rows[$row['id']] = $row;
+			}
+		}	else	{
+			$rows = array();
+		}
+		//echo'<pre>';print_r($product_ids_str);echo'</pre>';
+		//echo'<pre>';print_r($rows);echo'</pre>';
+		
+		return $rows;
+	}
 	
 }

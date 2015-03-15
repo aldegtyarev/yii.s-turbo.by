@@ -80,15 +80,7 @@ $model_images = $model->Images;
 							<span class="value"><?=$model->manuf?></span>
 						</p>
 						<?	}	?>
-<<<<<<< HEAD
 						*/?>
-=======
-						
-						<p class="row clearfix">
-							<span class="label">Артикул:</span>
-							<span class="value"><?=$model->product_sku?></span>
-						</p>
->>>>>>> origin/master
 
 						
 						<p class="row clearfix">
@@ -104,16 +96,9 @@ $model_images = $model->Images;
 							<span class="value"><?=$model->material?></span>
 						</p>
 						<?	}	?>
-<<<<<<< HEAD
 						*/?>
 
 						<? if($model->product_availability != 0)	{	?>
-=======
-						
-						<? if($model->product_availability > 0)	{	?>
-
-						<? if(!empty($model->product_availability))	{	?>
->>>>>>> origin/master
 							<? 
 								if($model->product_availability == 2) {
 									$status_class = 'status-available';
@@ -146,8 +131,6 @@ $model_images = $model->Images;
 						
 						<?	}	?>						
 					</div>
-					
-					<?	}	?>
 
 
 					<form method="post" class="productview-tocart js-recalculate" action="index.php">
@@ -181,9 +164,34 @@ $model_images = $model->Images;
 		</div>		
 	</div>
 	
-<?
-	$this->beginWidget('system.web.widgets.CClipWidget', array('id'=>"Описание товара"));
-	echo $model->product_desc;
+<?  $this->beginWidget('system.web.widgets.CClipWidget', array('id'=>"Описание товара")); ?> 
+    <p class="small">
+        <? if(!empty($model->side))	{	?>
+            Сторона: <span><?=$model->ProductSideArray[$model->side]['name']?></span><br />
+        <?	}	?>
+
+        <? if(!empty($model->lamps))	{	?>
+            Лампочки: <span><?=$model->lamps?></span><br />
+        <?	}	?>
+
+        <? if(!empty($model->adjustment))	{	?>
+            Регулировка: <span><?=$model->adjustment?></span><br />
+        <?	}	?>
+
+        <? if(!empty($model->material))	{	?>
+            Материал: <span><?=$model->material?></span><br />
+        <?	}	?>
+
+        <? if(!empty($model->product_s_desc))	{	?>
+            Описание: <span><?=$model->product_s_desc?></span><br />
+        <?	}	?>
+
+    </p>
+    <? if($model->product_desc) { ?>
+        <div class="product_description"><? echo $model->product_desc; ?></div>
+    <? } ?>
+    <?
+	
 	$this->endWidget();				
 
 	$this->beginWidget('system.web.widgets.CClipWidget', array('id'=>"Отзывы покупателей<sup>5</sup>"));

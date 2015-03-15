@@ -23,7 +23,7 @@ class ECKEditor extends CInputWidget {
 
     //advanced - пользователь сам определяет тулбар
     private $allowedEditorTemplates=array('full','basic','advanced');
-    private $editorTemplate='full';
+    private $editorTemplate='advanced';
 
     private $plugins=array();
 

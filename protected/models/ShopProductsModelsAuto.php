@@ -148,5 +148,18 @@ class ShopProductsModelsAuto extends CActiveRecord
 		return $result;
 	}
 	
+	public function getModelIdsFromProduct($product_id)
+	{
+		$connection = Yii::app()->db;
+
+		$sql = "SELECT distinct(`model_id`) FROM ".$this->tableName()." WHERE `product_id` = :product_id";
+		$command = $connection->createCommand($sql);
+		$command->bindParam(":product_id", $product_id);
+		//$rows = $command->queryColumn();
+		//echo'<pre>';print_r($rows);echo'</pre>';
+			
+		return $command->queryColumn();
+	}
+	
 	
 }

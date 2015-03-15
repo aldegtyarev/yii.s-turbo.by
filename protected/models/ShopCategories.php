@@ -367,6 +367,7 @@ class ShopCategories extends CActiveRecord
 	public function getDropDownlistItems()
 	{
 		$criteria = new CDbCriteria;
+        //$criteria->condition = "`level` > 1";
 		$criteria->order = 't.root, t.lft'; // или 't.root, t.lft' для множественных деревьев
 		$categories = $this->findAll($criteria);
 		$level = 0;

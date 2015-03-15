@@ -115,6 +115,7 @@ class ShopCategoriesController extends Controller
 			//загрузить фирмы
 			$firms = ShopFirms::model()->getFirmsForProductList($connection, $products_and_pages['product_ids']);
 			$producttypes = ShopProductTypes::model()->getProductTypesForProductList($connection, $products_and_pages['product_ids']);
+			$bodies = ShopBodies::model()->getBodiesForProductList($connection, $products_and_pages['product_ids']);
 		
 			//загрузить группы товаров
 		}	else	{
@@ -155,6 +156,7 @@ class ShopCategoriesController extends Controller
 			'ProductsImages'=> $ProductsImages,
 			'breadcrumbs' => $breadcrumbs,
 			'producttypes' => $producttypes,
+			'bodies' => $bodies,
 			'firms' => $firms,
 			'productsTotal' => count($products_and_pages['product_ids']),
 		);

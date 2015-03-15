@@ -247,7 +247,7 @@ div.search-form
 #pages-grid_c0,
 #shop-firms-grid_c0,
 #shop-manufacturers-grid_c0,
-#shop-products-grid_c0,
+.id_column,
 #shop-models-auto-grid_c0,
 #categories-grid_c0 {
 	width: 60px;
@@ -327,3 +327,25 @@ div.search-form
 	right: 5px;
 	bottom: 5px;
 }
+
+#shop-products-grid .product_sku_column {
+	width: 120px;
+}
+
+#shop-products-grid_c3 {
+	color: #337ab7;
+}
+
+#shop-products-grid .product_price_column {
+	width: 50px;
+}
+
+#shop-products-grid .button-column {
+	width: 100px;
+}
+
+#shop-products-grid .modelsList {
+	font-size: 11px;
+	white-space: nowrap;
+}
+

@@ -1,41 +1,39 @@
 <div class="search-auto-block clearfix">
-	<div class="search-auto-block-title">Поиск по автомобилю</div>
-	<div class="search-auto-form">
-		<a href="javascript:void(0)" id="clear-search-auto" class="clear-search-auto">Сбросить фильтр автомобиля</a>
-		<div class="step1 step-wr">
-			<span class="step-num">1</span>
-			<select name="select-marka" id="select-marka">
-				<option value="">Выберите марку</option>	
-				<option value="Alfa Romeo">Alfa Romeo</option>	
-				<option value="Audi">Audi</option>	
-				<option value="BMW">BMW</option>	
-				<option value="Chevrolet">Chevrolet</option>	
-			</select>
+	<form id="searchautoform" action="" method="post">
+		<div class="search-auto-block-title">Поиск по автомобилю</div>
+		<div id="search-auto-form" class="search-auto-form">
+			<a href="javascript:void(0)" id="clear-search-auto" class="clear-search-auto">Сбросить фильтр автомобиля</a>
+			<input type="hidden" name="clear-search-auto" value="0" />
+			<div class="step1 step-wr">
+				<span class="step-num">1</span>
+				<? echo CHtml::dropDownList('select-marka', $select_marka, $markaDropDown, array('empty' => 'Выберите марку')) ?>
+			</div>
+			<div class="step2 step-wr">
+				<span class="step-num">2</span>
+				<span id="select-model-wr">
+					<? echo CHtml::dropDownList('select-model', $select_model, $modelDropDown, array('empty' => 'Выберите модель')) ?>
+				<?/*
+				<select name="select-model" id="select-model">
+					<option value="">Выберите модель</option>	
+				</select>
+				*/ ?>
+				</span>
+			</div>
+			<div class="step3 step-wr">
+				<span class="step-num">3</span>
+				<span id="select-year-wr">
+					<? echo CHtml::dropDownList('select-year', $select_year, $yearDropDown, array('empty' => 'Выберите год')) ?>
+					<?/*
+					<select name="select-year" id="select-year">
+						<option value="">Выберите год</option>	
+					</select>
+					*/ ?>
+				</span>
+			</div>
+
+			<button class="search-auto-button"> </button>		
 		</div>
-		<div class="step2 step-wr">
-			<span class="step-num">2</span>
-			<select name="select-model" id="select-model">
-				<option value="">Выберите модель</option>	
-				<option value="Alfa Romeo">Alfa Romeo</option>	
-				<option value="Audi">Audi</option>	
-				<option value="BMW">BMW</option>	
-				<option value="Chevrolet">Chevrolet</option>	
-			</select>
-		</div>
-		<div class="step3 step-wr">
-			<span class="step-num">3</span>
-			<select name="select-year" id="select-year">
-				<option value="">Выберите год</option>	
-				<option value="2005">2005</option>	
-				<option value="2006">2006</option>	
-				<option value="2007">2007</option>	
-				<option value="2008">2008</option>	
-			</select>
-		</div>
-		
-		<button class="search-auto-button"> </button>
-		
-	</div>
+	</form>
 	
 	
 </div>

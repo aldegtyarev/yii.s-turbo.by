@@ -1,5 +1,7 @@
 (function($) {
-$(function() {
-	$('select').styler();
-});
+	$(function() {
+		$('select').styler({
+			selectSearch : false
+		});
+	});
 })(jQuery);

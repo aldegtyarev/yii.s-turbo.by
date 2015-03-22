@@ -445,8 +445,60 @@ class ShopModelsAuto extends CActiveRecord
 		
 		$result .= $model->name;
 		return $result;
-	}	
+	}
 	
+	public function getModelIds(&$app)
+	{	
+		$model_ids = array();
+		
+		$model_id = 0;
+		$find_descendants = true;
+		if(isset($app->session['autofilter.marka'])) {
+			$model_id = $app->session['autofilter.marka'];
+		}
+
+		if(isset($app->session['autofilter.model'])) {
+			$model_id = $app->session['autofilter.model'];
+		}
+
+		if(isset($app->session['autofilter.year'])) {
+			$model_id = $app->session['autofilter.year'];
+			$find_descendants = false;
+		}
+		
+		if($model_id) {
+			$model_ids[] = $model_id;
+			$model_ids[] = $app->params['universal_products'];
+			$model = $this->findByPk($model_id);
+			$descendants = $model->descendants()->findAll();
+			//echo'<pre>';print_r(($model_id));echo'</pre>';
+			//echo'<pre>';print_r(count($descendants));echo'</pre>';
+			foreach($descendants as $row) {
+				$model_ids[] = $row->id;
+			}
+			
+		}
+		return $model_ids;
+	}
 	
+	public function getModelsLevel1(&$connection)
+	{
+		$sql = "SELECT `id`, `name` FROM ".$this->tableName()." WHERE `level`= 1";
+		$command = $connection->createCommand($sql);
+		$rows = $command->queryAll();
+		return CHtml::listData($rows, 'id','name');
+	}
+
+		
+	public function getCategoryIdFromModels(&$connection, $model_ids)
+	{
+		$sql = "SELECT DISTINCT(`category_id`) FROM {{shop_products_categories}}
+				WHERE `product_id` IN (SELECT `product_id` FROM {{shop_products_models_auto}}
+				WHERE `model_id` IN (".implode(', ', $model_ids).")";
+		
+		$command = $connection->createCommand($sql);
+		//$rows = $command->queryAll();
+		return $command->queryAll();
+	}
 	
 }

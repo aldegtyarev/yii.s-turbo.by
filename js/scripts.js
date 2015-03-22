@@ -83,6 +83,43 @@ $(document).ready(function () {
 
 	switch_tabs($('.defaultTab'));
 	
+    $('#search-auto-form').on('change', '#select-marka', function () {
+		$.ajax({
+			type: 'post',
+			url: '/shopmodelsauto/descendants',
+			data: {model_id : $(this).val(), level : 1},
+			beforeSend: function () {},
+			success: function (msg) {
+				$('#select-model-wr').html(msg);
+				$('#select-model-wr select').styler();
+				$('#select-year-wr').html('<select name="select-year" id="select-year"><option value="">Выберите год</option></select>');
+				$('#select-year-wr select').styler();
+			}
+		});
+		
+    });
+	
+    $('#search-auto-form').on('change', '#select-model', function () {
+		$.ajax({
+			type: 'post',
+			url: '/shopmodelsauto/descendants',
+			data: {model_id : $(this).val(), level : 2},
+			beforeSend: function () {},
+			success: function (msg) {
+				$('#select-year-wr').html(msg);
+				$('#select-year-wr select').styler();
+			}
+		});
+		
+    });
+	
+    $('#search-auto-form').on('click', '#clear-search-auto', function () {
+		$('input[name="clear-search-auto"]').val(1);
+		$('#searchautoform').submit();
+		
+    });
+	
+	
 	
 });
 

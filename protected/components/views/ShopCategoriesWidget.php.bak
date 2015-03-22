@@ -1,5 +1,0 @@
-<?
-//echo'<pre>';print_r($this->caregories_tree);echo'</pre>';
-$this->widget('zii.widgets.CMenu',array('items'=>$caregories_tree, 'activateParents' => true, 'htmlOptions' => array('class'=>'menu', 'id'=>'categories-menu')));
-
-?>

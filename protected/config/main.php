@@ -10,7 +10,7 @@ return array(
 	'name'=>'S-rurbo.by',
 	'sourceLanguage' => 'en',
 	'language' => 'ru',
-	'homeUrl'=>'http://turbo',
+	'homeUrl'=>'http://yii.s-turbo.by/',
 	
 
 	// preloading 'log' component
@@ -208,6 +208,7 @@ return array(
 		'images_live_url' => 'http://s-turbo.by/',
 		'product_imagePath' => 'webroot.images.shop.products',
 		'product_images_liveUrl' => '/images/shop/products/',
+		'universal_products' => '1247',	// id универсальных товаров в модельном ряде
 
 	),
 );

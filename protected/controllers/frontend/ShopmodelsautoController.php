@@ -28,7 +28,7 @@ class ShopModelsAutoController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
+				'actions'=>array('index','view','descendants'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -170,4 +170,42 @@ class ShopModelsAutoController extends Controller
 			Yii::app()->end();
 		}
 	}
+	
+	public function actionDescendants()
+	{
+		$app = Yii::app();
+		$model_id = $app->request->getParam('model_id', 0);
+		$level = $app->request->getParam('level', 0);
+		
+		$model = $this->loadModel($model_id);
+		
+		$descendants = $model->children()->findAll();
+		
+		$dropdownData = CHtml::listData($descendants, 'id','name');
+		$selected = null;
+		
+		switch($level) {
+			case 1:
+				$empty = 'Выберите модель';
+				$name = 'select-model';
+				unset($app->session['autofilter.year']);
+				unset($app->session['autofilter.model']);
+				break;
+			case 2:
+				$empty = 'Выберите год';
+				$name = 'select-year';
+				unset($app->session['autofilter.year']);
+				break;
+			default:
+				$empty = '';
+				break;
+		}
+		
+		
+		
+		echo CHtml::dropDownList($name, $selected, $dropdownData, array('empty' => $empty));
+		
+		Yii::app()->end();
+	}
+	
 }

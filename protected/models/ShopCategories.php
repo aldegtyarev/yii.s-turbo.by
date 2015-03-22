@@ -253,79 +253,106 @@ class ShopCategories extends CActiveRecord
 	// возвращает дерево категорий
 	public function getTreeCategories($id = 0)
 	{
+		$app = Yii::app();
+		$connection = $app->db;
+		
+		if(isset($app->session['autofilter.marka'])) {
+			$filtering = true;
+		}	else	{
+			$filtering = false;
+		}
+		
+		$model_ids = ShopModelsAuto::model()->getModelIds($app);
+		
+		//echo'<pre>';print_r($model_ids);echo'</pre>';
 
 		$criteria = new CDbCriteria;
 		if($id != 0) {
 			$criteria->condition = "`root` = $id AND `show_in_menu` = 1 AND `level` <= 4";
+		}	else	{
+			if(count($model_ids))	{
+				$category_ids = $this->getCategoryIdFromModels(&$connection, $model_ids);
+				//echo'<pre>';print_r($model_ids);echo'</pre>';
+				if(count($category_ids)) {
+					$criteria->condition = "(`level` = 2 OR `id` IN (".implode(',', $category_ids)."))";
+				}	else	{
+					$criteria->condition = "(`id` IN (0))";
+				}
+					
+			}
 		}
+		
+		
 		$criteria->order = 't.root, t.lft'; // или 't.root, t.lft' для множественных деревьев
 		$categories = $this->findAll($criteria);
 		
-		$cat_arr = array();
-		$cat_arr_inner = array();
-		$level_arr = array();
+		//echo'<pre>';print_r($categories);echo'</pre>';
 		
-		$app = Yii::app();
-		
-		//получаем id текущей категории
-		$current_category_id = $app->request->getParam('id', 0);
-		
-		//получаем всех предков текущей категории
-		if($current_category_id)	{
-			$current_category = $this->findByPk($current_category_id);
-			$current_category_ancestors = $current_category->ancestors()->findAll();
+		if(count($categories) == 0 && $filtering )	{
+			$categories[0] = 'Не найдено';
+			return $categories;
 		}	else	{
-			$current_category_ancestors = array();
-		}
-		
-		//echo'<pre>';print_r($_GET['path']);echo'</pre>';
-		//echo'<pre>';print_r($current_category_id);echo'</pre>';
-		//echo'<pre>';print_r(count($current_category_ancestors));echo'</pre>';
-		
-		
-		foreach($categories as $n => $category)
-		{
-			//echo'<pre>';print_r($category->path);echo'</pre>';
-			/*
-			$pos = strpos($_GET['id'], $category->id);
-			if($pos === false) {
-				$active = false;
-			} else {
-				$active = true;
-			}
-			*/
 			
-			
-			if($current_category_id == $category->id) {
-				$active = true;
-			} else {
 				
-				foreach($current_category_ancestors as $i)	{
-					//echo'<pre>';print_r($i->id." | ".$category->id);echo'</pre>';
-					if($i->id == $category->id)	{
-						$active = true;
-						break;
-					}	else	{
-						$active = false;
+			$cat_arr = array();
+			$cat_arr_inner = array();
+			$level_arr = array();
+
+			//получаем id текущей категории
+			$current_category_id = $app->request->getParam('id', 0);
+
+			//получаем всех предков текущей категории
+			if($current_category_id)	{
+				$current_category = $this->findByPk($current_category_id);
+				$current_category_ancestors = $current_category->ancestors()->findAll();
+			}	else	{
+				$current_category_ancestors = array();
+			}
+
+			$categories1 = $categories;
+
+			foreach($categories as $n => $category)
+			{
+				if($current_category_id == $category->id) {
+					$active = true;
+				} else {
+
+					foreach($current_category_ancestors as $i)	{
+						if($i->id == $category->id)	{
+							$active = true;
+							break;
+						}	else	{
+							$active = false;
+						}
+					}
+
+
+				}
+
+				$add_category = true;
+
+				if($category->level == 2) {
+					$add_category = false;
+					foreach($categories1 as $category1) {
+						if($category1->parent_id == $category->id) {
+							$add_category = true;
+							break;
+						}
 					}
 				}
-				
-				
+
+				if($add_category) {
+					$cat_arr[$category->id]['label'] = CHtml::encode($category->name);
+					$cat_arr[$category->id]['parent_id'] = CHtml::encode($category->parent_id);
+					$cat_arr[$category->id]['url'] = array('/shopcategories/show/', 'id'=>$category->id);
+					$cat_arr[$category->id]['active'] = $active;
+					$cat_arr[$category->id]['itemOptions'] = array('class'=>'cat-'.$category->id);
+				}
 			}
-			//echo'<pre>';var_dump($active);echo'</pre>';
-			$cat_arr[$category->id]['label'] = CHtml::encode($category->name);
-			$cat_arr[$category->id]['parent_id'] = CHtml::encode($category->parent_id);
-			//$cat_arr[$category->id]['url'] = array('/shopcategories/show/', 'path'=>$category->path);
-			$cat_arr[$category->id]['url'] = array('/shopcategories/show/', 'id'=>$category->id);
-			$cat_arr[$category->id]['active'] = $active;
-			$cat_arr[$category->id]['itemOptions'] = array('class'=>'cat-'.$category->id);
+
+			$cat_arr = $this->mapTree($cat_arr);
+			return $cat_arr[1]['items'];
 		}
-
-		$cat_arr = $this->mapTree($cat_arr);
-		
-		//echo'<pre>';print_r($cat_arr);echo'</pre>';die;
-
-		return $cat_arr[1]['items'];
 	}
 	
 	function mapTree($dataset) {
@@ -441,5 +468,25 @@ class ShopCategories extends CActiveRecord
 		//echo'<pre>';print_r($ids_arr);echo'</pre>';
 	}
 	
+	public function getModelsLevel1(&$connection)
+	{
+		$sql = "SELECT `id`, `name` FROM ".$this->tableName()." WHERE `level`= 1";
+		$command = $connection->createCommand($sql);
+		$rows = $command->queryAll();
+		return CHtml::listData($rows, 'id','name');
+	}
+	
+	public function getCategoryIdFromModels(&$connection, $model_ids)
+	{
+		$sql = "SELECT DISTINCT(`category_id`)
+				FROM {{shop_products_categories}}
+				WHERE `product_id` IN (SELECT `product_id` FROM {{shop_products_models_auto}}
+				WHERE `model_id` IN (".implode(', ', $model_ids)."))";
 		
+		$command = $connection->createCommand($sql);
+		//$rows = $command->queryAll();
+		return $command->queryColumn();
+	}
+	
+	
 }

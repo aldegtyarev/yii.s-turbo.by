@@ -161,5 +161,13 @@ class ShopProductsModelsAuto extends CActiveRecord
 		return $command->queryColumn();
 	}
 	
-	
+	public function getProductIdFromModels(&$connection, $model_ids)
+	{
+		$sql = "SELECT DISTINCT (`product_id`) FROM {{shop_products_models_auto}}
+				WHERE `model_id` IN (".implode(', ', $model_ids).")";
+		
+		$command = $connection->createCommand($sql);
+		//$rows = $command->queryAll();
+		return $command->queryColumn();
+	}
 }

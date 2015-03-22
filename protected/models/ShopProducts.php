@@ -573,6 +573,11 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 	
 	public function findProductsInCat($category_id = 0, $type = 0, $firm = 0)
 	{		
+		$app = Yii::app();
+		$connection = $app->db;
+		
+		$model_ids = ShopModelsAuto::model()->getModelIds($app);
+		
 		$criteria = new CDbCriteria();
 		/*
 		$criteria->select = "t.*, m.`file_url_thumb`, pp.`product_price`, pp.`product_override_price`, pp.`product_currency`";
@@ -590,6 +595,14 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		//$criteria->condition = "pc.`category_id` = $category_id AND t.`published` = 1";
 		$condition_arr = array();
 		$condition_arr[] = "pc.`category_id` = $category_id";
+		
+		if(count($model_ids))	{
+			$product_ids = ShopProductsModelsAuto::model()->getProductIdFromModels($connection, $model_ids);
+			if(count($product_ids))	{
+				$condition_arr[] = "t.`product_id` IN (".implode(', ', $product_ids).")";
+			}
+		}
+		
 		
 		
 		$criteria->condition = implode(' AND ', $condition_arr);

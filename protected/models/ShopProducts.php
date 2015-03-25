@@ -622,12 +622,14 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		
 		$criteria->condition = implode(' AND ', $condition_arr);
 		
-		$product_ids = array();
+		$product_ids = $this->getProductIds($rows);
+		/*
 		if(count($rows))	{
 			foreach($rows as $row)	{
 				$product_ids[] = $row->product_id;
 			}
 		}
+		*/
 		//echo'<pre>';print_r(count($rows),0);echo'</pre>';
 		//echo'<pre>';print_r(($rows),0);echo'</pre>';
 		
@@ -1087,6 +1089,19 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		$command->bindParam(":product_id", $product_id);
 		$command->bindParam(":product_price", $product_price);
 		$res = $command->execute();
+	}
+	
+	//возвращает массив id товаров
+	public function getProductIds(&$rows)
+	{
+		$product_ids = array();
+		if(count($rows))	{
+			foreach($rows as $row)	{
+				$product_ids[] = $row->product_id;
+			}
+		}
+		return $product_ids;
+		
 	}
 	
 }

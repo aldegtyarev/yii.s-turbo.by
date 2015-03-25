@@ -332,16 +332,16 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   color: #999;
 }
 
-.search-block .searchbox {
-  color: #8f9090;
-}
-
 .cartBlock .cart-row .cart-row-left, .menu-cat li a {
   color: #777;
 }
 
 .button, .productdetails-view-main-info-part .label, .productdetails-view-tab .tabs a {
   color: #7e7e7e;
+}
+
+.search-block .searchbox {
+  color: #aaa;
 }
 
 h2, .news-block-item .item-title, .product-list-item .small span, .product-list-item .price-byr, .productdetails-view-main-info-part .value, .productdetails-price-row .label, .productdetails-price-row .price-byr {
@@ -475,7 +475,7 @@ a:hover {
 }
 
 .jcarousel-control-prev,
-.jcarousel-control-next, .sorting-block-conteiner .currency-select, .cartBlock .to-cart, .cartBlock .cart-row, .consultant-block .status:before, .search-auto-form .step-num, .clear-search-auto, .product-list-item .product-label, .product-list-item .product-bottom, .product-list-item-row-info-block:before, .last-viewed-item-pattern, .last-viewed-item-prices, .category-view .category-item-wr a span, .productdetails-view-main-info-part .label,
+.jcarousel-control-next, .sorting-block-conteiner .currency-select, .cartBlock .to-cart, .cartBlock .cart-row, .consultant-block .status:before, .search-auto-form .step-num, .clear-search-auto, .product-list-item .product-label, .product-list-item .product-bottom, .product-list-item .product-bottom .product-detail, .product-list-item-row-info-block:before, .last-viewed-item-pattern, .last-viewed-item-prices, .category-view .category-item-wr a span, .productdetails-view-main-info-part .label,
 .productdetails-view-main-info-part .value, .productview-ask-question, .productview-ask-question a, .productdetails-view-tab .tabs sup {
   position: absolute;
 }
@@ -935,6 +935,7 @@ span sup {
   background: #586168;
   background: rgba(88, 97, 104, 0.8);
   line-height: 36px;
+  border-color: #888;
 }
 .search-block .search-btn {
   position: absolute;
@@ -1018,7 +1019,7 @@ span sup {
 
 .search-auto-block-title {
   padding: 40px 55px 40px 45px;
-  width: 95px;
+  width: 110px;
   background: #d70000;
   font-weight: bold;
   font-style: italic;
@@ -1037,7 +1038,7 @@ span sup {
 .search-auto-form {
   padding: 0 18px 0 0;
   height: 109px;
-  width: 782px;
+  width: 767px;
   border-top: 1px solid #452a2b;
   background: #2f3435;
   background: rgba(47, 52, 53, 0.8);
@@ -1149,6 +1150,7 @@ span sup {
 /* ╨С╨╛╨║╨╛╨▓╨╛╨╡ ╨╝╨╡╨╜╤О */
 .menu-cat {
   margin: 0 0 35px 0;
+  background-color: #fff;
 }
 .menu-cat h3 {
   margin: 5px 10px;
@@ -1250,7 +1252,7 @@ span sup {
 
 .product-list-item {
   height: 320px;
-  width: 225px;
+  width: 160px;
   padding: 10px;
   background: #fff;
   border: 1px solid #fff;
@@ -1308,15 +1310,15 @@ span sup {
 }
 .product-list-item .product-bottom {
   height: 43px;
-  width: 225px;
+  width: 160px;
   position: absolute;
   bottom: 10px;
   left: 10px;
 }
 .product-list-item .product-bottom .product-detail {
-  position: absolute;
   right: 0;
-  bottom: 0;
+  bottom: 20px;
+  padding: 10px 5px;
 }
 .product-list-item .price-byr {
   margin: 10px 0 0 0;

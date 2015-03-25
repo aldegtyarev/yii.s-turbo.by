@@ -18,7 +18,7 @@
 
 .product-list-item {
 	height: 320px;
-	width: 225px;
+	width: 160px;
 	padding: 10px;
 	background: #fff;
 	border: 1px solid #fff;
@@ -112,7 +112,7 @@
 	
 	.product-bottom {
 		height: 43px;
-		width: 225px;
+		width: 160px;
 		position: absolute;
 		bottom: 10px;
 		left: 10px;
@@ -120,9 +120,11 @@
 		@extend %pos_abs;
 		
 		.product-detail {
-			position: absolute;
 			right: 0;
-			bottom: 0;		
+			bottom: 20px;
+			padding: 10px 5px;
+			
+			@extend %pos_abs;
 		}
 	}
 

@@ -69,35 +69,15 @@ $model_images = $model->Images;
 						</div>
 						
 						<p class="row clearfix">
-							<span class="label">Артикул:</span>
-							<span class="value"><?=$model->product_sku?></span>
-						</p>
-						
-						<?/*
-						<?if(!empty($model->manuf))	{	?>
-						<p class="row clearfix">
-							<span class="label">Производитель:</span>
-							<span class="value"><?=$model->manuf?></span>
-						</p>
-						<?	}	?>
-						*/?>
-
-						
-						<p class="row clearfix">
 							<span class="label">Производитель:</span>
 							<span class="value"><?=$model->firm->firm_name?></span>
 						</p>
 						
-						
-						<?/*
-						<?if(!empty($model->material))	{	?>
 						<p class="row clearfix">
-							<span class="label">Материал:</span>
-							<span class="value"><?=$model->material?></span>
+							<span class="label">Артикул:</span>
+							<span class="value"><?=$model->product_sku?></span>
 						</p>
-						<?	}	?>
-						*/?>
-
+						
 						<? if($model->product_availability != 0)	{	?>
 							<? 
 								if($model->product_availability == 2) {
@@ -112,17 +92,14 @@ $model_images = $model->Images;
 								<span class="value <?=$status_class?>"><?=$model->ProductAvailabilityArray[$model->product_availability]['name'] ?></span>
 							</p>
 
-
-
-
-							<?if(!empty($model->delivery))	{	?>
+							<? if(!empty($model->delivery))	{	?>
 							<p class="row clearfix">
 								<span class="label">Доставка:</span>
 								<span class="value"><?=$model->delivery?></span>
 							</p>
 							<?	}	?>
 
-							<?if(!empty($model->prepayment))	{	?>
+							<? if(!empty($model->prepayment))	{	?>
 							<p class="row clearfix">
 								<span class="label">Предоплата:</span>
 								<span class="value"><?=$model->prepayment?></span>

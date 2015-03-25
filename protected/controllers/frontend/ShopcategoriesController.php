@@ -100,7 +100,7 @@ class ShopCategoriesController extends Controller
 		
 		
 		
-		$connection = $app->db;		
+		$connection = $app->db;
 		
 		$category = ShopCategories::model()->findByPk($id);
 		$descendants = $category->children()->findAll(array('order'=>'ordering'));

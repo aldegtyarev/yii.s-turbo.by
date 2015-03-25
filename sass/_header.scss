@@ -218,9 +218,10 @@
 		background: #586168;
 		background: rgba(88, 97, 104, 0.8);
 		line-height: 36px;
+		border-color: #888;
 		
 		@extend %font_13;
-		@extend %c_8f9090;
+		@extend %c_aaa;
 	}
 	
 	.search-btn {

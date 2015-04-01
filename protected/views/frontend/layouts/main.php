@@ -61,7 +61,7 @@
 						<?php $this->widget('zii.widgets.CMenu',array(
 							'items'=>array(
 
-								array('label'=>'Главная', 'url'=>array('/')),
+								array('label'=>'Главная', 'url'=>(Yii::app()->homeUrl)),
 								//array('label'=>'Компании', 'url'=>array('/site/page', 'view'=>'about')),
 								//array('label'=>'Компании', 'url'=>array('/companies/index')),
 								array('label'=>'тест', 'url'=>array('/pages/view', 'id'=> 1)),

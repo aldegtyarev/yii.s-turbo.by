@@ -47,28 +47,29 @@
 			<div class="product-list-item-row-info-block">
 				<a href="<?=$product_url?>" class="product-title"><?=$row->product_name?></a>
 
-				<p class="small">
-					<span class="grey">Производитель:</span> <span><?=$firms[$row->firm_id]['name']?></span><br />
-					<span class="grey">Артикул:</span> <span><?=$row->product_sku?></span><br /><br />
+				<ul class="prod-list-char-list">
+					<li class="prod-list-char-item arial font-10"><strong>Производитель:</strong> <?=$firms[$row->firm_id]['name']?></li>
+					
+					<li class="prod-list-char-item arial font-10"><strong>Артикул:</strong> <?=$row->product_sku?><br /><br /></li>
 					
 					<? if(!empty($row->side))	{	?>
-						Сторона: <span><?=$row->ProductSideArray[$row->side]['name']?></span><br />
+						<li class="prod-list-char-item arial font-13"><strong>Сторона:</strong> <?=$row->ProductSideArray[$row->side]['name']?></li>
 					<?	}	?>
 					
 					<? if(!empty($row->lamps))	{	?>
-						Лампочки: <span><?=$row->lamps?></span><br />
+						<li class="prod-list-char-item arial font-13"><strong>Лампочки:</strong> <?=$row->lamps?></li>
 					<?	}	?>
 					
 					<? if(!empty($row->adjustment))	{	?>
-						Регулировка: <span><?=$row->adjustment?></span><br />
+						<li class="prod-list-char-item arial font-13"><strong>Регулировка:</strong> <?=$row->adjustment?></li>
 					<?	}	?>
 					
 					<? if(!empty($row->material))	{	?>
-						Материал: <span><?=$row->material?></span><br />
+						<li class="prod-list-char-item arial font-13"><strong>Материал:</strong> <?=$row->material?></li>
 					<?	}	?>
 					
 					<? if(!empty($row->product_s_desc))	{	?>
-						Описание: <span><?=$row->product_s_desc?></span><br />
+						<li class="prod-list-char-item arial font-13"><strong>Описание:</strong> <?=$row->product_s_desc?></li>
 					<?	}	?>
 					
 				</p>

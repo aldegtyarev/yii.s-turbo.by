@@ -85,8 +85,9 @@ class ShopProducts extends CActiveRecord implements IECartPosition
         0 => array('id' => 0, 'name' => 'не указано'),
 		1 => array('id' => 1, 'name' => 'левая (водительская)'),
 		2 => array('id' => 2, 'name' => 'правая (пассажирская)'),
-		3 => array('id' => 3, 'name' => 'левая + правая'),
+
 		3 => array('id' => 3, 'name' => 'левая = правая'),
+		4 => array('id' => 4, 'name' => 'левая + правая (комплект)'),		
 	);
 	
 	public $product_ids;
@@ -187,7 +188,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
             'DropDownListCategories' => 'DropDownListCategories',
             'category_ids' => 'Категории',
             'model_ids' => 'Модельный ряд',
-            'body_ids' => 'Кузов',
+            'body_ids' => 'Уточняющий год',
             'product_price' => 'Цена',
             'override' => 'Выводить акционную цену',
             'product_override_price' => 'Акционная цена',
@@ -571,7 +572,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		return $product_price;
     }	
 	
-	public function findProductsInCat($category_id = 0, $type = 0, $firm = 0)
+	public function findProductsInCat($category_id = 0, $type = 0, $firm = 0, $body = 0)
 	{		
 		$app = Yii::app();
 		$connection = $app->db;
@@ -603,8 +604,6 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 			}
 		}
 		
-		
-		
 		$criteria->condition = implode(' AND ', $condition_arr);
 		$criteria->order = "pc.`ordering`, t.`product_id`";
 		//echo'<pre>';print_r($criteria,0);echo'</pre>';
@@ -618,6 +617,11 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		
 		if($firm != 0)	{
 			$condition_arr[] = "t.firm_id = $firm";
+		}
+		
+		if($body != 0)	{
+			$criteria->join .= ' INNER JOIN {{shop_products_bodies}} AS pb USING (`product_id`) ';
+			$condition_arr[] = "pb.body_id = $body";
 		}
 		
 		$criteria->condition = implode(' AND ', $condition_arr);

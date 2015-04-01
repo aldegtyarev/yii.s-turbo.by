@@ -1,17 +1,17 @@
 /* Боковое меню */
 .menu-cat {
 	margin: 0 0 35px 0;
-	background-color: #fff;
+	
 	
 	h3 {
-		margin: 5px 10px; 
+		margin: 8px 10px 15px 8px; 
 		
 		@extend %c_d70000;
 		@extend %uppercase;
 	}
 	
 	.body {
-		
+		background-color: #fff;
 	}
 	
 

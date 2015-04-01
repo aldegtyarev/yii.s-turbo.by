@@ -1,0 +1,74 @@
+.normal { @extens %normal; }
+
+.font-10 { @extend %font_10; }
+.font-11 { @extend %font_11; }
+.font-12 { @extend %font_12; }
+.font-13 { @extend %font_13; }
+.font-17 { @extend %font_17; }
+.font-20 { @extend %font_20; } 
+.font-24 { @extend %font_24; } 
+
+.c_fff { @extend %c_fff; }
+
+.tahoma { font-family: Tahoma, Arial; }
+.arial { @extend %arial;}
+
+.underline_y_n { @extend %underline_y_n; }
+.underline_n_y { @extend %underline_n_y; }
+.underline_n_n { @extend %underline_n_n; }
+
+.dib { @extend %dib; }
+.di { @extend %di; }
+.db { @extend %db; }
+
+.pos-rel { @extend %pos_rel; }
+.pos-abs { @extend %pos_abs; }
+
+.text_c { @extend %text_c; }
+.text_r { @extend %text_r; }
+.text_l { @extend %text_l; }
+
+.table { @extend %dt; }
+
+.table-row { @extend %dtr; }
+
+.table-cell { @extend %dtc; }
+
+.mb-5 { margin-bottom: 5px; }
+.mb-10 { margin-bottom: 10px; }
+.mb-15 { margin-bottom: 15px; }
+.mb-20 { margin-bottom: 20px; }
+.mb-25 { margin-bottom: 25px; }
+.mb-30 { margin-bottom: 30px; }
+.mb-35 { margin-bottom: 35px; }
+.mb-40 { margin-bottom: 40px; }
+
+.mt-5 { margin-top: 5px; }
+.mt-10 { margin-top: 10px; }
+.mt-20 { margin-top: 20px; }
+.mt-30 { margin-top: 30px; }
+.mt-40 { margin-top: 40px; }
+
+
+.p-15 { padding: 15px; }
+.p-20 { padding: 20px; }
+.p-25 { padding: 25px; }
+
+.p-0-10 { padding: 0 10px; }
+.p-0-15 { padding: 0 15px; }
+.p-0-20 { padding: 0 20px; }
+
+.p-10-0 { padding: 10px 0; }
+
+.pt-10 { padding-top: 10px; }
+
+.pb-5 { padding-bottom: 5px; }
+.pb-10 { padding-bottom: 10px; }
+.pb-15 { padding-bottom: 15px; }
+.pb-20 { padding-bottom: 20px; }
+
+.pl-10 { padding-left: 10px; }
+.pl-20 { padding-left: 20px; }
+.pl-30 { padding-left: 30px; }
+
+.border-box	{ @extend %border_box; }

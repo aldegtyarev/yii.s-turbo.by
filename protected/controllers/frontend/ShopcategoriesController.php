@@ -94,6 +94,7 @@ class ShopCategoriesController extends Controller
 		
 		$type_request = (int)$app->request->getParam('type', 0);
 		$firm_request = (int)$app->request->getParam('firm', 0);
+		$body_request = (int)$app->request->getParam('body', 0);
 		
 		//echo'$selected_view = <pre>';print_r($selected_view);echo'</pre>';
 		//echo'$id = <pre>';print_r($id);echo'</pre>';
@@ -105,7 +106,7 @@ class ShopCategoriesController extends Controller
 		$category = ShopCategories::model()->findByPk($id);
 		$descendants = $category->children()->findAll(array('order'=>'ordering'));
 		//echo'descendants = <pre>';print_r($descendants);echo'</pre>';
-		$products_and_pages = ShopProducts::model()->findProductsInCat($category->id, $type_request, $firm_request);
+		$products_and_pages = ShopProducts::model()->findProductsInCat($category->id, $type_request, $firm_request, $body_request);
 		//echo'products_and_pages = <pre>';print_r($products_and_pages['rows']);echo'</pre>';
 		if(count($descendants))	{
 			ShopCategories::model()->getCategoriesMedias($descendants);
@@ -148,6 +149,7 @@ class ShopCategoriesController extends Controller
 		$data = array(
 			'type_request'=> $type_request,
 			'firm_request'=> $firm_request,
+			'body_request'=> $body_request,
 			'category_id'=> $category_id,
 			'selected_view'=> $selected_view,
 			'category'=> $category,

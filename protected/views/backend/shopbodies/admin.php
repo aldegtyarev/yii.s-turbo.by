@@ -3,7 +3,7 @@
 /* @var $model ShopBodies */
 
 $this->breadcrumbs=array(
-	'Кузова',
+	'Уточняющий год',
 );
 
 $this->menu=array(
@@ -12,7 +12,7 @@ $this->menu=array(
 
 ?>
 
-<h1>Кузова</h1>
+<h1>Уточняющий год</h1>
 
 <?php $this->widget('bootstrap.widgets.BsGridView', array(
 	'id'=>'shop-bodies-grid',

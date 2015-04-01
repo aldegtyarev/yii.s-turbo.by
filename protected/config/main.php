@@ -10,6 +10,7 @@ return array(
 	'name'=>'S-rurbo.by',
 	'sourceLanguage' => 'en',
 	'language' => 'ru',
+	'charset'=>'utf-8',
 	'homeUrl'=>'http://yii.s-turbo.by/',
 	
 

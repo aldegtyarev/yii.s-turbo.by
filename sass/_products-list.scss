@@ -41,7 +41,7 @@
 		@extend %bold;
 		@extend %db;
 		@extend %text_c;
-		@extend %font_14;
+		@extend %font_16;
 	}
 	
 	.product-image {
@@ -260,4 +260,8 @@
 	.status {
 		margin: 15px auto 0 auto;
 	}
+}
+
+.prod-list-char-item {
+	margin-bottom: 6px;
 }

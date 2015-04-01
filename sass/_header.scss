@@ -34,6 +34,7 @@
 			@extend %bold;
 		}
 		
+		&.active,
 		&:hover {
 			a {
   				background: #ff0013;
@@ -63,6 +64,7 @@
 			}
 		}
 		
+		&.active:after,
 		&:hover:after {
   			display: none;			
 		}

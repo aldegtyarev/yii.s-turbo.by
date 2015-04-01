@@ -19,6 +19,20 @@ class ShopProductTypes extends CActiveRecord
 	{
 		return '{{shop_product_types}}';
 	}
+	
+	public function behaviors()
+	{
+		return array(
+			'tree'=>array(
+				'class'=>'ext.yiiext.behaviors.model.trees.NestedSetBehavior',
+				'leftAttribute'=>'lft',
+				'rightAttribute'=>'rgt',
+				'levelAttribute'=>'level',
+				'hasManyRoots'=>true,
+			),
+		);
+	}		
+	
 
 	/**
 	 * @return array validation rules for model attributes.

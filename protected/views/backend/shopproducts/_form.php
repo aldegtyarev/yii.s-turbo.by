@@ -21,7 +21,34 @@ $cs->registerScript('loading', "
 	
 	$('#suggestions li').on('click', function(){
 		alert('12ws21');
-	})
+	});
+	
+	$('#add-new-year').on('click', function(){
+		$.ajax({
+			type: 'post',
+			url: '/admin.php?r=shopbodies/createajax',
+			data: {ShopBodies_name : $('#ShopBodies_name').val(), ShopProducts_product_id : $('#ShopProducts_product_id').val()},
+			dataType: 'json',
+			beforeSend: function () {
+				$('#msg-wr').hide();
+			},
+			success: function (msg) {
+				if(msg.res == 'ok')	{
+					$('#bodies-wr').html(msg.data);
+					$('#bodies-wr select').chosen();
+					
+				}
+				$('#msg-wr').html(msg.msg);
+				$('#msg-wr').show();
+			}
+		});
+
+		
+		
+		return false;
+	});
+	
+	
 	
 ");
 
@@ -52,6 +79,7 @@ $cs->registerScript('loading', "
 
 	<?php echo $form->errorSummary($model); ?>
 	
+	<?php echo $form->hiddenField($model,'product_id'); ?>
 
     <ul class="nav nav-tabs" id="myTab">
 		<li><a href="#tab1" data-toggle="tab">Основное</a></li>
@@ -92,6 +120,19 @@ $cs->registerScript('loading', "
 			</div>
 			
 			<div class="row chosen-row">
+				<?php echo $form->labelEx($model,'body_ids'); ?>
+				<div id="bodies-wr"><?php echo $form->dropDownList($model, 'body_ids', $model->DropDownListBodies, array('multiple' => true, 'class'=>'chosen_select', 'data-placeholder'=>'выберите год', 'style'=>'width:100%;', 'options' => $model->SelectedBodies));?></div>
+				<?php echo $form->error($model,'body_ids'); ?>
+			</div>
+			
+			<div class="row">
+				<input type="text" id="ShopBodies_name" name="ShopBodies[name]" />
+				<?php echo BsHtml::submitButton('Добавить новый', array('color' => BsHtml::BUTTON_COLOR_SUCCESS, 'name'=>'add-new-year', 'id'=>'add-new-year')); ?>
+				<span id="msg-wr"></span>
+			</div>
+			
+			
+			<div class="row chosen-row">
 				<?php echo $form->labelEx($model,'admin_category_ids'); ?>
 				<?php echo $form->dropDownList($model, 'admin_category_ids', $model->DropDownListAdminCategories, array('multiple' => true, 'class'=>'chosen_select', 'data-placeholder'=>'выберите категорию', 'style'=>'width:400px;', 'options' => $model->SelectedAdminCategories));?>
 				<?php echo $form->error($model,'admin_category_ids'); ?>
@@ -118,11 +159,6 @@ $cs->registerScript('loading', "
 			</div>*/?>
 			
 			
-			<div class="row chosen-row">
-				<?php echo $form->labelEx($model,'body_ids'); ?>
-				<?php echo $form->dropDownList($model, 'body_ids', $model->DropDownListBodies, array('multiple' => true, 'class'=>'chosen_select', 'data-placeholder'=>'выберите кузов', 'style'=>'width:100%;', 'options' => $model->SelectedBodies));?>
-				<?php echo $form->error($model,'body_ids'); ?>
-			</div>
 			
 
 			

@@ -36,7 +36,7 @@ class ShopBodiesController extends Controller
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
+				'actions'=>array('admin','delete','createajax'),
 				'users'=>array('superman'),
 			),
 			array('deny',  // deny all users
@@ -77,6 +77,36 @@ class ShopBodiesController extends Controller
 		$this->render('create',array(
 			'model'=>$model,
 		));
+	}
+
+	public function actionCreateajax()
+	{
+		$model = new ShopBodies;
+		$result['res'] = 'err';
+		$result['msg'] = '<span style="color:red">Ошибка добавления</span>';
+
+		if(isset($_POST['ShopBodies_name']))
+		{
+			$model->name=$_POST['ShopBodies_name'];
+			if($model->save()) {
+				$result['res'] = 'ok';
+				$ShopProducts = ShopProducts::model()->findByPk($_POST['ShopProducts_product_id']);
+				//подготавливаем выпадающий список кузовов
+				$ShopProducts->DropDownListBodies = ShopBodies::model()->getDropDownlistBodies();
+				$ShopProducts->getSelectedBodies();
+				$result['data'] = CHtml::activeDropDownList($ShopProducts, 'body_ids', $ShopProducts->DropDownListBodies, array('multiple' => true, 'class'=>'chosen_select', 'data-placeholder'=>'выберите год', 'style'=>'width:100%;', 'options' => $ShopProducts->SelectedBodies));
+				$result['msg'] = '<span style="color:green;">Элемент добавлен в выпадающий список.</span>';
+
+				
+				
+				//activeDropDownList($model,$attribute,$data,$htmlOptions=array())
+				
+			}
+		}
+		
+		echo json_encode($result);
+		
+		Yii::app()->end();
 	}
 
 	/**

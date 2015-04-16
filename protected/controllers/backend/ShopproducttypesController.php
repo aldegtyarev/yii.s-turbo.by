@@ -36,7 +36,7 @@ class ShopProductTypesController extends Controller
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
+				'actions'=>array('admin','delete','moveup','movedown'),
 				'users'=>array('superman'),
 			),
 			array('deny',  // deny all users
@@ -63,6 +63,7 @@ class ShopProductTypesController extends Controller
 	public function actionCreate()
 	{
 		$model=new ShopProductTypes;
+		$model->getDropDownlistData();
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -70,6 +71,8 @@ class ShopProductTypesController extends Controller
 		if(isset($_POST['ShopProductTypes']))
 		{
 			$model->attributes=$_POST['ShopProductTypes'];
+			$model->parentId = $_POST['ShopProductTypes']['parentId'];
+			$model->parent_id = $_POST['ShopProductTypes']['parentId'];
 			if($model->save())
 				$this->redirect(array('admin'));
 		}
@@ -87,6 +90,7 @@ class ShopProductTypesController extends Controller
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
+		$model->getDropDownlistData();
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -94,6 +98,8 @@ class ShopProductTypesController extends Controller
 		if(isset($_POST['ShopProductTypes']))
 		{
 			$model->attributes=$_POST['ShopProductTypes'];
+			$model->new_parentId = $_POST['ShopProductTypes']['parentId'];
+			$model->parent_id = $_POST['ShopProductTypes']['parentId'];
 			if($model->save())
 				$this->redirect(array('admin'));
 		}
@@ -155,6 +161,9 @@ class ShopProductTypesController extends Controller
 		$model=ShopProductTypes::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
+		
+		$model->getParentId();
+		
 		return $model;
 	}
 
@@ -170,4 +179,21 @@ class ShopProductTypesController extends Controller
 			Yii::app()->end();
 		}
 	}
+	
+	public function actionMoveup($id=0)
+	{
+		$category = ShopProductTypes::model()->findByPk($id);
+		$prev_cat = $category->prev()->find();
+		$category->moveBefore($prev_cat);
+		$this->redirect(array('admin'));
+	}	
+	
+	public function actionMovedown($id=0)
+	{
+		$category = ShopProductTypes::model()->findByPk($id);
+		$next_cat = $category->next()->find();
+		$category->moveAfter($next_cat);
+		$this->redirect(array('admin'));
+	}
+	
 }

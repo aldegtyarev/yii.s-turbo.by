@@ -100,13 +100,23 @@ class ShopBodies extends CActiveRecord
 		return parent::model($className);
 	}
 	
-	function getDropDownlistBodies()
+	// возвращает выпадающий список категорий для редактирования товара
+	public function getDropDownlistBodies()
+	{
+		$list_data = $this->getDropDownlistItems();
+		return $list_data;
+	}
+	
+	public function getDropDownlistItems()
 	{
 		$criteria = new CDbCriteria;
-		$criteria->order = 't.body_id';
+		$criteria->order = 'body_id';
 		$rows = $this->findAll($criteria);
-		return CHtml::listData($rows, 'body_id', 'name');
+		
+		return CHtml::listData($rows, 'body_id','name');
 	}
+	
+	
     
     	//получаем фирмы  для списка товаров категории
 	public function getBodiesForProductList(&$connection, $product_ids = array() )

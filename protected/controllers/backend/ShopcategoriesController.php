@@ -136,6 +136,7 @@ class ShopCategoriesController extends Controller
 		{
 			$model->attributes = $_POST['ShopCategories'];
 			$model->parentId = $_POST['ShopCategories']['parentId'];
+			$model->parent_id = $_POST['ShopCategories']['parentId'];
 			//$model->name = $_POST['ShopCategories']['name'];
 			
 			if($model->save())

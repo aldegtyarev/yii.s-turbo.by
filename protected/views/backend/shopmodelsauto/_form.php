@@ -2,6 +2,15 @@
 /* @var $this ShopModelsAutoController */
 /* @var $model ShopModelsAuto */
 /* @var $form CActiveForm */
+
+$cs = Yii::app()->clientScript;
+
+$cs->registerCssFile('/css/chosen.css', 'screen');
+$cs->registerScriptFile('/js/chosen.jquery.min.js', CClientScript::POS_END);
+$cs->registerScript('shop-models-auto-form', "
+	$('.chosen_select').chosen();
+");
+
 ?>
 
 <div class="form">
@@ -38,6 +47,13 @@
 				<?php echo $form->textField($model,'name',array('size'=>60,'maxlength'=>255)); ?>
 				<?php echo $form->error($model,'name'); ?>
 			</div>
+			
+            <div class="row chosen-row">
+                <?php echo $form->labelEx($model,'body_ids'); ?>
+                <?php echo $form->dropDownList($model, 'body_ids', $model->DropDownlistBodies, array('multiple' => true, 'class'=>'chosen_select', 'data-placeholder'=>'выберите категорию', 'style'=>'width:400px;', 'options' => $model->selectedBodies));?>
+                <?php echo $form->error($model,'body_ids'); ?>
+            </div>
+			
 <?
 /*
 			<div class="row">

@@ -4,7 +4,7 @@
 
 $this->breadcrumbs=array(
 	'Список товаров'=>array('admin'),
-	$model->type_name,
+	$model->name,
 );
 
 $this->menu=array(
@@ -13,6 +13,6 @@ $this->menu=array(
 );
 ?>
 
-<h1><?php echo $model->type_name; ?></h1>
+<h1><?php echo $model->name; ?></h1>
 
 <?php $this->renderPartial('_form', array('model'=>$model)); ?>

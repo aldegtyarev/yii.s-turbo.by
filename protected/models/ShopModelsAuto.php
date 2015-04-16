@@ -34,6 +34,12 @@ class ShopModelsAuto extends CActiveRecord
 	
 	public $SelectedCategory;
 	
+	public $DropDownlistBodies;
+	public $selectedBodies;
+	public $body_ids;
+	
+	public $operate_method;
+	
 	/**
 	 * @return string the associated database table name
 	 */
@@ -83,8 +89,10 @@ class ShopModelsAuto extends CActiveRecord
 	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
-		return array(
-		);
+        return array(
+            'ModelsBodies' => array(self::HAS_MANY, 'ModelsBodies', 'model_id'),
+            'ProductsModelsAutos' => array(self::HAS_MANY, 'ShopProductsModelsAuto', 'model_id'),
+        );	
 	}
 
 	/**
@@ -112,6 +120,7 @@ class ShopModelsAuto extends CActiveRecord
 			'show_in_menu' => 'Show In Menu',
 			'category_description' => 'Описание',
 			'dropDownListTree' => 'Родитель',
+			'body_ids' => 'Уточняющий год',
 		);
 	}
 
@@ -216,7 +225,58 @@ class ShopModelsAuto extends CActiveRecord
 		}
 		
 		return true;
-	}	
+	}
+	
+	public function afterSave()
+	{
+		$app = Yii::app();
+		$connection = $app->db;
+		
+		switch($this->operate_method)	{
+			case 'insert':
+				ModelsBodies::model()->insertModelBody($this->selectedBodies, $this->id, $connection);
+				break;
+			
+			case 'update':
+				$this->checkModelsBodies($connection);
+				break;
+		}
+	}
+	
+	//проверяем, не изменились ли категории...
+	function checkModelsBodies(&$connection)
+	{
+		$ModelsBodies = $this->ModelsBodies;
+		if(count($ModelsBodies))	{
+			$arrays_of_identical = true;
+		}	else	{
+			$arrays_of_identical = false;
+		}
+
+		//проверяем, не изменились ли категории...
+		if(count($ModelsBodies) != count($this->selectedBodies))	{
+			$arrays_of_identical = false;
+		}	else	{
+			foreach($ModelsBodies as $cat_item)	{
+				$cat_is_present = false;
+				foreach($this->selectedBodies as $key=>$val)	{
+					if($cat_item['category']['id'] == $key)	{
+						$cat_is_present = true;
+					}
+				}
+				if($cat_is_present == false)	{
+					$arrays_of_identical = false;
+				}
+			}
+		}
+
+		if($arrays_of_identical == false)	{
+			ModelsBodies::model()->clearModelBody($this->id, $connection);
+			ModelsBodies::model()->insertModelBody($this->selectedBodies, $this->id, $connection);
+		}
+	}
+	
+	
 	
 
 	/**
@@ -500,5 +560,20 @@ class ShopModelsAuto extends CActiveRecord
 		//$rows = $command->queryAll();
 		return $command->queryAll();
 	}
+	
+	//получает выбранные категории для товара
+	function getSelectedBodies()
+	{
+		$selectedValues = array();
+		//echo'<pre>';print_r($this->ModelsBodies,0);echo'</pre>';die;
+		
+		foreach($this->ModelsBodies as $cat) {
+			//echo'<pre>';print_r($cat['body']['body_id'],0);echo'</pre>';//die;
+			$selectedValues[$cat['body']['body_id']] = Array ( 'selected' => 'selected' );
+		}
+		$this->selectedBodies = $selectedValues;		
+	}
+	
+	
 	
 }

@@ -43,17 +43,17 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 
 */
 ?>
-<?php $this->widget('bootstrap.widgets.BsGridView', array(
+<?php $this->widget('ext.CQTreeBsGridView', array(
 	'id'=>'shop-product-types-grid',
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
 		'type_id',
-		'type_name',
+		'name',
 		array(
 			'class' => 'CButtonColumn',
-			//'template' => '{update}&nbsp;{delete}&nbsp;{moveup}&nbsp;{movedown}',
-			'template' => '{update}&nbsp;{delete}',
+			'template' => '{update}&nbsp;{delete}&nbsp;{moveup}&nbsp;{movedown}',
+			//'template' => '{update}&nbsp;{delete}',
 			'buttons' => array(
 				'update' => array(
 					'imageUrl'=>'/img/grid-icons/update.png',
@@ -63,21 +63,21 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 					'imageUrl'=>'/img/grid-icons/delete.png',
 				),
 					
-				/*
+				
 				'moveup' => array(
 					//url до картинки
 					'imageUrl'=>'/img/grid-icons/uparrow.png',
 					//здесь должен быть url для удаления записи
-					'url' => 'Yii::app()->createUrl("shopcategories/moveup", array("id"=>$data->id))',
+					'url' => 'Yii::app()->createUrl("shopproducttypes/moveup", array("id"=>$data->type_id))',
 
 				),
 				'movedown' => array(
 					//url до картинки
 					'imageUrl'=>'/img/grid-icons/downarrow.png',
 					//здесь должен быть url для удаления записи
-					'url' => 'Yii::app()->createUrl("shopcategories/movedown", array("id"=>$data->id))',
+					'url' => 'Yii::app()->createUrl("shopproducttypes/movedown", array("id"=>$data->type_id))',
 				),
-				*/
+				
 			),
 		),
 		

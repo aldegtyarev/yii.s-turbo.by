@@ -75,11 +75,23 @@ class ShopModelsAutoController extends Controller
 		// $this->performAjaxValidation($model);
 		
 		$model->getDropDownlistData();
+		
+		$model->DropDownlistBodies = ShopBodies::model()->getDropDownlistBodies();
+		
+		$model->operate_method = 'insert';
 
 		if(isset($_POST['ShopModelsAuto']))
 		{
 			$model->attributes = $_POST['ShopModelsAuto'];
-			$model->parentId = $_POST['ShopModelsAuto']['parentId'];			
+			$model->parentId = $_POST['ShopModelsAuto']['parentId'];
+			
+			$SelectedBodies = isset($_POST['ShopModelsAuto']['body_ids']) ? $_POST['ShopModelsAuto']['body_ids'] : array();
+			$selectedValues = array();
+			foreach($SelectedBodies as $cat)	{
+				$selectedValues[$cat] = Array ( 'selected' => 'selected' );
+			}
+			$model->selectedBodies = $selectedValues;
+
 			if($model->save())
 				//$this->redirect(array('view','id'=>$model->id));
 				$this->redirect(array('admin'));
@@ -99,14 +111,27 @@ class ShopModelsAutoController extends Controller
 	{
 		$model = $this->loadModel($id);
 		$model->getDropDownlistData();
+		
+		$model->DropDownlistBodies = ShopBodies::model()->getDropDownlistBodies();
+		$model->getSelectedBodies();
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
+		
+		$model->operate_method = 'update';
 
 		if(isset($_POST['ShopModelsAuto']))
 		{
 			$model->attributes=$_POST['ShopModelsAuto'];
 			$model->new_parentId = $_POST['ShopModelsAuto']['parentId'];
+			
+			$SelectedBodies = isset($_POST['ShopModelsAuto']['body_ids']) ? $_POST['ShopModelsAuto']['body_ids'] : array();
+			$selectedValues = array();
+			foreach($SelectedBodies as $cat)	{
+				$selectedValues[$cat] = Array ( 'selected' => 'selected' );
+			}
+			$model->selectedBodies = $selectedValues;
+			
 			if($model->save())
 				$this->redirect(array('admin'));
 		}

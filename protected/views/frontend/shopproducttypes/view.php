@@ -22,6 +22,6 @@ $this->menu=array(
 	'data'=>$model,
 	'attributes'=>array(
 		'type_id',
-		'type_name',
+		'name',
 	),
 )); ?>

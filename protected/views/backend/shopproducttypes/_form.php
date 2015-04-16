@@ -18,11 +18,17 @@
 	<p class="note">Поля, отмеченные <span class="required">*</span>, обязательны для заполнения.</p>
 
 	<?php echo $form->errorSummary($model); ?>
+	
+	<div class="row">
+		<?php echo $form->labelEx($model,'dropDownListTree'); ?>
+		<?php echo $form->dropDownList($model, 'parentId', $model->DropDownlistData); ?>
+		<?php echo $form->error($model,'dropDownListTree'); ?>		
+	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'type_name'); ?>
-		<?php echo $form->textField($model,'type_name',array('size'=>60,'maxlength'=>255)); ?>
-		<?php echo $form->error($model,'type_name'); ?>
+		<?php echo $form->labelEx($model,'name'); ?>
+		<?php echo $form->textField($model,'name',array('size'=>60,'maxlength'=>255)); ?>
+		<?php echo $form->error($model,'name'); ?>
 	</div>
 
 	<div class="row buttons">

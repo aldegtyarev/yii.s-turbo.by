@@ -789,10 +789,11 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		//echo'<pre>';print_r($this->ProductsCategories,0);echo'</pre>';die;
 		
 		foreach($this->ProductsCategories as $cat) {
-			//echo'<pre>';print_r($cat,0);echo'</pre>';
+			echo'<pre>';print_r($cat,0);echo'</pre>';
 			//echo'<pre>';print_r($cat['category']['id'],0);echo'</pre>';die;
 			$selectedValues[$cat['category']['id']] = Array ( 'selected' => 'selected' );
 		}
+		die;
 		$this->SelectedCategories = $selectedValues;		
 	}
 	

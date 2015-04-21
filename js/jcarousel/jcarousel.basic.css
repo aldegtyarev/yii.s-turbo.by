@@ -16,7 +16,8 @@ jcarousel jcarousel-new-positions {
 }
 
 
-.jcarousel ul {
+.jcarousel ul,
+.jcarousel .products-list	{
     width: 20000em;
     position: relative;
     list-style: none;
@@ -28,6 +29,10 @@ jcarousel jcarousel-new-positions {
 	position: relative;
 	display: block;
 	
+}
+
+.jcarousel .products-list	{
+	padding-top: 10px;
 }
 
 /*

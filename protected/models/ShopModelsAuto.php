@@ -72,13 +72,13 @@ class ShopModelsAuto extends CActiveRecord
 		return array(
 			//array('root, lft, rgt, level, parent_id, name, title, keywords, description, alias, path, ordering, category_companies, cat_column, category_description', 'required'),
 			array('name', 'required'),
-			array('root, lft, rgt, level, parent_id, ordering, cat_column, show_in_menu', 'numerical', 'integerOnly'=>true),
-			array('name, title, alias, category_companies, anchor_css', 'length', 'max'=>255),
-			array('category_description, keywords, description', 'length', 'max'=>7000),
+			array('root, lft, rgt, level, parent_id', 'numerical', 'integerOnly'=>true),
+			array('name, title, alias, fullname', 'length', 'max'=>255),
+			array('keywords, description', 'length', 'max'=>7000),
 			array('alias','ext.LocoTranslitFilter','translitAttribute'=>'name'), 
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('parentId, id, root, lft, rgt, level, name, title, keywords, description, alias, ordering, category_companies, cat_column, category_description', 'safe', 'on'=>'search'),
+			array('parentId, id, name, title, keywords, description, alias', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -139,7 +139,6 @@ class ShopModelsAuto extends CActiveRecord
 	public function search()
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
-
 		$criteria=new CDbCriteria;
 		
 		$sort = new CSort();
@@ -162,25 +161,13 @@ class ShopModelsAuto extends CActiveRecord
 			}
 		}
 		
-
 		$criteria->compare('id',$this->id);
-		$criteria->compare('root',$this->root);
-		$criteria->compare('lft',$this->lft);
-		$criteria->compare('rgt',$this->rgt);
-		$criteria->compare('level',$this->level);
-		$criteria->compare('parent_id',$this->parent_id);
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('title',$this->title,true);
 		$criteria->compare('keywords',$this->keywords,true);
 		$criteria->compare('description',$this->description,true);
 		$criteria->compare('alias',$this->alias,true);
 		$criteria->compare('path',$this->path,true);
-		$criteria->compare('ordering',$this->ordering);
-		$criteria->compare('category_companies',$this->category_companies,true);
-		$criteria->compare('cat_column',$this->cat_column);
-		$criteria->compare('anchor_css',$this->anchor_css,true);
-		$criteria->compare('show_in_menu',$this->show_in_menu);
-		$criteria->compare('category_description',$this->category_description,true);
 
        $criteria->order = $this->tree->hasManyRoots
                            ?$this->tree->rootAttribute . ', ' . $this->tree->leftAttribute
@@ -241,6 +228,8 @@ class ShopModelsAuto extends CActiveRecord
 				$this->checkModelsBodies($connection);
 				break;
 		}
+		
+		$this->setFullName($connection);
 	}
 	
 	//проверяем, не изменились ли категории...
@@ -252,7 +241,7 @@ class ShopModelsAuto extends CActiveRecord
 		}	else	{
 			$arrays_of_identical = false;
 		}
-
+		//echo'<pre>';print_r($ModelsBodies);echo'</pre>';die;
 		//проверяем, не изменились ли категории...
 		if(count($ModelsBodies) != count($this->selectedBodies))	{
 			$arrays_of_identical = false;
@@ -260,7 +249,7 @@ class ShopModelsAuto extends CActiveRecord
 			foreach($ModelsBodies as $cat_item)	{
 				$cat_is_present = false;
 				foreach($this->selectedBodies as $key=>$val)	{
-					if($cat_item['category']['id'] == $key)	{
+					if($cat_item['body']['id'] == $key)	{
 						$cat_is_present = true;
 					}
 				}
@@ -497,7 +486,6 @@ class ShopModelsAuto extends CActiveRecord
 	{	
 		$model = $this->findByPk($model_id);
 		$ancestors = $model->ancestors()->findAll();
-		//echo'<pre>$ancestors';print_r($ancestors,0);echo'</pre>';
 		$result = '';
 		foreach($ancestors as $ancestor) {
 			$result .= $ancestor->name.' ';
@@ -569,9 +557,26 @@ class ShopModelsAuto extends CActiveRecord
 		
 		foreach($this->ModelsBodies as $cat) {
 			//echo'<pre>';print_r($cat['body']['body_id'],0);echo'</pre>';//die;
-			$selectedValues[$cat['body']['body_id']] = Array ( 'selected' => 'selected' );
+			$selectedValues[$cat['body']['id']] = Array ( 'selected' => 'selected' );
 		}
 		$this->selectedBodies = $selectedValues;		
+	}
+	
+	
+	public function setFullName(&$connection)
+	{
+		$ancestors = $this->ancestors()->findAll();
+		$fullname = '';
+		foreach($ancestors as $ancestor) {
+			$fullname .= $ancestor->name.' ';
+		}
+		
+		$fullname .= $this->name;
+		
+		$sql = "UPDATE ".$this->tableName()." SET `fullname` = '".$fullname."' WHERE `id` = ".$this->id;
+		//echo'<pre>';print_r($sql,0);echo'</pre>';die;
+		$command = $connection->createCommand($sql);
+		return $command->execute();
 	}
 	
 	

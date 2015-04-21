@@ -1,0 +1,1 @@
+<?php	include (dirname(dirname(dirname(__FILE__)))."/views/frontend/common/_view-product-list-item.php")?>

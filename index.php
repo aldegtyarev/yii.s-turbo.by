@@ -15,8 +15,6 @@ require_once($yii);
 Yii::createWebApplication($config)->runEnd('frontend');
 
 
-
-
 // change the following paths if necessary
 /*
 $yii=dirname(__FILE__).'/framework/yii.php';

@@ -41,6 +41,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
     public $product_price;
     public $product_override_price;
     public $product_currency;
+    public $product_url;
     public $uploading_foto;
     
 	public $operate_method;
@@ -77,7 +78,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		0 => array('id' => 0, 'name' => 'не указано'),
 		1 => array('id' => 1, 'name' => 'под заказ'),
 	);
-	
+	public $product_availability_str;
 	
 	public $DropDownProductSide;
 	public $SelectedProductSideId;
@@ -95,6 +96,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 	public $SelectedModel;
 	
 	public $AdditionalImages = array();
+	public $firm_name = array();
     
     public $_modelsList = '';
     
@@ -118,7 +120,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
         // will receive user inputs.
         return array(
             array('product_name, product_sku', 'required'),
-            array('published, firm_id, type_id, protect_copy, product_availability, product_ordered, manufacturer_id, override, side', 'numerical', 'integerOnly'=>true),
+            array('published, hide_s_desc, firm_id, type_id, protect_copy, product_availability, product_ordered, manufacturer_id, override, side', 'numerical', 'integerOnly'=>true),
             array('metatitle, manuf, material, code, in_stock, delivery, prepayment, lamps, adjustment, product_s_desc', 'length', 'max'=>255),
             array('product_desc, installation, metadesc', 'length', 'max'=>17000),
             array('product_name', 'length', 'max'=>180),
@@ -197,6 +199,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
             'adjustment' => 'Регулировка',
             'admin_category_ids' => 'Админ. категории',
             'modelsList' => 'Модельный ряд',
+            'hide_s_desc' => 'Не вводить краткое описание в карточке  товара',
         );
     }
     
@@ -204,11 +207,10 @@ class ShopProducts extends CActiveRecord implements IECartPosition
     {
         $this->_modelsList = '';
 		$list = array();
+		// 11
 		
+		/*
 		$model_ids = ShopProductsModelsAuto::model()->getModelIdsFromProduct($this->product_id);
-        //echo'<pre>AllModelslist';print_r($this->AllModelslist,0);echo'</pre>';
-        //echo'<pre>$model_ids';print_r($model_ids,0);echo'</pre>';
-
         if(is_array($model_ids))	{
 			foreach($model_ids as $model_id)   {
 				$list[] = ShopModelsAuto::model()->getFullNameModel($model_id);
@@ -216,6 +218,18 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 
 			$this->_modelsList = implode(',<br>', $list);			
 		}
+		//	30 -> 191
+        */
+		
+		$model_list = ShopProductsModelsAuto::model()->getModelsFullNames($this->product_id);
+        if(is_array($model_list))	{
+			foreach($model_list as $model)   {
+				$list[] = $model['fullname'];
+			}
+			$this->_modelsList = implode('<br>', $list);
+			//echo'<pre>';print_r(implode(',<br>', $list),0);echo'</pre>';
+		}
+		// 30 -> 71
         
         return $this->_modelsList;
     }
@@ -496,7 +510,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 				$cat_is_present = false;
 
 				foreach($this->SelectedBodies as $key=>$val)	{
-					if($cat_item['body']['body_id'] == $key)	{
+					if($cat_item['body']['id'] == $key)	{
 						$cat_is_present = true;
 					}
 				}
@@ -572,12 +586,10 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		return $product_price;
     }	
 	
-	public function findProductsInCat($category_id = 0, $type = 0, $firm = 0, $body = 0)
+	public function findProductsInCat($category_id = 0, $type = 0, $firm = 0, $body = 0, $model_ids = array())
 	{		
 		$app = Yii::app();
 		$connection = $app->db;
-		
-		$model_ids = ShopModelsAuto::model()->getModelIds($app);
 		
 		$criteria = new CDbCriteria();
 		/*
@@ -789,11 +801,11 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		//echo'<pre>';print_r($this->ProductsCategories,0);echo'</pre>';die;
 		
 		foreach($this->ProductsCategories as $cat) {
-			echo'<pre>';print_r($cat,0);echo'</pre>';
+			//echo'<pre>';print_r($cat,0);echo'</pre>';
 			//echo'<pre>';print_r($cat['category']['id'],0);echo'</pre>';die;
 			$selectedValues[$cat['category']['id']] = Array ( 'selected' => 'selected' );
 		}
-		die;
+		//die;
 		$this->SelectedCategories = $selectedValues;		
 	}
 	
@@ -832,7 +844,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		
 		foreach($this->ProductsBodies as $row) {
 			//echo'<pre>';print_r($cat['category']['id'],0);echo'</pre>';
-			$selectedValues[$row['body']['body_id']] = Array ( 'selected' => 'selected' );
+			$selectedValues[$row['body']['id']] = Array ( 'selected' => 'selected' );
 		}
 		$this->SelectedBodies = $selectedValues;
 	}

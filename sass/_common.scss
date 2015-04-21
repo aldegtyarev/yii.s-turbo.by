@@ -204,25 +204,6 @@ span sup{text-decoration:none;}
 .clearfix, */
 .container {display:block;}
 
-.floatLeft {
-	@extend %fl;
-}
-
-.floatRight	{
-	@extend %fr;
-}
-
-.hidden {
-	@extend %hide;
-}
-
-.width25 {
-	width: 25%;
-}
-
-.width50 {
-	width: 50%;
-}
 
 .grey {
     @extend %c_999;

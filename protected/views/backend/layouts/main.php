@@ -99,6 +99,7 @@ echo Yii::app()->theme->baseUrl . '/assets/js/respond.min.js';
 		Copyright &copy; <?php echo date('Y'); ?> by My Company.<br/>
 		All Rights Reserved.<br/>
 		<?php echo Yii::powered(); ?>
+		<div class="db-stat" style="display:none;"><? print_r(Yii::app()->db->getStats()); ?></div>
 	</div><!-- footer -->
 
 </div><!-- page -->

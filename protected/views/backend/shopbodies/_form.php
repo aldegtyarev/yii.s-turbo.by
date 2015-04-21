@@ -18,6 +18,13 @@
 	<p class="note">Поля, отмеченные <span class="required">*</span>, обязательны для заполнения.</p>
 
 	<?php echo $form->errorSummary($model); ?>
+	
+	<div class="row">
+		<?php echo $form->labelEx($model,'dropDownListTree'); ?>
+		<?php echo $form->dropDownList($model, 'parentId', $model->DropDownlistData); ?>
+		<?php echo $form->error($model,'dropDownListTree'); ?>		
+	</div>
+	
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'name'); ?>

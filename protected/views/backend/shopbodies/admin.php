@@ -14,17 +14,17 @@ $this->menu=array(
 
 <h1>Уточняющий год</h1>
 
-<?php $this->widget('bootstrap.widgets.BsGridView', array(
+<?php $this->widget('ext.CQTreeBsGridView', array(
 	'id'=>'shop-bodies-grid',
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
-		'body_id',
+		'id',
 		'name',
 		array(
 			'class' => 'CButtonColumn',
-			//'template' => '{update}&nbsp;{delete}&nbsp;{moveup}&nbsp;{movedown}',
-			'template' => '{update}&nbsp;{delete}',
+			'template' => '{update}&nbsp;{delete}&nbsp;{moveup}&nbsp;{movedown}',
+			//'template' => '{update}&nbsp;{delete}',
 			'buttons' => array(
 				'update' => array(
 					'imageUrl'=>'/img/grid-icons/update.png',
@@ -34,21 +34,21 @@ $this->menu=array(
 					'imageUrl'=>'/img/grid-icons/delete.png',
 				),
 					
-				/*
+				
 				'moveup' => array(
 					//url до картинки
 					'imageUrl'=>'/img/grid-icons/uparrow.png',
 					//здесь должен быть url для удаления записи
-					'url' => 'Yii::app()->createUrl("shopcategories/moveup", array("id"=>$data->id))',
+					'url' => 'Yii::app()->createUrl("shopbodies/moveup", array("id"=>$data->id))',
 
 				),
 				'movedown' => array(
 					//url до картинки
 					'imageUrl'=>'/img/grid-icons/downarrow.png',
 					//здесь должен быть url для удаления записи
-					'url' => 'Yii::app()->createUrl("shopcategories/movedown", array("id"=>$data->id))',
+					'url' => 'Yii::app()->createUrl("shopbodies/movedown", array("id"=>$data->id))',
 				),
-				*/
+				
 			),
 		),
 	),

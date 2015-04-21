@@ -21,8 +21,8 @@ $app = Yii::app();
 //echo'<pre>';print_r($descendants);echo'</pre>';
 //echo'<pre>';print_r($products_and_pages);echo'</pre>';
 
-$products = $products_and_pages['rows'];
-$pagination = $products_and_pages['pages'];
+//$products = $products_and_pages['rows'];
+//$pagination = $products_and_pages['pages'];
 
 $images_live_url = substr($app->params->images_live_url, 0, -1);	// на таких страницах нужно удалить последний слэш
 
@@ -134,9 +134,9 @@ $params = $app->params;
 ?>
 </div>
 
-<?	if (!empty($products)) {	?>
+<?	if (count($dataProvider->data)) {	?>
 	
-	<?	include('producttypes-firms-block.php')?>
+	<?	include('_producttypes-firms-block.php')?>
 	
 	<div class="select-view-block clearfix">
 		<a href="?select-view=row" class="<? if($selected_view == 'row') echo'view-row-active'; else echo'view-row'; ?>">row</a>
@@ -158,6 +158,32 @@ $params = $app->params;
 	$isWidget = false;	
 	?>
 		<div class="category-products-list">
+		
+			<?/*
+			<ul class="products-list clearfix">
+				<? //include("$webroot/protected/views/frontend/common/product-list.php");	?>
+				<? 
+					if($selected_view == 'row')	{
+						include("$webroot/protected/views/frontend/common/product-list-row.php");
+					}	else	{
+						include("$webroot/protected/views/frontend/common/product-list.php");
+					}
+				?>
+			</ul>
+			*/?>
+			<? 
+				$this->renderPartial('_loop', array(
+					'app'=>$app,
+					'dataProvider'=>$dataProvider,
+					'itemView'=>$itemView,
+				));						 
+			?>
+		
+		</div>
+		
+		
+<?/*
+		<div class="category-products-list">
 			<ul class="products-list clearfix">
 				<? //include("$webroot/protected/views/frontend/common/product-list.php");	?>
 				<? 
@@ -172,7 +198,7 @@ $params = $app->params;
 		</div>
 
 
-	<? 
+	<? /*
 //echo'<pre>';print_r($pagination->itemCount);echo'</pre>';							
 	if($pagination && ($pagination->pageSize < $pagination->itemCount))	{	?>
 		<a href="#" class="more-products button">Ещё товары</a>
@@ -194,8 +220,10 @@ $params = $app->params;
 			?>
 		</div>
 	<?	}	?>			
-
+*/?>
 <?	}	?>
+
+
 
 <? if($category->category_description) { ?>
 	<div class="category-description"><?=$category->category_description?></div>

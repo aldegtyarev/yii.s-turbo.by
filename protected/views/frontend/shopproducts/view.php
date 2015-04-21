@@ -61,20 +61,20 @@ $model_images = $model->Images;
 			<div class="productdetails-view-main-info-part">
 					<div class="fields">
 						<div class="row productdetails-price-row clearfix">
-							<span class="label">Цена:</span>
+							<span class="label"><? echo $model->getAttributeLabel('product_price');?>:</span>
 							<div class="value" id="productPrice<?=$model->product_id?>">
-								<p class="price"><?=number_format($model->product_price, 0, '.', ' ')?> у.е.</p>
-								<p class="price-byr"><?=number_format(($model->product_price * 16300), 0, '.', ' ')?> бел.руб</p>
+								<p class="price"><?=number_format($model->product_price, 1, '.', ' ')?> у.е.</p>
+								<p class="price-byr"><?=number_format(($model->product_price * Yii::app()->params->usd_rate), 0, '.', ' ')?> бел.руб</p>
 							</div>
 						</div>
 						
 						<p class="row clearfix">
-							<span class="label">Производитель:</span>
+							<span class="label"><? echo $model->getAttributeLabel('manuf');?>:</span>
 							<span class="value"><?=$model->firm->firm_name?></span>
 						</p>
 						
 						<p class="row clearfix">
-							<span class="label">Артикул:</span>
+							<span class="label"><? echo $model->getAttributeLabel('product_sku');?>:</span>
 							<span class="value"><?=$model->product_sku?></span>
 						</p>
 						
@@ -88,20 +88,20 @@ $model_images = $model->Images;
 							?>
 
 							<p class="row clearfix">
-								<span class="label">Наличие:</span>
+								<span class="label"><? echo $model->getAttributeLabel('product_availability');?>:</span>
 								<span class="value <?=$status_class?>"><?=$model->ProductAvailabilityArray[$model->product_availability]['name'] ?></span>
 							</p>
 
 							<? if(!empty($model->delivery))	{	?>
 							<p class="row clearfix">
-								<span class="label">Доставка:</span>
+								<span class="label"><? echo $model->getAttributeLabel('delivery');?>:</span>
 								<span class="value"><?=$model->delivery?></span>
 							</p>
 							<?	}	?>
 
 							<? if(!empty($model->prepayment))	{	?>
 							<p class="row clearfix">
-								<span class="label">Предоплата:</span>
+								<span class="label"><? echo $model->getAttributeLabel('prepayment');?>:</span>
 								<span class="value"><?=$model->prepayment?></span>
 							</p>
 							<?	}	?>
@@ -142,32 +142,34 @@ $model_images = $model->Images;
 	</div>
 	
 <?  $this->beginWidget('system.web.widgets.CClipWidget', array('id'=>"Описание товара")); ?> 
-    <p class="small">
-        <? if(!empty($model->side))	{	?>
-            Сторона: <span><?=$model->ProductSideArray[$model->side]['name']?></span><br />
-        <?	}	?>
+    <? if($model->hide_s_desc == 0)	{	?>
+		<ul class="product_short_description small dt">
+			<? if(!empty($model->side))	{	?>
+				<li class="dtr"><span class="dtc pr-5 pb-5"><? echo $model->getAttributeLabel('side');?>: </span><span class="dtc pb-5"><?=$model->ProductSideArray[$model->side]['name']?></span></li>
+			<?	}	?>
 
-        <? if(!empty($model->lamps))	{	?>
-            Лампочки: <span><?=$model->lamps?></span><br />
-        <?	}	?>
+			<? if(!empty($model->lamps))	{	?>
+				<li class="dtr mb-5"><span class="dtc pr-5 pb-5"><? echo $model->getAttributeLabel('lamps');?>: </span><span class="dtc pb-5"><?=nl2br($model->lamps)?></span></li>
+			<?	}	?>
 
-        <? if(!empty($model->adjustment))	{	?>
-            Регулировка: <span><?=$model->adjustment?></span><br />
-        <?	}	?>
+			<? if(!empty($model->adjustment))	{	?>
+				<li class="dtr"><span class="dtc pr-5 pb-5"><? echo $model->getAttributeLabel('adjustment');?>: </span><span class="dtc pb-5"><?=$model->adjustment?></span></li>
+			<?	}	?>
 
-        <? if(!empty($model->material))	{	?>
-            Материал: <span><?=$model->material?></span><br />
-        <?	}	?>
+			<? if(!empty($model->material))	{	?>
+				<li class="dtr"><span class="dtc pr-5 pb-5"><? echo $model->getAttributeLabel('material');?>: </span><span class="dtc pb-5"><?=$model->material?></span></li>
+			<?	}	?>
 
-        <? if(!empty($model->product_s_desc))	{	?>
-            Описание: <span><?=$model->product_s_desc?></span><br />
-        <?	}	?>
-
-    </p>
+			<? if(!empty($model->product_s_desc))	{	?>
+				<li class="dtr"><span class="dtc pr-5 pb-5"><? echo $model->getAttributeLabel('product_s_desc');?>: </span><span class="dtc pb-5"><?=nl2br($model->product_s_desc)?></span></li>
+			<?	}	?>
+		</ul>
+	<?	}	?>    
     <? if($model->product_desc) { ?>
         <div class="product_description"><? echo $model->product_desc; ?></div>
     <? } ?>
     <?
+
 	
 	$this->endWidget();				
 
@@ -197,9 +199,18 @@ $model_images = $model->Images;
 		<h3>Сопутствущие товары</h3>
 		<div class="jcarousel-wrapper">
 			<div class="jcarousel jcarousel-new-positions">
+				<?php $this->widget('zii.widgets.CListView', array(
+					'dataProvider'=>$RelatedDataProvider,
+					'itemView'=>'_view-related',
+					'ajaxUpdate'=>false,
+					'template'=>"{items}",
+					'itemsCssClass' => 'jcarousel products-list',
+				)); ?>
+				<?/*
 				<ul class="jcarousel products-list">
 					<? include(Yii::getPathOfAlias('webroot')."/protected/views/frontend/common/product-list.php");	?>
 				</ul>
+				*/?>
 			</div>
 			<a href="#" class="jcarousel-control-prev jcarousel-new-positions-control-prev">‹</a> <a href="#" class="jcarousel-control-next jcarousel-new-positions-control-next">›</a>
 		</div>

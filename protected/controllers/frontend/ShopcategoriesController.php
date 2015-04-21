@@ -7,6 +7,8 @@ class ShopCategoriesController extends Controller
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
 	public $layout='//layouts/column2l';
+	public $product_images_liveUrl ='';
+	public $show_models = true;
 	
 	public $CQtreeGreedView  = array (
 		'modelClassName' => 'page2', //название класса
@@ -78,6 +80,9 @@ class ShopCategoriesController extends Controller
 	public function actionShow($id)
 	{
 		$app = Yii::app();
+		$connection = $app->db;
+		
+		$this->processPageRequest('page');
 		
 		$selected_view = $app->request->getParam('select-view', -1);
 		
@@ -99,53 +104,109 @@ class ShopCategoriesController extends Controller
 		//echo'$selected_view = <pre>';print_r($selected_view);echo'</pre>';
 		//echo'$id = <pre>';print_r($id);echo'</pre>';
 		
-		
-		
-		$connection = $app->db;
-		
 		$category = ShopCategories::model()->findByPk($id);
 		$descendants = $category->children()->findAll(array('order'=>'ordering'));
-		//echo'descendants = <pre>';print_r($descendants);echo'</pre>';
-		$products_and_pages = ShopProducts::model()->findProductsInCat($category->id, $type_request, $firm_request, $body_request);
-		//echo'products_and_pages = <pre>';print_r($products_and_pages['rows']);echo'</pre>';
+		
+		//если фильруем по какой-то модели - то получаем ИД этих моделей
+		$model_ids = ShopModelsAuto::model()->getModelIds($app);
+		//echo'$model_ids<pre>';print_r($model_ids,0);echo'</pre>';
+		
+		$criteria = new CDbCriteria();
+		$criteria->select = "t.product_id";
+		$criteria->join = 'INNER JOIN {{shop_products_categories}} AS pc USING (`product_id`) ';
+		
+		$condition_arr = array();
+		$condition_arr[] = "pc.`category_id` = ".$category->id;
+		
+		if(count($model_ids))	{
+			$product_ids = ShopProductsModelsAuto::model()->getProductIdFromModels($connection, $model_ids);
+			if(count($product_ids))	{
+				$condition_arr[] = "t.`product_id` IN (".implode(', ', $product_ids).")";
+			}
+		}
+		
+		$criteria->condition = implode(' AND ', $condition_arr);
+		$criteria->order = "pc.`ordering`, t.`product_id`";
+		
+		//получаем сначала все позиции для получения их id без учета пагинации
+		$rows = ShopProducts::model()->findAll($criteria);
+		$finded_product_ids = ShopProducts::model()->getProductIds($rows);
+		
+		if($type_request != 0)	{
+			$condition_arr[] = "t.type_id = ".$type_request;
+		}
+		
+		if($firm_request != 0)	{
+			$condition_arr[] = "t.firm_id = ".$firm_request;
+		}
+		
+		if($body_request != 0)	{
+			$criteria->join .= ' INNER JOIN {{shop_products_bodies}} AS pb USING (`product_id`) ';
+			$condition_arr[] = "pb.body_id = ".$body_request;
+		}
+		
+		$criteria->condition = implode(' AND ', $condition_arr);
+				
+		$criteria->select = "t.*";
+		
+        $dataProvider = new CActiveDataProvider('ShopProducts', array(
+            'criteria'=>$criteria,
+            'pagination'=>array(
+               // 'pageSize'=>$app->params->pagination['products_per_page'],
+                'pageSize'=>120,
+				'pageVar' =>'page',
+            ),
+        ));
+		
 		if(count($descendants))	{
 			ShopCategories::model()->getCategoriesMedias($descendants);
 		}
 		
-		if(count($products_and_pages['product_ids']))	{
-			//загрузить фирмы
-			$firms = ShopFirms::model()->getFirmsForProductList($connection, $products_and_pages['product_ids']);
-			$producttypes = ShopProductTypes::model()->getProductTypesForProductList($connection, $products_and_pages['product_ids']);
-			$bodies = ShopBodies::model()->getBodiesForProductList($connection, $products_and_pages['product_ids']);
-		
+		if(count($finded_product_ids))	{
 			//загрузить группы товаров
+			$producttypes = ShopProductTypes::model()->getProductTypesForProductList($connection, $finded_product_ids, $get_null = true);
+			//загрузить фирмы
+			$firms = ShopFirms::model()->getFirmsForProductList($connection, $finded_product_ids);
+			
+			$bodies = ShopBodies::model()->getBodiesForProductList($connection, $finded_product_ids, $model_ids);
 		}	else	{
 			$firms = array();
 			$producttypes = array();
+			$bodies = array();
 		}
 		
-		//получаем массив доп. изображений для списка товаров
-		if(count($products_and_pages['rows']))	{
+		//echo'<pre>';print_r($finded_product_ids);echo'</pre>';
+		//echo'<pre>';print_r($firms);echo'</pre>';
+		if(count($dataProvider->data))	{
 			$product_ids = array();
-			foreach($products_and_pages['rows'] as $row)	{
+			foreach($dataProvider->data as $row)	{
 				$product_ids[] = $row->product_id;
+				$row->product_url = $this->createUrl('shopproducts/detail', array('product'=> $row->product_id));
+				$row->product_image = $app->params->product_images_liveUrl.($row->product_image ? 'thumb_'.$row->product_image : 'noimage.jpg');
+				$row->firm_name = $firms[$row->firm_id]['name'];
+				//$row->product_availability_str = $firms[$row->firm_id]['name'];
 			}
 			
+			//получаем массив доп. изображений для списка товаров
 			$ProductsImages = ShopProductsImages::model()->getFotoForProductList($connection, $product_ids);
+			
 			if(count($ProductsImages))	{
-				foreach($ProductsImages as $row)	{
-					$products_and_pages['rows'][$row['product_id']]->AdditionalImages[] = $row['image_file'];
+				foreach($ProductsImages as $Image)	{
+					foreach($dataProvider->data as $row)	{
+						if($Image['product_id'] == $row->product_id)	{
+							$row->AdditionalImages[] = $Image['image_file'];
+						}
+					}
 				}
 			}
 		}	else	{
 			$ProductsImages = array();
 		}
 		
-		//echo'<pre>';print_r($products_and_pages['rows']);echo'</pre>';
-		//echo'<pre>';print_r($product_ids);echo'</pre>';
+		//echo'<pre>';print_r(count($finded_product_ids));echo'</pre>';
 		
 		$breadcrumbs = $this->createBreadcrumbs($category);
-		
+		/*
 		$data = array(
 			'type_request'=> $type_request,
 			'firm_request'=> $firm_request,
@@ -160,16 +221,61 @@ class ShopCategoriesController extends Controller
 			'producttypes' => $producttypes,
 			'bodies' => $bodies,
 			'firms' => $firms,
-			'productsTotal' => count($products_and_pages['product_ids']),
+			'productsTotal' => count($finded_product_ids),
 		);
 						
 		$this->render('show', $data);
-		
-		/*
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-		));
 		*/
+		
+		if(count($model_ids))	{
+			if(count($model_ids) == 2 && $model_ids[1] == 1247)	{
+				$this->show_models = false;
+			}	else	{
+				$this->show_models = true;
+			}
+
+		}	else	{
+			$firms = array();
+			$bodies = array();
+			$show_models = true;
+		}
+		
+		if($selected_view == 'row')	{
+			$itemView = "_view-row";
+		}	else	{
+			$itemView = "_view";
+		}
+		
+        if ($app->request->isAjaxRequest){
+            $this->renderPartial('_loopAjax', array(
+				//'app'=> $app,
+                'dataProvider'=>$dataProvider,
+                'itemView'=>$itemView,
+            ));
+            $app->end();
+        } else {
+			$data = array(
+				'app'=> $app,
+				'dataProvider'=> $dataProvider,
+				'itemView'=>$itemView,				
+				'type_request'=> $type_request,
+				'firm_request'=> $firm_request,
+				'body_request'=> $body_request,
+				'category_id'=> $category_id,
+				'selected_view'=> $selected_view,
+				'category'=> $category,
+				'descendants'=> $descendants,
+				'ProductsImages'=> $ProductsImages,
+				'breadcrumbs' => $breadcrumbs,
+				'producttypes' => $producttypes,
+				'bodies' => $bodies,
+				'firms' => $firms,
+				'productsTotal' => count($finded_product_ids),
+			);
+
+			$this->render('show', $data);
+        }		
+		
 		
 	}
 
@@ -533,5 +639,12 @@ class ShopCategoriesController extends Controller
 		}
 		$breadcrumb[] = $category->name;
 		return $breadcrumb;
-	}	
+	}
+	
+    protected function processPageRequest($param='page')
+    {
+        if (Yii::app()->request->isAjaxRequest && isset($_POST[$param]))
+            $_GET[$param] = Yii::app()->request->getPost($param);
+    }
+	
 }

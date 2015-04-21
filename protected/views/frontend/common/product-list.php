@@ -22,8 +22,8 @@
 			?>
 			<div class="product-image" style="background-image: url(<?=$product_image ?>)"></div>
 			<p class="small">
-                <span class="grey">Производитель:</span> <span><?=$firms[$row->firm_id]['name']?></span><br />
-                <span class="grey">Артикул:</span> <span><?=$row->product_sku?></span>
+                <span class="grey"><? echo $row->getAttributeLabel('firm_id');?>:</span> <span><?=$firms[$row->firm_id]['name']?></span><br />
+                <span class="grey"><? echo $row->getAttributeLabel('product_sku');?>:</span> <span><?=$row->product_sku?></span>
             </p>
 			
 			<? if($row->product_availability > 0)	{	?>

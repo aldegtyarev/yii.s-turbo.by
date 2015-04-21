@@ -60,6 +60,8 @@ class ShopProductsController extends Controller
 	//метод загружает товар. $product = product_id
 	public function actionDetail($product)
 	{
+		$app = Yii::app();
+		$connection = $app->db;
 		//echo'<pre>';print_r($product);echo'</pre>';
 		/*
 		$path_arr = explode('/', $path);
@@ -71,7 +73,42 @@ class ShopProductsController extends Controller
 		
 		//получаем сопутствующие товары
 		$related_rows = ShopProductsRelations::model()->getRelatedProducts($product);
-		//echo'$related_rows<pre>';print_r($related_rows);echo'</pre>';
+		/*
+		$sql = "SELECT p.`product_id`, p.`product_name`, p.`product_sku`, p.`product_image`, p.`manuf`, p.`product_price`, p.`product_availability`
+				FROM `{{shop_products}}` AS p
+				INNER JOIN `{{shop_products_relations}}` AS pr ON p.`product_id` = pr.`product_related_id`
+				WHERE pr.`product_id` = :product_id";
+		
+		$command = $connection->createCommand($sql);
+		$command->bindParam(":product_id", $product_id);
+		$rows = $command->queryAll();
+		*/
+		$criteria = new CDbCriteria();
+		
+		$criteria->select = "t.*";
+		$criteria->join = 'INNER JOIN `{{shop_products_relations}}` AS pr ON t.`product_id` = pr.`product_related_id`';
+		$criteria->condition = 'pr.`product_id` = '.$product;
+
+        $RelatedDataProvider = new CActiveDataProvider('ShopProducts', array(
+            'criteria'=>$criteria,
+            'pagination'=>array(
+                'pageSize'=>100,
+				'pageVar' =>'page',
+            ),
+        ));
+		
+		$finded_product_ids = ShopProducts::model()->getProductIds($RelatedDataProvider->data);
+		//echo'$related_rows<pre>';print_r($finded_product_ids);echo'</pre>';die;
+		
+		$firms = ShopFirms::model()->getFirmsForProductList($connection, $finded_product_ids);
+		
+		foreach($RelatedDataProvider->data as $row)	{
+			$row->product_url = $this->createUrl('shopproducts/detail', array('product'=> $row->product_id));
+			$row->product_image = $app->params->product_images_liveUrl.($row->product_image ? 'thumb_'.$row->product_image : 'noimage.jpg');
+			$row->firm_name = $firms[$row->firm_id]['name'];
+		}
+
+		//echo'$related_rows<pre>';print_r($RelatedDataProvider->data);echo'</pre>';die;
 		
 		//$breadcrumbs = $this->createBreadcrumbs($category_path, $model);
 		$breadcrumbs = array(
@@ -83,6 +120,7 @@ class ShopProductsController extends Controller
 		$this->render('view',array(
 			'model'=>$model,
 			'rows'=>$related_rows,
+			'RelatedDataProvider'=>$RelatedDataProvider,
 			'breadcrumbs' => $breadcrumbs,
 		));
 		

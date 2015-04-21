@@ -11,7 +11,6 @@ $this->menu=array(
 	array('label'=>'Кузова', 'url'=>array('admin')),	
 	//array('label'=>'List ShopBodies', 'url'=>array('index')),
 	array('label'=>'Новый', 'url'=>array('create')),
-	//array('label'=>'View ShopBodies', 'url'=>array('view', 'id'=>$model->body_id)),
 	
 );
 ?>

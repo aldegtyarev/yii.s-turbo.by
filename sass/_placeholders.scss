@@ -124,13 +124,9 @@
 
 
 
-%bold {
-	font-weight: bold;
-}
-
-%italic {
-	font-style: italic;
-}
+%normal { font-weight: normal; }
+%bold { font-weight: bold; }
+%italic { font-style: italic; }
 
 %uppercase {
 	text-transform: uppercase;
@@ -192,16 +188,9 @@
 }
 
 %w_25 { width: 25%; }
-
 %w_33 { width: 33%; }
-
-%w_50 {
-	width: 50%;
-}
-
-%w_100 {
-	width: 100%;
-}
+%w_50 { width: 50%; }
+%w_100 { width: 100%; }
 
 %border_box { box-sizing: border-box; }
 

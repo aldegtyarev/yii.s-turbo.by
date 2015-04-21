@@ -48,28 +48,33 @@
 				<a href="<?=$product_url?>" class="product-title"><?=$row->product_name?></a>
 
 				<ul class="prod-list-char-list">
-					<li class="prod-list-char-item arial font-10"><strong>Производитель:</strong> <?=$firms[$row->firm_id]['name']?></li>
+					<li class="prod-list-char-item arial font-10"><strong><? echo $row->getAttributeLabel('firm_id');?>:</strong> <?=$firms[$row->firm_id]['name']?></li>
 					
-					<li class="prod-list-char-item arial font-10"><strong>Артикул:</strong> <?=$row->product_sku?><br /><br /></li>
+					<li class="prod-list-char-item arial font-10"><strong><? echo $row->getAttributeLabel('product_sku');?>:</strong> <?=$row->product_sku?><br /><br /></li>
 					
 					<? if(!empty($row->side))	{	?>
-						<li class="prod-list-char-item arial font-13"><strong>Сторона:</strong> <?=$row->ProductSideArray[$row->side]['name']?></li>
+						<li class="prod-list-char-item arial font-13"><strong><? echo $row->getAttributeLabel('side');?>:</strong> <?=$row->ProductSideArray[$row->side]['name']?></li>
 					<?	}	?>
 					
 					<? if(!empty($row->lamps))	{	?>
-						<li class="prod-list-char-item arial font-13"><strong>Лампочки:</strong> <?=$row->lamps?></li>
+					   <? 
+							$search = array("\r\n");
+							$replace = array("<br>");
+						?>
+					
+						<li class="prod-list-char-item arial font-13"><strong><? echo $row->getAttributeLabel('lamps');?>:</strong> <?=str_replace($search, $replace, $row->lamps)?></li>
 					<?	}	?>
 					
 					<? if(!empty($row->adjustment))	{	?>
-						<li class="prod-list-char-item arial font-13"><strong>Регулировка:</strong> <?=$row->adjustment?></li>
+						<li class="prod-list-char-item arial font-13"><strong><? echo $row->getAttributeLabel('adjustment');?>:</strong> <?=$row->adjustment?></li>
 					<?	}	?>
 					
 					<? if(!empty($row->material))	{	?>
-						<li class="prod-list-char-item arial font-13"><strong>Материал:</strong> <?=$row->material?></li>
+						<li class="prod-list-char-item arial font-13"><strong><? echo $row->getAttributeLabel('material');?>:</strong> <?=$row->material?></li>
 					<?	}	?>
 					
 					<? if(!empty($row->product_s_desc))	{	?>
-						<li class="prod-list-char-item arial font-13"><strong>Описание:</strong> <?=$row->product_s_desc?></li>
+						<li class="prod-list-char-item arial font-13"><strong><? echo $row->getAttributeLabel('product_s_desc');?>:</strong> <?=$row->product_s_desc?></li>
 					<?	}	?>
 					
 				</p>

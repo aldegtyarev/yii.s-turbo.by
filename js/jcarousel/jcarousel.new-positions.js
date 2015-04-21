@@ -1,7 +1,7 @@
 (function ($) {
     $(function () {
 		
-        $('.jcarousel-new-positions').jcarousel({
+        $('.jcarousel-new-positions .list-view').jcarousel({
 			wrap: 'circular',
 			visible: 1
 		});

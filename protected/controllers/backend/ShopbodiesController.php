@@ -36,7 +36,7 @@ class ShopBodiesController extends Controller
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete','createajax'),
+				'actions'=>array('admin','delete','createajax','moveup','movedown'),
 				'users'=>array('superman'),
 			),
 			array('deny',  // deny all users
@@ -62,7 +62,9 @@ class ShopBodiesController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new ShopBodies;
+		$model = new ShopBodies;
+		
+		$model->getDropDownlistData();
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -70,6 +72,9 @@ class ShopBodiesController extends Controller
 		if(isset($_POST['ShopBodies']))
 		{
 			$model->attributes=$_POST['ShopBodies'];
+			$model->parentId = $_POST['ShopBodies']['parentId'];
+			$model->parent_id = $_POST['ShopBodies']['parentId'];
+			
 			if($model->save())
 				$this->redirect(array('admin'));
 		}
@@ -116,7 +121,8 @@ class ShopBodiesController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
-		$model=$this->loadModel($id);
+		$model = $this->loadModel($id);
+		$model->getDropDownlistData();
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -124,6 +130,9 @@ class ShopBodiesController extends Controller
 		if(isset($_POST['ShopBodies']))
 		{
 			$model->attributes=$_POST['ShopBodies'];
+			$model->parentId = $_POST['ShopBodies']['parentId'];
+			$model->parent_id = $_POST['ShopBodies']['parentId'];
+			
 			if($model->save())
 				$this->redirect(array('admin'));
 		}
@@ -140,7 +149,8 @@ class ShopBodiesController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		$this->loadModel($id)->delete();
+//		$this->loadModel($id)->delete();
+		$this->loadModel($id)->deleteNode();
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))
@@ -185,6 +195,8 @@ class ShopBodiesController extends Controller
 		$model=ShopBodies::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
+		
+		$model->getParentId();
 		return $model;
 	}
 
@@ -200,4 +212,21 @@ class ShopBodiesController extends Controller
 			Yii::app()->end();
 		}
 	}
+	
+	public function actionMoveup($id=0)
+	{
+		$category = ShopBodies::model()->findByPk($id);
+		$prev_cat = $category->prev()->find();
+		$category->moveBefore($prev_cat);
+		$this->redirect(array('admin'));
+	}	
+	
+	public function actionMovedown($id=0)
+	{
+		$category = ShopBodies::model()->findByPk($id);
+		$next_cat = $category->next()->find();
+		$category->moveAfter($next_cat);
+		$this->redirect(array('admin'));
+	}
+	
 }

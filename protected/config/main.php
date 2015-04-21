@@ -93,7 +93,8 @@ return array(
 			'username' => 'sturboby_yii',
 			'password' => 'O)8_d(8F[Ex&',
 			'charset' => 'utf8',
-			'tablePrefix' => '3hnspc_',			
+			'tablePrefix' => '3hnspc_',
+			'enableProfiling'=>true,
 		),
 		
 		'errorHandler'=>array(
@@ -210,6 +211,7 @@ return array(
 		'product_imagePath' => 'webroot.images.shop.products',
 		'product_images_liveUrl' => '/images/shop/products/',
 		'universal_products' => '1247',	// id универсальных товаров в модельном ряде
+		'usd_rate' => 14500,	// курс USD
 
 	),
 );

@@ -14,13 +14,14 @@ $cs->registerCssFile('/css/chosen.css', 'screen');
 $cs->registerScriptFile('/js/chosen.jquery.min.js', CClientScript::POS_END);
 
 $cs->registerScript('loading', "
+	$('#ShopProducts_hide_s_desc').bootstrapSwitch();
 	$('#ShopProducts_protect_copy').bootstrapSwitch();
 	$('#ShopProducts_published').bootstrapSwitch();
 	$('#ShopProducts_override').bootstrapSwitch();
 	$('.chosen_select').chosen();
 	
 	$('#suggestions li').on('click', function(){
-		alert('12ws21');
+		//alert('12ws21');
 	});
 	
 	$('#add-new-year').on('click', function(){
@@ -42,14 +43,8 @@ $cs->registerScript('loading', "
 				$('#msg-wr').show();
 			}
 		});
-
-		
-		
 		return false;
 	});
-	
-	
-	
 ");
 
 
@@ -125,11 +120,13 @@ $cs->registerScript('loading', "
 				<?php echo $form->error($model,'body_ids'); ?>
 			</div>
 			
+			<? /*
 			<div class="row">
 				<input type="text" id="ShopBodies_name" name="ShopBodies[name]" />
 				<?php echo BsHtml::submitButton('Добавить новый', array('color' => BsHtml::BUTTON_COLOR_SUCCESS, 'name'=>'add-new-year', 'id'=>'add-new-year')); ?>
 				<span id="msg-wr"></span>
 			</div>
+			*/?>
 			
 			
 			<div class="row chosen-row">
@@ -147,21 +144,13 @@ $cs->registerScript('loading', "
 				<?php echo $form->checkBoxControlGroup($model, 'protect_copy'); ?>
 				<?php echo $form->error($model,'protect_copy'); ?>
 			</div>
-			
-			
-
-		
+						
 			<?/*
 			<div class="row">
 				<?php echo $form->labelEx($model,'manufacturer_id'); ?>
 				<?php echo $form->dropDownList($model, 'manufacturer_id', $model->DropDownListManufacturers, array('data-placeholder'=>'выберите категорию', 'options' => $model->SelectedManufacturerId));?>
 				<?php echo $form->error($model,'manufacturer_id'); ?>
 			</div>*/?>
-			
-			
-			
-
-			
 		</div>
 		
 		<div class="tab-pane" id="tab2">
@@ -199,7 +188,7 @@ $cs->registerScript('loading', "
 			
 			<div class="row">
 				<?php echo $form->labelEx($model,'lamps'); ?>
-				<?php echo $form->textField($model,'lamps'); ?>
+				<?php echo $form->textArea($model,'lamps'); ?>
 				<?php echo $form->error($model,'lamps'); ?>
 			</div>
 			
@@ -211,11 +200,14 @@ $cs->registerScript('loading', "
 			
 			<div class="row">
 				<?php echo $form->labelEx($model,'product_s_desc'); ?>
-				<?php echo $form->textField($model,'product_s_desc',array('size'=>60,'maxlength'=>255)); ?>
+				<?php echo $form->textArea($model,'product_s_desc'); ?>
 				<?php echo $form->error($model,'product_s_desc'); ?>
 			</div>
 			
-			
+			<div class="row">
+				<?php echo $form->checkBoxControlGroup($model, 'hide_s_desc'); ?>
+				<?php echo $form->error($model,'hide_s_desc'); ?>
+			</div>			
 			
 			<?
 			/*
@@ -242,8 +234,6 @@ $cs->registerScript('loading', "
 				<?php echo $form->dropDownList($model, 'product_availability', $model->DropDownProductAvailability, array('data-placeholder'=>'выберите...', 'options' => $model->SelectedProductAvailabilityId));?>
 				<?php echo $form->error($model,'product_availability'); ?>
 			</div>
-			
-			
 			
 			<div class="row">
 				<?php echo $form->labelEx($model,'delivery'); ?>
@@ -297,8 +287,6 @@ $cs->registerScript('loading', "
 			
 		</div>
 		
-		
-		
 		<div class="tab-pane" id="tab3">
 <?
 			//echo'<pre>';print_r($params,0);echo'</pre>';
@@ -320,7 +308,6 @@ $cs->registerScript('loading', "
 
 					echo BsHtml::closeTag('li');
 				}
-
 				?>
 			</ul>
 		</div>

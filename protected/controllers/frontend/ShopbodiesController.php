@@ -71,7 +71,7 @@ class ShopBodiesController extends Controller
 		{
 			$model->attributes=$_POST['ShopBodies'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->body_id));
+				$this->redirect(array('view','id'=>$model->id));
 		}
 
 		$this->render('create',array(
@@ -95,7 +95,7 @@ class ShopBodiesController extends Controller
 		{
 			$model->attributes=$_POST['ShopBodies'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->body_id));
+				$this->redirect(array('view','id'=>$model->id));
 		}
 
 		$this->render('update',array(

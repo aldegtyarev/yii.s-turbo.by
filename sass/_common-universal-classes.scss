@@ -1,4 +1,8 @@
-.normal { @extens %normal; }
+.sprite { @extend %for_sprite; }
+
+.normal { @extend %normal; }
+.italic { @extend %italic; }
+.bold { @extend %bold; }
 
 .font-10 { @extend %font_10; }
 .font-11 { @extend %font_11; }
@@ -10,9 +14,6 @@
 
 .c_fff { @extend %c_fff; }
 
-.tahoma { font-family: Tahoma, Arial; }
-.arial { @extend %arial;}
-
 .underline_y_n { @extend %underline_y_n; }
 .underline_n_y { @extend %underline_n_y; }
 .underline_n_n { @extend %underline_n_n; }
@@ -20,6 +21,9 @@
 .dib { @extend %dib; }
 .di { @extend %di; }
 .db { @extend %db; }
+.dt { @extend %dt; }
+.dtr { @extend %dtr; }
+.dtc { @extend %dtc; }
 
 .pos-rel { @extend %pos_rel; }
 .pos-abs { @extend %pos_abs; }
@@ -67,8 +71,30 @@
 .pb-15 { padding-bottom: 15px; }
 .pb-20 { padding-bottom: 20px; }
 
+.pl-5 { padding-left: 5px; }
 .pl-10 { padding-left: 10px; }
 .pl-20 { padding-left: 20px; }
 .pl-30 { padding-left: 30px; }
 
+.pr-5 { padding-right: 5px; }
+.pr-10 { padding-right: 10px; }
+.pr-20 { padding-right: 20px; }
+.pr-30 { padding-right: 30px; }
+
 .border-box	{ @extend %border_box; }
+
+.floatLeft { @extend %fl; }
+.floatRight	{ @extend %fr; }
+
+.hidden { @extend %hide; }
+
+.width25 { @extend %w_25; }
+.width33 { @extend %w_33; }
+.width50 { @extend %w_50; }
+.width100 { @extend %w_100; }
+
+.ov-hidden { overflow: hidden;}
+
+.hide-text { overflow: hidden;text-indent: 7777px; }
+
+.pointer { @extend %pointer; }

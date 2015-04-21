@@ -155,6 +155,7 @@
 				</div>
 
  		</div>
+ 		<div class="db-stat" style="display:none;"><? print_r(Yii::app()->db->getStats()); ?></div>
 	</div><!-- footer -->
 
 </div><!-- page -->

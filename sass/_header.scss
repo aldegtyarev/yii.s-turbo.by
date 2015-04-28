@@ -95,13 +95,10 @@
 
 /* cart */
 .cartBlock {
-	padding: 0 15px 0 0;
 	border-right: 1px solid #f3f3f3;
 	width: 280px;
 	height: 43px;
 
-	@extend %fr;
-	@extend %pos_rel;
 	
 	.total-products {
 		display: inline-block;
@@ -114,58 +111,41 @@
 		@include border-radius(7px);
 	}
 	
-	.to-cart {
-		white-space: nowrap;
-		text-indent: 7777px;
-		left: 0;
-		top: 0;
-		
-		@extend %db;
-		@extend %underline_n_n;
-		@extend %pos_abs;
-		@extend .ico-cart;
-		
-		
-		
-	}
 	
-	.cart-row {
-		right: 15px;
-		
-		@extend %pos_abs;
-		
-		span {
-			@extend %text_r;
-			@extend %db;
-			@extend %fl;
-			@extend %font_14;
-		}
-		
-		.cart-row-left {
-			width: 120px;
-			
-			@extend %c_777;
-		}
-		.cart-row-right {
-			width: 120px;
-			
-			@extend %c_d70000;
-		}
-	}
-	
-	.cart-row-1 {
-		top: 7px;
-	}
-	
-	.cart-row-2 {
-		bottom: 6px;
-	}
 	
 	
 }
 
-.logo-top {
+.to-cart {
+	left: 0;
+	top: 2px;
+	@extend .ico-cart;
+}
 
+.cart-row {
+	right: 15px;
+
+
+	.cart-row-left {
+		width: 120px;
+
+	}
+	.cart-row-right {
+		width: 120px;
+	}
+}
+
+.cart-row-1 {
+	top: 7px;
+}
+
+.cart-row-2 {
+	bottom: 6px;
+}
+
+
+
+.logo-top {
 	width: 279px;
 	
 	@extend %db;

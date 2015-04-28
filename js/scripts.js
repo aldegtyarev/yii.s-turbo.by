@@ -37,22 +37,20 @@ $(document).ready(function () {
 	addtocart.on('click', function () {		//добавляем товар в корзину
 		$.ajax({
 			type: 'post',
-			url: '/addtocart',
-			//data: 'url="'+field_url+'"&text='+field_title,
-			//data: {check_url_data : encoded},
+			url: $(this).parent('form').attr('action'),
 			data: {product_id : $('#product_id').val(),	quantity : $('#quantity').val()},
 			dataType: 'json',
 			beforeSend: function () {
+				$('#to-cart-process').slideDown();
 			},
 			success: function (msg) {
 				if (msg.res === 'ok') {
-					$('#CartModule').removeClass('empty-cart');
-					$('#CartModule .total_products').html(msg.total);
-					$('#CartModule .total').html(msg.summ);
-					$('#CartModule .show_cart').removeClass('hidden');
-					$('#cart-popup-info').text(msg.message);
-					$('#cart-message').click();
+					$('#to-cart-process').hide();
+					$('#cart-msg').html(msg.message);
+					$('#cart-msg').show();
 					
+					$('#products-count').html(msg.total);
+					$('#cart-total').html(msg.summ);
 				}
 			}
 		});

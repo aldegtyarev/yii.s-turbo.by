@@ -9,7 +9,6 @@ class CartWidget extends CWidget {
 			'total_summ' => $total_summ,
 		);
 		
-		
 		$this->render('CartWidget', $data);
     }
 }

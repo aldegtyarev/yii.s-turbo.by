@@ -60,7 +60,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 }
 
 /* необходимо для @filter-gradient */
-.ico-sprite, .ico-adress, .footer .adress:before, .ico-arrow-down, .categories-menu > li > a:before, .ico-arrow-left-act, .jcarousel-control-prev:hover:before, .ico-arrow-left-red, .ico-arrow-left, .jcarousel-control-prev:before, .ico-arrow-right-act, .jcarousel-control-next:hover:before, .ico-arrow-right-red, .how-it-work-list .wr:before, .ico-arrow-right, .jcarousel-control-next:before, .ico-cart, .cartBlock .to-cart, .ico-clear-filter-black, .filter-block .clear-filter:before, .ico-clear-filter, .clear-search-auto:before, .ico-consultant, .consultant-block:before, .ico-delivery-question, .productdetails-client-info .delivery:before, .ico-email, .footer .email:before, .ico-email1, .top-contacts .email:before, .ico-mts, .top-contacts .mts:before, .ico-no-avatar, .ico-payment-question, .productdetails-client-info .payment:before, .ico-phone, .footer .phones:before, .ico-product-list-view1-act, .select-view-block .view-row:hover, .select-view-block .view-row-active, .ico-product-list-view1, .select-view-block .view-row, .ico-product-list-view2-act, .select-view-block .view-tile:hover, .select-view-block .view-tile-active, .ico-product-list-view2, .select-view-block .view-tile, .ico-question, .productview-ask-question:before, .ico-search-btn-white, .search-auto-button:before, .ico-search-btn, .search-block .search-btn, .ico-select-arrow, .search-auto-form .jq-selectbox__trigger-arrow, .ico-select-arrowhover, .search-auto-form .jq-selectbox__select:hover .jq-selectbox__trigger-arrow, .ico-top-menu-active-left, .main-menu li.active a:before, .main-menu li:hover a:before, .ico-top-menu-active-right, .main-menu li.active a:after, .main-menu li:hover a:after, .ico-top-menu-separator, .main-menu li:after, .ico-velcom, .top-contacts .velcom:before, .ico-we-work1, .how-it-work-list .step1:before, .ico-we-work2, .how-it-work-list .step2:before, .ico-we-work3, .how-it-work-list .step3:before, .ico-we-work4, .how-it-work-list .step4:before {
+.ico-sprite, .ico-adress, .footer .adress:before, .ico-arrow-down, .categories-menu > li > a:before, .ico-arrow-left-act, .jcarousel-control-prev:hover:before, .ico-arrow-left-red, .ico-arrow-left, .jcarousel-control-prev:before, .ico-arrow-right-act, .jcarousel-control-next:hover:before, .ico-arrow-right-red, .how-it-work-list .wr:before, .ico-arrow-right, .jcarousel-control-next:before, .ico-cart, .to-cart, .ico-clear-filter-black, .filter-block .clear-filter:before, .ico-clear-filter, .clear-search-auto:before, .ico-consultant, .consultant-block:before, .ico-delivery-question, .productdetails-client-info .delivery:before, .ico-email, .footer .email:before, .ico-email1, .top-contacts .email:before, .ico-mts, .top-contacts .mts:before, .ico-no-avatar, .ico-payment-question, .productdetails-client-info .payment:before, .ico-phone, .footer .phones:before, .ico-product-list-view1-act, .select-view-block .view-row:hover, .select-view-block .view-row-active, .ico-product-list-view1, .select-view-block .view-row, .ico-product-list-view2-act, .select-view-block .view-tile:hover, .select-view-block .view-tile-active, .ico-product-list-view2, .select-view-block .view-tile, .ico-question, .productview-ask-question:before, .ico-search-btn-white, .search-auto-button:before, .ico-search-btn, .search-block .search-btn, .ico-select-arrow, .search-auto-form .jq-selectbox__trigger-arrow, .ico-select-arrowhover, .search-auto-form .jq-selectbox__select:hover .jq-selectbox__trigger-arrow, .ico-top-menu-active-left, .main-menu li.active a:before, .main-menu li:hover a:before, .ico-top-menu-active-right, .main-menu li.active a:after, .main-menu li:hover a:after, .ico-top-menu-separator, .main-menu li:after, .ico-velcom, .top-contacts .velcom:before, .ico-we-work1, .how-it-work-list .step1:before, .ico-we-work2, .how-it-work-list .step2:before, .ico-we-work3, .how-it-work-list .step3:before, .ico-we-work4, .how-it-work-list .step4:before {
   background-image: url('../img/ico-s73b9f1c1ee.png');
   background-repeat: no-repeat;
 }
@@ -113,7 +113,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   width: 6px;
 }
 
-.ico-cart, .cartBlock .to-cart {
+.ico-cart, .to-cart {
   background-position: 0 -106px;
   height: 35px;
   width: 37px;
@@ -319,7 +319,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 
 .breadcrumbs a, .sorting-block-conteiner .sorting-block a:hover,
 .sorting-block-conteiner .currency-select a:hover, .sorting-block-conteiner .sorting-block .active,
-.sorting-block-conteiner .currency-select .active, .cartBlock .cart-row .cart-row-right, .menu-cat h3, .news-block .all-items, .product-list-item .price, .product-list-item-row-info-block .short-description li:before, .last-viewed-block .all-items, .last-viewed-item-prices .price, .productdetails-price-row .price, .productview-ask-question a, .productdetails-client-info .payment a,
+.sorting-block-conteiner .currency-select .active, .c_d70000, .menu-cat h3, .news-block .all-items, .product-list-item .price, .product-list-item-row-info-block .short-description li:before, .last-viewed-block .all-items, .last-viewed-item-prices .price, .productdetails-price-row .price, .productview-ask-question a, .productdetails-client-info .payment a,
 .productdetails-client-info .delivery a, .productdetails-view-tab .tabs a:hover, .productdetails-view-tab .tabs sup, .productdetails-view-tab .tabs .active, .product-types-list-item .product-count {
   color: #d70000;
 }
@@ -332,7 +332,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   color: #999;
 }
 
-.cartBlock .cart-row .cart-row-left, .menu-cat li a {
+.c_777, .menu-cat li a {
   color: #777;
 }
 
@@ -379,7 +379,7 @@ h2, .news-block-item .item-title, .product-list-item .small span, .product-list-
 
 .sorting-block-conteiner .sorting-block,
 .sorting-block-conteiner .currency-select, .sorting-block-conteiner .sorting-block a,
-.sorting-block-conteiner .currency-select a, .cartBlock .cart-row span, .search-auto-form .jq-selectbox__select-text, .search-auto-form .jq-selectbox__dropdown li, .more-products, .last-viewed-item .product-title, .last-viewed-item .status, .productdetails-view-main-info-part .label,
+.sorting-block-conteiner .currency-select a, .font-14, .search-auto-form .jq-selectbox__select-text, .search-auto-form .jq-selectbox__dropdown li, .more-products, .last-viewed-item .product-title, .last-viewed-item .status, .productdetails-view-main-info-part .label,
 .productdetails-view-main-info-part .value, .productdetails-client-info .title, .productdetails-view-tab .tabs sup, .product-types-list-item a {
   font-size: 14px;
 }
@@ -453,26 +453,26 @@ a:hover, .underline_n_y:hover {
 }
 
 .button, .jcarousel-control-prev,
-.jcarousel-control-next, .underline_n_n, .main-menu li a, .cartBlock .to-cart, .logo-top, .menu-cat li a, .productdetails-view-tab .tabs a, .product-types-list-item a {
+.jcarousel-control-next, .underline_n_n, .main-menu li a, .logo-top, .menu-cat li a, .productdetails-view-tab .tabs a, .product-types-list-item a {
   text-decoration: none;
 }
 .button:hover, .jcarousel-control-prev:hover,
-.jcarousel-control-next:hover, .underline_n_n:hover, .main-menu li a:hover, .cartBlock .to-cart:hover, .logo-top:hover, .menu-cat li a:hover, .productdetails-view-tab .tabs a:hover, .product-types-list-item a:hover {
+.jcarousel-control-next:hover, .underline_n_n:hover, .main-menu li a:hover, .logo-top:hover, .menu-cat li a:hover, .productdetails-view-tab .tabs a:hover, .product-types-list-item a:hover {
   text-decoration: none;
 }
 
-.sideLeft, .container, .select-view-block a, .floatLeft, .main-menu li, .cartBlock .cart-row span, .search-auto-block-title, .search-auto-form, .search-auto-form .step-wr, .news-block-item, .product-list-item, .product-list-item-row-info-block,
+.sideLeft, .container, .select-view-block a, .floatLeft, .main-menu li, .search-auto-block-title, .search-auto-form, .search-auto-form .step-wr, .news-block-item, .product-list-item, .product-list-item-row-info-block,
 .product-list-item-row-image-block, .product-list-item-row-image-block .additional-images-list-item, .products-on-auto-item, .how-it-work-list li, .category-view .category-item, .footer .contacts, .footer .ur-data, .productdetails-view-image-part, .productdetails-slider-images li, .productdetails-client-info .payment,
 .productdetails-client-info .delivery, .productdetails-view-tab .tabs li, .product-types-list-item {
   float: left;
 }
 
-.floatRight, .cartBlock, .search-auto-button, .product-list-item-row-price-block, .footer .our-shop, .productdetails-view-main-info-part-wr, .filter-block .clear-filter {
+.floatRight, .search-auto-button, .product-list-item-row-price-block, .footer .our-shop, .productdetails-view-main-info-part-wr, .filter-block .clear-filter {
   float: right;
 }
 
 .select-view-block a, .sorting-block-conteiner .sorting-block,
-.sorting-block-conteiner .currency-select, .db, .cartBlock .to-cart, .cartBlock .cart-row span, .logo-top, .logo-top img, .search-auto-form .step-num, .search-auto-button, .menu-cat li a, .menu-cat .active > ul, .news-block-item .item-title, .product-list-item .product-title, .product-list-item-row-image-block .additional-images-list-item a, .category-view .category-item-wr a, .category-view .category-item-wr a span, .productdetails-slider-images a, .productdetails-view-main-info-part .label,
+.sorting-block-conteiner .currency-select, .db, .logo-top, .logo-top img, .search-auto-form .step-num, .search-auto-button, .menu-cat li a, .menu-cat .active > ul, .news-block-item .item-title, .product-list-item .product-title, .product-list-item-row-image-block .additional-images-list-item a, .category-view .category-item-wr a, .category-view .category-item-wr a span, .productdetails-slider-images a, .productdetails-view-main-info-part .label,
 .productdetails-view-main-info-part .value, .productdetails-client-info .payment a,
 .productdetails-client-info .delivery a, .filter-block .clear-filter, .product-types-list-item a {
   display: block;
@@ -502,12 +502,12 @@ a:hover, .underline_n_y:hover {
   display: none;
 }
 
-.sorting-block-conteiner, .pos-rel, .main-menu li, .cartBlock, .consultant-block .status, .search-auto-form, .categories-menu > li > a, .news-block-item-wr, .news-block .all-items, .product-list-item, .product-list-item-row-info-block, .how-it-work-list li, .last-viewed-item .product-title, .last-viewed-item .status, .last-viewed-item-wr, .category-view .category-item-wr a, .productdetails-view-main-info-part, .productdetails-view-main-info-part .row, .productdetails-view-tab .tabs li {
+.sorting-block-conteiner, .pos-rel, .main-menu li, .consultant-block .status, .search-auto-form, .categories-menu > li > a, .news-block-item-wr, .news-block .all-items, .product-list-item, .product-list-item-row-info-block, .how-it-work-list li, .last-viewed-item .product-title, .last-viewed-item .status, .last-viewed-item-wr, .category-view .category-item-wr a, .productdetails-view-main-info-part, .productdetails-view-main-info-part .row, .productdetails-view-tab .tabs li {
   position: relative;
 }
 
 .jcarousel-control-prev,
-.jcarousel-control-next, .sorting-block-conteiner .currency-select, .pos-abs, .cartBlock .to-cart, .cartBlock .cart-row, .consultant-block .status:before, .search-auto-form .step-num, .clear-search-auto, .product-list-item .product-label, .product-list-item .product-bottom, .product-list-item .product-bottom .product-detail, .product-list-item-row-info-block:before, .last-viewed-item-pattern, .last-viewed-item-prices, .category-view .category-item-wr a span, .productdetails-view-main-info-part .label,
+.jcarousel-control-next, .sorting-block-conteiner .currency-select, .pos-abs, .consultant-block .status:before, .search-auto-form .step-num, .clear-search-auto, .product-list-item .product-label, .product-list-item .product-bottom, .product-list-item .product-bottom .product-detail, .product-list-item-row-info-block:before, .last-viewed-item-pattern, .last-viewed-item-prices, .category-view .category-item-wr a span, .productdetails-view-main-info-part .label,
 .productdetails-view-main-info-part .value, .productview-ask-question, .productview-ask-question a, .productdetails-view-tab .tabs sup {
   position: absolute;
 }
@@ -521,7 +521,7 @@ a:hover, .underline_n_y:hover {
   text-align: center;
 }
 
-.text_r, .cartBlock .cart-row span, .last-viewed-item-prices .price, .last-viewed-item-prices .price-byr {
+.text_r, .last-viewed-item-prices .price, .last-viewed-item-prices .price-byr {
   text-align: right;
 }
 
@@ -927,6 +927,10 @@ span sup {
   padding: 10px 0;
 }
 
+.pt-5 {
+  padding-top: 5px;
+}
+
 .pt-10 {
   padding-top: 10px;
 }
@@ -971,6 +975,10 @@ span sup {
   padding-right: 10px;
 }
 
+.pr-15 {
+  padding-right: 15px;
+}
+
 .pr-20 {
   padding-right: 20px;
 }
@@ -986,6 +994,11 @@ span sup {
 .hide-text {
   overflow: hidden;
   text-indent: 7777px;
+  white-space: nowrap;
+}
+
+.v-middle {
+  vertical-align: middle;
 }
 
 .tahoma {
@@ -1043,7 +1056,6 @@ span sup {
 /* login / logout block */
 /* cart */
 .cartBlock {
-  padding: 0 15px 0 0;
   border-right: 1px solid #f3f3f3;
   width: 280px;
   height: 43px;
@@ -1060,25 +1072,27 @@ span sup {
   -webkit-border-radius: 7px;
   border-radius: 7px;
 }
-.cartBlock .to-cart {
-  white-space: nowrap;
-  text-indent: 7777px;
+
+.to-cart {
   left: 0;
-  top: 0;
+  top: 2px;
 }
-.cartBlock .cart-row {
+
+.cart-row {
   right: 15px;
 }
-.cartBlock .cart-row .cart-row-left {
+.cart-row .cart-row-left {
   width: 120px;
 }
-.cartBlock .cart-row .cart-row-right {
+.cart-row .cart-row-right {
   width: 120px;
 }
-.cartBlock .cart-row-1 {
+
+.cart-row-1 {
   top: 7px;
 }
-.cartBlock .cart-row-2 {
+
+.cart-row-2 {
   bottom: 6px;
 }
 

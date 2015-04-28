@@ -578,9 +578,9 @@ class ShopProducts extends CActiveRecord implements IECartPosition
     }
 
     function getPrice()	{
-		$product_price = $this->shopProductPrices->product_price;
+		$product_price = $this->product_price;
 		
-		if($this->shopProductPrices->product_override_price != 0)
+		if($this->product_override_price != 0)
         	$product_price = $this->shopProductPrices->product_override_price;
 		
 		return $product_price;

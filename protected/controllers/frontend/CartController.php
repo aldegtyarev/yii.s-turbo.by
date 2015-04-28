@@ -13,13 +13,13 @@ class CartController extends Controller
 		$product_id = $app->request->getParam('product_id', 0);
 		$quantity = $app->request->getParam('quantity', 0);
 		
-		$message = 'Товар был добавлен в корзину.';
+		$message = '<span style="color:green;">Товар был добавлен в корзину.</span>';
 		
 		$positions = $app->shoppingCart->getPositions();
 		
 		foreach($positions as $position) {
 			if($position->product_id == $product_id) {
-				$message = 'Количество товара было обновлено.';
+				$message = '<span style="color:green;">Количество товара было обновлено.</span>';
 				
 			}
 		}
@@ -29,15 +29,16 @@ class CartController extends Controller
 			$app->shoppingCart->put($model, $quantity);
 			$msg = array(
 				'res'		=>	'ok',
-				'total'		=>	'<span class="left">Товаров в корзине:</span> <span class="right">'.$app->shoppingCart->getCount().' шт</span>',
-				'summ'		=>	'<span class="left">На сумму:</span> <span class="right">'.number_format($app->shoppingCart->getCost(), 0, '.', ' ').'$</span>',
+				'total'		=>	$app->shoppingCart->getCount(),
+				'summ'		=>	Yii::app()->NumberFormatter->formatDecimal($app->shoppingCart->getCost(), 0, '.', ' '),
 				'message'	=>	$message,
 			);
 		}	else	{
 			$msg = array('res' => 'err');
 		}
 		echo json_encode($msg);
-		//$this->render('index');
+		
+		$app->end();
 	}
 	
 	public function actionShowcart()
@@ -104,33 +105,4 @@ class CartController extends Controller
 		
 		$this->redirect('showcart');
 	}
-	
-	
-
-	// Uncomment the following methods and override them if needed
-	/*
-	public function filters()
-	{
-		// return the filter configuration for this controller, e.g.:
-		return array(
-			'inlineFilterName',
-			array(
-				'class'=>'path.to.FilterClass',
-				'propertyName'=>'propertyValue',
-			),
-		);
-	}
-
-	public function actions()
-	{
-		// return external action classes, e.g.:
-		return array(
-			'action1'=>'path.to.ActionClass',
-			'action2'=>array(
-				'class'=>'path.to.AnotherActionClass',
-				'propertyName'=>'propertyValue',
-			),
-		);
-	}
-	*/
 }

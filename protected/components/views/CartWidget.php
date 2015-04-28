@@ -1,14 +1,17 @@
-<div class="cartBlock">
-	<a href="#" class="to-cart">В корзину</a>
-	<p class="cart-row cart-row-1">
-		<span class="cart-row-left">Количество товара:</span>
-		<span class="cart-row-right">10шт.</span>
+<div class="cartBlock pos-rel floatRight pr-15">
+	<a href="<?=$this->controller->createUrl('/cart/showcart')?>" class="to-cart db hide-text underline_n_n pos-abs">В корзину</a>
+	<p class="cart-row cart-row-1 pos-abs">
+		<span class="cart-row-left db text_r floatLeft font-14 c_777">Количество товара:</span>
+		<span class="cart-row-right db text_r floatLeft font-14 c_d70000"><span id="products-count"><?=$count_products?></span>шт.</span>
+		
 	</p>
-	<p class="cart-row cart-row-2">
-		<span class="cart-row-left">Сумма товара:</span>
-		<span class="cart-row-right">1 500 520 бел.руб.</span>
+	<p class="cart-row cart-row-2 pos-abs">
+		<span class="cart-row-left db text_r floatLeft font-14 c_777">Сумма товара:</span>
+		<span class="cart-row-right db text_r floatLeft font-14 c_d70000"><span id="cart-total"><?=Yii::app()->NumberFormatter->formatDecimal($total_summ); ?></span> у.е.</span>
+		
 	</p>
 <?
+	
 /*
 	<div class="CartModule <? if($count_products == 0) { echo 'empty-cart'; }?>" id="CartModule">
 		<div id="total-products" class="total-products"><? echo $count_products ? $count_products : '0';	?></div>

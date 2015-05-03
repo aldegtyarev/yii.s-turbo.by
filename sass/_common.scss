@@ -110,6 +110,7 @@ input[type="submit"],
 input[type="text"],
 input[type="password"],
 input[type="email"],
+button,
 .inputbox,
 textarea {
   outline: none;
@@ -119,10 +120,18 @@ input[type="text"],
 input[type="password"],
 .inputbox,
 textarea {
-	border: 1px solid #586168;
-	padding: 2px 15px;
+	border: 1px solid #d1d1d1;
+	border-bottom: 1px solid #f5f5f5;
+	border-right: 1px solid #f5f5f5;
+	padding: 10px 15px;
+	background-color: #f5f5f5;
 	
 	@include border-radius(4px);
+	@include box-shadow(#dbdbdb 1px 1px 3px inset);
+	
+	&.error {
+		border-color: #d70000;
+	}
 }
 
 a {
@@ -180,28 +189,19 @@ h3 {
 	@extend %font_19;
 }
 
-b,
-strong {
-    @extend %bold;
-}
+b, strong { @extend %bold; }
 
-i {
-    @extend %italic;
-}
+i { @extend %italic; }
 
 .clr{clear:both;}
 .clr-l{clear:left;}
 .inner{width:1000px; margin:0 auto;}
 span sup{text-decoration:none;}
 
-.clearfix {
-	@include pie-clearfix;
-}
+.clearfix { @include pie-clearfix; }
 
 .clear{clear:both;}
-/*
-.clearfix:after, .container:after {content:"\0020";display:block;height:0;clear:both;visibility:hidden;overflow:hidden;}
-.clearfix, */
+
 .container {display:block;}
 
 
@@ -232,6 +232,26 @@ span sup{text-decoration:none;}
 		@extend %c_fff;
 	}
 }
+
+.radius-4 { @include border-radius(4px); }
+
+.c-fff	{ @extend %c_fff; }
+.c-777	{ @extend %c_777; }
+.bg-fff	{ background-color: #fff; }
+.bg-d70000	{ background-color: #d70000; }
+.bg-c4c4c4	{ background-color: #c4c4c4; }
+
+.row1 { margin-left: -10px; margin-right: -10px; }
+
+.errorMessage,
+span.required { @extend %c_d70000; }
+
+.errorMessage {
+	@extend %font_13;
+	@extend %italic;
+	margin-top: 3px;
+}
+
 
 .width-wrap {
   width: 995px;

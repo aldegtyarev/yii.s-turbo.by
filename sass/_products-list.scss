@@ -127,24 +127,6 @@
 			@extend %pos_abs;
 		}
 	}
-
-	.price-discount {
-	}
-
-	.price-byr {
-		margin: 10px 0 0 0;
-		
-		@extend %bold;
-		@extend %font_12;
-		@extend %c_000;
-		
-	}
-
-	.price {
-		@extend %bold;
-		@extend %font_20;
-		@extend %c_d70000;
-	}
 }
 
 .category-products-list {
@@ -246,13 +228,7 @@
 	margin-right: 40px;
 	
 	@extend %fr;
-	
-	.product-prices {
-		p {
-			text-align: center;
-		}
-	}
-	
+		
 	.product-detail {
 		margin-top: 15px;
 	}

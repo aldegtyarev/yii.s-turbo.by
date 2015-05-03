@@ -12,6 +12,7 @@
 	//$baseUrl = $app->request->HostInfo;
 	//$baseUrl_banners = $baseUrl."/images/banners/";
 	$cs = $app->getClientScript();
+	$cs->coreScriptPosition = CClientScript::POS_END;
 	$cs->registerCoreScript('jquery');
 	$cs->registerCoreScript('scripts');
 	//$cs->registerCoreScript('fancybox');

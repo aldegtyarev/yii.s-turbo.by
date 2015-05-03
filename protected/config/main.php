@@ -128,19 +128,16 @@ return array(
 				),			
 				*/
 				
-				'image_popup' => array(
-					'baseUrl' => '/js/lightbox',
-					//'js' => array('js/jquery-ui-1.8.18.custom.min.js', 'js/jquery.smooth-scroll.min.js', 'js/lightbox.js', 'js/init.js'),
-					'js' => array('js/lightbox.js', 'js/init.js'),
-					'css' => array('css/lightbox.css'), // mylightboxstyle.css тоже в папке WEB_ROOT/jq
-					'depends' => array('jquery'),
-				),
-				
 				'fancybox' => array(
 					'baseUrl' => '/',
-					//'js' => array('js/jquery.fancybox-1.3.4.pack.js', 'js/lightbox.js', 'js/fancybox-init.js'),
-					'js' => array('js/jquery.fancybox-1.3.4.pack.js', 'js/fancybox-init.js'),
-					'css' => array('css/jquery.fancybox-1.3.4.css'),
+					'js' => array(
+                        'js/fancyBox/lib/jquery.mousewheel-3.0.6.pack.js', 
+                        'js/fancyBox/source/jquery.fancybox.js?v=2.1.5', 
+                        'js/fancyBox/source/fancybox-init.js'
+                    ),
+					'css' => array(
+                        'js/fancyBox/source/jquery.fancybox.css?v=2.1.5',
+                    ),
 					'depends' => array('jquery'),
 				),
 

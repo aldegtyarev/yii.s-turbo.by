@@ -2,6 +2,9 @@
 
 class CartController extends Controller
 {
+	
+	public $layout='//layouts/column2l';
+	
 	public function actionIndex()
 	{
 		$this->render('index');
@@ -20,7 +23,6 @@ class CartController extends Controller
 		foreach($positions as $position) {
 			if($position->product_id == $product_id) {
 				$message = '<span style="color:green;">Количество товара было обновлено.</span>';
-				
 			}
 		}
 		
@@ -44,7 +46,9 @@ class CartController extends Controller
 	public function actionShowcart()
 	{
 		$app = Yii::app();
-		$positions = Yii::app()->shoppingCart->getPositions();
+		$positions = $app->shoppingCart->getPositions();
+		
+		$params = $app->params;
 		
 		/*
 		foreach($positions as $position) {
@@ -52,7 +56,9 @@ class CartController extends Controller
 		}
 		*/
 		$data = array(
+			'app' => $app,
 			'positions' => $positions,
+			'params' => $params,
 		);
 		$this->render('showcart', $data);
 	}
@@ -69,15 +75,25 @@ class CartController extends Controller
 		
 		$model = ShopProducts::model()->findByPk($product_id);
 		$app->shoppingCart->update($model, $quantity);
-		$this->redirect('showcart');
+		$NumberFormatter = $app->NumberFormatter;
 		
-		/*
+		$positions = $app->shoppingCart->getPositions();
+		$params = $app->params;
+		
 		$data = array(
+			'app' => $app,
 			'positions' => $positions,
+			'params' => $params,
 		);
 		
-		$this->render('showcart', $data);
-		*/
+		$total_cost = $app->shoppingCart->getCost();
+		$data = array(
+			'cost_usd' => $NumberFormatter->formatDecimal($total_cost).' у.е.',
+			'cost_byr' => $NumberFormatter->formatDecimal($total_cost * $params->usd_rate).' бел.руб',
+		);
+		//$this->renderPartial('_cart-list', $data);
+		echo json_encode($data);
+		$app->end();
 	}
 	
 	
@@ -104,5 +120,48 @@ class CartController extends Controller
 		Yii::app()->shoppingCart->clear();
 		
 		$this->redirect('showcart');
+	}
+	
+	public function actionCheckout()
+	{
+		$app = Yii::app();
+		$positions = $app->shoppingCart->getPositions();
+		
+		$params = $app->params;
+		
+		$model = new CheckoutForm;
+		
+		if(isset($_POST['CheckoutForm']))
+		{
+			$model->attributes=$_POST['CheckoutForm'];
+
+			if($model->validate())
+				$this->redirect(array('orderdone'));
+		}
+
+		
+		$data = array(
+			'app' => $app,
+			'params' => $params,
+			'positions' => $positions,
+			'model' => $model,
+		);
+		$this->render('checkout', $data);
+		
+	}
+	
+	public function actionOrderdone()
+	{
+		$app = Yii::app();
+		$params = $app->params;
+		
+		$data = array(
+			'app' => $app,
+			'params' => $params,
+			//'positions' => $positions,
+			//'model' => $model,
+		);
+		
+		$this->render('orderdone', $data);
 	}
 }

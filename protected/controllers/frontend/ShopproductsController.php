@@ -117,6 +117,14 @@ class ShopProductsController extends Controller
 		//echo'<pre>';print_r($model->shopProductsMediases);echo'</pre>';
 		//echo'<pre>';print_r($model->shopProductPrices);echo'</pre>';
 		
+		// сохраняем в сессию, что мы смотрели данный товар
+		$shopProductsIds = isset($app->session['shopProducts.ids']) ? $app->session['shopProducts.ids'] : array() ;
+		if (!in_array($model->product_id, $shopProductsIds)) {
+			$shopProductsIds[] = $model->product_id;
+		}
+		
+		$app->session['shopProducts.ids'] = $shopProductsIds;
+		
 		$this->render('view',array(
 			'model'=>$model,
 			'rows'=>$related_rows,

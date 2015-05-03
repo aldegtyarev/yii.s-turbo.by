@@ -865,10 +865,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 	function copyProduct()
 	{
 		$app = Yii::app();
-		
 		//создаем копию изображений товара
-		
-		
 		$command = $app->db->createCommand();
 		
 		$command->insert('{{shop_products}}', array(

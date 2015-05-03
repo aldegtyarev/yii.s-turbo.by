@@ -9,7 +9,9 @@
 .font-12 { @extend %font_12; }
 .font-13 { @extend %font_13; }
 .font-14 { @extend %font_14; }
+.font-15 { @extend %font_15; }
 .font-17 { @extend %font_17; }
+.font-18 { @extend %font_18; }
 .font-20 { @extend %font_20; } 
 .font-24 { @extend %font_24; } 
 
@@ -57,9 +59,11 @@
 .mt-40 { margin-top: 40px; }
 
 
+.p-10 { padding: 10px; }
 .p-15 { padding: 15px; }
 .p-20 { padding: 20px; }
 .p-25 { padding: 25px; }
+.p-30 { padding: 30px; }
 
 .p-0-10 { padding: 0 10px; }
 .p-0-15 { padding: 0 15px; }
@@ -88,8 +92,8 @@
 
 .border-box	{ @extend %border_box; }
 
-.floatLeft { @extend %fl; }
-.floatRight	{ @extend %fr; }
+.fLeft,.floatLeft { @extend %fl; }
+.fRight,.floatRight	{ @extend %fr; }
 
 .hidden { @extend %hide; }
 
@@ -100,8 +104,11 @@
 
 .ov-hidden { overflow: hidden;}
 
-.hide-text { overflow: hidden;text-indent: 7777px; white-space: nowrap;}
+.hide-text { overflow: hidden;text-indent: 7777px; white-space: nowrap; }
+.nowrap { white-space: nowrap; }
 
 .pointer { @extend %pointer; }
 
 .v-middle{ vertical-align: middle; }
+
+.bg-fff { background-color: #fff; }

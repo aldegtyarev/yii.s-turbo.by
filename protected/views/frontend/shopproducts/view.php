@@ -13,6 +13,28 @@ $this->breadcrumbs=array(
 $app = Yii::app();
 $baseUrl = $app->getBaseUrl(true).'/';
 
+$cs = $app->clientScript;
+$cs->registerCoreScript('fancybox');
+
+$clientScript = $app->clientScript;
+
+
+if ($model->metatitle)	{
+  $this->pageTitle = $model->metatitle;
+}	else	{
+	$this->pageTitle = $model->product_name;
+}
+
+$this->pageTitle .= ' | '.$app->name;
+
+if ($model->metakey)	
+	$clientScript->registerMetaTag($model->metakey, 'keywords');
+
+if ($model->metadesc)		
+	$clientScript->registerMetaTag($model->metadesc, 'description');
+
+
+
 //echo'<pre>';print_r($baseUrl);echo'</pre>';
 //echo'<pre>';print_r($model->shopProductsMediases);echo'</pre>';
 //echo'<pre>';print_r($model->shopProductPrices);echo'</pre>';
@@ -44,11 +66,13 @@ $model_images = $model->Images;
 					<ul class="clearfix">
 						<? 
 							foreach($model_images as $media_item)	{
-								echo CHtml::openTag('li');
-								$thumb_image_url = $params->product_images_liveUrl . 'thumb_'.$media_item->image_file;
-								$image_url = $params->product_images_liveUrl . 'full_'.$media_item->image_file;
-								echo CHtml::link(CHtml::image($thumb_image_url), $image_url, array('class' => "fancybox", "rel" => "group"));
-								echo CHtml::closeTag('li');
+								if($media_item->image_file != $model->product_image)	{
+									echo CHtml::openTag('li');
+									$thumb_image_url = $params->product_images_liveUrl . 'thumb_'.$media_item->image_file;
+									$image_url = $params->product_images_liveUrl . 'full_'.$media_item->image_file;
+									echo CHtml::link(CHtml::image($thumb_image_url), $image_url, array('class' => "fancybox", "data-fancybox-group" => "gallery"));
+									echo CHtml::closeTag('li');
+								}
 							}	
 						?>
 					</ul>

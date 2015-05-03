@@ -68,8 +68,8 @@
 			</div>
 			<div class="product-list-item-row-price-block">
 				<div class="product-prices">
-					<p class="price"><?=number_format($data->product_price, 1, '.', ' ')?> у.е.</p>
-					<p class="price-byr"><?=number_format(($data->product_price * Yii::app()->params->usd_rate), 0, '.', ' ')?> бел.руб</p>
+					<p class="c_d70000 bold font-20 text_c"><?=number_format($data->product_price, 1, '.', ' ')?> у.е.</p>
+					<p class="c_000 bold font-12 mt-10 text_c"><?=number_format(($data->product_price * Yii::app()->params->usd_rate), 0, '.', ' ')?> бел.руб</p>
 				</div>
 				
 				<a href="<?=$data->product_url?>" class="button product-detail">Подробнее</a>

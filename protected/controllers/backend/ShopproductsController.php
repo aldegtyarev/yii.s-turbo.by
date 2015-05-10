@@ -233,7 +233,7 @@ class ShopProductsController extends Controller
 			}
             
 			$Images = $model->Images;
-			//echo'<pre>';print_r($Images, 0);echo'</pre>';die;
+			//echo'<pre>';print_r($Images, 0);echo'</pre>';//die;
 			/*
             echo'<pre>';print_r(count($Images), 0);echo'</pre>';//die;
 			echo'<pre>';print_r($Images[0]->image_id, 0);echo'</pre>';//die;
@@ -250,19 +250,23 @@ class ShopProductsController extends Controller
                         break;
                     }
                 }
+				//echo'<pre>';var_dump($main_foto_present, 0);echo'</pre>';//die;
                 
                 if($main_foto_present == false) {
                     $connection = $app->db;				
 
-                    //ShopProductsImages::model()->setMainFoto($connection, $Images[0]->image_id, $model->product_id);
+                    
                     $_POST['main_foto'] = $Images[0]->image_id;
+					//echo'<pre>';print_r($Images[0]->image_file, 0);echo'</pre>';//die;
+					//echo'<pre>';print_r($model->product_id, 0);echo'</pre>';die;
                     ShopProducts::model()->setProductImage($connection,  $Images[0]->image_file, $model->product_id);
+					ShopProductsImages::model()->setMainFoto($connection, $Images[0]->image_id, $model->product_id);
                     
                 }
                 //die;
 			}
             
-            
+            $this->redirect(array('update','id'=>$model->product_id));
 		}
 		
 		

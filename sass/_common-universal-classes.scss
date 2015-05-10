@@ -10,6 +10,7 @@
 .font-13 { @extend %font_13; }
 .font-14 { @extend %font_14; }
 .font-15 { @extend %font_15; }
+.font-16 { @extend %font_16; }
 .font-17 { @extend %font_17; }
 .font-18 { @extend %font_18; }
 .font-20 { @extend %font_20; } 
@@ -17,7 +18,9 @@
 
 .c_fff { @extend %c_fff; }
 .c_777 { @extend %c_777; }
+.c_999 { @extend %c_999; }
 .c_d70000 { @extend %c_d70000; }
+.c_000 { @extend %c_000; }
 
 .underline_y_n { @extend %underline_y_n; }
 .underline_n_y { @extend %underline_n_y; }
@@ -54,7 +57,9 @@
 
 .mt-5 { margin-top: 5px; }
 .mt-10 { margin-top: 10px; }
+.mt-15 { margin-top: 15px; }
 .mt-20 { margin-top: 20px; }
+.mt-25 { margin-top: 25px; }
 .mt-30 { margin-top: 30px; }
 .mt-40 { margin-top: 40px; }
 

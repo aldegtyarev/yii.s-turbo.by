@@ -32,6 +32,7 @@ return CMap::mergeArray(
 					'<path:.+cart>'=>'cart/<path>',
 					//'<path:.+-detail>'=>'shopproducts/detail',
 					'product/<product>'=>'shopproducts/detail',
+					'category/index'=>'shopcategories/index',
 					'category/<id:.+>'=>'shopcategories/show',
 					'<controller:\w+>/<id:\d+>'=>'<controller>/view',
 					'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',

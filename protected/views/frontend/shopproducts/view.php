@@ -139,22 +139,13 @@ $model_images = $model->Images;
 					<p id="cart-msg" class="hidden pb-5 font-10"></p>
 					
 					<?php 
-//beginForm(mixed $action='', string $method='post', array $htmlOptions=array ( ))
 						echo CHtml::beginForm($this->createUrl('/cart/addtocart'));
 						echo Chtml::hiddenField('quantity', '1');
 						echo Chtml::hiddenField('product_id', $model->product_id, array('id'=>'product_id'));
 						echo CHtml::submitButton('Купить', array('name'=>'addtocart','id'=>'addtocart','class'=>'addtocart-button add button','title'=>'Добавить этот товар в корзину'));
 						echo CHtml::endForm(); 
 					?>
-					
-					<? /*<form method="post" class="productview-tocart js-recalculate" action="index.php">
-					
-						<input type="hidden" name="quantity" id="quantity" value="1">
-						<input type="submit" name="addtocart" id="addtocart" class="addtocart-button add button" title="Добавить этот товар в корзину" value="Купить">
-						<input type="hidden" name="product_id" id="product_id" value="<?=$model->product_id?>">
-					</form> */?>
-					
-					
+										
 					<div class="productview-ask-question"><a href="#">Задать вопрос</a></div>
 
 

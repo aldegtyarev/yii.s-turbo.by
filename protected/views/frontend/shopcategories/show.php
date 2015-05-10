@@ -143,34 +143,13 @@ $params = $app->params;
 		<a href="?select-view=tile" class="<? if($selected_view == 'tile') echo'view-tile-active'; else echo'view-tile'; ?>">tile</a>
 	</div>
 	
-	<?/*
-	<div class="container-block sorting-block-conteiner">
-		<span class="sorting-block">Сортировать по: <a href="#" class="active">цене</a> <a href="#">товар в наличии</a></span>
-		<span class="currency-select">Цены в: <a href="#" class="active">USD</a> <a href="#">BR</a> <a href="#">RUB</a></span>
-	</div>
-	*/?>
-	
 <?
-	$rows = $products;
-	//$images_live_url = $app->params->images_live_url;
-	$webroot = Yii::getPathOfAlias('webroot');
-	$product_classes = "";
-	$isWidget = false;	
-	?>
-		<div class="category-products-list">
-		
-			<?/*
-			<ul class="products-list clearfix">
-				<? //include("$webroot/protected/views/frontend/common/product-list.php");	?>
-				<? 
-					if($selected_view == 'row')	{
-						include("$webroot/protected/views/frontend/common/product-list-row.php");
-					}	else	{
-						include("$webroot/protected/views/frontend/common/product-list.php");
-					}
-				?>
-			</ul>
-			*/?>
+	//$rows = $products;
+	//$webroot = Yii::getPathOfAlias('webroot');
+	//$product_classes = "";
+	//$isWidget = false;	
+?>
+		<div class="category-products-list">		
 			<? 
 				$this->renderPartial('_loop', array(
 					'app'=>$app,
@@ -178,49 +157,7 @@ $params = $app->params;
 					'itemView'=>$itemView,
 				));						 
 			?>
-		
-		</div>
-		
-		
-<?/*
-		<div class="category-products-list">
-			<ul class="products-list clearfix">
-				<? //include("$webroot/protected/views/frontend/common/product-list.php");	?>
-				<? 
-					if($selected_view == 'row')	{
-						include("$webroot/protected/views/frontend/common/product-list-row.php");
-					}	else	{
-						include("$webroot/protected/views/frontend/common/product-list.php");
-					}
-				?>
-			</ul>
-		
-		</div>
-
-
-	<? /*
-//echo'<pre>';print_r($pagination->itemCount);echo'</pre>';							
-	if($pagination && ($pagination->pageSize < $pagination->itemCount))	{	?>
-		<a href="#" class="more-products button">Ещё товары</a>
-		<div class="pagination">
-			<?php 
-				
-					$this->widget('CLinkPager', array(	
-						'header' => '', 
-						'pages' => $pagination, 
-						'id' => 'pages',
-						'nextPageLabel'=> '>',
-						'prevPageLabel'=> '<',
-						'cssFile'=>'/css/pager.css',
-						'htmlOptions' => array(
-							'class' => 'pagination-list', 
-						),
-					));
-				
-			?>
-		</div>
-	<?	}	?>			
-*/?>
+		</div>		
 <?	}	?>
 
 

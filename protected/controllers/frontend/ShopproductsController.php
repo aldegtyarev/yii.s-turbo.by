@@ -63,26 +63,12 @@ class ShopProductsController extends Controller
 		$app = Yii::app();
 		$connection = $app->db;
 		//echo'<pre>';print_r($product);echo'</pre>';
-		/*
-		$path_arr = explode('/', $path);
-		$slug = str_replace('-detail', '', $path_arr[count($path_arr)-1]);
-		$category_path = substr(str_replace($path_arr[count($path_arr)-1], '', $path), 0, -1);
-		*/
 		//$model = $this->loadModelbySlug($slug);
 		$model = $this->loadModel($product);
 		
 		//получаем сопутствующие товары
 		$related_rows = ShopProductsRelations::model()->getRelatedProducts($product);
-		/*
-		$sql = "SELECT p.`product_id`, p.`product_name`, p.`product_sku`, p.`product_image`, p.`manuf`, p.`product_price`, p.`product_availability`
-				FROM `{{shop_products}}` AS p
-				INNER JOIN `{{shop_products_relations}}` AS pr ON p.`product_id` = pr.`product_related_id`
-				WHERE pr.`product_id` = :product_id";
 		
-		$command = $connection->createCommand($sql);
-		$command->bindParam(":product_id", $product_id);
-		$rows = $command->queryAll();
-		*/
 		$criteria = new CDbCriteria();
 		
 		$criteria->select = "t.*";
@@ -98,7 +84,6 @@ class ShopProductsController extends Controller
         ));
 		
 		$finded_product_ids = ShopProducts::model()->getProductIds($RelatedDataProvider->data);
-		//echo'$related_rows<pre>';print_r($finded_product_ids);echo'</pre>';die;
 		
 		$firms = ShopFirms::model()->getFirmsForProductList($connection, $finded_product_ids);
 		
@@ -107,15 +92,11 @@ class ShopProductsController extends Controller
 			$row->product_image = $app->params->product_images_liveUrl.($row->product_image ? 'thumb_'.$row->product_image : 'noimage.jpg');
 			$row->firm_name = $firms[$row->firm_id]['name'];
 		}
-
-		//echo'$related_rows<pre>';print_r($RelatedDataProvider->data);echo'</pre>';die;
 		
 		//$breadcrumbs = $this->createBreadcrumbs($category_path, $model);
 		$breadcrumbs = array(
 			$model->product_name,
 		);
-		//echo'<pre>';print_r($model->shopProductsMediases);echo'</pre>';
-		//echo'<pre>';print_r($model->shopProductPrices);echo'</pre>';
 		
 		// сохраняем в сессию, что мы смотрели данный товар
 		$shopProductsIds = isset($app->session['shopProducts.ids']) ? $app->session['shopProducts.ids'] : array() ;
@@ -132,67 +113,6 @@ class ShopProductsController extends Controller
 			'breadcrumbs' => $breadcrumbs,
 		));
 		
-	}
-
-	/**
-	 * Creates a new model.
-	 * If creation is successful, the browser will be redirected to the 'view' page.
-	 */
-	public function actionCreate()
-	{
-		$model=new ShopProducts;
-
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['ShopProducts']))
-		{
-			$model->attributes=$_POST['ShopProducts'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->product_id));
-		}
-
-		$this->render('create',array(
-			'model'=>$model,
-		));
-	}
-
-	/**
-	 * Updates a particular model.
-	 * If update is successful, the browser will be redirected to the 'view' page.
-	 * @param integer $id the ID of the model to be updated
-	 */
-	public function actionUpdate($id)
-	{
-		$model=$this->loadModel($id);
-
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['ShopProducts']))
-		{
-			$model->attributes=$_POST['ShopProducts'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->product_id));
-		}
-
-		$this->render('update',array(
-			'model'=>$model,
-		));
-	}
-
-	/**
-	 * Deletes a particular model.
-	 * If deletion is successful, the browser will be redirected to the 'admin' page.
-	 * @param integer $id the ID of the model to be deleted
-	 */
-	public function actionDelete($id)
-	{
-		$this->loadModel($id)->delete();
-
-		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		if(!isset($_GET['ajax']))
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
 	}
 
 	/**

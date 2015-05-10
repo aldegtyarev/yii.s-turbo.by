@@ -4,23 +4,6 @@ http://habrahabr.ru/post/73172/
 
 11111111111111111111111111111111
 
-yii@s-turbo.by
-v&p39$SFUr2R
-
-superman
-eclipse8891
-
-Панель управления хостингом:
-https://vh52.hoster.by:2083 - шифрованное соединение
-http://vh52.hoster.by:2082 - нешифрованное соединение
-
-Системный пользователь: sturboby
-Системный пароль: leeJ6eTi
-Абсолютный путь к сайту: '/home/sturboby/public_html'
-ftp-сервер: vh52.hoster.by 
-Служебный адрес для просмотра сайта: http://sturboby.vh52.hosterby.com/
-
-0rhr&+PK=)X%
 
 1. блок "поиск по авто" сначала это делать. +++
 2.добавить "левая + правая"+++

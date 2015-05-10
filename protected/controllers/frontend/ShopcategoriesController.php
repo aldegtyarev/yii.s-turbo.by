@@ -280,84 +280,153 @@ class ShopCategoriesController extends Controller
 	}
 
 	/**
-	 * Creates a new model.
-	 * If creation is successful, the browser will be redirected to the 'view' page.
-	 */
-	public function actionCreate()
-	{
-		$model=new ShopCategories;
-
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-		$model->getDropDownlistData();
-
-		if(isset($_POST['ShopCategories']))
-		{
-			$model->attributes=$_POST['ShopCategories'];
-			$model->parentId = $_POST['ShopCategories']['parentId'];
-			//$model->name = $_POST['ShopCategories']['name'];
-			
-			if($model->save())
-				//$this->redirect(array('view','id'=>$model->id));
-				$this->redirect(array('admin','id'=>$model->id));
-		}
-
-		$this->render('create',array(
-			'model'=>$model,
-		));
-	}
-
-	/**
-	 * Updates a particular model.
-	 * If update is successful, the browser will be redirected to the 'view' page.
-	 * @param integer $id the ID of the model to be updated
-	 */
-	public function actionUpdate($id)
-	{
-		$model=$this->loadModel($id);
-		$model->getDropDownlistData();
-		
-		$model->parentId = $model->parent()->find();	//получаем предка
-
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['ShopCategories']))
-		{
-			$model->attributes=$_POST['ShopCategories'];
-			if($model->save())
-				$this->redirect(array('admin','id'=>$model->id));
-		}
-
-		$this->render('update',array(
-			'model'=>$model,
-		));
-	}
-
-	/**
-	 * Deletes a particular model.
-	 * If deletion is successful, the browser will be redirected to the 'admin' page.
-	 * @param integer $id the ID of the model to be deleted
-	 */
-	public function actionDelete($id)
-	{
-		//$this->loadModel($id)->delete();
-		$this->loadModel($id)->deleteNode();
-
-		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		if(!isset($_GET['ajax']))
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-	}
-
-	/**
 	 * Lists all models.
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('ShopCategories');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
+		$app = Yii::app();
+		$connection = $app->db;
+		
+		$this->processPageRequest('page');
+		
+		$selected_view = $app->request->getParam('select-view', -1);
+		
+		if($selected_view != -1)	{
+			$app->session['Shopcategories.selected_view'] = $selected_view;
+			$this->redirect(array('index'));
+		}	else	{
+			if(isset($app->session['Shopcategories.selected_view']))	{
+				$selected_view = $app->session['Shopcategories.selected_view'];
+			}	else	{
+				$selected_view = 'row';
+			}
+		}
+		
+		$type_request = (int)$app->request->getParam('type', 0);
+		$firm_request = (int)$app->request->getParam('firm', 0);
+		$body_request = (int)$app->request->getParam('body', 0);
+		
+		//$category = ShopCategories::model()->findByPk($id);
+		//$descendants = $category->children()->findAll(array('order'=>'ordering'));
+		
+		//если фильруем по какой-то модели - то получаем ИД этих моделей
+		$model_ids = ShopModelsAuto::model()->getModelIds($app);
+		//echo'$model_ids<pre>';print_r($model_ids,0);echo'</pre>';
+		
+		$criteria = new CDbCriteria();
+		$criteria->select = "t.product_id";
+		
+		$condition_arr = array();
+		
+		if(count($model_ids))	{
+			$product_ids = ShopProductsModelsAuto::model()->getProductIdFromModels($connection, $model_ids);
+			if(count($product_ids))	{
+				$condition_arr[] = "t.`product_id` IN (".implode(', ', $product_ids).")";
+			}
+		}
+		
+		$criteria->condition = implode(' AND ', $condition_arr);
+		$criteria->order = "t.`product_id`";
+				
+		$criteria->condition = implode(' AND ', $condition_arr);
+				
+		$criteria->select = "t.*";
+		
+        $dataProvider = new CActiveDataProvider('ShopProducts', array(
+            'criteria'=>$criteria,
+            'pagination'=>array(
+               // 'pageSize'=>$app->params->pagination['products_per_page'],
+                'pageSize'=>120,
+				'pageVar' =>'page',
+            ),
+        ));
+		
+		$finded_product_ids = ShopProducts::model()->getProductIds($dataProvider->data);
+		
+		if(count($finded_product_ids))	{
+			//загрузить группы товаров
+			//$producttypes = ShopProductTypes::model()->getProductTypesForProductList($connection, $finded_product_ids, $get_null = true);
+			//загрузить фирмы
+			$firms = ShopFirms::model()->getFirmsForProductList($connection, $finded_product_ids);
+			
+			//$bodies = ShopBodies::model()->getBodiesForProductList($connection, $finded_product_ids, $model_ids);
+		}	else	{
+			$firms = array();
+			//$producttypes = array();
+			//$bodies = array();
+		}
+		
+		
+		//echo'<pre>';print_r($finded_product_ids);echo'</pre>';
+		//echo'<pre>';print_r($firms);echo'</pre>';
+		if(count($dataProvider->data))	{
+			$product_ids = array();
+			foreach($dataProvider->data as $row)	{
+				$product_ids[] = $row->product_id;
+				$row->product_url = $this->createUrl('shopproducts/detail', array('product'=> $row->product_id));
+				$row->product_image = $app->params->product_images_liveUrl.($row->product_image ? 'thumb_'.$row->product_image : 'noimage.jpg');
+				$row->firm_name = $firms[$row->firm_id]['name'];
+				//$row->product_availability_str = $firms[$row->firm_id]['name'];
+			}
+			
+			//получаем массив доп. изображений для списка товаров
+			$ProductsImages = ShopProductsImages::model()->getFotoForProductList($connection, $product_ids);
+			
+			if(count($ProductsImages))	{
+				foreach($ProductsImages as $Image)	{
+					foreach($dataProvider->data as $row)	{
+						if($Image['product_id'] == $row->product_id)	{
+							$row->AdditionalImages[] = $Image['image_file'];
+						}
+					}
+				}
+			}
+		}	else	{
+			$ProductsImages = array();
+		}
+		
+		//echo'<pre>';print_r(count($finded_product_ids));echo'</pre>';
+		
+		$breadcrumbs = array(
+			'Список товаров'
+		);
+		
+		if(count($model_ids))	{
+			if(count($model_ids) == 2 && $model_ids[1] == 1247)	{
+				$this->show_models = false;
+			}	else	{
+				$this->show_models = true;
+			}
+
+		}	else	{
+			$firms = array();
+			$bodies = array();
+			$show_models = true;
+		}
+		
+		if($selected_view == 'row')	{
+			$itemView = "_view-row";
+		}	else	{
+			$itemView = "_view";
+		}
+		
+        if ($app->request->isAjaxRequest){
+            $this->renderPartial('_loopAjax', array(
+                'dataProvider'=>$dataProvider,
+                'itemView'=>$itemView,
+            ));
+            $app->end();
+        } else {
+			$data = array(
+				'app'=> $app,
+				'dataProvider'=> $dataProvider,
+				'itemView'=>$itemView,				
+				'selected_view'=> $selected_view,
+				'breadcrumbs' => $breadcrumbs,
+			);
+
+			$this->render('index', $data);
+        }		
 	}
 
 	/**
@@ -376,229 +445,9 @@ class ShopCategoriesController extends Controller
 	}
 	
 	
-	public function actionUpdatemeta1()
-	{
-		$connection = Yii::app()->db;
-		$sql = "SELECT * FROM `{{shop_categories}}`";
-		$command = $connection->createCommand($sql);
-		$cat_rows = $command->queryAll();
-		//echo'<pre>';print_r($cat_rows);echo'</pre>';
-		foreach($cat_rows as $cat_row)	{
-			$sql = "SELECT * FROM `s9r5d_virtuemart_categories_ru_ru` WHERE `virtuemart_category_id` = ".$cat_row['id'];
-			$command = $connection->createCommand($sql);
-			$old_info = $command->queryRow();
-			$update_arr = array();
-			$update_arr[] = "`title` = '".$old_info['customtitle']."'";
-			$update_arr[] = "`keywords` = '".$old_info['metakey']."'";
-			$update_arr[] = "`description` = '".$old_info['metadesc']."'";
-			$update_str = implode(', ', $update_arr);
-			$cat_id = $cat_row['id'];
-			echo'<pre>';print_r($update_str);echo'</pre>';
-			$sql = "UPDATE {{shop_categories}} SET $update_str WHERE `id` = $cat_id";
-			$command = $connection->createCommand($sql);
-			$rowCount=$command->execute();
-			
-		}
-	}
 	
-	public function actionUpdateshowinmenu()
-	{
-		$connection = Yii::app()->db;
-		$sql = "SELECT * FROM `{{shop_categories}}` WHERE `anchor_css` = 'end'";
-		$command = $connection->createCommand($sql);
-		$cat_rows = $command->queryAll();
-		//echo'<pre>';print_r($cat_rows);echo'</pre>';
-		foreach($cat_rows as $cat_row)	{
-			$category=ShopCategories::model()->findByPk($cat_row['id']);
-			$descendants=$category->children()->findAll();
-			foreach($descendants as $descendant)	{
-				$descendant->show_in_menu = 0;
-				$descendant->save(false);
-			}
-		}
-	}
 	
-	//обновление мета информации из старой таблицы меню
-	public function actionUpdatemeta()
-	{
-		//unset($menu_items);
-		
-		$connection = Yii::app()->db;
-		$sql = "SELECT * FROM `s9r5d_menu` WHERE `published` = 1 AND `link` like '%com_virtuemart%'";
-		$command = $connection->createCommand($sql);
-		$menu_items = $command->queryAll();
-		
-		//echo'<pre>';print_r(json_decode($menu_items[66]['params']));echo'</pre>';
-		//echo'<pre>';print_r($menu_items[16]['link']);echo'</pre>';
-		//$link_arr = explode('&', $menu_items[16]['link']);
-		//echo'<pre>';print_r($link_arr);echo'</pre>';
-		//echo'<pre>';print_r($menu_items);echo'</pre>';
-		
-		foreach($menu_items as $menu_item)	{
-			$update_arr = array();
-			$cat_name = '';
-			$cat_id = 0;
-			$params = json_decode($menu_item['params']);
-			//echo'<pre>';print_r($params);echo'</pre>';
-			
-			
-			
-			$anchor_css = 'menu-anchor_css';
-			if($params->$anchor_css != '')	{
-				$update_arr[] = "`anchor_css` = '".$params->$anchor_css."'";
-			}	else	{
-				
-			}
-			$update_arr[] = "`show_in_menu` = 1";
-			$update_arr[] = "`alias` = '".$menu_item['alias']."'";
-			
-			
-			$link_arr = explode('&', $menu_item['link']);
-			foreach($link_arr as $link_i)	{
-				$link_i_arr = explode('=', $link_i);
-				//echo'<pre>';print_r($link_i_arr);echo'</pre>';
-				if($link_i_arr[0] == 'virtuemart_category_id')	{
-					$cat_id = $link_i_arr[1];
-				}
-			}
-			
-
-			if($params->page_title != '')	{
-				$update_arr[] = "`title` = '".$params->page_title."'";
-			}
-			
-			$description = 'menu-meta_description';
-			if($params->$description != '')	{
-				$update_arr[] = "`description` = '".$params->$description."'";
-			}
-			
-			$keywords = 'menu-meta_keywords';
-			if($params->$keywords != '')	{
-				$update_arr[] = "`keywords` = '".$params->$keywords."'";
-			}
-			
-			$update_str = implode(', ', $update_arr);
-			//echo'<pre>';print_r($params->$description);echo'</pre>';
-			//echo'<pre>';print_r($params->menu-meta_keywords);echo'</pre>';
-			
-			//if($cat_name != '')	{
-			if($cat_id)	{
-				//echo'<pre>cat_name = ';print_r($cat_name);echo'</pre>';
-				//echo"<pre> $cat_id | ";print_r($update_str);echo'</pre>';
-				//$sql = "UPDATE {{shop_categories}} SET $update_str WHERE `name` = \"$cat_name\"";
-				$sql = "UPDATE {{shop_categories}} SET $update_str WHERE `id` = $cat_id";
-				echo'<pre>';print_r($sql);echo'</pre>';
-				$command = $connection->createCommand($sql);
-				$rowCount=$command->execute();
-			}
-		}
-		unset($menu_items);
-		//echo'<pre>';print_r($menu_items);echo'</pre>';
-	}
 	
-	public function actionMovecategories()
-	{
-		$connection = Yii::app()->db;
-		
-		$sql = 'TRUNCATE TABLE {{shop_categories}}';
-		$command = $connection->createCommand($sql);
-		//$res = $command->execute();
-		
-		$sql = "select cr.*, cc.category_parent_id, ca.ordering
-				FROM s9r5d_virtuemart_categories_ru_ru as cr
-				INNER JOIN s9r5d_virtuemart_category_categories AS cc ON cc.category_child_id = cr.virtuemart_category_id
-				INNER JOIN s9r5d_virtuemart_categories AS ca ON ca.virtuemart_category_id = cr.virtuemart_category_id
-				WHERE cr.virtuemart_category_id >= 4500 AND cr.virtuemart_category_id <=4999 ORDER BY cr.virtuemart_category_id";
-		$command = $connection->createCommand($sql);
-		$virtuemart_categories = $command->queryAll();
-		$virtuemart_categories1 = $virtuemart_categories;
-		$deleted_cats = array();
-		//echo'<pre>';print_r($virtuemart_categories);echo'</pre>';
-		foreach($virtuemart_categories as $key=>$cat) {
-			//echo'<pre>';print_r($cat);echo'</pre>';
-			/*
-			$data_['Categories'][parentId] = ;
-			$data_['Categories'][name] = $cat['category_name'];
-			$data_['Categories'][title] = '';
-			$data_['Categories'][keywords] = '';
-			$data_['Categories'][description] = '';
-			$data_['Categories'][alias] = '';
-			*/
-			$add_record = false;
-			$add_record = true;
-			/*
-			if($cat['category_parent_id'] == 0)	{
-				$add_record = true;
-			}	else	{
-				foreach($virtuemart_categories1 as $cat1) {
-					if($cat['category_parent_id'] == $cat1['virtuemart_category_id'])	{
-						$add_record = true;
-						break;
-					}
-				}
-			}
-			*/
-			if($add_record)	{
-				$model = new ShopCategories;
-				$model->id = $cat['virtuemart_category_id'];
-				$model->parentId = $cat['category_parent_id'];
-				$model->name = $cat['category_name'];
-				$model->title = $cat['custom_title'];
-				$model->keywords = $cat['metakey'];
-				$model->description = $cat['metadesc'];
-				$model->alias = $cat['slug'];
-				$model->ordering = $cat['ordering'];
-				$model->category_companies = $cat['category_companies'];
-				$model->cat_column = $cat['cat_column'];
-				$model->save();
-			}	else	{
-				$virtuemart_categories[$key]['deleted'] = 1;
-			}
-			echo'<pre>';print_r($cat);echo'</pre>';
-		}
-		
-	}
-	
-	public function actionUpdatepath()
-	{
-		echo'<pre>';print_r('actionUpdatepath');echo'</pre>';
-		$ShopCategories = ShopCategories::model()->findAll('id > 4000 and id <= 5000');
-		echo'<pre>';print_r(count($ShopCategories));echo'</pre>';
-		$i = 0;
-		foreach($ShopCategories as $category)	{
-			//if($category->alias != 'avtomobili')	{
-				$ancestors = $category->ancestors()->findAll();
-				$path = '';
-				foreach($ancestors as $a)	{
-					if($a->alias != 'avtomobili')	{
-						$path .= $a->alias.'/';
-						//echo'<pre>';print_r($a->name);echo'</pre>';
-					}
-				}
-				$path .= $category->alias;
-				if($category->name == 'vt146|146 (94-01)')	{
-
-					
-				}
-					//echo'<pre>ancestors=';print_r($ancestors);echo'</pre>';
-				//echo'<pre>path = ';print_r($path);echo'</pre>';				
-				$category->path = $path;
-				$category->save(false);
-			//}
-			/*
-			foreach($ancestors as $$ancestor)	{
-				$ancestor->__destruct();
-			}
-			*/
-			//if (count($ancestors))	$ancestors->__destruct();
-			$i++;
-
-
-		}
-		echo'<pre>';print_r($i);echo'</pre>';
-	}	
-	
-
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.

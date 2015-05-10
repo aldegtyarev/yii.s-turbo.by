@@ -54,7 +54,8 @@ class SearchAutoWidget extends CWidget {
 		}
 		
 		if($do_redirect) {
-			$this->owner->redirect($app->homeUrl);
+			//$this->owner->redirect($app->homeUrl);
+			$this->owner->redirect($this->controller->createUrl('shopcategories/index'));
 		}
 		
 		

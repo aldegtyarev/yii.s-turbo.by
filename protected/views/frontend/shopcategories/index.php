@@ -1,20 +1,30 @@
 <?php
 /* @var $this CategoriesController */
-/* @var $dataProvider CActiveDataProvider */
+/* @var $model Categories */
 
-$this->breadcrumbs=array(
-	' Categories',
-);
+$this->breadcrumbs = $breadcrumbs;
 
-$this->menu=array(
-	array('label'=>'Create Categories', 'url'=>array('create')),
-	array('label'=>'Manage Categories', 'url'=>array('admin')),
-);
 ?>
 
-<h1>Categories</h1>
+<?	/*<h1><?php echo $category->name; ?></h1>	*/?>
+<div class="category-view">
+	<h1>Список товаров</h1>
+</div>
 
-<?php $this->widget('zii.widgets.CListView', array(
-	'dataProvider'=>$dataProvider,
-	'itemView'=>'_view',
-)); ?>
+<?	if (count($dataProvider->data)) {	?>
+	
+	<div class="select-view-block clearfix">
+		<a href="?select-view=row" class="<? if($selected_view == 'row') echo'view-row-active'; else echo'view-row'; ?>">row</a>
+		<a href="?select-view=tile" class="<? if($selected_view == 'tile') echo'view-tile-active'; else echo'view-tile'; ?>">tile</a>
+	</div>
+	
+	<div class="category-products-list">		
+		<? 
+			$this->renderPartial('_loop', array(
+				'app'=>$app,
+				'dataProvider'=>$dataProvider,
+				'itemView'=>$itemView,
+			));						 
+		?>
+	</div>		
+<?	}	?>

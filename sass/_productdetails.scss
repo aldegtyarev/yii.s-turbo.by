@@ -150,7 +150,7 @@
 	//@extend %db;
 	@extend %pointer;
 	@extend %c_fff;
-	//@extend %fr;
+	@extend %font_16;
 	
 	&:hover {
 		background: #be0000;

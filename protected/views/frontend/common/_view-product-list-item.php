@@ -20,7 +20,7 @@
 		<?	}	?>
 		<div class="product-list-item-bottom pos-abs">
 				<?//if($data->product_override_price != 0) {	?>
-					<p class="c_d70000 bold font-20"><?=number_format(($data->product_price * Yii::app()->params->usd_rate), 0, '.', ' ')?> бел.руб</p>
+					<p class="c_d70000 bold font-20"><?=number_format(($data->product_price * Yii::app()->params->usd_rate), 0, '.', ' ')?> руб.</p>
 					<p class="c_000 bold font-16 mt-10"><?=number_format($data->product_price, 1, '.', ' ')?> у.е.</p>
 				<?	//}	else	{	?>
 					<? /*<p class="price"><?=number_format($data->product_price, 0, '.', ' ')?> у.е.</p> */ ?>

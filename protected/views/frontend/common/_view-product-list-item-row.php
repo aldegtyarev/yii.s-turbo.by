@@ -67,10 +67,8 @@
 				</ul>
 			</div>
 			<div class="product-list-item-row-price-block fLeft pl-20 text_c mt-10">
-					<p class="c_d70000 bold font-20 text_c nowrap"><?=number_format(($data->product_price * Yii::app()->params->usd_rate), 0, '.', ' ')?> бел.руб</p>
-					<p class="c_000 bold font-16 mt-10 text_c"><?=number_format($data->product_price, 1, '.', ' ')?> у.е.</p>
-				
-				<a href="<?=$data->product_url?>" class="button-red product-detail mt-10 mb-5">Подробнее</a>
+				<p class="c_d70000 bold font-20 text_c nowrap"><?=number_format(($data->product_price * Yii::app()->params->usd_rate), 0, '.', ' ')?> руб.</p>
+				<p class="c_000 bold font-16 mt-10 text_c"><?=number_format($data->product_price, 1, '.', ' ')?> у.е.</p>
 				
 				<? if($data->product_availability > 0)	{	?>
 					<?
@@ -81,22 +79,23 @@
 					}
 					?>
 				
-					<p class="status product-list-item-row-status <?=$status_class?>"><?=$data->ProductAvailabilityArray[$data->product_availability]['name'] ?></p>
+					<p class="status list-item-row-status <?=$status_class?>"><?=$data->ProductAvailabilityArray[$data->product_availability]['name'] ?></p>
 				<?	}	?>
 				
-
+				<a href="<?=$data->product_url?>" class="button-red product-detail mt-10 mb-5">Подробнее</a>
+				
 				<?php 
 					echo CHtml::beginForm($this->createUrl('/cart/addtocart'));
-					echo Chtml::hiddenField('quantity', '1');
-					echo Chtml::hiddenField('product_id', $data->product_id, array('id'=>'product_id'));
-					echo CHtml::submitButton('Купить', array('name'=>'addtocart','id'=>'addtocart','class'=>'addtocart-button prod-list-addtocart-button add button-green mt-5 pointer','title'=>'Добавить этот товар в корзину'));
-					echo CHtml::endForm(); 
+					echo Chtml::hiddenField('quantity', '1', array('class'=>'quantity', 'id'=>false));
+					echo Chtml::hiddenField('product_id', $data->product_id, array('class'=>'product_id', 'id'=>false));
+					echo CHtml::submitButton('Купить', array('name'=>'addtocart','class'=>'addtocart addtocart-button prod-list-addtocart-button add button-green mt-5 pointer','title'=>'Добавить этот товар в корзину'));
+					
 				?>
-				<p id="to-cart-process" class="to-cart-process pt-5 hidden">
-					<span id="ajax-loading font-10"><img class="v-middle" src="/img/loading.gif" /> Обработка...</span>
-				</p>
-				<p id="cart-msg" class="cart-msg hidden pb-5 font-10"></p>
-				
+					<p class="to-cart-process pt-5 hidden">
+						<span class="ajax-loading font-10"><img class="v-middle" src="/img/loading.gif" /> Обработка...</span>
+					</p>
+					<p class="cart-msg hidden pb-5 font-10"></p>
+				<?php echo CHtml::endForm(); ?>
 				
 			</div>
 			

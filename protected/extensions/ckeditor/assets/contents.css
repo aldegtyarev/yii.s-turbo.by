@@ -24,6 +24,10 @@ body
 	line-height: 1.6em;
 }
 
+.cke_editable p {
+	margin: 0 0 12px 0; 
+}
+
 blockquote
 {
 	font-style: italic;

@@ -209,10 +209,6 @@
 	}
 }
 
-.product-list-item-row-price-block {
-	width: 160px;
-}
-
 .product-list-item-row-status {
 	margin: 15px auto 0 auto;
 }
@@ -222,21 +218,24 @@
 }
 
 .product-list-item-row-price-block {
+	width: 160px;
+	
 	.addtocart-button,
 	.product-detail {
-		padding: 10px 20px;
+		padding: 6px 13px;
 		
 	}
 	
 	.product-detail {
-		width: 75px;
+		//width: 75px;
 	}
 	
 	.addtocart-button {
-		width: 115px;
+		width: 91px;
 	}
 	
-	.status {
-		margin: 5px auto 3px auto;
-	}	
+}
+
+.list-item-row-status {
+	margin: 8px auto 3px auto;
 }

@@ -2,11 +2,14 @@ $(document).ready(function () {
 	'use strict';
 	
 	var menu_cat_li_a = $(".menu-cat li a"),
-		addtocart = $("#addtocart"),
+		addtocart = $(".addtocart"),
 		max_height = 0,
 		products_on_auto_item_a = $('.products-on-auto-item a'),
 		cart_qty = 0,
-		cart_form = null;
+		cart_form = null,
+		to_cart_process = null,
+		cart_msg = null,
+		to_cart_form = null;
 			
 	$('.sidebar-banner a').click(function () {
 
@@ -37,19 +40,23 @@ $(document).ready(function () {
 	
 	
 	addtocart.on('click', function () {		//добавляем товар в корзину
+		to_cart_form = $(this).paren('form');
+		cart_msg = to_cart_form.find('.cart-msg');
+		to_cart_process = to_cart_form.find('.to-cart-process');
+		
 		$.ajax({
 			type: 'post',
-			url: $(this).parent('form').attr('action'),
+			url: to_cart_form.attr('action'),
 			data: {product_id : $('#product_id').val(),	quantity : $('#quantity').val()},
 			dataType: 'json',
 			beforeSend: function () {
-				$('#to-cart-process').slideDown();
+				to_cart_process.slideDown();
 			},
 			success: function (msg) {
 				if (msg.res === 'ok') {
-					$('#to-cart-process').hide();
-					$('#cart-msg').html(msg.message);
-					$('#cart-msg').show();
+					to_cart_process.hide();
+					cart_msg.html(msg.message);
+					cart_msg.show();
 					
 					$('#products-count').html(msg.total);
 					$('#cart-total').html(msg.summ);

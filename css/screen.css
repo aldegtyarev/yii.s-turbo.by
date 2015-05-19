@@ -1683,10 +1683,6 @@ span sup {
   padding-right: 3px;
 }
 
-.product-list-item-row-price-block {
-  width: 160px;
-}
-
 .product-list-item-row-status {
   margin: 15px auto 0 auto;
 }
@@ -1695,18 +1691,19 @@ span sup {
   margin-bottom: 6px;
 }
 
+.product-list-item-row-price-block {
+  width: 160px;
+}
 .product-list-item-row-price-block .addtocart-button,
 .product-list-item-row-price-block .product-detail {
-  padding: 10px 20px;
-}
-.product-list-item-row-price-block .product-detail {
-  width: 75px;
+  padding: 6px 13px;
 }
 .product-list-item-row-price-block .addtocart-button {
-  width: 115px;
+  width: 91px;
 }
-.product-list-item-row-price-block .status {
-  margin: 5px auto 3px auto;
+
+.list-item-row-status {
+  margin: 8px auto 3px auto;
 }
 
 .products-on-auto .jcarousel-control-prev,
@@ -2099,6 +2096,10 @@ span sup {
 }
 .related-products h3 {
   margin: 0 0 20px 0;
+}
+
+.product_description p {
+  margin-bottom: 12px;
 }
 
 .filter-block {

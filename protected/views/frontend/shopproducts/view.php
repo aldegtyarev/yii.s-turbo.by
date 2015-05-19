@@ -87,8 +87,8 @@ $model_images = $model->Images;
 						<div class="row productdetails-price-row clearfix">
 							<span class="label"><? echo $model->getAttributeLabel('product_price');?>:</span>
 							<div class="value" id="productPrice<?=$model->product_id?>">
-								<p class="price"><?=number_format($model->product_price, 1, '.', ' ')?> у.е.</p>
-								<p class="price-byr"><?=number_format(($model->product_price * Yii::app()->params->usd_rate), 0, '.', ' ')?> бел.руб</p>
+								<p class="price"><?=number_format(($model->product_price * Yii::app()->params->usd_rate), 0, '.', ' ')?> руб.</p>
+								<p class="price-byr"><?=number_format($model->product_price, 1, '.', ' ')?> у.е.</p>
 							</div>
 						</div>
 						
@@ -132,14 +132,13 @@ $model_images = $model->Images;
 						
 						<?	}	?>						
 					</div>
-					
-					<p id="to-cart-process" class="to-cart-process pt-5 hidden">
-						<span id="ajax-loading font-10"><img class="v-middle" src="/img/loading.gif" /> Обработка...</span>
-					</p>
-					<p id="cart-msg" class="hidden pb-5 font-10"></p>
+					<?php echo CHtml::beginForm($this->createUrl('/cart/addtocart')); ?>
+						<p class="to-cart-process pt-5 hidden">
+							<span class="ajax-loading font-10"><img class="v-middle" src="/img/loading.gif" /> Обработка...</span>
+						</p>
+						<p class="cart-msg hidden pb-5 font-10"></p>
 					
 					<?php 
-						echo CHtml::beginForm($this->createUrl('/cart/addtocart'));
 						echo Chtml::hiddenField('quantity', '1');
 						echo Chtml::hiddenField('product_id', $model->product_id, array('id'=>'product_id'));
 						echo CHtml::submitButton('Купить', array('name'=>'addtocart','id'=>'addtocart','class'=>'addtocart-button add button','title'=>'Добавить этот товар в корзину'));

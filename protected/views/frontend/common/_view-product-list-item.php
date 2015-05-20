@@ -1,6 +1,6 @@
 <div class="product-item product-list-item fLeft pos-rel">
 	<div class="product-item-wr">
-		<a href="<?=$data->product_url?>" class="product-title db bold text_c font-16 mt-15"><?=$data->product_name?></a>
+		<a href="<?=$data->product_url?>" class="product-title db bold text_c font-12"><?=$data->product_name?></a>
 
 		<div class="product-image mb-10" style="background-image: url(<?=$data->product_image ?>)"></div>
 
@@ -20,8 +20,8 @@
 		<?	}	?>
 		<div class="product-list-item-bottom pos-abs">
 				<?//if($data->product_override_price != 0) {	?>
-					<p class="c_d70000 bold font-20"><?=number_format(($data->product_price * Yii::app()->params->usd_rate), 0, '.', ' ')?> руб.</p>
-					<p class="c_000 bold font-16 mt-10"><?=number_format($data->product_price, 1, '.', ' ')?> у.е.</p>
+					<p class="c_d70000 bold font-16"><?=number_format(($data->product_price * Yii::app()->params->usd_rate), 0, '.', ' ')?> руб.</p>
+					<p class="c_000 bold font-12 mt-10"><?=number_format($data->product_price, 1, '.', ' ')?> у.е.</p>
 				<?	//}	else	{	?>
 					<? /*<p class="price"><?=number_format($data->product_price, 0, '.', ' ')?> у.е.</p> */ ?>
 				<?	//}	?>

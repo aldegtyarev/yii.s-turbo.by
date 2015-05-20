@@ -40,14 +40,14 @@ $(document).ready(function () {
 	
 	
 	addtocart.on('click', function () {		//добавляем товар в корзину
-		to_cart_form = $(this).paren('form');
+		to_cart_form = $(this).parent('form');
 		cart_msg = to_cart_form.find('.cart-msg');
 		to_cart_process = to_cart_form.find('.to-cart-process');
 		
 		$.ajax({
 			type: 'post',
 			url: to_cart_form.attr('action'),
-			data: {product_id : $('#product_id').val(),	quantity : $('#quantity').val()},
+			data: {product_id : to_cart_form.find('.product_id').val(),	quantity : to_cart_form.find('.quantity').val()},
 			dataType: 'json',
 			beforeSend: function () {
 				to_cart_process.slideDown();

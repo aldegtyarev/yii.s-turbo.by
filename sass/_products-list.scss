@@ -18,8 +18,8 @@
 
 .product-list-item {
 	height: 345px;
-	width: 160px;
-	padding: 10px;
+	width: 176px;
+	padding: 2px;
 	background: #fff;
 	border: 1px solid #fff;
 	
@@ -63,7 +63,7 @@
 	.small {
 		
 		@extend %bold;
-		@extend %font_13;
+		@extend %font_10;
 		
 		
 		span {
@@ -82,7 +82,7 @@
 		margin-top: 15px;
 		
 		@include border_radius(10px);
-		@extend %font_13;
+		@extend %font_11;
 		@extend %bold;
 		@extend %c_fff;
 		@extend %text_c;
@@ -219,6 +219,7 @@
 
 .product-list-item-row-price-block {
 	width: 160px;
+	height: 180px;
 	
 	.addtocart-button,
 	.product-detail {

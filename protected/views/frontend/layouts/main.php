@@ -63,29 +63,10 @@
 							'items'=>array(
 
 								array('label'=>'Главная', 'url'=>(Yii::app()->homeUrl)),
-								//array('label'=>'Компании', 'url'=>array('/site/page', 'view'=>'about')),
-								//array('label'=>'Компании', 'url'=>array('/companies/index')),
-								array('label'=>'тест', 'url'=>array('/pages/view', 'id'=> 1)),
-								//array('label'=>'Информация', 'url'=>array('/site/contact')),
-								//array('label'=>'Партнерам', 'url'=>array('/site/contact')),
+								//array('label'=>'тест', 'url'=>array('/pages/view', 'id'=> 1)),
 								array('label'=>'Оплата и доставка', 'url'=>array('/site/oplataidostavka')),
 								array('label'=>'Контакты', 'url'=>array('/site/contact')),
-								//array('label'=>'Вход', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
-								//array('label'=>'Выход ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest),
-								
 								array('label'=>'Отзывы', 'url'=>array('/site/feedback'), 'itemOptions'=>array('class'=>'last-item'),),
-								//array('label'=>'Клуб/Форум', 'url'=>('/forum/forum.php')),
-								//array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
-								//array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest),
-								//----
-								/*
-								array('url'=>Yii::app()->getModule('user')->loginUrl, 'label'=>Yii::app()->getModule('user')->t("Login"), 'visible'=>Yii::app()->user->isGuest),
-								array('url'=>Yii::app()->getModule('user')->registrationUrl, 'label'=>Yii::app()->getModule('user')->t("Register"), 'visible'=>Yii::app()->user->isGuest),
-								array('url'=>Yii::app()->getModule('user')->profileUrl, 'label'=>Yii::app()->getModule('user')->t("Profile"), 'visible'=>!Yii::app()->user->isGuest),
-								array('url'=>Yii::app()->getModule('user')->logoutUrl, 'label'=>Yii::app()->getModule('user')->t("Logout").' ('.Yii::app()->user->name.')', 'visible'=>!Yii::app()->user->isGuest),
-								*/
-
-								//----
 							),'htmlOptions' => array('class'=>'main-menu clearfix', 'id'=>'main-menu')
 						)); ?>
 					</div>

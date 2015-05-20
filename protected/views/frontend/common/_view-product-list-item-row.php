@@ -29,7 +29,7 @@
 				
 			</div>
 			<div class="product-list-item-row-info-block fLeft">
-				<a href="<?=$data->product_url?>" class="product-title  db bold text_c font-16 mt-15"><?=$data->product_name?></a>
+				<a href="<?=$data->product_url?>" class="product-title  db bold text_c font-12 mt-15"><?=$data->product_name?></a>
 
 				<ul class="prod-list-char-list">
 					<li class="prod-list-char-item arial font-10"><strong><? echo $data->getAttributeLabel('firm_id');?>:</strong> <?=$data->firm_name?></li>
@@ -40,35 +40,35 @@
 				<ul class="prod-list-char-list dt">
 					
 					<? if(!empty($data->side))	{	?>
-						<li class="prod-list-char-item arial font-13 dtr"><span class="dtc pr-5 pb-5 bold"><? echo $data->getAttributeLabel('side');?>: </span><span class="dtc pb-5"><?=$data->ProductSideArray[$data->side]['name']?></span></li>
+						<li class="prod-list-char-item arial font-11 dtr"><span class="dtc pr-5 pb-5 bold"><? echo $data->getAttributeLabel('side');?>: </span><span class="dtc pb-5"><?=$data->ProductSideArray[$data->side]['name']?></span></li>
 					<?	}	?>
 					
 					<? if(!empty($data->lamps))	{	?>
-						<li class="prod-list-char-item arial font-13 dtr"><span class="dtc pr-5 pb-5 bold"><? echo $data->getAttributeLabel('lamps');?>: </span><span class="dtc pb-5"><?=nl2br($data->lamps)?></span></li>
+						<li class="prod-list-char-item arial font-11 dtr"><span class="dtc pr-5 pb-5 bold"><? echo $data->getAttributeLabel('lamps');?>: </span><span class="dtc pb-5"><?=nl2br($data->lamps)?></span></li>
 					<?	}	?>
 					
 					<? if(!empty($data->adjustment))	{	?>
-						<li class="prod-list-char-item arial font-13 dtr"><span class="dtc pr-5 pb-5 bold"><? echo $data->getAttributeLabel('adjustment');?>: </span><span class="dtc pb-5"><?=$data->adjustment?></span></li>
+						<li class="prod-list-char-item arial font-11 dtr"><span class="dtc pr-5 pb-5 bold"><? echo $data->getAttributeLabel('adjustment');?>: </span><span class="dtc pb-5"><?=$data->adjustment?></span></li>
 					<?	}	?>
 					
 					<? if(!empty($data->material))	{	?>
-						<li class="prod-list-char-item arial font-13 dtr"><span class="dtc pr-5 pb-5 bold"><? echo $data->getAttributeLabel('material');?>: </span><span class="dtc pb-5"><?=$data->material?></span></li>
+						<li class="prod-list-char-item arial font-11 dtr"><span class="dtc pr-5 pb-5 bold"><? echo $data->getAttributeLabel('material');?>: </span><span class="dtc pb-5"><?=$data->material?></span></li>
 					<?	}	?>
 					
 					<? if(!empty($data->product_s_desc))	{	?>
-						<li class="prod-list-char-item arial font-13 dtr"><span class="dtc pr-5 pb-5 bold"><? echo $data->getAttributeLabel('product_s_desc');?>: </span><span class="dtc pb-5"><?=nl2br($data->product_s_desc)?></span></li>
+						<li class="prod-list-char-item arial font-11 dtr"><span class="dtc pr-5 pb-5 bold"><? echo $data->getAttributeLabel('product_s_desc');?>: </span><span class="dtc pb-5"><?=nl2br($data->product_s_desc)?></span></li>
 					<?	}	?>
 					
 					<? //if($this->show_models === false)	{	?>
 					<? if($this->show_models)	{	?>
-						<li class="prod-list-char-item arial font-13 dtr"><span class="dtc pr-5 pb-5 bold"><? echo $data->getAttributeLabel('model_ids');?>: </span><span class="dtc pb-5"><?=$data->modelsList?></span></li>
+						<li class="prod-list-char-item arial font-11 dtr"><span class="dtc pr-5 pb-5 bold"><? echo $data->getAttributeLabel('model_ids');?>: </span><span class="dtc pb-5"><?=$data->modelsList?></span></li>
 					<?	}	?>
 					
 				</ul>
 			</div>
-			<div class="product-list-item-row-price-block fLeft pl-20 text_c mt-10">
-				<p class="c_d70000 bold font-20 text_c nowrap"><?=number_format(($data->product_price * Yii::app()->params->usd_rate), 0, '.', ' ')?> руб.</p>
-				<p class="c_000 bold font-16 mt-10 text_c"><?=number_format($data->product_price, 1, '.', ' ')?> у.е.</p>
+			<div class="product-list-item-row-price-block fLeft pl-20 text_c mt-5">
+				<p class="c_d70000 bold font-16 text_c nowrap"><?=number_format(($data->product_price * Yii::app()->params->usd_rate), 0, '.', ' ')?> руб.</p>
+				<p class="c_000 bold font-12 mt-10 text_c"><?=number_format($data->product_price, 1, '.', ' ')?> у.е.</p>
 				
 				<? if($data->product_availability > 0)	{	?>
 					<?

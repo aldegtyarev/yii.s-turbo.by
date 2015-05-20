@@ -39,7 +39,7 @@ $paddingLeftSideBar: 208px;
 
 $block_width: 188px;
 
-
+/*
 @mixin button_border($padding) {
 	display: inline-block;
 	border: 2px solid $blue_color_1;
@@ -51,9 +51,10 @@ $block_width: 188px;
 	font-family: 'ptsans-regular', sans-serif;
 	padding: $padding;
 }
-
+*/
 
 /* FONTS */
+/*
 @font-face {
     font-family: 'ptsans-regular';
     src: url('../fonts/pt_sans-web-regular-webfont.eot');
@@ -90,6 +91,7 @@ $block_width: 188px;
     font-weight: normal;
     font-style: normal;
 }
+*/
 
 * {
 	margin: 0;
@@ -99,10 +101,11 @@ $block_width: 188px;
 
 
 body {
-  font-family: Calibri, sans-serif;
-  font-weight: normal;
-  font-size: 15px;
-  color: #1d1f1f;
+	font-family: Tahoma, Verdana, sans-serif;
+	font-weight: normal;
+	font-size: 12px;
+	line-height: 1.4;
+	color: #1d1f1f;
 }
 
 .jq-selectbox__select,
@@ -168,14 +171,13 @@ input {
 
 
 h1 {
-	font-size: 32px;
+	font-size: 22px;
 	margin: 0 0 20px 0;
-	
 	@extend %bold;
 }
 
 h2 {
-	font-size: 28px;
+	font-size: 22px;
 	margin: 0 0 25px 0;
 	
 	@extend %bold;
@@ -186,7 +188,7 @@ h2 {
 
 h3 {
 	@extend %bold;
-	@extend %font_19;
+	@extend %font_16;
 }
 
 b, strong { @extend %bold; }
@@ -212,11 +214,11 @@ span sup{text-decoration:none;}
 .button,
 .button-red,
 .button-green {
-	font-family: Calibri, sans-serif;
+	font-family: Tahoma, Verdana, sans-serif;
 	display: inline-block;
 	padding: 13px 20px;
 	
-	@extend %font_13;
+	@extend %font_11;
 	@extend %bold;
 	@extend %underline_n_n;
 	@extend %pointer;
@@ -400,8 +402,8 @@ span.required { @extend %c_d70000; }
 .breadcrumbs {
 	margin: 10px 0 20px 0;
 	
-	@extend %bold;
-	@extend %font_12;
+	//@extend %bold;
+	@extend %font_10;
 	
 	
 	a {

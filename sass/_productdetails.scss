@@ -86,7 +86,7 @@
 		@extend %db;
 		@extend %pos_abs;
 		@extend %bold;
-		@extend %font_14;
+		@extend %font_11;
 	}
 	
 	.label {
@@ -116,7 +116,7 @@
 	.label {
 		line-height: 40px;
 		
-		@extend %font_18;
+		@extend %font_14;
 		@extend %c_000;		
 	}
 	
@@ -124,13 +124,13 @@
 		margin: 0 0 5px 0;
 		
 		@extend %bold;
-		@extend %font_20;
+		@extend %font_16;
 		@extend %c_d70000;
 	}
 	
 	.price-byr {
 		@extend %bold;
-		@extend %font_12;
+		@extend %font_10;
 		@extend %c_000;
 	}
 	
@@ -150,7 +150,7 @@
 	//@extend %db;
 	@extend %pointer;
 	@extend %c_fff;
-	@extend %font_16;
+	@extend %font_12;
 	
 	&:hover {
 		background: #be0000;
@@ -180,7 +180,7 @@
 		bottom: 0;
 		left: 0;
 		
-		@extend %font_12;
+		@extend %font_10;
 		@extend %bold;
 		@extend %c_d70000;
 		@extend %pos_abs;
@@ -192,7 +192,7 @@
 	.title {
 		margin: 0 0 10px 0;
 		
-		@extend %font_14;
+		@extend %font_11;
 		@extend %bold;
 	}
 	
@@ -208,7 +208,7 @@
 			@extend %db;
 			@extend %c_d70000;
 			@extend %underline_y_n;
-			@extend %font_12;
+			@extend %font_10;
 			@extend %bold;
 			
 		}
@@ -254,7 +254,7 @@
 		a {
 			@extend %c_7e7e7e;
 			@extend %bold;
-			@extend %font_18;
+			@extend %font_14;
 			@extend %underline_n_n;
 			
 			&:hover {
@@ -268,12 +268,12 @@
 			
 			@extend %pos_abs;
 			@extend %c_d70000;
-			@extend %font_14;
+			@extend %font_12;
 			
 		}
 		
 		.active {
-			@extend %font_18;
+			@extend %font_14;
 			@extend %c_d70000;
 		}
 	}

@@ -285,18 +285,14 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 }
 
 .jcarousel-control-prev,
-.jcarousel-control-next, .sprite, .main-menu li.active a, .main-menu li:hover a, .top-contacts .email,
-.top-contacts .velcom,
-.top-contacts .mts, .consultant-block, .clear-search-auto, .search-auto-button, .categories-menu > li > a, .how-it-work-list li, .how-it-work-list .wr, .footer .adress,
+.jcarousel-control-next, .sprite, .main-menu li.active a, .main-menu li:hover a, .consultant-block, .clear-search-auto, .search-auto-button, .categories-menu > li > a, .how-it-work-list li, .how-it-work-list .wr, .footer .adress,
 .footer .phones,
 .footer .email, .productview-ask-question, .productdetails-client-info .payment,
 .productdetails-client-info .delivery, .filter-block .clear-filter {
   position: relative;
 }
 .jcarousel-control-prev:before,
-.jcarousel-control-next:before, .sprite:before, .main-menu li.active a:before, .main-menu li:hover a:before, .top-contacts .email:before,
-.top-contacts .velcom:before,
-.top-contacts .mts:before, .consultant-block:before, .clear-search-auto:before, .search-auto-button:before, .categories-menu > li > a:before, .how-it-work-list li:before, .how-it-work-list .wr:before, .footer .adress:before,
+.jcarousel-control-next:before, .sprite:before, .main-menu li.active a:before, .main-menu li:hover a:before, .consultant-block:before, .clear-search-auto:before, .search-auto-button:before, .categories-menu > li > a:before, .how-it-work-list li:before, .how-it-work-list .wr:before, .footer .adress:before,
 .footer .phones:before,
 .footer .email:before, .productview-ask-question:before, .productdetails-client-info .payment:before,
 .productdetails-client-info .delivery:before, .filter-block .clear-filter:before {
@@ -311,9 +307,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   color: #fff;
 }
 
-.top-contacts .email,
-.top-contacts .velcom,
-.top-contacts .mts {
+.c_e1e1e3 {
   color: #e1e1e3;
 }
 
@@ -359,31 +353,39 @@ h2, .c_000, .news-block-item .item-title, .product-list-item .small span, .produ
   color: #a9a9a9;
 }
 
-.font-10, .product-types-list-item .product-count {
-  font-size: 10px;
+.font-8 {
+  font-size: 8px;
 }
 
-.font-11 {
-  font-size: 11px;
+.font-9, .product-types-list-item .product-count {
+  font-size: 9px;
 }
 
-.breadcrumbs, .font-12, .productdetails-price-row .price-byr, .productview-ask-question a, .productdetails-client-info .payment a,
+.breadcrumbs, .font-10, .product-list-item .small, .productdetails-price-row .price-byr, .productview-ask-question a, .productdetails-client-info .payment a,
 .productdetails-client-info .delivery a, .filter-block .clear-filter {
-  font-size: 12px;
+  font-size: 10px;
 }
 
 .button,
 .button-red,
-.button-green, .errorMessage, .font-13, .logo-top, .search-block .searchbox, .consultant-block .status, .consultant-block .consultant-call, .search-auto-form .step-num, .clear-search-auto, .menu-cat li a, .news-block .created-by,
+.button-green, .font-11, .logo-top, .clear-search-auto, .news-block .all-items, .product-list-item .status, .how-it-work-list .wr, .last-viewed-block .all-items, .productdetails-view-main-info-part .label,
+.productdetails-view-main-info-part .value, .productdetails-client-info .title, .product-types-list-item a {
+  font-size: 11px;
+}
+
+.font-12, .menu-cat li a, .news-block-item .item-title, .productdetails-view .addtocart-button, .productdetails-view-tab .tabs sup {
+  font-size: 12px;
+}
+
+.errorMessage, .font-13, .search-block .searchbox, .consultant-block .status, .consultant-block .consultant-call, .search-auto-form .step-num, .news-block .created-by,
 .news-block .created-by a,
-.news-block .created, .news-block .all-items, .product-list-item .product-label, .product-list-item .small, .product-list-item .status, .how-it-work-list .wr, .last-viewed-block .all-items, .last-viewed-item-prices .price-byr {
+.news-block .created, .product-list-item .product-label, .last-viewed-item-prices .price-byr, .footer-hdr {
   font-size: 13px;
 }
 
 .sorting-block-conteiner .sorting-block,
 .sorting-block-conteiner .currency-select, .sorting-block-conteiner .sorting-block a,
-.sorting-block-conteiner .currency-select a, .font-14, .search-auto-form .jq-selectbox__select-text, .search-auto-form .jq-selectbox__dropdown li, .more-products, .last-viewed-item .product-title, .last-viewed-item .status, .productdetails-view-main-info-part .label,
-.productdetails-view-main-info-part .value, .productdetails-client-info .title, .productdetails-view-tab .tabs sup, .product-types-list-item a {
+.sorting-block-conteiner .currency-select a, .font-14, .search-auto-form .jq-selectbox__select-text, .search-auto-form .jq-selectbox__dropdown li, .more-products, .last-viewed-item .product-title, .last-viewed-item .status, .productdetails-price-row .label, .productdetails-view-tab .tabs a, .productdetails-view-tab .tabs .active, .filter-block-header {
   font-size: 14px;
 }
 
@@ -391,25 +393,19 @@ h2, .c_000, .news-block-item .item-title, .product-list-item .small span, .produ
   font-size: 15px;
 }
 
-.font-16, .news-block-item .item-title, .product-list-item-row-info-block .short-description li:before, .productdetails-view .addtocart-button {
+h3, .font-16, .product-list-item-row-info-block .short-description li:before, .productdetails-price-row .price {
   font-size: 16px;
 }
 
-.font-17, .footer-hdr {
+.font-17 {
   font-size: 17px;
 }
 
-.font-18, .news-block-item-big a.item-title, .productdetails-price-row .label, .productdetails-view-tab .tabs a, .productdetails-view-tab .tabs .active, .filter-block-header {
+.font-18, .news-block-item-big a.item-title {
   font-size: 18px;
 }
 
-h3, .top-contacts .email,
-.top-contacts .velcom,
-.top-contacts .mts {
-  font-size: 19px;
-}
-
-.font-20, .last-viewed-item-prices .price, .productdetails-price-row .price {
+.font-20, .last-viewed-item-prices .price {
   font-size: 20px;
 }
 
@@ -427,7 +423,7 @@ h3, .top-contacts .email,
 
 h1, h2, h3, b, strong, .button,
 .button-red,
-.button-green, .breadcrumbs, .sorting-block-conteiner .sorting-block,
+.button-green, .sorting-block-conteiner .sorting-block,
 .sorting-block-conteiner .currency-select, .sorting-block-conteiner .sorting-block a,
 .sorting-block-conteiner .currency-select a, .bold, .main-menu li a, .search-auto-form .jq-selectbox__select-text, .search-auto-form .jq-selectbox__dropdown li, .categories-menu > li > a, .news-block-item .item-title, .news-block .created-by,
 .news-block .created-by a,
@@ -572,44 +568,68 @@ a:hover, .underline_n_y:hover {
   font-family: Arial, sans-serif;
 }
 
+/*
+@mixin button_border($padding) {
+	display: inline-block;
+	border: 2px solid $blue_color_1;
+	@include border_radius($border_radius_1);
+	background: transparent;
+	cursor: pointer;
+	color: $blue_color_1;
+	font-size: 14px;
+	font-family: 'ptsans-regular', sans-serif;
+	padding: $padding;
+}
+*/
 /* FONTS */
+/*
 @font-face {
-  font-family: 'ptsans-regular';
-  src: url("../fonts/pt_sans-web-regular-webfont.eot");
-  src: url("../fonts/pt_sans-web-regular-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/pt_sans-web-regular-webfont.woff") format("woff"), url("../fonts/pt_sans-web-regular-webfont.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
+    font-family: 'ptsans-regular';
+    src: url('../fonts/pt_sans-web-regular-webfont.eot');
+    src: url('../fonts/pt_sans-web-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/pt_sans-web-regular-webfont.woff') format('woff'),
+         url('../fonts/pt_sans-web-regular-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
 }
 @font-face {
-  font-family: 'ptsans-bold';
-  src: url("../fonts/pt_sans-web-bold-webfont.eot");
-  src: url("../fonts/pt_sans-web-bold-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/pt_sans-web-bold-webfont.woff") format("woff"), url("../fonts/pt_sans-web-bold-webfont.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
+    font-family: 'ptsans-bold';
+    src: url('../fonts/pt_sans-web-bold-webfont.eot');
+    src: url('../fonts/pt_sans-web-bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/pt_sans-web-bold-webfont.woff') format('woff'),
+         url('../fonts/pt_sans-web-bold-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
 }
 @font-face {
-  font-family: 'ptsans-italic';
-  src: url("../fonts/pt_sans-web-italic-webfont.eot");
-  src: url("../fonts/pt_sans-web-italic-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/pt_sans-web-italic-webfont.woff") format("woff"), url("../fonts/pt_sans-web-italic-webfont.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
+    font-family: 'ptsans-italic';
+    src: url('../fonts/pt_sans-web-italic-webfont.eot');
+    src: url('../fonts/pt_sans-web-italic-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/pt_sans-web-italic-webfont.woff') format('woff'),
+         url('../fonts/pt_sans-web-italic-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
 }
 @font-face {
-  font-family: 'ptsans-bolditalic';
-  src: url("../fonts/pt_sans-web-bolditalic-webfont.eot");
-  src: url("../fonts/pt_sans-web-bolditalic-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/pt_sans-web-bolditalic-webfont.woff") format("woff"), url("../fonts/pt_sans-web-bolditalic-webfont.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
+    font-family: 'ptsans-bolditalic';
+    src: url('../fonts/pt_sans-web-bolditalic-webfont.eot');
+    src: url('../fonts/pt_sans-web-bolditalic-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/pt_sans-web-bolditalic-webfont.woff') format('woff'),
+         url('../fonts/pt_sans-web-bolditalic-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
 }
+*/
 * {
   margin: 0;
   padding: 0;
 }
 
 body {
-  font-family: Calibri, sans-serif;
+  font-family: Tahoma, Verdana, sans-serif;
   font-weight: normal;
-  font-size: 15px;
+  font-size: 12px;
+  line-height: 1.4;
   color: #1d1f1f;
 }
 
@@ -677,12 +697,12 @@ input {
 }
 
 h1 {
-  font-size: 32px;
+  font-size: 22px;
   margin: 0 0 20px 0;
 }
 
 h2 {
-  font-size: 28px;
+  font-size: 22px;
   margin: 0 0 25px 0;
 }
 
@@ -723,7 +743,7 @@ span sup {
 .button,
 .button-red,
 .button-green {
-  font-family: Calibri, sans-serif;
+  font-family: Tahoma, Verdana, sans-serif;
   display: inline-block;
   padding: 13px 20px;
   -moz-border-radius: 3px;
@@ -1558,8 +1578,8 @@ span sup {
 
 .product-list-item {
   height: 345px;
-  width: 160px;
-  padding: 10px;
+  width: 176px;
+  padding: 2px;
   background: #fff;
   border: 1px solid #fff;
   -moz-border-radius: 4px;
@@ -1693,6 +1713,7 @@ span sup {
 
 .product-list-item-row-price-block {
   width: 160px;
+  height: 180px;
 }
 .product-list-item-row-price-block .addtocart-button,
 .product-list-item-row-price-block .product-detail {
@@ -2140,10 +2161,10 @@ span sup {
   text-decoration: underline;
 }
 .product-types-list-item a:hover, .product-types-list-item a.active {
-  -moz-box-shadow: rgba(70, 70, 70, 0.75) 4px 4px 8px 0px inset;
-  -webkit-box-shadow: rgba(70, 70, 70, 0.75) 4px 4px 8px 0px inset;
-  box-shadow: rgba(70, 70, 70, 0.75) 4px 4px 8px 0px inset;
-  background-color: #d0d0d0;
+  -moz-box-shadow: #d0d0d0 2px 2px 4px 0 inset;
+  -webkit-box-shadow: #d0d0d0 2px 2px 4px 0 inset;
+  box-shadow: #d0d0d0 2px 2px 4px 0 inset;
+  background-color: #f5f5f5;
 }
 .product-types-list-item .product-count {
   vertical-align: top;

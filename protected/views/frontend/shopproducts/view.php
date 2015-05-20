@@ -139,9 +139,9 @@ $model_images = $model->Images;
 						<p class="cart-msg hidden pb-5 font-10"></p>
 					
 					<?php 
-						echo Chtml::hiddenField('quantity', '1');
-						echo Chtml::hiddenField('product_id', $model->product_id, array('id'=>'product_id'));
-						echo CHtml::submitButton('Купить', array('name'=>'addtocart','id'=>'addtocart','class'=>'addtocart-button add button','title'=>'Добавить этот товар в корзину'));
+						echo Chtml::hiddenField('quantity', '1', array('class'=>'quantity', 'id'=>false));
+						echo Chtml::hiddenField('product_id', $model->product_id, array('class'=>'product_id', 'id'=>false));
+						echo CHtml::submitButton('Купить', array('name'=>'addtocart','id'=>false,'class'=>'addtocart addtocart-button add button','title'=>'Добавить этот товар в корзину'));
 						echo CHtml::endForm(); 
 					?>
 										

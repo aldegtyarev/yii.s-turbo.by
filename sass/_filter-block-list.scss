@@ -11,7 +11,7 @@
 		margin: -7px 0 0 0;
 		
 		@extend %bold;
-		@extend %font_12;
+		@extend %font_10;
 		@extend %db;
 		@extend %fr;
 		@extend %for_sprite;
@@ -29,7 +29,7 @@
 	margin: 0 0 10px 0;
 	
 	@extend %bold;
-	@extend %font_18;
+	@extend %font_14;
 }
 
 .filter-block-list {
@@ -54,7 +54,7 @@
 		
 		@include border-radius(4px);
 		
-		@extend %font_14;
+		@extend %font_11;
 		@extend %db;
 		@extend %underline_n_n;
 		
@@ -64,8 +64,9 @@
 		
 		&:hover,
 		&.active {
-			@include box-shadow(rgba(70,70,70,0.75) 4px 4px 8px 0px inset);
-			background-color: #d0d0d0;
+			//@include box-shadow(rgba(70,70,70,0.75) 4px 4px 8px 0px inset);
+			@include box-shadow(#d0d0d0 2px 2px 4px 0 inset);
+			background-color: #f5f5f5;
 		}
 	}
 	
@@ -74,7 +75,7 @@
 		vertical-align: top;
 		
 		@extend %c_d70000;
-		@extend %font_10;
+		@extend %font_9;
 		
 	}
 	

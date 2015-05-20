@@ -14,6 +14,7 @@ $this->breadcrumbs = $breadcrumbs;
 <?	if (count($dataProvider->data)) {	?>
 	
 	<div class="select-view-block clearfix">
+		<span class="font-12 db fLeft pt-5 pr-15 bold">Вид: </span>
 		<a href="?select-view=row" class="<? if($selected_view == 'row') echo'view-row-active'; else echo'view-row'; ?>">row</a>
 		<a href="?select-view=tile" class="<? if($selected_view == 'tile') echo'view-tile-active'; else echo'view-tile'; ?>">tile</a>
 	</div>

@@ -154,7 +154,7 @@
 	@extend %c_fff;
 	@extend %underline_n_n;
 	@extend %uppercase;
-	@extend %font_13;
+	@extend %font_11;
 
 	img {
 		@extend %db;
@@ -230,10 +230,6 @@
 	.mts {
 		margin: 0 0 1px 0;
 		text-indent: 22px;
-		
-		@extend %for_sprite;
-		@extend %font_19;
-		@extend %c_e1e1e3;
 	}
 	
 	.mts:before {

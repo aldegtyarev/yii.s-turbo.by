@@ -15,10 +15,10 @@
 						echo CHtml::OpenTag('ul', array('class'=>'additional-images-list'));
 						$i = 0;
 						foreach($data->AdditionalImages as $img)	{
-							$thumb_image_url = Yii::app()->params->product_images_liveUrl . 'thumb_'.$img;
-							$image_url = Yii::app()->params->product_images_liveUrl . 'full_'.$img;
+							$thumb_image_url = Yii::app()->params->product_images_liveUrl . 'thumb_'.$img['image_file'];
+							$image_url = Yii::app()->params->product_images_liveUrl . 'full_'.$img['image_file'];
 							echo CHtml::OpenTag('li', array('class'=>'additional-images-list-item'));
-							echo CHtml::link(CHtml::image($thumb_image_url), $image_url, array('class' => "fancybox", "rel" => "group"));
+							echo CHtml::link(CHtml::image($thumb_image_url), $image_url, array('class' => "fancybox add-prod-img", "rel" => "group", 'data-fullsrc'=>$image_url));
 							echo CHtml::CloseTag('li');
 							$i++;
 							if($i > 2) break;
@@ -26,6 +26,33 @@
 						echo CHtml::CloseTag('ul');
 					}
 				?>
+				
+				<div class="popup-prod-img hidden">
+					<?php 
+						$full_image_url = str_replace('thumb_', 'full_', $data->product_image);
+						echo CHtml::image('#', '', array('data-fullsrc'=>$full_image_url, 'class'=>'popup-full-img db'));
+
+						if(count($data->AdditionalImages))	{
+							echo CHtml::OpenTag('div', array('class'=>'additional-images-wr'));
+							echo CHtml::OpenTag('ul', array('class'=>'popup-add-images'));
+
+							echo CHtml::OpenTag('li', array('class'=>'additional-images-list-item'));
+							echo CHtml::image('#', '', array('data-thmbsrc'=>$data->product_image, 'data-fullsrc'=>$full_image_url, 'class'=>'popup-thmb-img'));
+							echo CHtml::CloseTag('li');
+
+							foreach($data->AdditionalImages as $img)	{
+								$thumb_image_url = Yii::app()->params->product_images_liveUrl . 'thumb_'.$img['image_file'];
+								$image_url = Yii::app()->params->product_images_liveUrl . 'full_'.$img['image_file'];
+								echo CHtml::OpenTag('li', array('class'=>'additional-images-list-item'));
+								echo CHtml::image('#', '', array('data-thmbsrc'=>$thumb_image_url, 'data-fullsrc'=>$image_url, 'class'=>'popup-thmb-img'));
+								echo CHtml::CloseTag('li');
+								$i++;
+							}
+							echo CHtml::CloseTag('ul');
+							echo CHtml::CloseTag('div');
+						}
+					?>
+				</div>
 				
 			</div>
 			<div class="product-list-item-row-info-block fLeft">

@@ -44,6 +44,7 @@ $main_url = '/'.Yii::app()->getRequest()->getPathInfo();
 				</ul>
 			</div>
 		<?	}	?>
+		<?php /*
 		<? if(count($firms))	{ ?>
 			<div class="firms-block">
 				<p class="filter-block-header">Производители</p>
@@ -53,7 +54,7 @@ $main_url = '/'.Yii::app()->getRequest()->getPathInfo();
 				
 			</div>
 		<?	}	?>
-		
+		*/ ?>
 		<? if(count($bodies))	{ ?>
 			<div class="bodies-block">
 				<p class="filter-block-header">Год</p>

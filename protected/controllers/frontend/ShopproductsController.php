@@ -28,7 +28,7 @@ class ShopProductsController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view','detail'),
+				'actions'=>array('index','view','detail','lastviewed'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -45,18 +45,6 @@ class ShopProductsController extends Controller
 		);
 	}
 
-	/**
-	 * Displays a particular model.
-	 * @param integer $id the ID of the model to be displayed
-	 */
-	public function actionView($id)
-	{
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-		));
-	}
-	
-	
 	//метод загружает товар. $product = product_id
 	public function actionDetail($product)
 	{
@@ -114,31 +102,49 @@ class ShopProductsController extends Controller
 		));
 		
 	}
-
-	/**
-	 * Lists all models.
-	 */
-	public function actionIndex()
+	
+	//метод загружает последние просмотренные товары
+	public function actionLastviewed()
 	{
-		$dataProvider=new CActiveDataProvider('ShopProducts');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
-	}
+		$app = Yii::app();
+		$connection = $app->db;
 
-	/**
-	 * Manages all models.
-	 */
-	public function actionAdmin()
-	{
-		$model=new ShopProducts('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['ShopProducts']))
-			$model->attributes=$_GET['ShopProducts'];
-
-		$this->render('admin',array(
-			'model'=>$model,
-		));
+		$shopProductsIds = isset($app->session['shopProducts.ids']) ? $app->session['shopProducts.ids'] : array() ;
+		
+		if(!count($shopProductsIds))	{
+			$shopProductsIds = array(0);
+		}
+		
+		$criteria = new CDbCriteria();
+		$criteria->select = "t.*";
+		$criteria->condition = 'product_id IN ('.implode(',', $shopProductsIds).')';
+		
+        $dataProvider = new CActiveDataProvider('ShopProducts', array(
+            'criteria'=>$criteria,
+            'pagination'=>array(
+                'pageSize'=>$app->params['count_last_viewed_in_page'],
+				'pageVar' =>'page',
+            ),
+        ));
+		
+		$finded_product_ids = ShopProducts::model()->getProductIds($dataProvider->data);
+		
+		//echo'<pre>';print_r($finded_product_ids);echo'</pre>';
+		
+		$firms = ShopFirms::model()->getFirmsForProductList($connection, $finded_product_ids);
+		
+		foreach($dataProvider->data as $row)	{
+			$product_ids[] = $row->product_id;
+			$row->product_url = $this->createUrl('shopproducts/detail', array('product'=> $row->product_id));
+			$row->product_image = $app->params->product_images_liveUrl.($row->product_image ? 'thumb_'.$row->product_image : 'noimage.jpg');
+			$row->firm_name = $firms[$row->firm_id]['name'];
+		}
+		
+		$data = array(
+			'dataProvider' => $dataProvider,
+		);
+		
+		$this->render('lastViewed', $data);
 	}
 
 	/**

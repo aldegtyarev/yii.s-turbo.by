@@ -53,7 +53,7 @@ $model_images = $model->Images;
 		<div class="productdetails-view-image-part">
 			<div class="productdetails-main-image">
 				<? if ($model->product_image) {?>
-					<?	echo CHtml::link(CHtml::image($params->product_images_liveUrl . 'full_'.$model->product_image, "", array('class' => "medium-image")), $params->product_images_liveUrl . 'full_'.$model->product_image, array('class' => "fancybox", "rel" => "group"));	?>
+					<?	echo CHtml::link(CHtml::image($params->product_images_liveUrl . 'full_'.$model->product_image, "", array('class' => "medium-image")), $params->product_images_liveUrl . 'full_'.$model->product_image, array('class' => "fancybox", "data-fancybox-group" => "gallery"));	?>
 				<?	}	else	{	?>
 				<?	echo CHtml::image($params->product_images_liveUrl . 'noimage.jpg', "", array('class' => "medium-image"));	?>
 				<?	}	?>

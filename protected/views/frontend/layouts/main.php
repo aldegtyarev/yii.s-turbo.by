@@ -54,7 +54,7 @@
 <div class="wrapper">
 	<div class="wrapperPage">
 
-		<div class="header">
+		<header class="header">
 			<div class="top-line">
 				<div class="width-wrap">
 					<div class="main-menu floatLeft">
@@ -93,7 +93,7 @@
 				<?php //$this->widget('application.components.CurrencyWidget'); ?>
 			
 			</div>
-		</div>
+		</header>
 
 		<div class="middle">
 			<div class="width-wrap">
@@ -107,40 +107,40 @@
 		</div>
 	</div>
 	
-	<div class="footer">
+	<footer class="footer">
 		<div class="width-wrap clearfix">
+			<div class="contacts">
+				<p class="footer-hdr">Контакты</p>
+				<p class="email">E-mail: info@s-turbo.by</p>
+				<p class="phones">Отдел продаж: <br>+375 29 530 22 99 <br>+375 44 530 22 99</p>
+				<p class="adress">Мы находимся: <br>г. Минск, АвтоМолл "Кольцо", <br>2-ой этаж, 417 павильон</p>
+				<p class="copyright">© <?php echo date('Y'); ?> <span class="site-name">S-TURBO.BY</span> Республика Беларусь</p>
+			</div>
 
-				<div class="contacts">
-					<p class="footer-hdr">Контакты</p>
-					<p class="email">E-mail: info@s-turbo.by</p>
-					<p class="phones">Отдел продаж: <br>+375 29 530 22 99 <br>+375 44 530 22 99</p>
-					<p class="adress">Мы находимся: <br>г. Минск, АвтоМолл "Кольцо", <br>2-ой этаж, 417 павильон</p>
-					<p class="copyright">© <?php echo date('Y'); ?> <span class="site-name">S-TURBO.BY</span> Республика Беларусь</p>
-				</div>
-				
-				<div class="ur-data">
-					<p class="footer-hdr">Юридические данные</p>
-					<p class="txt">220089 г. Минск ул. Гурского 37, офис 5Н, <br>комната 18/23</p>
-					<p class="txt">
-						р/с 3012162108013 в Региональной дирекции №700<br>
-						ОАО «БПС-Сбербанк» 220035, г. Минск, пр-т Машерова, 80, код 369<br>
-						УНП 192025656
-					</p>
-					<p class="txt">
-						Директор Ксензов Евгений Олегович<br>
-						Дата регистрации в торговом реестре - 07.08.2013г.	
-					</p>
-				</div>
-				<div class="our-shop">
-					<p class="footer-hdr uppercase">Наш магазин</p>
-					<a href="#" class="view-map"><img src="/images/map.jpg" alt="Наш магазин" /></a>
-				</div>
-
+			<div class="ur-data">
+				<p class="footer-hdr">Юридические данные</p>
+				<p class="txt">220089 г. Минск ул. Гурского 37, офис 5Н, <br>комната 18/23</p>
+				<p class="txt">
+					р/с 3012162108013 в Региональной дирекции №700<br>
+					ОАО «БПС-Сбербанк» 220035, г. Минск, пр-т Машерова, 80, код 369<br>
+					УНП 192025656
+				</p>
+				<p class="txt">
+					Директор Ксензов Евгений Олегович<br>
+					Дата регистрации в торговом реестре - 07.08.2013г.	
+				</p>
+			</div>
+			<div class="our-shop">
+				<p class="footer-hdr uppercase">Наш магазин</p>
+				<a href="#" class="view-map"><img src="/images/map.jpg" alt="Наш магазин" /></a>
+			</div>
  		</div>
  		<div class="db-stat" style="display:none;"><? print_r(Yii::app()->db->getStats()); ?></div>
-	</div><!-- footer -->
+	</footer>
+	
+	<div id="popup-gallery" class="popup-gallery pos-abs hidden"></div>
 
-</div><!-- page -->
+</div>
 
 </body>
 </html>

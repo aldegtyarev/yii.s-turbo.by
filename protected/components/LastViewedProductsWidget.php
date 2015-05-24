@@ -5,11 +5,8 @@ class LastViewedProductsWidget extends CWidget {
 		
 		$app = Yii::app();
 
-		$cs = $app->getClientScript();
-		$cs->registerCoreScript('jcarousel-new-positions');
-		
 		$shopProductsIds = isset($app->session['shopProducts.ids']) ? $app->session['shopProducts.ids'] : array() ;
-		//echo'<pre>';print_r($shopProductsIds);echo'</pre>';
+
 		if(!count($shopProductsIds))	{
 			$shopProductsIds = array(0);
 		}
@@ -18,12 +15,10 @@ class LastViewedProductsWidget extends CWidget {
 		$criteria->select = "t.*";
 		$criteria->condition = 'product_id IN ('.implode(',', $shopProductsIds).')';
 		
-		//$rows = ShopProducts::model()->getLastViewedProducts();
-		
         $dataProvider = new CActiveDataProvider('ShopProducts', array(
             'criteria'=>$criteria,
             'pagination'=>array(
-                'pageSize'=>3,
+                'pageSize'=>$app->params['count_last_viewed_in_widget'],
 				'pageVar' =>'page',
             ),
         ));
@@ -37,9 +32,7 @@ class LastViewedProductsWidget extends CWidget {
 		
 		
 		$data = array(
-			//'rows' => $rows,
 			'dataProvider' => $dataProvider,
-			'shopProductsIds' => $shopProductsIds,
 		);
 		
 		

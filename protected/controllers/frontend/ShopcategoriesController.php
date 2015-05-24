@@ -84,6 +84,8 @@ class ShopCategoriesController extends Controller
 		
 		$this->processPageRequest('page');
 		
+		//echo'$id = <pre>';print_r($_GET);echo'</pre>';die;
+		
 		$selected_view = $app->request->getParam('select-view', -1);
 		
 		if($selected_view != -1)	{
@@ -194,8 +196,8 @@ class ShopCategoriesController extends Controller
 				foreach($ProductsImages as $Image)	{
 					foreach($dataProvider->data as $row)	{
 						if($Image['product_id'] == $row->product_id)	{
-							$row->AdditionalImages[] = $Image['image_file'];
-						}
+							$row->AdditionalImages[] = array('image_file'=>$Image['image_file'], 'image_id'=>$Image['image_id']);
+						}						
 					}
 				}
 			}
@@ -206,26 +208,6 @@ class ShopCategoriesController extends Controller
 		//echo'<pre>';print_r(count($finded_product_ids));echo'</pre>';
 		
 		$breadcrumbs = $this->createBreadcrumbs($category);
-		/*
-		$data = array(
-			'type_request'=> $type_request,
-			'firm_request'=> $firm_request,
-			'body_request'=> $body_request,
-			'category_id'=> $category_id,
-			'selected_view'=> $selected_view,
-			'category'=> $category,
-			'descendants'=> $descendants,
-			'products_and_pages'=> $products_and_pages,
-			'ProductsImages'=> $ProductsImages,
-			'breadcrumbs' => $breadcrumbs,
-			'producttypes' => $producttypes,
-			'bodies' => $bodies,
-			'firms' => $firms,
-			'productsTotal' => count($finded_product_ids),
-		);
-						
-		$this->render('show', $data);
-		*/
 		
 		if(count($model_ids))	{
 			if(count($model_ids) == 2 && $model_ids[1] == 1247)	{
@@ -239,7 +221,14 @@ class ShopCategoriesController extends Controller
 			$bodies = array();
 			$show_models = true;
 		}
-		
+		//echo'<pre>';print_r($firms);echo'</pre>';
+		if(count($firms))	{
+			$firmsArr = array();
+			foreach($firms as $f) $firmsArr[$f['id']] = $f['name'];
+			$firmsDropDown = CHtml::listData($firms, 'id','name');
+			//$firmsDropDown = CHtml::listData($firmsArr, 'id','name');
+		}
+		//echo'<pre>';print_r($firmsDropDown);echo'</pre>';
 		if($selected_view == 'row')	{
 			$itemView = "_view-row";
 		}	else	{
@@ -271,6 +260,7 @@ class ShopCategoriesController extends Controller
 				'bodies' => $bodies,
 				'firms' => $firms,
 				'productsTotal' => count($finded_product_ids),
+				'firmsDropDown' => $firmsDropDown,
 			);
 
 			$this->render('show', $data);

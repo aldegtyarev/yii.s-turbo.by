@@ -11,5 +11,6 @@
 		'itemsCssClass' => 'last-viewed-list clearfix',
 		'id'=>'last-viewed-list-view'
 	)); ?>
-	<a href="#" class="all-items">Что еще смотрели?</a>
+	
+	<a href="<?=$this->controller->createUrl('shopproducts/lastviewed')?>" class="all-items" rel="nofollow">Что еще смотрели?</a>
 </div>

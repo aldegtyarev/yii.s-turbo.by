@@ -11,6 +11,8 @@ $this->breadcrumbs=array(
 */
 
 $app = Yii::app();
+$cs = $app->clientScript;
+$cs->registerCoreScript('fancybox');
 //$base_url = $app->getBaseUrl(true);
 //echo'<pre>';print_r($base_url);echo'</pre>';
 //echo'<pre>';print_r($app->homeUrl);echo'</pre>';
@@ -19,7 +21,7 @@ $app = Yii::app();
 //$clientScript->registerCssFile('/css/shop.css', 'screen');
 //echo'<pre>';print_r(count($descendants));echo'</pre>';
 //echo'<pre>';print_r($descendants);echo'</pre>';
-//echo'<pre>';print_r($firm_request);echo'</pre>';
+//echo'<pre>';print_r($body_request);echo'</pre>';
 
 //$products = $products_and_pages['rows'];
 //$pagination = $products_and_pages['pages'];

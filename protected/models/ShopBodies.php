@@ -147,7 +147,6 @@ class ShopBodies extends CActiveRecord
 			}
 		
 		}	else	{
-			//echo'<pre>';print_r($this);echo'</pre>';die;
 			if($this->new_parentId != $this->parentId)	{
 				if($this->new_parentId > 0)	{
 					$root = $this->findByPk($this->new_parentId);
@@ -156,8 +155,6 @@ class ShopBodies extends CActiveRecord
 					$this->moveAsRoot();
 				}
 			}
-			
-			//echo'<pre>';print_r($this->new_parentId);echo'</pre>';
 			//echo'<pre>';print_r($this->parentId);echo'</pre>';
 			//die;
 			

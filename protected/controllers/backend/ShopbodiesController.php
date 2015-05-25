@@ -130,7 +130,7 @@ class ShopBodiesController extends Controller
 		if(isset($_POST['ShopBodies']))
 		{
 			$model->attributes=$_POST['ShopBodies'];
-			$model->parentId = $_POST['ShopBodies']['parentId'];
+			$model->new_parentId = $_POST['ShopBodies']['parentId'];
 			$model->parent_id = $_POST['ShopBodies']['parentId'];
 			
 			if($model->save())

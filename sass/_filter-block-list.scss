@@ -83,3 +83,9 @@
 	
 	
 }
+
+.bodies-popup {
+	.product-types-list-item {
+		@extend %w_100;
+	}	
+}

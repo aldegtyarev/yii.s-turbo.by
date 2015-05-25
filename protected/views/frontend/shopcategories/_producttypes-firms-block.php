@@ -1,5 +1,5 @@
 <?
-function showFilterItems($list, $total = 0, $url_parameter, $main_url, $request_id) 
+function showFilterItems($list, $total = 0, $url_parameter, $main_url, $request_id, $show_all = true) 
 {
 	$total_str = CHtml::OpenTag('span', array('class'=>'product-count')) . $total . CHtml::CloseTag('span');
 	
@@ -9,10 +9,11 @@ function showFilterItems($list, $total = 0, $url_parameter, $main_url, $request_
 		$htmlOptions = array('class'=>'active');
 	}
 	
-	
-	echo CHtml::OpenTag('li', array('class'=>'product-types-list-item'));
-	echo CHtml::link(CHtml::OpenTag('span', array('class'=>'name'))."Все".CHtml::CloseTag('span') . $total_str, $main_url, $htmlOptions);
-	echo CHtml::CloseTag('li');							
+	if($show_all) {
+		echo CHtml::OpenTag('li', array('class'=>'product-types-list-item'));
+		echo CHtml::link(CHtml::OpenTag('span', array('class'=>'name'))."Все".CHtml::CloseTag('span') . $total_str, $main_url, $htmlOptions);
+		echo CHtml::CloseTag('li');
+	}
 
 	foreach($list as $item)	{
 		$total_str = CHtml::OpenTag('span', array('class'=>'product-count')) .$item['count'] . CHtml::CloseTag('span');
@@ -61,10 +62,23 @@ $main_url = '/'.Yii::app()->getRequest()->getPathInfo();
 				<ul class="product-types-list filter-block-list clearfix">
 					<? showFilterItems($bodies, $productsTotal, 'body', $main_url, $body_request); ?>
 				</ul>
-				
 			</div>
+			
+			<?php if($body_request == 0)	{	?>
+				<div id="bodies-popup" class="p-20 bodies-popup" style="width:200px;display:none;">
+					<div class="bodies-block">
+						<p class="filter-block-header">Уточните год</p>
+						<ul class="product-types-list filter-block-list clearfix">
+							<? showFilterItems($bodies, $productsTotal, 'body', $main_url, $body_request, false); ?>
+						</ul>
+					</div>
+				</div>
+				<a href="#bodies-popup" id="select-body" class="fancybox" rel="nofollow" style="display:none;">Год</a>
+				<?php $cs->registerScript('select-body', "$('#select-body').click(); ") ?>
+			<?php	}	?>
 		<?	}	?>		
 		<a href="<?=$main_url?>" class="clear-filter">Сбросить фильтр</a>
+		
 	</div>
 <?	}	?>
 

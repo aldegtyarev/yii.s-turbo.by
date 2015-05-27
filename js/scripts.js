@@ -26,7 +26,7 @@ $(document).ready(function () {
 
 	});
 	
-	console.log(window_height);
+	//console.log(window_height);
 	
 	//выравниваем высоту блоков новостей
 	if($('.news-block-item-small').html() != undefined)	{
@@ -197,7 +197,7 @@ $(document).ready(function () {
 		}
 	}
 	
-	$(".product-image").on('mouseover', function() {
+	$("#listView").on('mouseover', '.product-list-item-row .product-image', function() {
 		parent_el = $(this).parent();
 		hovered_img = $(this);
 		hovered = true;
@@ -208,10 +208,10 @@ $(document).ready(function () {
 				popup_img = popup_gallery.find('.popup-full-img');
 				loadGalleryImg(hovered_img, popup_img,  parent_el);
 			}
-		}, 1000);
+		}, 500);
 	});
 	
-	$(".add-prod-img").on('mouseover', function() {
+	$("#listView").on('mouseover', ".add-prod-img", function() {
 		parent_el = $(this).parent().parent().parent();
 		hovered_img = $(this);
 		hovered = true;
@@ -222,14 +222,15 @@ $(document).ready(function () {
 				popup_img = popup_gallery.find('.popup-full-img');
 				loadGalleryImg(hovered_img, hovered_img, parent_el);
 			}
-		}, 1000);
+		}, 500);
 	});
 	
-	$(".product-image, .add-prod-img").on('mouseout', function() {
+	$("#listView").on('mouseout', '.product-list-item-row .product-image, .add-prod-img', function() {		
 		hovered = false;
 		clearTimeout(timeOut)
 
-		setTimeout(checkHover, 500);
+		setTimeout(checkHover, 100);
+		//checkHover();
 	});	
 	
 	popup_gallery.hover(

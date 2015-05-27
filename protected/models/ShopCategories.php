@@ -286,7 +286,8 @@ class ShopCategories extends CActiveRecord
 		$criteria->order = 't.root, t.lft'; // или 't.root, t.lft' для множественных деревьев
 		$categories = $this->findAll($criteria);
 		
-		//echo'<pre>';print_r($categories);echo'</pre>';
+		//echo'<pre>';print_r($criteria);echo'</pre>';
+		//echo'<pre>';print_r(count($categories));echo'</pre>';
 		
 		if(count($categories) == 0 && $filtering )	{
 			$categories[0] = 'Не найдено';
@@ -486,7 +487,6 @@ class ShopCategories extends CActiveRecord
 		$command = $connection->createCommand($sql);
 		//$rows = $command->queryAll();
 		return $command->queryColumn();
-	}
-	
+	}	
 	
 }

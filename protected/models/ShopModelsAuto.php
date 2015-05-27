@@ -579,6 +579,14 @@ class ShopModelsAuto extends CActiveRecord
 		return $command->execute();
 	}
 	
+	public function getModelInfo(&$connection, $select_marka, $select_model, $select_year)
+	{
+		$sql = "SELECT 'marka' AS type, `name` FROM ".$this->tableName()." WHERE `id` =  $select_marka UNION SELECT 'model' AS type, `name` FROM ".$this->tableName()." WHERE `id` =  $select_model UNION SELECT 'year' AS type, `name` FROM ".$this->tableName()." WHERE `id` =  $select_year";
+		//echo'<pre>';print_r($sql);echo'</pre>';die;
+		$command = $connection->createCommand($sql);
+		//$rows = $command->queryAll();
+		return $command->queryAll();
+	}
 	
 	
 }

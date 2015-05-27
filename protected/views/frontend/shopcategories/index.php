@@ -2,13 +2,15 @@
 /* @var $this CategoriesController */
 /* @var $model Categories */
 
+$this->pageTitle = $title.' | '.$app->name;
+
 $this->breadcrumbs = $breadcrumbs;
 
 ?>
 
 <?	/*<h1><?php echo $category->name; ?></h1>	*/?>
 <div class="category-view">
-	<h1>Список товаров</h1>
+	<h1><?=$title?></h1>
 </div>
 
 <?	if (count($dataProvider->data)) {	?>

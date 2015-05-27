@@ -84,8 +84,46 @@
 	
 }
 
+.product-types-list-all {
+	width: auto;
+}
+
 .bodies-popup {
 	.product-types-list-item {
 		@extend %w_100;
 	}	
+}
+
+.filter-block-all-items {
+	@extend %underline_n_n;
+	@extend %font_12;
+	@extend %normal;
+	
+	&.active {
+		@extend %bold;
+	}
+	
+	
+	.name	{
+		text-decoration: underline;
+		&:hover,
+		&.active {
+			text-decoration: none;
+		}
+	}
+	.product-count {
+		vertical-align: top;
+		
+		@extend %c_d70000;
+		@extend %font_9;
+		
+	}
+	
+}
+
+#firm-styler {
+	.jq-selectbox__select {
+		background: #fff;
+		box-shadow: none;
+	}
 }

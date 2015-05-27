@@ -870,6 +870,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		
 		$command->insert('{{shop_products}}', array(
 			'product_s_desc' => $this->product_s_desc,
+			'hide_s_desc' => $this->hide_s_desc,
 			'product_desc' => $this->product_desc,
 			'product_name' => $this->product_name.' copy',
 			'product_sku' => $this->product_sku,
@@ -897,6 +898,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 			'product_price' => $this->product_price,
 			'override' => $this->override,
 			'product_override_price' => $this->product_override_price,
+			
 		));
 		$new_product_id = $app->db->getLastInsertId();
 		

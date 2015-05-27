@@ -247,12 +247,13 @@
 
 .popup-gallery {
 	@extend .p-10;
-	background: #fff;
-	border: 1px solid #d70000;
-	z-index: 3;
-	width: 670px;
 	@include border-radius(4px);
 	@include box-shadow(#ef959c 2px 2px 5px);
+	
+	background: #fff;
+	border: 1px solid #d70000;
+	z-index: 777;
+	width: 670px;
 }
 
 .popup-full-img {

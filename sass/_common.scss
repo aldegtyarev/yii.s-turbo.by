@@ -193,7 +193,7 @@ h3 {
 
 b, strong { @extend %bold; }
 
-i { @extend %italic; }
+i,em { @extend %italic; }
 
 .clr{clear:both;}
 .clr-l{clear:left;}

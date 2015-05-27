@@ -13,6 +13,8 @@ $this->breadcrumbs=array(
 $app = Yii::app();
 $cs = $app->clientScript;
 $cs->registerCoreScript('fancybox');
+
+$this->pageTitle = $category->name.' | '.$app->name;
 //$base_url = $app->getBaseUrl(true);
 //echo'<pre>';print_r($base_url);echo'</pre>';
 //echo'<pre>';print_r($app->homeUrl);echo'</pre>';
@@ -136,15 +138,38 @@ $params = $app->params;
 <?php	if (count($dataProvider->data)) {	?>
 	
 	<?php	include('_producttypes-firms-block.php')?>
+	<?php
+	
+		$url_params = array('id'=>$category->id);
+		if($body_request != 0) $url_params['body'] = $body_request;
+		if($type_request != 0) $url_params['type'] = $type_request;
+		if($firm_request != 0) $url_params['firm'] = $firm_request;
+		
+		$select_view_params = array('select-view' => 'row') + $url_params;
+		$select_view_row = $this->createUrl('shopcategories/show', $select_view_params);
+										 
+		$select_view_params = array('select-view' => 'tile') + $url_params;
+		$select_view_tile = $this->createUrl('shopcategories/show', $select_view_params);
+										 
+	?>
 	
 	<div class="select-view-block clearfix">
-		<?php echo CHtml::beginForm($this->createUrl('/shopcategories/show', array('id'=>$category->id)), 'get', array('id'=>'select-view-form')); ?>
+		<?php 
+		echo CHtml::beginForm($this->createUrl('/shopcategories/show', $url_params), 'get', array('id'=>'select-view-form'));
+		/*
+										 echo CHtml::hiddenField('body', $body_request); 
+		echo CHtml::hiddenField('type', $type_request); 
+		echo CHtml::hiddenField('firm', $firm_request); */
+		?>
 		<span class="font-12 db fLeft pt-5 pr-15 bold">Вид: </span>
 		
-		<a href="?select-view=row" class="<? if($selected_view == 'row') echo 'view-row-active'; else echo 'view-row'; ?>">row</a>
-		<a href="?select-view=tile" class="<? if($selected_view == 'tile') echo 'view-tile-active'; else echo 'view-tile'; ?>">tile</a>
+		<a href="<?=$select_view_row?>" class="<? if($selected_view == 'row') echo 'view-row-active'; else echo 'view-row'; ?>">row</a>
+		<a href="<?=$select_view_tile?>" class="<? if($selected_view == 'tile') echo 'view-tile-active'; else echo 'view-tile'; ?>">tile</a>
 		
-		<?php if(count($firmsDropDown) != 0) echo CHtml::dropDownList('firm', $firm_request, $firmsDropDown,  array('empty' => '(Выберите фирму)')) ?>
+		<?php if(count($firmsDropDown) != 0)	{	?>
+			<span class="font-12 db fLeft pt-5 pr-15 pl-30 bold">Производитель: </span>
+			<?php echo CHtml::dropDownList('firm', $firm_request, $firmsDropDown,  array('empty' => '(Все производители)')) ?>
+		<?php }	?>
 		<?php echo CHtml::endForm(); ?>
 	</div>
 	

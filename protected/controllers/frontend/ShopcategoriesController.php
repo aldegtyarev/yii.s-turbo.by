@@ -88,9 +88,20 @@ class ShopCategoriesController extends Controller
 		
 		$selected_view = $app->request->getParam('select-view', -1);
 		
+		$type_request = (int)$app->request->getParam('type', 0);
+		$firm_request = (int)$app->request->getParam('firm', 0);
+		$body_request = (int)$app->request->getParam('body', 0);
+		
+		
 		if($selected_view != -1)	{
 			$app->session['Shopcategories.selected_view'] = $selected_view;
-			$this->redirect(array('show','id'=>$id));
+			$url_params = array('id'=>$id);
+			if($body_request != 0) $url_params['body'] = $body_request;
+			if($type_request != 0) $url_params['type'] = $type_request;
+			if($firm_request != 0) $url_params['firm'] = $firm_request;
+			
+			//$this->redirect(array('show', $url_params));
+			$this->redirect($this->createUrl('show', $url_params));
 		}	else	{
 			if(isset($app->session['Shopcategories.selected_view']))	{
 				$selected_view = $app->session['Shopcategories.selected_view'];
@@ -99,9 +110,6 @@ class ShopCategoriesController extends Controller
 			}
 		}
 		
-		$type_request = (int)$app->request->getParam('type', 0);
-		$firm_request = (int)$app->request->getParam('firm', 0);
-		$body_request = (int)$app->request->getParam('body', 0);
 		
 		//echo'$selected_view = <pre>';print_r($selected_view);echo'</pre>';
 		//echo'$id = <pre>';print_r($id);echo'</pre>';
@@ -154,8 +162,8 @@ class ShopCategoriesController extends Controller
         $dataProvider = new CActiveDataProvider('ShopProducts', array(
             'criteria'=>$criteria,
             'pagination'=>array(
-               // 'pageSize'=>$app->params->pagination['products_per_page'],
-                'pageSize'=>120,
+				'pageSize'=>$app->params->pagination['products_per_page'],
+				//'pageSize'=>120,
 				'pageVar' =>'page',
             ),
         ));
@@ -296,6 +304,18 @@ class ShopCategoriesController extends Controller
 		$firm_request = (int)$app->request->getParam('firm', 0);
 		$body_request = (int)$app->request->getParam('body', 0);
 		
+		$select_marka = isset($app->session['autofilter.marka']) ? $app->session['autofilter.marka'] : -1;
+		$select_model = isset($app->session['autofilter.model']) ? $app->session['autofilter.model'] : -1;
+		$select_year = isset($app->session['autofilter.year']) ? $app->session['autofilter.year'] : -1;
+		/*
+		echo'<pre>';print_r($select_marka,0);echo'</pre>';
+		echo'<pre>';print_r($select_model,0);echo'</pre>';
+		echo'<pre>';print_r($select_year,0);echo'</pre>';
+		*/
+		$model_info = ShopModelsAuto::model()->getModelInfo($connection, $select_marka, $select_model, $select_year);
+		//echo'<pre>';print_r($model_info,0);echo'</pre>';
+		
+		
 		//$category = ShopCategories::model()->findByPk($id);
 		//$descendants = $category->children()->findAll(array('order'=>'ordering'));
 		
@@ -325,8 +345,7 @@ class ShopCategoriesController extends Controller
         $dataProvider = new CActiveDataProvider('ShopProducts', array(
             'criteria'=>$criteria,
             'pagination'=>array(
-               // 'pageSize'=>$app->params->pagination['products_per_page'],
-                'pageSize'=>120,
+               	'pageSize'=>$app->params->pagination['products_per_page'],
 				'pageVar' =>'page',
             ),
         ));
@@ -377,8 +396,12 @@ class ShopCategoriesController extends Controller
 		
 		//echo'<pre>';print_r(count($finded_product_ids));echo'</pre>';
 		
+		$title = 'Список товаров';
+		if(count($model_info))	$title .= ' для';
+		foreach($model_info as $i) $title .= ' ' . $i['name'];
+		
 		$breadcrumbs = array(
-			'Список товаров'
+			$title,
 		);
 		
 		if(count($model_ids))	{
@@ -413,6 +436,7 @@ class ShopCategoriesController extends Controller
 				'itemView'=>$itemView,				
 				'selected_view'=> $selected_view,
 				'breadcrumbs' => $breadcrumbs,
+				'title' => $title,
 			);
 
 			$this->render('index', $data);

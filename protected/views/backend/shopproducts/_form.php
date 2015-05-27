@@ -268,7 +268,7 @@ $cs->registerScript('loading', "
 					  'attribute'=>'product_desc',
 					  'language'=>'ru',
 					  'editorTemplate'=>'full',
-					  'height'=>'200px'
+					  'height'=>'400px'
 				)); ?>	
 				<?php echo $form->error($model,'product_desc'); ?>
 			</div>

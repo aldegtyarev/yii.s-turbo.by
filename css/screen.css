@@ -60,8 +60,8 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 }
 
 /* необходимо для @filter-gradient */
-.ico-sprite, .ico-adress, .footer .adress:before, .ico-arrow-down, .categories-menu > li > a:before, .ico-arrow-left-act, .jcarousel-control-prev:hover:before, .ico-arrow-left-red, .ico-arrow-left, .jcarousel-control-prev:before, .ico-arrow-right-act, .jcarousel-control-next:hover:before, .ico-arrow-right-red, .how-it-work-list .wr:before, .ico-arrow-right, .jcarousel-control-next:before, .ico-cart, .to-cart, .ico-clear-filter-black, .filter-block .clear-filter:before, .ico-clear-filter, .clear-search-auto:before, .ico-consultant, .consultant-block:before, .ico-delivery-question, .productdetails-client-info .delivery:before, .ico-email, .footer .email:before, .ico-email1, .top-contacts .email:before, .ico-mts, .top-contacts .mts:before, .ico-no-avatar, .ico-payment-question, .productdetails-client-info .payment:before, .ico-phone, .footer .phones:before, .ico-product-list-view1-act, .select-view-block .view-row:hover, .select-view-block .view-row-active, .ico-product-list-view1, .select-view-block .view-row, .ico-product-list-view2-act, .select-view-block .view-tile:hover, .select-view-block .view-tile-active, .ico-product-list-view2, .select-view-block .view-tile, .ico-question, .productview-ask-question:before, .ico-search-btn-white, .search-auto-button:before, .ico-search-btn, .search-block .search-btn, .ico-select-arrow, .search-auto-form .jq-selectbox__trigger-arrow, .ico-select-arrowhover, .search-auto-form .jq-selectbox__select:hover .jq-selectbox__trigger-arrow, .ico-top-menu-active-left, .main-menu li.active a:before, .main-menu li:hover a:before, .ico-top-menu-active-right, .main-menu li.active a:after, .main-menu li:hover a:after, .ico-top-menu-separator, .main-menu li:after, .ico-velcom, .top-contacts .velcom:before, .ico-we-work1, .how-it-work-list .step1:before, .ico-we-work2, .how-it-work-list .step2:before, .ico-we-work3, .how-it-work-list .step3:before, .ico-we-work4, .how-it-work-list .step4:before {
-  background-image: url('../img/ico-s73b9f1c1ee.png');
+.ico-sprite, .ico-adress, .footer .adress:before, .ico-arrow-down, .categories-menu > li > a:before, .ico-arrow-left-act, .jcarousel-control-prev:hover:before, .ico-arrow-left-red, .ico-arrow-left, .jcarousel-control-prev:before, .ico-arrow-right-act, .jcarousel-control-next:hover:before, .ico-arrow-right-red, .how-it-work-list .wr:before, .ico-arrow-right, .jcarousel-control-next:before, .ico-cart-n, .add-tocart-btn, .ico-cart, .to-cart, .ico-clear-filter-black, .filter-block .clear-filter:before, .ico-clear-filter, .ico-consultant, .consultant-block:before, .ico-delivery-question, .productdetails-client-info .delivery:before, .ico-email, .footer .email:before, .ico-email1, .top-contacts .email:before, .ico-mts, .top-contacts .mts:before, .ico-no-avatar, .ico-on-product-page, .product-detail-tile, .ico-payment-question, .productdetails-client-info .payment:before, .ico-phone, .footer .phones:before, .ico-product-list-view1-act, .select-view-block .view-row:hover, .select-view-block .view-row-active, .ico-product-list-view1, .select-view-block .view-row, .ico-product-list-view2-act, .select-view-block .view-tile:hover, .select-view-block .view-tile-active, .ico-product-list-view2, .select-view-block .view-tile, .ico-question, .productview-ask-question:before, .ico-search-btn-white, .search-auto-button:before, .ico-search-btn, .search-block .search-btn, .ico-search-reset, .clear-search-auto:before, .ico-select-arrow, .search-auto-form .jq-selectbox__trigger-arrow, .ico-select-arrowhover, .search-auto-form .jq-selectbox__select:hover .jq-selectbox__trigger-arrow, .ico-top-menu-active-left, .main-menu li.active a:before, .main-menu li:hover a:before, .ico-top-menu-active-right, .main-menu li.active a:after, .main-menu li:hover a:after, .ico-top-menu-separator, .main-menu li:after, .ico-velcom, .top-contacts .velcom:before, .ico-we-work1, .how-it-work-list .step1:before, .ico-we-work2, .how-it-work-list .step2:before, .ico-we-work3, .how-it-work-list .step3:before, .ico-we-work4, .how-it-work-list .step4:before {
+  background-image: url('../img/ico-s2298154919.png');
   background-repeat: no-repeat;
 }
 
@@ -113,173 +113,191 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   width: 6px;
 }
 
-.ico-cart, .to-cart {
+.ico-cart-n, .add-tocart-btn {
   background-position: 0 -106px;
+  height: 30px;
+  width: 30px;
+}
+
+.ico-cart, .to-cart {
+  background-position: 0 -136px;
   height: 35px;
   width: 37px;
 }
 
 .ico-clear-filter-black, .filter-block .clear-filter:before {
-  background-position: 0 -141px;
+  background-position: 0 -171px;
   height: 10px;
   width: 10px;
 }
 
-.ico-clear-filter, .clear-search-auto:before {
-  background-position: 0 -151px;
+.ico-clear-filter {
+  background-position: 0 -181px;
   height: 10px;
   width: 11px;
 }
 
 .ico-consultant, .consultant-block:before {
-  background-position: 0 -161px;
+  background-position: 0 -191px;
   height: 63px;
   width: 63px;
 }
 
 .ico-delivery-question, .productdetails-client-info .delivery:before {
-  background-position: 0 -224px;
+  background-position: 0 -254px;
   height: 22px;
   width: 30px;
 }
 
 .ico-email, .footer .email:before {
-  background-position: 0 -246px;
+  background-position: 0 -276px;
   height: 19px;
   width: 28px;
 }
 
 .ico-email1, .top-contacts .email:before {
-  background-position: 0 -265px;
+  background-position: 0 -295px;
   height: 14px;
   width: 17px;
 }
 
 .ico-mts, .top-contacts .mts:before {
-  background-position: 0 -279px;
+  background-position: 0 -309px;
   height: 14px;
   width: 14px;
 }
 
 .ico-no-avatar {
-  background-position: 0 -293px;
+  background-position: 0 -323px;
   height: 26px;
   width: 28px;
 }
 
+.ico-on-product-page, .product-detail-tile {
+  background-position: 0 -349px;
+  height: 30px;
+  width: 30px;
+}
+
 .ico-payment-question, .productdetails-client-info .payment:before {
-  background-position: 0 -319px;
+  background-position: 0 -379px;
   height: 24px;
   width: 24px;
 }
 
 .ico-phone, .footer .phones:before {
-  background-position: 0 -343px;
+  background-position: 0 -403px;
   height: 21px;
   width: 21px;
 }
 
 .ico-product-list-view1-act, .select-view-block .view-row:hover, .select-view-block .view-row-active {
-  background-position: 0 -364px;
+  background-position: 0 -424px;
   height: 29px;
   width: 29px;
 }
 
 .ico-product-list-view1, .select-view-block .view-row {
-  background-position: 0 -393px;
+  background-position: 0 -453px;
   height: 29px;
   width: 29px;
 }
 
 .ico-product-list-view2-act, .select-view-block .view-tile:hover, .select-view-block .view-tile-active {
-  background-position: 0 -422px;
+  background-position: 0 -482px;
   height: 29px;
   width: 29px;
 }
 
 .ico-product-list-view2, .select-view-block .view-tile {
-  background-position: 0 -451px;
+  background-position: 0 -511px;
   height: 29px;
   width: 29px;
 }
 
 .ico-question, .productview-ask-question:before {
-  background-position: 0 -480px;
+  background-position: 0 -540px;
   height: 25px;
   width: 26px;
 }
 
 .ico-search-btn-white, .search-auto-button:before {
-  background-position: 0 -505px;
+  background-position: 0 -565px;
   height: 14px;
   width: 14px;
 }
 
 .ico-search-btn, .search-block .search-btn {
-  background-position: 0 -519px;
+  background-position: 0 -579px;
   height: 24px;
   width: 24px;
 }
 
+.ico-search-reset, .clear-search-auto:before {
+  background-position: 0 -603px;
+  height: 20px;
+  width: 20px;
+}
+
 .ico-select-arrow, .search-auto-form .jq-selectbox__trigger-arrow {
-  background-position: 0 -548px;
+  background-position: 0 -628px;
   height: 5px;
   width: 11px;
 }
 .ico-select-arrow:hover, .search-auto-form .jq-selectbox__trigger-arrow:hover, .ico-select-arrow.select-arrow-hover, .search-auto-form .select-arrow-hover.jq-selectbox__trigger-arrow {
-  background-position: 0 -543px;
+  background-position: 0 -623px;
 }
 
 .ico-select-arrowhover, .search-auto-form .jq-selectbox__select:hover .jq-selectbox__trigger-arrow {
-  background-position: 0 -553px;
+  background-position: 0 -633px;
   height: 5px;
   width: 11px;
 }
 
 .ico-top-menu-active-left, .main-menu li.active a:before, .main-menu li:hover a:before {
-  background-position: 0 -558px;
+  background-position: 0 -638px;
   height: 43px;
   width: 28px;
 }
 
 .ico-top-menu-active-right, .main-menu li.active a:after, .main-menu li:hover a:after {
-  background-position: 0 -601px;
+  background-position: 0 -681px;
   height: 43px;
   width: 28px;
 }
 
 .ico-top-menu-separator, .main-menu li:after {
-  background-position: 0 -644px;
+  background-position: 0 -724px;
   height: 14px;
   width: 8px;
 }
 
 .ico-velcom, .top-contacts .velcom:before {
-  background-position: 0 -658px;
+  background-position: 0 -738px;
   height: 14px;
   width: 14px;
 }
 
 .ico-we-work1, .how-it-work-list .step1:before {
-  background-position: 0 -672px;
+  background-position: 0 -752px;
   height: 50px;
   width: 51px;
 }
 
 .ico-we-work2, .how-it-work-list .step2:before {
-  background-position: 0 -722px;
+  background-position: 0 -802px;
   height: 49px;
   width: 49px;
 }
 
 .ico-we-work3, .how-it-work-list .step3:before {
-  background-position: 0 -771px;
+  background-position: 0 -851px;
   height: 44px;
   width: 58px;
 }
 
 .ico-we-work4, .how-it-work-list .step4:before {
-  background-position: 0 -815px;
+  background-position: 0 -895px;
   height: 48px;
   width: 54px;
 }
@@ -300,7 +318,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   position: absolute;
 }
 
-.button:hover, .button-green, .button-red, .c-fff, .c_fff, .main-menu li.active a, .main-menu li:hover a, .logo-top, .consultant-block, .search-auto-block-title, .search-auto-form .step-num, .search-auto-form .jq-selectbox__select-text:hover, .news-block-item-big a.item-title, .product-list-item .new-product, .product-list-item .status, .last-viewed-title, .last-viewed-status, .footer div,
+.button:hover, .button-green, .button-red, .c-fff, .c_fff, .main-menu li.active a, .main-menu li:hover a, .logo-top, .consultant-block, .search-auto-block-title, .search-auto-form .step-num, .search-auto-form .jq-selectbox__select-text:hover, .clear-search-auto, .news-block-item-big a.item-title, .product-list-item .new-product, .product-list-item .status, .last-viewed-title, .last-viewed-status, .footer div,
 .footer p,
 .footer a,
 .footer span, .productdetails-view .addtocart-button, .cart-step-num {
@@ -323,7 +341,7 @@ span.required, .breadcrumbs a, .sorting-block-conteiner .sorting-block a:hover,
   color: #d8d8d8;
 }
 
-.grey, .c_999, .search-auto-form .jq-selectbox__select-text, .search-auto-form .jq-selectbox__dropdown li, .clear-search-auto, .product-list-item .small .grey {
+.grey, .c_999, .search-auto-form .jq-selectbox__select-text, .search-auto-form .jq-selectbox__dropdown li, .search-auto-form select, .product-list-item .small .grey {
   color: #999;
 }
 
@@ -373,7 +391,7 @@ h2, .c_000, .news-block-item .item-title, .product-list-item .small span, .produ
   font-size: 11px;
 }
 
-.font-12, .menu-cat li a, .news-block-item .item-title, .last-viewed-title, .productdetails-view .addtocart-button, .productdetails-view-tab .tabs sup, .filter-block-all-items {
+.font-12, .search-auto-form .jq-selectbox__select-text, .search-auto-form .jq-selectbox__dropdown li, .menu-cat li a, .news-block-item .item-title, .last-viewed-title, .productdetails-view .addtocart-button, .productdetails-view-tab .tabs sup, .filter-block-all-items {
   font-size: 12px;
 }
 
@@ -385,7 +403,7 @@ h2, .c_000, .news-block-item .item-title, .product-list-item .small span, .produ
 
 .sorting-block-conteiner .sorting-block,
 .sorting-block-conteiner .currency-select, .sorting-block-conteiner .sorting-block a,
-.sorting-block-conteiner .currency-select a, .font-14, .search-auto-form .jq-selectbox__select-text, .search-auto-form .jq-selectbox__dropdown li, .more-products, .last-viewed-status, .productdetails-price-row .label, .productdetails-view-tab .tabs a, .productdetails-view-tab .tabs .active, .filter-block-header {
+.sorting-block-conteiner .currency-select a, .font-14, .more-products, .last-viewed-status, .productdetails-price-row .label, .productdetails-view-tab .tabs a, .productdetails-view-tab .tabs .active, .filter-block-header {
   font-size: 14px;
 }
 
@@ -427,7 +445,7 @@ h1, h2, h3, b, strong, .button,
 .sorting-block-conteiner .currency-select, .sorting-block-conteiner .sorting-block a,
 .sorting-block-conteiner .currency-select a, .bold, .main-menu li a, .search-auto-form .jq-selectbox__select-text, .search-auto-form .jq-selectbox__dropdown li, .categories-menu > li > a, .news-block-item .item-title, .news-block .created-by,
 .news-block .created-by a,
-.news-block .created, .product-list-item .product-label, .product-list-item .small, .product-list-item .status, .product-list-item-row-info-block .short-description li:before, .how-it-work-list .wr, .last-viewed-title, .last-viewed-status, .last-viewed-item-prices .price, .last-viewed-item-prices .price-byr, .category-view .category-item-wr a, .footer-hdr, .productdetails-view-main-info-part .label,
+.news-block .created, .product-list-item .product-label, .product-list-item .status, .product-list-item-row-info-block .short-description li:before, .how-it-work-list .wr, .last-viewed-title, .last-viewed-status, .last-viewed-item-prices .price, .last-viewed-item-prices .price-byr, .category-view .category-item-wr a, .footer-hdr, .productdetails-view-main-info-part .label,
 .productdetails-view-main-info-part .value, .productdetails-price-row .price, .productdetails-price-row .price-byr, .productview-ask-question a, .productdetails-client-info .title, .productdetails-client-info .payment a,
 .productdetails-client-info .delivery a, .productdetails-view-tab .tabs a, .filter-block .clear-filter, .filter-block-header, .product-types-list-item a,
 .product-types-list-item span, .filter-block-all-items.active, .cart-remove {
@@ -1429,6 +1447,15 @@ span sup {
 .search-auto-form .jq-selectbox__dropdown li {
   padding: 10px;
 }
+.search-auto-form select {
+  margin-top: 42px;
+  background-color: #333;
+}
+
+.step-selected .jq-selectbox__select-text,
+.step1 .jq-selectbox__select-text {
+  color: #fff;
+}
 
 .clear-search-auto {
   top: 7px;
@@ -1437,8 +1464,8 @@ span sup {
   padding: 0 0 0 16px;
 }
 .clear-search-auto:before {
-  top: 2px;
-  left: 0;
+  top: -1px;
+  left: -5px;
 }
 
 .search-auto-button {
@@ -1643,7 +1670,6 @@ span sup {
 .product-detail-tile {
   right: 0;
   bottom: 0;
-  padding: 10px 5px;
 }
 
 .category-products-list {
@@ -1778,6 +1804,13 @@ span sup {
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px;
   border-radius: 4px;
+}
+
+.add-tocart-btn {
+  border: none;
+  background-color: transparent;
+  right: 40px;
+  bottom: 0;
 }
 
 .products-on-auto .jcarousel-control-prev,

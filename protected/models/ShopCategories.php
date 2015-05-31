@@ -278,26 +278,34 @@ class ShopCategories extends CActiveRecord
 				}	else	{
 					$criteria->condition = "(`id` IN (0))";
 				}
-					
 			}
 		}
-		
 		
 		$criteria->order = 't.root, t.lft'; // или 't.root, t.lft' для множественных деревьев
 		$categories = $this->findAll($criteria);
 		
-		//echo'<pre>';print_r($criteria);echo'</pre>';
-		//echo'<pre>';print_r(count($categories));echo'</pre>';
+//		echo'<pre>';print_r($criteria);echo'</pre>';
+//		echo'<pre>';print_r(count($categories));echo'</pre>';
+//		echo'<pre>';print_r(($categories[0]->attributes));echo'</pre>';
+//		echo'<pre>';print_r(($categories[1]->attributes));echo'</pre>';
+//		echo'<pre>';print_r(($categories[2]->attributes));echo'</pre>';
 		
 		if(count($categories) == 0 && $filtering )	{
 			$categories[0] = 'Не найдено';
 			return $categories;
 		}	else	{
-			
-				
 			$cat_arr = array();
 			$cat_arr_inner = array();
 			$level_arr = array();
+			
+			foreach($categories as $n => $category) {
+				if($category->level > 3)	{
+					$current_category = $this->findByPk($category->id);
+					$parent = $current_category->parent()->find();
+					$categories[count($categories)] = $parent;
+				}
+			}
+			
 
 			//получаем id текущей категории
 			$current_category_id = $app->request->getParam('id', 0);
@@ -307,17 +315,19 @@ class ShopCategories extends CActiveRecord
 				$current_category = $this->findByPk($current_category_id);
 				$current_category_ancestors = $current_category->ancestors()->findAll();
 			}	else	{
-				$current_category_ancestors = array();
+				
+				$current_category_ancestors = array();				
 			}
 
 			$categories1 = $categories;
+			
+			//echo'<pre>';print_r(count($categories));echo'</pre>';
 
 			foreach($categories as $n => $category)
 			{
 				if($current_category_id == $category->id) {
 					$active = true;
 				} else {
-
 					foreach($current_category_ancestors as $i)	{
 						if($i->id == $category->id)	{
 							$active = true;
@@ -326,8 +336,6 @@ class ShopCategories extends CActiveRecord
 							$active = false;
 						}
 					}
-
-
 				}
 
 				$add_category = true;
@@ -350,9 +358,10 @@ class ShopCategories extends CActiveRecord
 					$cat_arr[$category->id]['itemOptions'] = array('class'=>'cat-'.$category->id);
 				}
 			}
-
+			//echo'<pre>';print_r($cat_arr);echo'</pre>';
 			$cat_arr = $this->mapTree($cat_arr);
-			return $cat_arr[1]['items'];
+			
+			return isset($cat_arr[1]['items']) ? $cat_arr[1]['items'] : array();
 		}
 	}
 	
@@ -363,7 +372,6 @@ class ShopCategories extends CActiveRecord
 				$tree[$id] = &$node;
 			}	else {
 				$dataset[$node['parent_id']]['items'][$id] = &$node;
-				//$dataset[$node['parent_id']]['items'][$id]['itemOptions'] = array('class'=>'menu111');
 			}
 		}
 		return $tree;

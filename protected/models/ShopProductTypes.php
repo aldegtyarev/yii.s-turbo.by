@@ -239,7 +239,7 @@ class ShopProductTypes extends CActiveRecord
 	}
 	
 	
-	//получаем типы товаро для списка товаров категории
+	//получаем типы товаров для списка товаров категории
 	public function getProductTypesForProductList(&$connection, $product_ids = array(), $get_null = false )
 	{
 		
@@ -254,7 +254,7 @@ group by pr.`type_id`
 		if(count($product_ids))	{
 			$sql = "
 SELECT pr.`type_id` AS id, pt.`name` AS name, count(pr.`product_id`)  AS count
-FROM `3hnspc_shop_products` AS pr INNER JOIN `3hnspc_shop_product_types` AS pt USING(`type_id`)
+FROM {{shop_products}} AS pr INNER JOIN {{shop_product_types}} AS pt USING(`type_id`)
 WHERE pr.`product_id` IN (".implode(',', $product_ids).") ".($get_null ? " AND pt.`type_id` > 0" : "")."
 GROUP BY pr.`type_id`
 			";
@@ -264,7 +264,7 @@ GROUP BY pr.`type_id`
 		}	else	{
 			$rows = array();
 		}
-		//echo'<pre>';print_r($rows);echo'</pre>';
+		echo'<pre>';print_r($rows);echo'</pre>';
 		return $rows;
 	}
 	

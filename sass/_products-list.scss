@@ -61,8 +61,6 @@
 	}
 	
 	.small {
-		
-		@extend %bold;
 		@extend %font_10;
 		
 		
@@ -115,7 +113,8 @@
 .product-detail-tile {
 	right: 0;
 	bottom: 0;
-	padding: 10px 5px;
+	
+	@extend .ico-on-product-page;
 }
 
 
@@ -300,4 +299,13 @@
 		width: 100px;
 		@include border-radius(4px);
 	}
+}
+
+.add-tocart-btn {
+	border: none;
+	background-color: transparent;
+	right: 40px;
+	bottom: 0;
+	
+	@extend .ico-cart-n;
 }

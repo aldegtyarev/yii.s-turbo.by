@@ -97,7 +97,7 @@
 		
 		@extend %c_999;
 		@extend %bold;
-		@extend %font_14;
+		@extend %font_12;
 		
 		&:hover {
 			@extend %c_fff;
@@ -134,9 +134,20 @@
 		
 		@extend %c_999;
 		@extend %bold;
-		@extend %font_14;
+		@extend %font_12;
 	}
 	
+	
+	select {
+		margin-top: 42px;
+		background-color: #333;
+		@extend %c_999;
+	}
+}
+
+.step-selected .jq-selectbox__select-text,
+.step1 .jq-selectbox__select-text {
+	color: #fff;
 }
 
 .clear-search-auto {
@@ -146,15 +157,15 @@
 	padding: 0 0 0 16px;
 	
 	@extend %pos_abs;
-	@extend %c_999;
+	@extend %c_fff;
 	@extend %underline_y_n;
 	@extend %font_11;
 	@extend %for_sprite;
 	
 	&:before {
-		top: 2px;
-		left: 0;
-		@extend .ico-clear-filter;
+		top: -1px;
+		left: -5px;
+		@extend .ico-search-reset;
 	}
 }
 

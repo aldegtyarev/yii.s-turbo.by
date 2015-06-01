@@ -253,7 +253,7 @@ group by pr.`type_id`
 */
 		if(count($product_ids))	{
 			$sql = "
-SELECT pr.`type_id` AS id, pt.`name` AS name, count(pr.`product_id`)  AS count
+SELECT pr.`type_id` AS id, pt.`name` AS name, pt.`parent_id`, count(pr.`product_id`)  AS count
 FROM {{shop_products}} AS pr INNER JOIN {{shop_product_types}} AS pt USING(`type_id`)
 WHERE pr.`product_id` IN (".implode(',', $product_ids).") ".($get_null ? " AND pt.`type_id` > 0" : "")."
 GROUP BY pr.`type_id`
@@ -261,10 +261,111 @@ GROUP BY pr.`type_id`
 			$command = $connection->createCommand($sql);
 			//$command->bindParam(":product_id", $product_ids_str);
 			$rows = $command->queryAll();
+			
+			
+			/*
+			$sql = "SELECT `type_id`,`root`,`level`,`parent_id`,`name` FROM {{shop_product_types}} WHERE `type_id` <> 0 ORDER BY root, lft";
+			$command = $connection->createCommand($sql);
+			$all_prod_types = $command->queryAll();
+			//echo'<pre>';print_r($all_prod_types);echo'</pre>';
+			
+			
+			$presented_ids = array();
+			
+			$parent_id = 0;
+			$parent_level = -1;
+			
+			foreach($rows as $row_key=>&$row) {
+				foreach($all_prod_types as $prod_key=>&$prod_type) {
+					if($prod_type['type_id'] == $row['id']) {
+						$presented_ids[] = $prod_type['type_id'];
+						$presented_ids[] = $prod_type['parent_id'];
+						$parent_id = $prod_type['parent_id'];
+						//$parent_level = $prod_type['level'];
+						break;
+					}
+				}
+
+				foreach($all_prod_types as $prod_key=>&$prod_type) {
+					if($prod_type['type_id'] == $parent_id) {
+						$presented_ids[] = $prod_type['type_id'];
+						$parent_id = $prod_type['parent_id'];
+						break;
+					}
+				}
+				
+				foreach($all_prod_types as $prod_key=>&$prod_type) {
+					if($prod_type['type_id'] == $parent_id) {
+						$presented_ids[] = $prod_type['type_id'];
+						$parent_id = $prod_type['parent_id'];
+						break;
+					}
+				}
+				
+				foreach($all_prod_types as $prod_key=>&$prod_type) {
+					if($prod_type['type_id'] == $parent_id) {
+						$presented_ids[] = $prod_type['type_id'];
+						$parent_id = $prod_type['parent_id'];
+						break;
+					}
+				}
+			}
+			
+			$presented_ids = array_unique($presented_ids);
+			//echo'<pre>';print_r($presented_ids);echo'</pre>';
+			
+			
+			foreach($all_prod_types as $prod_key=>&$prod_type) {
+				$is_present = false;
+				
+				foreach($presented_ids as $id) {
+					if($prod_type['type_id'] == $id) {
+						$is_present = true;
+						break;
+					}
+				}
+				if($is_present === false) {
+					unset($all_prod_types[$prod_key]);
+				}
+			}
+			
+			//echo'<pre>';print_r(($all_prod_types));echo'</pre>';
+			$level=0;
+			
+			foreach($all_prod_types as $n=>$category)
+			{
+				if($category['level']==$level)
+					echo CHtml::closeTag('li')."\n";
+				else if($category['level'] >$level)
+					echo CHtml::openTag('ul')."\n";
+				else
+				{
+					echo CHtml::closeTag('li')."\n";
+
+					for($i=$level-$category['level'];$i;$i--)
+					{
+						echo CHtml::closeTag('ul')."\n";
+						echo CHtml::closeTag('li')."\n";
+					}
+				}
+
+				echo CHtml::openTag('li');
+				echo CHtml::encode($category['name']);
+				$level=$category['level'];
+			}
+
+			for($i=$level;$i;$i--)
+			{
+				echo CHtml::closeTag('li')."\n";
+				echo CHtml::closeTag('ul')."\n";
+			}			
+			*/
 		}	else	{
 			$rows = array();
 		}
-		echo'<pre>';print_r($rows);echo'</pre>';
+		//echo'<pre>';print_r($rows);echo'</pre>';
+		
+		
 		return $rows;
 	}
 	

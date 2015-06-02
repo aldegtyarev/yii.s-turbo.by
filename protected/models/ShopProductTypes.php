@@ -263,8 +263,8 @@ GROUP BY pr.`type_id`
 			$rows = $command->queryAll();
 			
 			
-			/*
-			$sql = "SELECT `type_id`,`root`,`level`,`parent_id`,`name` FROM {{shop_product_types}} WHERE `type_id` <> 0 ORDER BY root, lft";
+			
+			$sql = "SELECT `type_id` AS id,`root`,`level`,`parent_id`,`name`, '0' AS count FROM {{shop_product_types}} WHERE `type_id` <> 0 ORDER BY root, lft";
 			$command = $connection->createCommand($sql);
 			$all_prod_types = $command->queryAll();
 			//echo'<pre>';print_r($all_prod_types);echo'</pre>';
@@ -275,10 +275,15 @@ GROUP BY pr.`type_id`
 			$parent_id = 0;
 			$parent_level = -1;
 			
-			foreach($rows as $row_key=>&$row) {
+			
+			//foreach($rows as $row_key=>$row) {
+				//echo'<p>'.$row['name'].'|'.$row['count'].'|'.$row['id'].'</p>';
+			//}
+			
+			foreach($rows as $row_key=>$row) {
 				foreach($all_prod_types as $prod_key=>&$prod_type) {
-					if($prod_type['type_id'] == $row['id']) {
-						$presented_ids[] = $prod_type['type_id'];
+					if($prod_type['id'] == $row['id']) {
+						$presented_ids[] = $prod_type['id'];
 						$presented_ids[] = $prod_type['parent_id'];
 						$parent_id = $prod_type['parent_id'];
 						//$parent_level = $prod_type['level'];
@@ -287,24 +292,24 @@ GROUP BY pr.`type_id`
 				}
 
 				foreach($all_prod_types as $prod_key=>&$prod_type) {
-					if($prod_type['type_id'] == $parent_id) {
-						$presented_ids[] = $prod_type['type_id'];
+					if($prod_type['id'] == $parent_id) {
+						$presented_ids[] = $prod_type['id'];
 						$parent_id = $prod_type['parent_id'];
 						break;
 					}
 				}
 				
 				foreach($all_prod_types as $prod_key=>&$prod_type) {
-					if($prod_type['type_id'] == $parent_id) {
-						$presented_ids[] = $prod_type['type_id'];
+					if($prod_type['id'] == $parent_id) {
+						$presented_ids[] = $prod_type['id'];
 						$parent_id = $prod_type['parent_id'];
 						break;
 					}
 				}
 				
 				foreach($all_prod_types as $prod_key=>&$prod_type) {
-					if($prod_type['type_id'] == $parent_id) {
-						$presented_ids[] = $prod_type['type_id'];
+					if($prod_type['id'] == $parent_id) {
+						$presented_ids[] = $prod_type['id'];
 						$parent_id = $prod_type['parent_id'];
 						break;
 					}
@@ -319,17 +324,37 @@ GROUP BY pr.`type_id`
 				$is_present = false;
 				
 				foreach($presented_ids as $id) {
-					if($prod_type['type_id'] == $id) {
+					if($prod_type['id'] == $id) {
 						$is_present = true;
 						break;
 					}
 				}
 				if($is_present === false) {
 					unset($all_prod_types[$prod_key]);
+				}	else	{
+					//echo'<pre>';print_r($prod_type['name'].' '.$prod_type['id']);echo'</pre>';
+					foreach($rows as $row_key=>$row) {
+						if($prod_type['id'] == $row['id']) {
+							$prod_type['count'] = $row['count'];
+							break;
+						}
+					}
 				}
 			}
+			$rows = $all_prod_types;
+			/*
+Тюнинг
+Внешний тюнинг
+Бампер передний => 356 357 
+Бампер задний=> 358 359 654
+Накладки на пороги 362
+Молдинги => 361 655				
+			*/
+			
 			
 			//echo'<pre>';print_r(($all_prod_types));echo'</pre>';
+			
+			/*
 			$level=0;
 			
 			foreach($all_prod_types as $n=>$category)
@@ -350,7 +375,7 @@ GROUP BY pr.`type_id`
 				}
 
 				echo CHtml::openTag('li');
-				echo CHtml::encode($category['name']);
+				echo CHtml::encode($category['name'].'|'.$category['count']);
 				$level=$category['level'];
 			}
 

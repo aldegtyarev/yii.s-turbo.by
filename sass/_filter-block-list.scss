@@ -127,3 +127,43 @@
 		box-shadow: none;
 	}
 }
+
+.product-types-index-all,
+.product-types-index {
+	
+	li {
+		margin-bottom: 5px;
+	}
+	
+	& > li {
+		@extend %w_50;
+		@extend %fl;
+		@extend .clearfix;
+	}
+	
+	ul {
+		margin-left: 10px;
+		margin-bottom: 10px;
+	}
+	
+	a,
+	p {
+		@extend %bold;
+	}
+	
+	a:hover {
+		text-decoration: none;
+		.name {
+			text-decoration: underline;
+		}
+		.product-count {
+			text-decoration: none;
+		}
+	}
+	
+	.product-count {
+		vertical-align: top;
+		@extend %c_d70000;
+		@extend %font_9;		
+	}
+}

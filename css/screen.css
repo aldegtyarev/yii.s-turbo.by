@@ -333,7 +333,8 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 span.required, .breadcrumbs a, .sorting-block-conteiner .sorting-block a:hover,
 .sorting-block-conteiner .currency-select a:hover, .sorting-block-conteiner .sorting-block .active,
 .sorting-block-conteiner .currency-select .active, .c_d70000, .menu-cat h3, .news-block .all-items, .product-list-item-row-info-block .short-description li:before, .last-viewed-block .all-items, .last-viewed-item-prices .price, .productdetails-price-row .price, .productview-ask-question a, .productdetails-client-info .payment a,
-.productdetails-client-info .delivery a, .productdetails-view-tab .tabs a:hover, .productdetails-view-tab .tabs sup, .productdetails-view-tab .tabs .active, .product-types-list-item .product-count, .filter-block-all-items .product-count {
+.productdetails-client-info .delivery a, .productdetails-view-tab .tabs a:hover, .productdetails-view-tab .tabs sup, .productdetails-view-tab .tabs .active, .product-types-list-item .product-count, .filter-block-all-items .product-count, .product-types-index-all .product-count,
+.product-types-index .product-count {
   color: #d70000;
 }
 
@@ -375,7 +376,8 @@ h2, .c_000, .news-block-item .item-title, .product-list-item .small span, .produ
   font-size: 8px;
 }
 
-.font-9, .product-types-list-item .product-count, .filter-block-all-items .product-count {
+.font-9, .product-types-list-item .product-count, .filter-block-all-items .product-count, .product-types-index-all .product-count,
+.product-types-index .product-count {
   font-size: 9px;
 }
 
@@ -448,7 +450,10 @@ h1, h2, h3, b, strong, .button,
 .news-block .created, .product-list-item .product-label, .product-list-item .status, .product-list-item-row-info-block .short-description li:before, .how-it-work-list .wr, .last-viewed-title, .last-viewed-status, .last-viewed-item-prices .price, .last-viewed-item-prices .price-byr, .category-view .category-item-wr a, .footer-hdr, .productdetails-view-main-info-part .label,
 .productdetails-view-main-info-part .value, .productdetails-price-row .price, .productdetails-price-row .price-byr, .productview-ask-question a, .productdetails-client-info .title, .productdetails-client-info .payment a,
 .productdetails-client-info .delivery a, .productdetails-view-tab .tabs a, .filter-block .clear-filter, .filter-block-header, .product-types-list-item a,
-.product-types-list-item span, .filter-block-all-items.active, .cart-remove {
+.product-types-list-item span, .filter-block-all-items.active, .product-types-index-all a,
+.product-types-index-all p,
+.product-types-index a,
+.product-types-index p, .cart-remove {
   font-weight: bold;
 }
 
@@ -492,7 +497,8 @@ a:hover, .underline_n_y:hover {
 }
 
 .sideLeft, .container, .select-view-block a, .fLeft, .floatLeft, .main-menu li, .search-auto-block-title, .search-auto-form, .search-auto-form .step-wr, .news-block-item, .product-list-item-row-image-block .additional-images-list-item, .additional-images-wr ul, .additional-images-wr li, .products-on-auto-item, .how-it-work-list li, .category-view .category-item, .footer .contacts, .footer .ur-data, .productdetails-view-image-part, .productdetails-slider-images li, .productdetails-client-info .payment,
-.productdetails-client-info .delivery, .productdetails-view-tab .tabs li, .product-types-list-item {
+.productdetails-client-info .delivery, .productdetails-view-tab .tabs li, .product-types-list-item, .product-types-index-all > li,
+.product-types-index > li {
   float: left;
 }
 
@@ -569,7 +575,8 @@ a:hover, .underline_n_y:hover {
 }
 
 .width50, .news-block-item-big, .productdetails-client-info .payment,
-.productdetails-client-info .delivery {
+.productdetails-client-info .delivery, .product-types-index-all > li,
+.product-types-index > li {
   width: 50%;
 }
 
@@ -741,10 +748,12 @@ span sup {
   text-decoration: none;
 }
 
-.clearfix, .productdetails-view-tab .tabs {
+.clearfix, .productdetails-view-tab .tabs, .product-types-index-all > li,
+.product-types-index > li {
   *zoom: 1;
 }
-.clearfix:after, .productdetails-view-tab .tabs:after {
+.clearfix:after, .productdetails-view-tab .tabs:after, .product-types-index-all > li:after,
+.product-types-index > li:after {
   content: "";
   display: table;
   clear: both;
@@ -2275,6 +2284,32 @@ span sup {
 #firm-styler .jq-selectbox__select {
   background: #fff;
   box-shadow: none;
+}
+
+.product-types-index-all li,
+.product-types-index li {
+  margin-bottom: 5px;
+}
+.product-types-index-all ul,
+.product-types-index ul {
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+.product-types-index-all a:hover,
+.product-types-index a:hover {
+  text-decoration: none;
+}
+.product-types-index-all a:hover .name,
+.product-types-index a:hover .name {
+  text-decoration: underline;
+}
+.product-types-index-all a:hover .product-count,
+.product-types-index a:hover .product-count {
+  text-decoration: none;
+}
+.product-types-index-all .product-count,
+.product-types-index .product-count {
+  vertical-align: top;
 }
 
 .cart-list {

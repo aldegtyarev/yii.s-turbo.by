@@ -205,6 +205,7 @@ return array(
 		'adminEmail'=>'webmaster@example.com',
 		'pagination' => array('per_page' => 30, 'products_per_page' => 32),		//параметры для пагинации
 		'images_live_url' => 'http://s-turbo.by/',
+		'products_list_order' => 't.`product_price`', //t.`product_id` // порядок сортировки списка товаров
 		'product_imagePath' => 'webroot.images.shop.products',
 		'product_images_liveUrl' => '/images/shop/products/',
 		'universal_products' => '1247',	// id универсальных товаров в модельном ряде

@@ -136,7 +136,8 @@ class ShopCategoriesController extends Controller
 		}
 		
 		$criteria->condition = implode(' AND ', $condition_arr);
-		$criteria->order = "pc.`ordering`, t.`product_id`";
+		//$criteria->order = "pc.`ordering`, t.`product_id`";
+		$criteria->order = $app->params->products_list_order;
 		
 		//получаем сначала все позиции для получения их id без учета пагинации
 		$rows = ShopProducts::model()->findAll($criteria);
@@ -288,6 +289,7 @@ class ShopCategoriesController extends Controller
 		$this->processPageRequest('page');
 		
 		$selected_view = $app->request->getParam('select-view', -1);
+		$type_request = (int)$app->request->getParam('type', 0);
 		
 		if($selected_view != -1)	{
 			$app->session['Shopcategories.selected_view'] = $selected_view;
@@ -307,11 +309,7 @@ class ShopCategoriesController extends Controller
 		$select_marka = isset($app->session['autofilter.marka']) ? $app->session['autofilter.marka'] : -1;
 		$select_model = isset($app->session['autofilter.model']) ? $app->session['autofilter.model'] : -1;
 		$select_year = isset($app->session['autofilter.year']) ? $app->session['autofilter.year'] : -1;
-		/*
-		echo'<pre>';print_r($select_marka,0);echo'</pre>';
-		echo'<pre>';print_r($select_model,0);echo'</pre>';
-		echo'<pre>';print_r($select_year,0);echo'</pre>';
-		*/
+
 		$model_info = ShopModelsAuto::model()->getModelInfo($connection, $select_marka, $select_model, $select_year);
 		//echo'<pre>';print_r($model_info,0);echo'</pre>';
 		
@@ -326,21 +324,44 @@ class ShopCategoriesController extends Controller
 		$criteria = new CDbCriteria();
 		$criteria->select = "t.product_id";
 		
-		$condition_arr = array();
+		$condition_arr = array();		
 		
 		if(count($model_ids))	{
 			$product_ids = ShopProductsModelsAuto::model()->getProductIdFromModels($connection, $model_ids);
 			if(count($product_ids))	{
-				$condition_arr[] = "t.`product_id` IN (".implode(', ', $product_ids).")";
+				$condition_arr[] = "t.`product_id` IN (".implode(',', $product_ids).")";
 			}
 		}
 		
 		$criteria->condition = implode(' AND ', $condition_arr);
-		$criteria->order = "t.`product_id`";
+		
+		//echo'<pre>';print_r($criteria,0);echo'</pre>';
+		
+		//получаем сначала все позиции для получения их id без учета пагинации
+		//$rows = ShopProducts::model()->findAll($criteria);
+		//$finded_product_ids = ShopProducts::model()->getProductIds($rows);
+		if(count($product_ids))	{
+			$finded_product_ids = $product_ids;
+		}	else	{
+			$rows = ShopProducts::model()->findAll($criteria);
+			$finded_product_ids = ShopProducts::model()->getProductIds($rows);			
+		}
+		
+		//echo'<pre>';print_r($product_ids,0);echo'</pre>';
+		//echo'<pre>';print_r($finded_product_ids,0);echo'</pre>';
+		
+		$criteria->select = "t.*";
+		
+		if($type_request != 0)	{
+			$condition_arr[] = "t.type_id = ".$type_request;
+		}
 				
 		$criteria->condition = implode(' AND ', $condition_arr);
-				
-		$criteria->select = "t.*";
+		
+		//$criteria->order = "t.`product_id`";
+		$criteria->order = $app->params->products_list_order;
+		
+		//echo'<pre>';print_r($criteria,0);echo'</pre>';
 		
         $dataProvider = new CActiveDataProvider('ShopProducts', array(
             'criteria'=>$criteria,
@@ -350,7 +371,7 @@ class ShopCategoriesController extends Controller
             ),
         ));
 		
-		$finded_product_ids = ShopProducts::model()->getProductIds($dataProvider->data);
+		//$finded_product_ids = ShopProducts::model()->getProductIds($dataProvider->data);
 		
 		if(count($finded_product_ids))	{
 			//загрузить группы товаров
@@ -438,6 +459,7 @@ class ShopCategoriesController extends Controller
 				'breadcrumbs' => $breadcrumbs,
 				'title' => $title,
 				'producttypes' => $producttypes,
+				'productsTotal' => count($finded_product_ids),
 			);
 
 			$this->render('index', $data);

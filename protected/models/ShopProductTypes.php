@@ -268,6 +268,7 @@ GROUP BY pr.`type_id`
 			$command = $connection->createCommand($sql);
 			$all_prod_types = $command->queryAll();
 			//echo'<pre>';print_r($all_prod_types);echo'</pre>';
+			//echo'<pre>';print_r(count($product_ids));echo'</pre>';
 			
 			
 			$presented_ids = array();

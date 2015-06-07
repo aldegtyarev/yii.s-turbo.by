@@ -75,7 +75,14 @@ class SearchAutoWidget extends CWidget {
 		
 		if($select_year != null || $select_model != null) {
 			$model = ShopModelsAuto::model()->findByPk($select_model);
-			$descendants = $model->children()->findAll();
+			//$descendants = $model->children()->findAll();
+			$descendants = $model->descendants()->findAll();
+			foreach($descendants as $c){
+				$separator = '';
+				for ($x=3; $x++ < $c->level;) $separator .= '- ';
+				$c->name = ' '.$separator.$c->name;
+			}
+			
 			$yearDropDown = CHtml::listData($descendants, 'id','name');
 		} else {
 			$yearDropDown = array();

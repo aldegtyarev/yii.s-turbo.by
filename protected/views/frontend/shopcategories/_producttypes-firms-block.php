@@ -83,6 +83,7 @@ $all_bodies = CHtml::link(CHtml::OpenTag('span', array('class'=>'name'))."Все
 
 <? if(count($producttypes) || count($firms))	{	?>
 	<div class="filter-block container-block">
+		<?/*
 		<? if(count($bodies))	{ ?>
 			<div class="bodies-block mb-30">
 				<p class="filter-block-header">Уточните кузов</p>
@@ -91,6 +92,7 @@ $all_bodies = CHtml::link(CHtml::OpenTag('span', array('class'=>'name'))."Все
 				</ul>
 			</div>
 			
+			<?/*
 			<?php if($body_request == 0)	{	?>
 				<div id="bodies-popup" class="p-20 bodies-popup" style="width:200px;display:none;">
 					<div class="bodies-block">
@@ -103,8 +105,11 @@ $all_bodies = CHtml::link(CHtml::OpenTag('span', array('class'=>'name'))."Все
 				<a href="#bodies-popup" id="select-body" class="fancybox" rel="nofollow" style="display:none;">Год</a>
 				<?php $cs->registerScript('select-body', "$('#select-body').click(); ", CClientScript::POS_LOAD) ?>
 			<?php	}	?>
+			*/?>
+			
+			<?/*
 		<?	}	?>		
-	
+		*/?>
 		<? if(count($producttypes))	{ ?>
 			<div class="product-types-block">
 				<p class="filter-block-header">Категории</p>

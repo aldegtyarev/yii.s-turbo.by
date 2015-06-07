@@ -42,6 +42,7 @@ class ShopModelsAutoController extends Controller
 					'create',
 					'moveup',
 					'movedown',
+					'updateparents',
 				),
 
 				'users'=>array('superman'),
@@ -84,6 +85,7 @@ class ShopModelsAutoController extends Controller
 		{
 			$model->attributes = $_POST['ShopModelsAuto'];
 			$model->parentId = $_POST['ShopModelsAuto']['parentId'];
+			$model->parent_id = $_POST['ShopModelsAuto']['parentId'];
 			
 			$SelectedBodies = isset($_POST['ShopModelsAuto']['body_ids']) ? $_POST['ShopModelsAuto']['body_ids'] : array();
 			$selectedValues = array();
@@ -107,6 +109,17 @@ class ShopModelsAutoController extends Controller
 	 * If update is successful, the browser will be redirected to the 'view' page.
 	 * @param integer $id the ID of the model to be updated
 	 */
+	public function actionUpdateparents()	{
+		$models = ShopModelsAuto::model()->findAll();
+		echo'<pre>';print_r(count($models));echo'</pre>';
+		foreach($models as $model) {
+			$parent_ = $model->parent()->find();
+			$model->parent_id = $parent_->id;
+			$model->save(false);
+		}
+	}
+	
+	
 	public function actionUpdate($id)
 	{
 		$model = $this->loadModel($id);
@@ -124,6 +137,7 @@ class ShopModelsAutoController extends Controller
 		{
 			$model->attributes=$_POST['ShopModelsAuto'];
 			$model->new_parentId = $_POST['ShopModelsAuto']['parentId'];
+			$model->parent_id = $_POST['ShopModelsAuto']['parentId'];
 			
 			$SelectedBodies = isset($_POST['ShopModelsAuto']['body_ids']) ? $_POST['ShopModelsAuto']['body_ids'] : array();
 			$selectedValues = array();

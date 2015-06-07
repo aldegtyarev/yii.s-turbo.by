@@ -581,11 +581,25 @@ class ShopModelsAuto extends CActiveRecord
 	
 	public function getModelInfo(&$connection, $select_marka, $select_model, $select_year)
 	{
-		$sql = "SELECT 'marka' AS type, `name` FROM ".$this->tableName()." WHERE `id` =  $select_marka UNION SELECT 'model' AS type, `name` FROM ".$this->tableName()." WHERE `id` =  $select_model UNION SELECT 'year' AS type, `name` FROM ".$this->tableName()." WHERE `id` =  $select_year";
+		$sql = "SELECT 'marka' AS type, `name`, `level`, `parent_id` FROM ".$this->tableName()." WHERE `id` =  $select_marka UNION SELECT 'model' AS type, `name`, `level`, `parent_id` FROM ".$this->tableName()." WHERE `id` =  $select_model UNION SELECT 'year' AS type, `name`, `level`, `parent_id` FROM ".$this->tableName()." WHERE `id` =  $select_year";
 		//echo'<pre>';print_r($sql);echo'</pre>';die;
 		$command = $connection->createCommand($sql);
-		//$rows = $command->queryAll();
-		return $command->queryAll();
+		
+		$rows = $command->queryAll();
+		//echo'<pre>';print_r($rows);echo'</pre>';//die;
+		
+		if(isset($rows[2]) && $rows[2]['level'] > 3) {
+			$sql = "SELECT `name` FROM ".$this->tableName()." WHERE `id` = ".$rows[2]['parent_id'];
+			$command = $connection->createCommand($sql);
+			$parent_name = $command->queryScalar();
+			//echo'<pre>';print_r($sql);echo'</pre>';//die;
+			//echo'<pre>';print_r($row);echo'</pre>';//die;
+			$rows[2]['name'] = $parent_name . ' ' . $rows[2]['name'];
+			
+			//echo'<pre>';print_r($rows);echo'</pre>';//die;
+		}
+		
+		return $rows;
 	}
 	
 	

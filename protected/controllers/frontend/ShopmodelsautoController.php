@@ -179,7 +179,18 @@ class ShopModelsAutoController extends Controller
 		
 		$model = $this->loadModel($model_id);
 		
-		$descendants = $model->children()->findAll();
+		
+		if($level > 1)	{
+			$descendants = $model->descendants()->findAll();
+			foreach($descendants as $c){
+				$separator = '';
+				for ($x=3; $x++ < $c->level;) $separator .= '- ';
+				$c->name = ' '.$separator.$c->name;
+			}			
+		}	else	{
+			$descendants = $model->children()->findAll();
+		}
+		
 		
 		$dropdownData = CHtml::listData($descendants, 'id','name');
 		$selected = null;

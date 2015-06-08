@@ -39,36 +39,48 @@
 }
 
 .product-types-list-item {
+	
 	padding: 0 2px 4px 2px;
 	@extend %fl;
-	@extend %w_25;
+	@extend %w_33;
 	@extend %border_box;
 	
 	a,
 	span {
-		@extend %bold;
+		//@extend %bold;
 	}
 	
 
 	a {
-		border: 1px solid #c8c8c8;
-		padding: 11px;
+		/* border: 1px solid #c8c8c8; */
+		/* padding: 11px; */
 		
-		@include border-radius(4px);
+		/* @include border-radius(4px); */
 		
-		@extend %font_11;
+		//@extend %font_11;
 		@extend %db;
 		@extend %underline_n_n;
 		
 		.name {
-			text-decoration: underline;
+			//text-decoration: underline;
+			@extend %underline_y_n;
 		}
 		
 		&:hover,
 		&.active {
 			//@include box-shadow(rgba(70,70,70,0.75) 4px 4px 8px 0px inset);
-			@include box-shadow(#d0d0d0 2px 2px 4px 0 inset);
-			background-color: #f5f5f5;
+			//@include box-shadow(#d0d0d0 2px 2px 4px 0 inset);
+			//background-color: #f5f5f5;
+		}
+		&.active {
+			
+			span {
+				@extend %bold;
+			}
+			.name {
+				@extend %underline_n_y;
+			}
+
 		}
 	}
 	

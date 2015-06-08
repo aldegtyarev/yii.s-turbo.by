@@ -389,7 +389,7 @@ h2, .c_000, .news-block-item .item-title, .product-list-item .small span, .produ
 .button,
 .button-red,
 .button-green, .font-11, .logo-top, .clear-search-auto, .news-block .all-items, .product-list-item .status, .how-it-work-list .wr, .last-viewed-block .all-items, .productdetails-view-main-info-part .label,
-.productdetails-view-main-info-part .value, .productdetails-client-info .title, .product-types-list-item a {
+.productdetails-view-main-info-part .value, .productdetails-client-info .title {
   font-size: 11px;
 }
 
@@ -449,8 +449,7 @@ h1, h2, h3, b, strong, .button,
 .news-block .created-by a,
 .news-block .created, .product-list-item .product-label, .product-list-item .status, .product-list-item-row-info-block .short-description li:before, .how-it-work-list .wr, .last-viewed-title, .last-viewed-status, .last-viewed-item-prices .price, .last-viewed-item-prices .price-byr, .category-view .category-item-wr a, .footer-hdr, .productdetails-view-main-info-part .label,
 .productdetails-view-main-info-part .value, .productdetails-price-row .price, .productdetails-price-row .price-byr, .productview-ask-question a, .productdetails-client-info .title, .productdetails-client-info .payment a,
-.productdetails-client-info .delivery a, .productdetails-view-tab .tabs a, .filter-block .clear-filter, .filter-block-header, .product-types-list-item a,
-.product-types-list-item span, .filter-block-all-items.active, .product-types-index-all a,
+.productdetails-client-info .delivery a, .productdetails-view-tab .tabs a, .filter-block .clear-filter, .filter-block-header, .product-types-list-item a.active span, .filter-block-all-items.active, .product-types-index-all a,
 .product-types-index-all p,
 .product-types-index a,
 .product-types-index p, .cart-remove {
@@ -467,19 +466,19 @@ h2, .logo-top, .search-auto-block-title, .menu-cat h3, .categories-menu > li > a
 
 .breadcrumbs a, .sorting-block-conteiner .sorting-block a,
 .sorting-block-conteiner .currency-select a, .underline_y_n, .clear-search-auto, .news-block .all-items, .last-viewed-block .all-items, .productview-ask-question a, .productdetails-client-info .payment a,
-.productdetails-client-info .delivery a {
+.productdetails-client-info .delivery a, .product-types-list-item a .name {
   text-decoration: underline;
 }
 .breadcrumbs a:hover, .sorting-block-conteiner .sorting-block a:hover,
 .sorting-block-conteiner .currency-select a:hover, .underline_y_n:hover, .clear-search-auto:hover, .news-block .all-items:hover, .last-viewed-block .all-items:hover, .productview-ask-question a:hover, .productdetails-client-info .payment a:hover,
-.productdetails-client-info .delivery a:hover {
+.productdetails-client-info .delivery a:hover, .product-types-list-item a .name:hover {
   text-decoration: none;
 }
 
-a, .underline_n_y {
+a, .underline_n_y, .product-types-list-item a.active .name {
   text-decoration: none;
 }
-a:hover, .underline_n_y:hover {
+a:hover, .underline_n_y:hover, .product-types-list-item a.active .name:hover {
   text-decoration: underline;
 }
 
@@ -566,11 +565,11 @@ a:hover, .underline_n_y:hover {
   cursor: pointer;
 }
 
-.width25, .news-block-item, .category-view .category-item, .product-types-list-item {
+.width25, .news-block-item, .category-view .category-item {
   width: 25%;
 }
 
-.width33 {
+.width33, .product-types-list-item {
   width: 33%;
 }
 
@@ -2248,20 +2247,9 @@ span sup {
   padding: 0 2px 4px 2px;
 }
 .product-types-list-item a {
-  border: 1px solid #c8c8c8;
-  padding: 11px;
-  -moz-border-radius: 4px;
-  -webkit-border-radius: 4px;
-  border-radius: 4px;
-}
-.product-types-list-item a .name {
-  text-decoration: underline;
-}
-.product-types-list-item a:hover, .product-types-list-item a.active {
-  -moz-box-shadow: #d0d0d0 2px 2px 4px 0 inset;
-  -webkit-box-shadow: #d0d0d0 2px 2px 4px 0 inset;
-  box-shadow: #d0d0d0 2px 2px 4px 0 inset;
-  background-color: #f5f5f5;
+  /* border: 1px solid #c8c8c8; */
+  /* padding: 11px; */
+  /* @include border-radius(4px); */
 }
 .product-types-list-item .product-count {
   vertical-align: top;

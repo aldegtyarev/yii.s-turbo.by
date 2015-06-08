@@ -255,15 +255,17 @@ group by pr.`type_id`
 			$sql = "
 SELECT pr.`type_id` AS id, pt.`name` AS name, pt.`parent_id`, count(pr.`product_id`)  AS count
 FROM {{shop_products}} AS pr INNER JOIN {{shop_product_types}} AS pt USING(`type_id`)
-WHERE pr.`product_id` IN (".implode(',', $product_ids).") ".($get_null ? " AND pt.`type_id` > 0" : "")."
-GROUP BY pr.`type_id`
+WHERE pr.`product_id` IN (".implode(',', $product_ids).") ".($get_null ? " AND pt.`type_id` > 0" : "")." 
+GROUP BY pr.`type_id` ORDER BY pt.root, pt.lft
 			";
+			
+			//ORDER BY pt.root, pt.lft
 			$command = $connection->createCommand($sql);
 			//$command->bindParam(":product_id", $product_ids_str);
 			$rows = $command->queryAll();
 			
 			
-			
+			/*
 			$sql = "SELECT `type_id` AS id,`root`,`level`,`parent_id`,`name`, '0' AS count FROM {{shop_product_types}} WHERE `type_id` <> 0 ORDER BY root, lft";
 			$command = $connection->createCommand($sql);
 			$all_prod_types = $command->queryAll();
@@ -276,10 +278,6 @@ GROUP BY pr.`type_id`
 			$parent_id = 0;
 			$parent_level = -1;
 			
-			
-			//foreach($rows as $row_key=>$row) {
-				//echo'<p>'.$row['name'].'|'.$row['count'].'|'.$row['id'].'</p>';
-			//}
 			
 			foreach($rows as $row_key=>$row) {
 				foreach($all_prod_types as $prod_key=>&$prod_type) {
@@ -343,18 +341,8 @@ GROUP BY pr.`type_id`
 				}
 			}
 			$rows = $all_prod_types;
-			/*
-Тюнинг
-Внешний тюнинг
-Бампер передний => 356 357 
-Бампер задний=> 358 359 654
-Накладки на пороги 362
-Молдинги => 361 655				
-			*/
-			
-			
 			//echo'<pre>';print_r(($all_prod_types));echo'</pre>';
-			
+			*/
 			/*
 			$level=0;
 			

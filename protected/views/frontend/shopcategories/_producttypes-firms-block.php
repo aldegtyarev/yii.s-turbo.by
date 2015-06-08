@@ -31,6 +31,10 @@ function showFilterItems($list, $total = 0, $url_parameter, $main_url, $request_
 			$url_params[$url_parameter] = $item['id'];
 			if($body_request != 0) $url_params['body'] = $body_request;
 			if($firm_request != 0) $url_params['firm'] = $firm_request;
+		}	elseif($url_parameter == 'firm') {
+			$url_params[$url_parameter] = $item['id'];
+			if($body_request != 0) $url_params['body'] = $body_request;
+			if($type_request != 0) $url_params['type'] = $type_request;	
 		}
 		
 		$url = $this_->createUrl('shopcategories/show', $url_params);
@@ -43,8 +47,9 @@ function showFilterItems($list, $total = 0, $url_parameter, $main_url, $request_
 		}
 		
 		$class = 'product-types-list-item';
-		$clear = ( ($k - 1) % 5) +1;		
-		if(($k == 1 && $show_all) || $clear == 5) $class .= ' clear';
+		//$clear = ( ($k - 1) % 4) +1;		
+		//if(($k == 1 && $show_all) || ($k<=4 && $clear == 4) || ($k>4 && $clear == 3)) $class .= ' clear';
+		if(($k == 1 && $show_all)) $class .= ' clear';
 		echo CHtml::OpenTag('li', array('class'=>$class));
 		echo CHtml::link(CHtml::OpenTag('span', array('class'=>'name')).$item['name'].CHtml::CloseTag('span').$total_str, $url, $htmlOptions);
 		echo CHtml::CloseTag('li');	
@@ -185,17 +190,17 @@ $all_bodies = CHtml::link(CHtml::OpenTag('span', array('class'=>'name'))."Все
 				
 			</div>
 		<?	}	?>
-		<?php /*
+
 		<? if(count($firms))	{ ?>
 			<div class="firms-block">
 				<p class="filter-block-header">Производители</p>
 				<ul class="product-types-list filter-block-list clearfix">
-					<? showFilterItems($firms, $productsTotal, 'firm', $main_url, $firm_request); ?>
+					<? showFilterItems($firms, $productsTotal, 'firm', $main_url, $firm_request, $this, $category->id, $body_request, $type_request, $firm_request, true); ?>
 				</ul>
 				
 			</div>
 		<?	}	?>
-		*/ ?>
+
 		<a href="<?=$main_url?>" class="clear-filter">Сбросить фильтр</a>
 		
 	</div>

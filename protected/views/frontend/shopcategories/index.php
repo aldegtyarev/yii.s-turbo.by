@@ -14,6 +14,8 @@ $main_url = '/'.Yii::app()->getRequest()->getPathInfo();
 	<h1><?=$title?></h1>
 </div>
 <?php //echo'<pre>';print_r($producttypes);echo'</pre>'; ?>
+
+<?/*
 <? if(count($producttypes))	{ ?>
 	<div class="filter-block container-block">
 
@@ -92,7 +94,7 @@ $main_url = '/'.Yii::app()->getRequest()->getPathInfo();
 	</div>
 <?	}	?>
 
-
+*/?>
 <?	if (count($dataProvider->data)) {	?>
 	
 	<div class="select-view-block clearfix">

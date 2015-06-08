@@ -375,7 +375,7 @@ class ShopCategoriesController extends Controller
 		
 		if(count($finded_product_ids))	{
 			//загрузить группы товаров
-			$producttypes = ShopProductTypes::model()->getProductTypesForProductList($connection, $product_ids, $get_null = true);
+			//$producttypes = ShopProductTypes::model()->getProductTypesForProductList($connection, $product_ids, $get_null = true);
 			//загрузить фирмы
 			$firms = ShopFirms::model()->getFirmsForProductList($connection, $finded_product_ids);
 			
@@ -458,7 +458,7 @@ class ShopCategoriesController extends Controller
 				'selected_view'=> $selected_view,
 				'breadcrumbs' => $breadcrumbs,
 				'title' => $title,
-				'producttypes' => $producttypes,
+				//'producttypes' => $producttypes,
 				'productsTotal' => count($finded_product_ids),
 			);
 

@@ -66,7 +66,8 @@ class ECKEditor extends CInputWidget {
 
     private $toolbar=array();
     
-    public $skin='moono';
+    //public $skin='moono';
+    public $skin='bootstrapck';
     private $theme='default';
 	
 	public $config_file='';
@@ -279,7 +280,10 @@ class ECKEditor extends CInputWidget {
 		$options['filebrowserImageUploadUrl']=$baseDir."/kcfinder/upload.php?type=images";
 		$options['filebrowserFlashUploadUrl']=$baseDir."/kcfinder/upload.php?type=flash";
 
+		$options['extraPlugins'] = 'youtube';
+		$options['toolbar'] = "[{ name: 'insert', items: ['Image', 'Youtube']}]";
 		
+		//$options['enterMode'] = 'CKEDITOR.ENTER_P';
 		
 		
       // here any option is overriden by user's options
@@ -348,6 +352,7 @@ if(typeof CKEDITOR !== 'undefined') {
 				
 	CKEDITOR.on( 'instanceReady', function( ev ) {
 		// Output paragraphs as <p>Text</p>.
+		/*
 		ev.editor.dataProcessor.writer.setRules( '*', {
 			indent: false,
 			breakBeforeOpen: true,
@@ -355,6 +360,7 @@ if(typeof CKEDITOR !== 'undefined') {
 			breakBeforeClose: false,
 			breakAfterClose: true
 		});
+		*/
 	});
 }
 EOP;

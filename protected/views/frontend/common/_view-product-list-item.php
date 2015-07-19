@@ -7,7 +7,11 @@
 		<p class="small font-13">
 			<span class="grey c_999"><? echo $data->getAttributeLabel('firm_id');?>:</span> <span class="c_fff"><?=$data->firm_name?></span><br />
 			<span class="grey c_999"><? echo $data->getAttributeLabel('product_sku');?>:</span> <span class="c_fff"><?=$data->product_sku?></span>
+			<?php if($data->manufacturer_sku)	{	?>
+				<br /><span class="grey c_999"><? echo $data->getAttributeLabel('manufacturer_sku');?>:</span> <span class="c_fff"><?=$data->manufacturer_sku?></span>
+			<?php	}	?>
 		</p>
+		
 
 		<?	if($data->product_availability > 0)	{
 				if($data->product_availability == 2) {

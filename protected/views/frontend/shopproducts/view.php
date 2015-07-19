@@ -102,6 +102,13 @@ $model_images = $model->Images;
 							<span class="value"><?=$model->product_sku?></span>
 						</p>
 						
+						<?php if($model->manufacturer_sku)	{	?>
+							<p class="row clearfix">
+								<span class="label"><? echo $model->getAttributeLabel('manufacturer_sku');?>:</span>
+								<span class="value"><?=$model->manufacturer_sku?></span>
+							</p>
+						<?php	}	?>
+						
 						<? if($model->product_availability != 0)	{	?>
 							<? 
 								if($model->product_availability == 2) {

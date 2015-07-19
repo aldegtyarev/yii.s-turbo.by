@@ -61,8 +61,13 @@
 				<ul class="prod-list-char-list">
 					<li class="prod-list-char-item arial font-10"><span class="c_999"><? echo $data->getAttributeLabel('firm_id');?>:</span> <?=$data->firm_name?></li>
 					
-					<li class="prod-list-char-item arial font-10"><span class="c_999"><? echo $data->getAttributeLabel('product_sku');?>:</span> <?=$data->product_sku?><br /><br /></li>
+					<li class="prod-list-char-item arial font-10"><span class="c_999"><? echo $data->getAttributeLabel('product_sku');?>:</span> <?=$data->product_sku?></li>
+					
+					<?php if($data->manufacturer_sku)	{	?>
+						<li class="prod-list-char-item arial font-10"><span class="c_999"><? echo $data->getAttributeLabel('manufacturer_sku');?>:</span> <?=$data->manufacturer_sku?></li>
+					<?php	}	?>
 				</ul>
+				<br /><br />
 				
 				<ul class="prod-list-char-list dt">
 					

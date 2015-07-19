@@ -175,6 +175,12 @@ $cs->registerScript('loading', "
 			</div>	
 			
 			<div class="row">
+				<?php echo $form->labelEx($model,'manufacturer_sku'); ?>
+				<?php echo $form->textField($model,'manufacturer_sku',array('size'=>60,'maxlength'=>32)); ?>
+				<?php echo $form->error($model,'manufacturer_sku'); ?>
+			</div>	
+			
+			<div class="row">
 				<?php echo $form->labelEx($model,'material'); ?>
 				<?php echo $form->textField($model,'material'); ?>
 				<?php echo $form->error($model,'material'); ?>

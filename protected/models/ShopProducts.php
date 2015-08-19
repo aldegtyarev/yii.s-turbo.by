@@ -876,6 +876,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 			'product_desc' => $this->product_desc,
 			'product_name' => $this->product_name.' copy',
 			'product_sku' => $this->product_sku,
+			'manufacturer_sku' => $this->manufacturer_sku,
 			'manufacturer_id' => $this->manufacturer_id,
 			'firm_id' => $this->firm_id,
 			'type_id' => $this->type_id,

@@ -2,6 +2,7 @@
 return CMap::mergeArray(
 
     require_once(dirname(__FILE__).'/main.php'),
+	require_once(dirname(__FILE__).'/currency.php'),
     
     array(
         

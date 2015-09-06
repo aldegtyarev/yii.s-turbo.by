@@ -62,7 +62,7 @@ class ShopCategories extends CActiveRecord
 			//array('root, lft, rgt, level, name, title, keywords, description, alias, ordering, category_companies, cat_column', 'required'),
 			array('name', 'required'),
 			array('root, lft, rgt, level, ordering, cat_column', 'numerical', 'integerOnly'=>true),
-			array('name, title, alias, category_companies', 'length', 'max'=>255),
+			array('name, name1, title, alias, category_companies', 'length', 'max'=>255),
 			array('category_description, keywords, description', 'length', 'max'=>7000),
 			array('alias','ext.LocoTranslitFilter','translitAttribute'=>'name'), 
 			// The following rule is used by search().
@@ -95,6 +95,7 @@ class ShopCategories extends CActiveRecord
 			'rgt' => 'Rgt',
 			'level' => 'Level',
 			'name' => 'Название',
+			'name1' => 'Название 1',
 			'title' => 'Title',
 			'keywords' => 'Keywords',
 			'description' => 'Description',

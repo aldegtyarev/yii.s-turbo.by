@@ -178,7 +178,7 @@ class ShopModelsAuto extends CActiveRecord
 			'sort'=>$sort,
 			
 			'pagination' => array(
-				'pageSize' => 50,
+				'pageSize' => $app->params->pagination['models_per_page'],
 			),			
 		));
 	}
@@ -597,6 +597,7 @@ class ShopModelsAuto extends CActiveRecord
 			$rows[2]['name'] = $parent_name . ' ' . $rows[2]['name'];
 			
 			//echo'<pre>';print_r($rows);echo'</pre>';//die;
+			Yii::app()->session['autofilter.modelinfo'] = json_encode($rows);
 		}
 		
 		return $rows;

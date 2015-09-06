@@ -117,6 +117,22 @@ class ShopCategoriesController extends Controller
 		$category = ShopCategories::model()->findByPk($id);
 		$descendants = $category->children()->findAll(array('order'=>'ordering'));
 		
+		if(isset($app->session['autofilter.modelinfo']))	{
+			$modelinfo = json_decode($app->session['autofilter.modelinfo'], 1);
+		}	else	{
+				$select_marka = isset($app->session['autofilter.marka']) ? $app->session['autofilter.marka'] : -1;
+				$select_model = isset($app->session['autofilter.model']) ? $app->session['autofilter.model'] : -1;
+				$select_year = isset($app->session['autofilter.year']) ? $app->session['autofilter.year'] : -1;
+				
+				$modelinfo = ShopModelsAuto::model()->getModelInfo($connection, $select_marka, $select_model, $select_year);
+			}
+		
+		if(count($modelinfo)) {
+			if($category->name1 != '') $category->name = $category->name1;
+			if(count($modelinfo))	$category->name .= ' для';
+			foreach($modelinfo as $i) $category->name .= ' ' . $i['name'];
+		}
+		
 		//если фильруем по какой-то модели - то получаем ИД этих моделей
 		$model_ids = ShopModelsAuto::model()->getModelIds($app);
 		//echo'$model_ids<pre>';print_r($model_ids,0);echo'</pre>';

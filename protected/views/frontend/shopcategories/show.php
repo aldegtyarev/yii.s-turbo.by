@@ -156,20 +156,20 @@ $params = $app->params;
 	<div class="select-view-block clearfix">
 		<?php 
 		echo CHtml::beginForm($this->createUrl('/shopcategories/show', $url_params), 'get', array('id'=>'select-view-form'));
-		/*
-										 echo CHtml::hiddenField('body', $body_request); 
-		echo CHtml::hiddenField('type', $type_request); 
-		echo CHtml::hiddenField('firm', $firm_request); */
 		?>
 		<span class="font-12 db fLeft pt-5 pr-15 bold">Вид: </span>
 		
 		<a href="<?=$select_view_row?>" class="<? if($selected_view == 'row') echo 'view-row-active'; else echo 'view-row'; ?>">row</a>
 		<a href="<?=$select_view_tile?>" class="<? if($selected_view == 'tile') echo 'view-tile-active'; else echo 'view-tile'; ?>">tile</a>
 		
+		<?php /*
 		<?php if(count($firmsDropDown) != 0)	{	?>
 			<span class="font-12 db fLeft pt-5 pr-15 pl-30 bold">Производитель: </span>
 			<?php echo CHtml::dropDownList('firm', $firm_request, $firmsDropDown,  array('empty' => '(Все производители)')) ?>
 		<?php }	?>
+		
+		*/?>
+		
 		<?php echo CHtml::endForm(); ?>
 	</div>
 	

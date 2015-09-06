@@ -61,11 +61,12 @@
 				<ul class="prod-list-char-list">
 					<li class="prod-list-char-item arial font-10"><span class="c_999"><? echo $data->getAttributeLabel('firm_id');?>:</span> <?=$data->firm_name?></li>
 					
-					<li class="prod-list-char-item arial font-10"><span class="c_999"><? echo $data->getAttributeLabel('product_sku');?>:</span> <?=$data->product_sku?></li>
-					
 					<?php if($data->manufacturer_sku)	{	?>
 						<li class="prod-list-char-item arial font-10"><span class="c_999"><? echo $data->getAttributeLabel('manufacturer_sku');?>:</span> <?=$data->manufacturer_sku?></li>
 					<?php	}	?>
+					
+					<li class="prod-list-char-item arial font-10"><span class="c_999"><? echo $data->getAttributeLabel('product_sku');?>:</span> <?=$data->product_sku?></li>
+					
 				</ul>
 				<br /><br />
 				
@@ -99,7 +100,7 @@
 				</ul>
 			</div>
 			<div class="product-list-item-row-price-block fLeft pl-20 text_c mt-5">
-				<p class="c_d70000 bold font-16 text_c nowrap"><?=number_format(($data->product_price * Yii::app()->params->usd_rate), 0, '.', ' ')?> руб.</p>
+				<p class="c_d70000 bold font-16 text_c nowrap"><?=number_format(($data->product_price * Yii::app()->params->usd_rate), 0, '.', ' ')?></p>
 				<p class="c_000 bold font-12 mt-10 text_c"><?=number_format($data->product_price, 1, '.', ' ')?> у.е.</p>
 				
 				<? if($data->product_availability > 0)	{	?>
@@ -114,7 +115,7 @@
 					<p class="status list-item-row-status <?=$status_class?>"><?=$data->ProductAvailabilityArray[$data->product_availability]['name'] ?></p>
 				<?	}	?>
 				
-				<a href="<?=$data->product_url?>" class="button-red product-detail mt-10 mb-5">Подробнее</a>
+
 				
 				<?php 
 					echo CHtml::beginForm($this->createUrl('/cart/addtocart'));
@@ -126,8 +127,10 @@
 					<p class="to-cart-process pt-5 hidden">
 						<span class="ajax-loading font-10"><img class="v-middle" src="/img/loading.gif" /> Обработка...</span>
 					</p>
-					<p class="cart-msg hidden pb-5 font-10"></p>
+					<p class="cart-msg hidden font-10"></p>
 				<?php echo CHtml::endForm(); ?>
+				
+				<a href="<?=$data->product_url?>" class="button-red product-detail mt-10 mb-5">Подробнее</a>				
 				
 			</div>
 			

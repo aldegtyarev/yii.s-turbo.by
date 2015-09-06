@@ -34,9 +34,17 @@
 			</div>
 
 			<div class="row">
-				<?php echo $form->labelEx($model,'name'); ?>
-				<?php echo $form->textField($model,'name',array('size'=>60,'maxlength'=>255)); ?>
-				<?php echo $form->error($model,'name'); ?>
+				<div class="col-lg-6">
+					<?php echo $form->labelEx($model,'name'); ?>
+					<?php echo $form->textField($model,'name',array('size'=>60,'maxlength'=>255)); ?>
+					<?php echo $form->error($model,'name'); ?>
+				</div>
+				
+				<div class="col-lg-6">
+					<?php echo $form->labelEx($model,'name1'); ?>
+					<?php echo $form->textField($model,'name1',array('size'=>60,'maxlength'=>255)); ?>
+					<?php echo $form->error($model,'name1'); ?>
+				</div>
 			</div>
 <?
 /*

@@ -10,7 +10,8 @@ function showFilterItems($list, $total = 0, $url_parameter, $main_url, $request_
 	}
 	
 	if($show_all) {
-		echo CHtml::OpenTag('li', array('class'=>'product-types-list-item product-types-list-all'));
+		//echo CHtml::OpenTag('li', array('class'=>'product-types-list-item product-types-list-all'));
+		echo CHtml::OpenTag('li', array('class'=>'product-types-list-item'));
 		echo CHtml::link(CHtml::OpenTag('span', array('class'=>'name'))."Все".CHtml::CloseTag('span') . $total_str, $main_url, $htmlOptions);
 		echo CHtml::CloseTag('li');
 	}
@@ -46,7 +47,7 @@ function showFilterItems($list, $total = 0, $url_parameter, $main_url, $request_
 		}
 		
 		$class = 'product-types-list-item';
-		if(($k == 1 && $show_all)) $class .= ' clear';
+		//if(($k == 1 && $show_all)) $class .= ' clear';
 		echo CHtml::OpenTag('li', array('class'=>$class));
 		echo CHtml::link(CHtml::OpenTag('span', array('class'=>'name')).$item['name'].CHtml::CloseTag('span').$total_str, $url, $htmlOptions);
 		echo CHtml::CloseTag('li');	
@@ -64,10 +65,18 @@ $main_url = '/'.Yii::app()->getRequest()->getPathInfo();
 <? if(count($producttypes))	{	?>
 	<div class="filter-block container-block">
 		<? if(count($producttypes))	{ ?>
-			<div class="product-types-block">
-				<p class="filter-block-header">Категории</p>				
-				<ul class="product-types-list filter-block-list clearfix">
-					<? showFilterItems($producttypes, $productsTotal, 'type', $main_url, $type_request, $this, $category->id, $body_request, $type_request, $firm_request, true); ?>
+			<div class="product-types-block clearfix">
+				<?/*<p class="filter-block-header">Категории</p>*/?>
+				
+				<ul class="product-types-list filter-block-list filter-block-list-all clearfix">
+					<li class="product-types-list-item">
+						<a <?php if($type_request == 0) echo 'class="active"'?> href="<?= $main_url ?>"><span class="name">Все</span><span class="product-count"><?= $productsTotal ?></span></a>
+					</li>
+				</ul>
+				
+				<ul class="product-types-list filter-block-list filter-block-list-items clearfix">
+					<? //showFilterItems($producttypes, $productsTotal, 'type', $main_url, $type_request, $this, $category->id, $body_request, $type_request, $firm_request, true); ?>
+					<? showFilterItems($producttypes, $productsTotal, 'type', $main_url, $type_request, $this, $category->id, $body_request, $type_request, $firm_request, false); ?>
 				</ul>
 				
 			</div>

@@ -42,7 +42,7 @@
 	
 	padding: 0 2px 4px 2px;
 	@extend %fl;
-	@extend %w_33;
+	@extend %w_25;
 	@extend %border_box;
 	
 	a,
@@ -94,6 +94,20 @@
 	}
 	
 	
+}
+
+.product-types-block {
+	.filter-block-list {
+		@extend %fl;
+	}
+}
+
+.filter-block-list-all {
+	width: 10%;
+}
+
+.filter-block-list-items {
+	width: 90%;
 }
 
 .product-types-list-all {

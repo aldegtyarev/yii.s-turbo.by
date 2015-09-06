@@ -172,7 +172,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
             'installation' => 'Установка',
             'product_name' => 'Название',
             'product_sku' => 'Артикул',
-            'manufacturer_sku' => 'Код производителя',
+            'manufacturer_sku' => 'Ориг. код производителя',
             'published' => 'Публикация',
             'metadesc' => 'meta description',
             'metakey' => 'meta keywords',
@@ -321,7 +321,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 			'sort'=>$sort,
 			
 			'pagination'=>array(
-				'pageSize' => $app->params->pagination['per_page'],
+				'pageSize' => $app->params->pagination['products_per_page'],
 			),		
 			
         ));

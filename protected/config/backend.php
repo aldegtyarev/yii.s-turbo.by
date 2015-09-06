@@ -56,6 +56,10 @@ return CMap::mergeArray(
 		
 		'params'=>array	(
 			'product_tmb_params' => array('width' => 220, 'height' => 165),	//параметры для создания миниатюр
+			'pagination' => array(	//параметры для пагинации
+				'products_per_page' => 60,
+				'models_per_page' => 100,
+			),	
 			
 			'pageSize' => 25,
 			'selectPageCount' => array(

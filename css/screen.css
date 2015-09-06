@@ -496,7 +496,7 @@ a:hover, .underline_n_y:hover, .product-types-list-item a.active .name:hover {
 }
 
 .sideLeft, .container, .select-view-block a, .fLeft, .floatLeft, .main-menu li, .search-auto-block-title, .search-auto-form, .search-auto-form .step-wr, .news-block-item, .product-list-item-row-image-block .additional-images-list-item, .additional-images-wr ul, .additional-images-wr li, .products-on-auto-item, .how-it-work-list li, .category-view .category-item, .footer .contacts, .footer .ur-data, .productdetails-view-image-part, .productdetails-slider-images li, .productdetails-client-info .payment,
-.productdetails-client-info .delivery, .productdetails-view-tab .tabs li, .product-types-list-item, .product-types-index-all > li,
+.productdetails-client-info .delivery, .productdetails-view-tab .tabs li, .product-types-list-item, .product-types-block .filter-block-list, .product-types-index-all > li,
 .product-types-index > li {
   float: left;
 }
@@ -565,11 +565,11 @@ a:hover, .underline_n_y:hover, .product-types-list-item a.active .name:hover {
   cursor: pointer;
 }
 
-.width25, .news-block-item, .category-view .category-item {
+.width25, .news-block-item, .category-view .category-item, .product-types-list-item {
   width: 25%;
 }
 
-.width33, .product-types-list-item {
+.width33 {
   width: 33%;
 }
 
@@ -796,16 +796,16 @@ span sup {
 
 .button-green {
   border: 1px solid green;
-  background-color: green;
+  background-color: #009a00;
 }
 .button-green:hover {
   border-color: green;
-  background-color: #009a00;
+  background-color: green;
 }
 
 .button-red {
   border: 1px solid #d70000;
-  background: #d70000;
+  background: #ee0000;
 }
 .button-red:hover {
   background: #be0000;
@@ -2253,6 +2253,14 @@ span sup {
 }
 .product-types-list-item .product-count {
   vertical-align: top;
+}
+
+.filter-block-list-all {
+  width: 10%;
+}
+
+.filter-block-list-items {
+  width: 90%;
 }
 
 .product-types-list-all {

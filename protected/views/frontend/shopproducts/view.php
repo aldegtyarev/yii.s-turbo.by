@@ -87,7 +87,7 @@ $model_images = $model->Images;
 						<div class="row productdetails-price-row clearfix">
 							<span class="label"><? echo $model->getAttributeLabel('product_price');?>:</span>
 							<div class="value" id="productPrice<?=$model->product_id?>">
-								<p class="price"><?=number_format(($model->product_price * Yii::app()->params->usd_rate), 0, '.', ' ')?> руб.</p>
+								<p class="price"><?=number_format(($model->product_price * Yii::app()->params->usd_rate), 0, '.', ' ')?></p>
 								<p class="price-byr"><?=number_format($model->product_price, 1, '.', ' ')?> у.е.</p>
 							</div>
 						</div>

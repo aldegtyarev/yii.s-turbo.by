@@ -244,19 +244,21 @@ span sup{text-decoration:none;}
 
 .button-green {
 	border: 1px solid green;
-	background-color: green;
+	
+	background-color: lighten(green, 5%);
 	@extend %c_fff;
 	
 	&:hover {
 		border-color: green;
-		background-color: lighten(green, 5%);
+		background-color: green;
 	}
 	
 }
 
 .button-red {
 	border: 1px solid #d70000;
-	background: #d70000;
+	//background: #d70000;
+	background: #ee0000;
 	
 	@extend %c_fff;
 	

@@ -22,7 +22,7 @@ class CartController extends Controller
 		
 		foreach($positions as $position) {
 			if($position->product_id == $product_id) {
-				$message = '<span style="color:green;">Количество товара было обновлено.</span>';
+				$message = '<span style="color:green;">Количество товара обновлено.</span>';
 			}
 		}
 		

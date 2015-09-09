@@ -121,7 +121,7 @@
 					echo CHtml::beginForm($this->createUrl('/cart/addtocart'));
 					echo Chtml::hiddenField('quantity', '1', array('class'=>'quantity', 'id'=>false));
 					echo Chtml::hiddenField('product_id', $data->product_id, array('class'=>'product_id', 'id'=>false));
-					echo CHtml::submitButton('Купить', array('name'=>'addtocart','class'=>'addtocart addtocart-button prod-list-addtocart-button add button-green mt-5 pointer','title'=>'Добавить этот товар в корзину'));
+					echo CHtml::submitButton('В корзину', array('name'=>'addtocart','class'=>'addtocart addtocart-button prod-list-addtocart-button add button-green mt-5 pointer','title'=>'Добавить этот товар в корзину'));
 					
 				?>
 					<p class="to-cart-process pt-5 hidden">

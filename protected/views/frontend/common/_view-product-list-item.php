@@ -39,7 +39,7 @@
 				<?php 
 					echo Chtml::hiddenField('quantity', '1', array('class'=>'quantity', 'id'=>false));
 					echo Chtml::hiddenField('product_id', $data->product_id, array('class'=>'product_id', 'id'=>false));
-					echo CHtml::submitButton('Купить', array('name'=>'addtocart','id'=>false,'class'=>'db addtocart addtocart-button add-tocart-btn hide-text pointer pos-abs','title'=>'Добавить этот товар в корзину'));
+					echo CHtml::submitButton('В корзину', array('name'=>'addtocart','id'=>false,'class'=>'db addtocart addtocart-button add-tocart-btn hide-text pointer pos-abs','title'=>'Добавить этот товар в корзину'));
 					echo CHtml::endForm(); 
 				?>
 				

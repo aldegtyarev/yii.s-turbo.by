@@ -48,7 +48,7 @@ $cs->registerScript('loading', "
 ");
 
 
-///echo'<pre>';print_r($model->modelsList,0);echo'</pre>';
+//echo'<pre>';print_r($model->dropDownListCurrensies,0);echo'</pre>';
 ?>
 <style>
 	#cke_ShopProducts_product_s_desc #cke_1_top,
@@ -349,9 +349,16 @@ $cs->registerScript('loading', "
 		
 		<div class="tab-pane" id="tab5">
 			<div class="row">
-				<?php echo $form->labelEx($model,'product_price'); ?>
-				<?php echo $form->textField($model,'product_price',array('size'=>60,'maxlength'=>180)); ?>
-				<?php echo $form->error($model,'product_price'); ?>
+				<div class="col-lg-6">
+					<?php echo $form->labelEx($model,'product_price'); ?>
+					<?php echo $form->textField($model,'product_price',array('size'=>60,'maxlength'=>180)); ?>
+					<?php echo $form->error($model,'product_price'); ?>					
+				</div>
+				<div class="col-lg-2">
+					<?php echo $form->labelEx($model,'currency_id'); ?>
+					<?php echo $form->dropDownList($model, 'currency_id', $model->dropDownListCurrensies, array('options' => $model->currency_id));?>
+					<?php echo $form->error($model,'currency_id'); ?>					
+				</div>
 			</div>
 			
 			<div class="row">

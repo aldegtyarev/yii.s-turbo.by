@@ -73,6 +73,8 @@ echo Yii::app()->theme->baseUrl . '/assets/js/respond.min.js';
 				array('label'=>'Фирмы', 'url'=>array('shopfirms/admin'), 'visible'=>!Yii::app()->user->isGuest),
 				array('label'=>'Уточняющий год', 'url'=>array('shopbodies/admin'), 'visible'=>!Yii::app()->user->isGuest),
 				array('label'=>'Группа товаров', 'url'=>array('shopproducttypes/admin'), 'visible'=>!Yii::app()->user->isGuest),
+				array('label'=>'Объемы', 'url'=>array('engines/admin'), 'visible'=>!Yii::app()->user->isGuest),
+				array('label'=>'Валюта', 'url'=>array('currencies/admin'), 'visible'=>!Yii::app()->user->isGuest),
 				array('label'=>'Страницы', 'url'=>array('pages/admin'), 'visible'=>!Yii::app()->user->isGuest),
 				array('label'=>'Новости магазина', 'url'=>array('shopposts/admin'), 'visible'=>!Yii::app()->user->isGuest),
 				//array('label'=>'Баннеры', 'url'=>array('banners/admin'), 'visible'=>!Yii::app()->user->isGuest),

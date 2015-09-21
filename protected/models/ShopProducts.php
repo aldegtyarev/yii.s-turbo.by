@@ -119,8 +119,8 @@ class ShopProducts extends CActiveRecord implements IECartPosition
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('product_name, product_sku', 'required'),
-            array('published, hide_s_desc, firm_id, type_id, protect_copy, product_availability, product_ordered, manufacturer_id, override, side', 'numerical', 'integerOnly'=>true),
+            array('product_name, product_sku, currency_id', 'required'),
+            array('published, hide_s_desc, firm_id, type_id, protect_copy, product_availability, product_ordered, manufacturer_id, override, side, currency_id', 'numerical', 'integerOnly'=>true),
             array('metatitle, manuf, material, code, in_stock, delivery, prepayment, lamps, adjustment, product_s_desc', 'length', 'max'=>255),
             array('product_desc, installation, metadesc', 'length', 'max'=>17000),
             array('product_name', 'length', 'max'=>180),
@@ -128,7 +128,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
             array('manufacturer_sku', 'length', 'max'=>32),
             array('metakey, slug', 'length', 'max'=>192),
 			array('product_price, product_override_price', 'length', 'max'=>15),
-			array('uploading_foto', 'file', 'types'=>'JPG,JPEG,PNG', 'minSize' => 1024,'maxSize' => 1048576, 'wrongType'=>'Не формат. Только {extensions}', 'tooLarge' => 'Допустимый вес 1Мб', 'tooSmall' => 'Не формат', 'on'=>self::SCENARIO_UPLOADING_FOTO),
+			array('uploading_foto', 'file', 'types'=>'GIF,JPG,JPEG,PNG', 'minSize' => 1024,'maxSize' => 1048576, 'wrongType'=>'Не формат. Только {extensions}', 'tooLarge' => 'Допустимый вес 1Мб', 'tooSmall' => 'Не формат', 'on'=>self::SCENARIO_UPLOADING_FOTO),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
             array('product_id, product_s_desc, product_desc, product_name, product_sku, published, metadesc, metakey, metatitle, slug, firm_id, type_id, protect_copy, product_availability, manuf, material, code, in_stock, delivery, prepayment, category_ids, manufacturer_id, product_price, override, product_override_price, product_ids, SelectedCategory, side, lamps, adjustment', 'safe', 'on'=>'search'),
@@ -194,6 +194,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
             'model_ids' => 'Модельный ряд',
             'body_ids' => 'Уточняющий год',
             'product_price' => 'Цена',
+            'currency_id' => 'Валюта',
             'override' => 'Выводить акционную цену',
             'product_override_price' => 'Акционная цена',
             'side' => 'Сторона',
@@ -750,6 +751,8 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 					$img = imagecreatefromjpeg($file_path);
 				} elseif($file_extention == '.png'){
 					$img = imagecreatefrompng($file_path);
+				} elseif($file_extention == '.gif') {
+					$img = imagecreatefromgif($file_path);
 				}
 
 				$water = imagecreatefrompng(Yii::getPathOfAlias('webroot.img'). DIRECTORY_SEPARATOR ."watermark.png");
@@ -860,6 +863,12 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 	function getDropDownProductSide()
 	{
 		$result = CHtml::listData($this->ProductSideArray, 'id', 'name');
+		return $result;
+	}
+	
+	function getDropDownListCurrensies()
+	{
+		$result = CHtml::listData(Currencies::model()->findAll(), 'currency_id', 'currency_name');
 		return $result;
 	}
 	

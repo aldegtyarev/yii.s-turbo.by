@@ -24,8 +24,8 @@
 		<?	}	?>
 		<div class="product-list-item-bottom pos-abs">
 				<?//if($data->product_override_price != 0) {	?>
-					<p class="c_d70000 bold font-16"><?=number_format(($data->product_price * Yii::app()->params->usd_rate), 0, '.', ' ')?></p>
-					<p class="c_000 bold font-12 mt-10"><?=number_format($data->product_price, 1, '.', ' ')?> у.е.</p>
+					<p class="c_d70000 bold font-16"><?=PriceHelper::formatPrice($data->product_price, $data->currency_id, 3)?></p>
+					<p class="c_000 bold font-12 mt-10"><?=PriceHelper::formatPrice($data->product_price, $data->currency_id)?></p>
 				<?	//}	else	{	?>
 					<? /*<p class="price"><?=number_format($data->product_price, 0, '.', ' ')?> у.е.</p> */ ?>
 				<?	//}	?>

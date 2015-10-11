@@ -91,6 +91,11 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		4 => array('id' => 4, 'name' => 'левая + правая (комплект)'),		
 	);
 	
+    public $DropDownListEngines;
+    public $SelectedEngines;
+    public $engine_ids;
+	
+	
 	public $product_ids;
 	public $SelectedCategory;
 	public $SelectedModel;
@@ -155,6 +160,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 			'ProductsRelations' => array(self::HAS_MANY, 'ShopProductsRelations', 'product_id'),
 			'ProductsRelations1' => array(self::HAS_MANY, 'ShopProductsRelations', 'product_related_id'),
 			'ProductsAdminCategories' => array(self::HAS_MANY, 'ShopProductsAdminCategories', 'product_id'),			
+			'ProductsEngines' => array(self::HAS_MANY, 'ProductsEngines', 'product_id'),
 		);
 		
 		
@@ -193,6 +199,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
             'category_ids' => 'Категории',
             'model_ids' => 'Модельный ряд',
             'body_ids' => 'Уточняющий год',
+            'engine_ids' => 'Объем двигателя',
             'product_price' => 'Цена',
             'currency_id' => 'Валюта',
             'override' => 'Выводить акционную цену',
@@ -384,6 +391,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 				$this->checkProductsBodies($connection);
 				$this->checkMainFoto($app, $connection);
 				$this->checkRelated($app, $connection);
+				$this->checkProductEngines($connection);
 				break;
 		}
 		
@@ -575,6 +583,43 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		
 
 	}
+	
+	//проверяем, не изменились ли объемы двигателей...
+	function checkProductEngines(&$connection)
+	{
+		$ProductsEngines = $this->ProductsEngines;
+		if(count($ProductsEngines))	{
+			$arrays_of_identical = true;
+		}	else	{
+			$arrays_of_identical = false;
+		}
+		
+		//echo'<pre>';print_r($ProductsEngines);echo'</pre>';//die;
+		//echo'<pre>';print_r($this->SelectedEngines);echo'</pre>';die;
+
+		//проверяем, не изменились ли категории...
+		if(count($ProductsEngines) != count($this->SelectedEngines))	{
+			$arrays_of_identical = false;
+		}	else	{
+			foreach($ProductsEngines as $cat_item)	{
+				$cat_is_present = false;
+				foreach($this->SelectedEngines as $key=>$val)	{
+					if($cat_item['engine']['id'] == $key)	{
+						$cat_is_present = true;
+					}
+				}
+				if($cat_is_present == false)	{
+					$arrays_of_identical = false;
+				}
+			}
+		}
+
+		if($arrays_of_identical == false)	{
+			ProductsEngines::model()->clearItemEngines($this->product_id, $connection);
+			ProductsEngines::model()->insertItemEngines($this->SelectedEngines, $this->product_id, $connection);
+		}
+	}
+	
 			
     function getId(){
         return 'ShopProducts'.$this->product_id;
@@ -845,14 +890,24 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 	function getSelectedBodies()
 	{
 		$selectedValues = array();
-		//echo'<pre>';print_r($this->ProductsModelsAutos,0);echo'</pre>';die;
 		
 		foreach($this->ProductsBodies as $row) {
-			//echo'<pre>';print_r($cat['category']['id'],0);echo'</pre>';
 			$selectedValues[$row['body']['id']] = Array ( 'selected' => 'selected' );
 		}
 		$this->SelectedBodies = $selectedValues;
 	}
+	
+	//получает выбранные объемы двигателя для товара
+	function getSelectedEngines()
+	{
+		$selectedValues = array();
+		
+		foreach($this->ProductsEngines as $cat) {
+			$selectedValues[$cat['engine']['id']] = array( 'selected' => 'selected' );
+		}
+		$this->SelectedEngines = $selectedValues;
+	}
+	
 	
 	function getDropDownProductAvailability()
 	{

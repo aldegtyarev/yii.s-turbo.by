@@ -120,6 +120,12 @@ $cs->registerScript('loading', "
 				<?php echo $form->error($model,'body_ids'); ?>
 			</div>
 			
+			<div class="row chosen-row">
+				<?php echo $form->labelEx($model,'engine_ids'); ?>
+				<div id="bodies-wr"><?php echo $form->dropDownList($model, 'engine_ids', $model->DropDownListEngines, array('multiple' => true, 'class'=>'chosen_select', 'data-placeholder'=>'выберите объем двигателя', 'style'=>'width:100%;', 'options' => $model->SelectedEngines));?></div>
+				<?php echo $form->error($model,'engine_ids'); ?>
+			</div>
+			
 			<? /*
 			<div class="row">
 				<input type="text" id="ShopBodies_name" name="ShopBodies[name]" />

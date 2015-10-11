@@ -115,7 +115,10 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 			'name' =>'product_price',
 			'headerHtmlOptions' => array(
 				'class' => 'product_price_column',
-			),			
+			),
+			'value'=>function($data,$row){ // declare signature so that we can use $data, and $row within this function 
+				return $data->product_price . Yii::app()->params->currency[$data->currency_id]['adm_code'];// echo also works
+			}			
 		),
 		
 		array(

@@ -6,8 +6,8 @@
 		<p class="last-viewed-status status status-available"><?=$data->in_stock?></p>
 
 		<div class="last-viewed-item-prices">
-			<p class="price-byr"><?=number_format(($data->product_price * Yii::app()->params['usd_rate']), 0, '.', ' ')?> бел.руб</p>
-			<p class="price"><?=number_format($data->product_price, 0, '.', ' ')?> у.е.</p>
+			<p class="price-byr"><?=PriceHelper::formatPrice($data->product_price, 3)?></p>
+			<p class="price"><?=PriceHelper::formatPrice($data->product_price)?></p>
 		</div>
 	</div>
 </div>

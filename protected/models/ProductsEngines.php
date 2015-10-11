@@ -100,4 +100,29 @@ class ProductsEngines extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+	
+	//удаление объемов назначенных товару
+	public function clearItemEngines($product_id, &$connection)
+	{
+		$sql = 'DELETE FROM '.$this->tableName().' WHERE `product_id` = :product_id';
+		$command = $connection->createCommand($sql);
+		$command->bindParam(":product_id", $product_id);
+		$res = $command->execute();		
+	}
+	
+	//добавление объемов товару
+	public function insertItemEngines($categories, $product_id, &$connection)
+	{
+		if(count($categories))	{
+			$sql = 'INSERT INTO '.$this->tableName().' (`product_id`, `engine_id`) VALUES ';	
+			foreach($categories as $key => $cat)	{
+				$sql .= "(".$product_id.",".$key."),";
+			}
+			$sql = substr($sql, 0, -1);
+			//echo'<pre>';print_r($sql);echo'</pre>';
+			$command = $connection->createCommand($sql);
+			$res = $command->execute();
+		}
+	}
+	
 }

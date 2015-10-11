@@ -186,8 +186,6 @@ class ShopProductsController extends Controller
 			$this->redirect(array('admin'));
 		}
 		
-		
-		//$current_tab_request = $app->request->getParam('current-tab', '#tab1');
 		$current_tab_request = $app->request->getParam('current-tab', '');
 		
 		if(isset($app->session['ShopproductForm.current_tab']))	{
@@ -202,44 +200,26 @@ class ShopProductsController extends Controller
 			$current_tab = $current_tab_session;
 		}
 				
-		//echo'<pre>';print_r($current_tab);echo'</pre>';die;
-			
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 		
 		$model = $this->loadModel($id);
 		
-		//$related_product_ids = $app->request->getParam('related_product_ids', array());
-		//echo'<pre>';print_r($related);echo'</pre>';die;
-		//echo'<pre>';print_r(Yii::getPathOfAlias('webroot.img'). DIRECTORY_SEPARATOR ."watermark.png");echo'</pre>';die;
-		
 		//если нажали на удаление фото
 		$delete_foto = $app->request->getParam('delete_foto', array());
-		//echo'<pre>';print_r($delete_foto);echo'</pre>';die;
 		
 		if(count($delete_foto))	{
 			foreach($delete_foto as $foto_id => $foto)	{
 				$foto = ShopProductsImages::model()->findByPk($foto_id);
-				//echo'<pre>';print_r($foto->main_foto);echo'</pre>';die;
 				if($foto->main_foto)	{
 					$model->product_image = '';
 					$model->save();
-					//echo'<pre>';print_r($model);echo'</pre>';die;
 				}
-				
 				ShopProductsImages::model()->deleteFoto($foto_id, $model->product_id);
-				//$app->session['ShopproductForm.current_tab'] = $current_tab;
-				//$this->redirect(array('update','id'=>$id));
 			}
             
 			$Images = $model->Images;
 			//echo'<pre>';print_r($Images, 0);echo'</pre>';//die;
-			/*
-            echo'<pre>';print_r(count($Images), 0);echo'</pre>';//die;
-			echo'<pre>';print_r($Images[0]->image_id, 0);echo'</pre>';//die;
-			echo'<pre>';print_r($Images[0]->image_file, 0);echo'</pre>';//die;
-			echo'<pre>';print_r($model->product_id, 0);echo'</pre>';//die;
-			*/
 			
 			if(count($Images))	{
                 $main_foto_present = false;
@@ -250,20 +230,13 @@ class ShopProductsController extends Controller
                         break;
                     }
                 }
-				//echo'<pre>';var_dump($main_foto_present, 0);echo'</pre>';//die;
                 
                 if($main_foto_present == false) {
                     $connection = $app->db;				
-
-                    
                     $_POST['main_foto'] = $Images[0]->image_id;
-					//echo'<pre>';print_r($Images[0]->image_file, 0);echo'</pre>';//die;
-					//echo'<pre>';print_r($model->product_id, 0);echo'</pre>';die;
                     ShopProducts::model()->setProductImage($connection,  $Images[0]->image_file, $model->product_id);
 					ShopProductsImages::model()->setMainFoto($connection, $Images[0]->image_id, $model->product_id);
-                    
                 }
-                //die;
 			}
             
             $this->redirect(array('update','id'=>$model->product_id));
@@ -304,6 +277,14 @@ class ShopProductsController extends Controller
 				$selectedValues[$cat] = Array ( 'selected' => 'selected' );
 			}
 			$model->SelectedBodies = $selectedValues;
+			
+			$SelectedEngines = isset($_POST['ShopProducts']['engine_ids']) ? $_POST['ShopProducts']['engine_ids'] : array();
+			$selectedValues = array();
+			foreach($SelectedEngines as $cat)	{
+				$selectedValues[$cat] = Array ( 'selected' => 'selected' );
+			}
+			$model->SelectedEngines = $selectedValues;
+			
 			
 			if($_FILES['ShopProducts']["name"]["uploading_foto"]) {
 				$model->scenario = ShopProducts::SCENARIO_UPLOADING_FOTO;
@@ -364,6 +345,11 @@ class ShopProductsController extends Controller
 		$model->DropDownProductSide = ShopProducts::model()->getDropDownProductSide();
 		$model->SelectedProductSideId = array();
 		$model->SelectedProductSideId[$model->side] = array('selected' => 'selected');
+		
+		//подготавливаем выпадающий список объемов двигателей
+		$model->DropDownListEngines = Engines::model()->getDropDownlistDataProduct();
+		$model->getSelectedEngines();
+		
 		
 		
 		//echo'<pre>';print_r($params,0);echo'</pre>';

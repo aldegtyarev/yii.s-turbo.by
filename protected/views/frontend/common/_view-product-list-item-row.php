@@ -100,8 +100,8 @@
 				</ul>
 			</div>
 			<div class="product-list-item-row-price-block fLeft pl-20 text_c mt-5">
-				<p class="c_d70000 bold font-16 text_c nowrap"><?=number_format(($data->product_price * Yii::app()->params->usd_rate), 0, '.', ' ')?></p>
-				<p class="c_000 bold font-12 mt-10 text_c"><?=number_format($data->product_price, 1, '.', ' ')?> у.е.</p>
+				<p class="c_d70000 bold font-16 text_c nowrap"><?=PriceHelper::formatPrice($data->product_price, $data->currency_id, 3)?></p>
+				<p class="c_000 bold font-12 mt-10 text_c"><?=PriceHelper::formatPrice($data->product_price, $data->currency_id)?></p>
 				
 				<? if($data->product_availability > 0)	{	?>
 					<?

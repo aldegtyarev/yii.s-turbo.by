@@ -39,8 +39,8 @@
 
 				<td align="center">
 					<? $product_price = $product->getSumPrice(); ?>
-					<p class="c_d70000 bold font-20 text_c"><?=number_format($product_price, 1, '.', ' ')?> у.е.</p>
-					<p class="c_000 bold font-12 mt-10 text_c"><?=number_format(($product_price * Yii::app()->params->usd_rate), 0, '.', ' ')?> бел.руб</p>
+					<p class="c_d70000 bold font-20 text_c"><?=PriceHelper::formatPrice($product->product_price)?></p>
+					<p class="c_000 bold font-12 mt-10 text_c"><?=PriceHelper::formatPrice($product->product_price, 3)?></p>
 				</td>
 
 				<td align="center" class="remove-td">
@@ -56,8 +56,8 @@
 <div class="cart-total p-10 fLeft">
 	<p class="bold mb-10">Итого</p>
 	<? $product_price = $app->shoppingCart->getCost(); ?>
-	<p id="total-cost-usd" class="c_d70000 bold font-20"><?=number_format($product_price, 1, '.', ' ')?> у.е.</p>
-	<p id="total-cost-byr" class="c_000 bold font-12 mt-5"><?=number_format(($product_price * Yii::app()->params->usd_rate), 0, '.', ' ')?> бел.руб</p>
+	<p id="total-cost-usd" class="c_d70000 bold font-20"><?=PriceHelper::formatPrice($product_price)?></p>
+	<p id="total-cost-byr" class="c_000 bold font-12 mt-5"><?=PriceHelper::formatPrice($product_price, 3)?></p>
 </div>
 
 <div class="p-10 fRight">

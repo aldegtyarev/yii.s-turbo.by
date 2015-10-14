@@ -20,7 +20,7 @@ return array(
 
 			3 => array (				// курс BYR к USD
 				'char_code' => '',
-				'rate' => 18000,
+				'rate' => 17500,
 				'precision'	=> 0,
 				'adm_code' => 'р',
 			),

@@ -13,6 +13,10 @@
 	// There is a call to performAjaxValidation() commented in generated controller code.
 	// See class documentation of CActiveForm for details on this.
 	'enableAjaxValidation'=>false,
+	'htmlOptions' =>	array(
+		'enctype'=>'multipart/form-data',
+	),
+	
 )); ?>
 
 	<p class="note">Поля, отмеченные <span class="required">*</span>, обязательны для заполнения.</p>
@@ -29,6 +33,18 @@
 		<?php echo $form->labelEx($model,'name'); ?>
 		<?php echo $form->textField($model,'name',array('size'=>60,'maxlength'=>255)); ?>
 		<?php echo $form->error($model,'name'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'fileImage'); ?>
+		<?php echo $form->fileField($model, 'fileImage'); ?>				
+		<?php echo $form->error($model,'fileImage'); ?>
+	</div>
+	<div class="row">
+		
+		<?php if($model->image_file != '') echo CHtml::image(Yii::app()->params->product_images_liveUrl.$model->image_file, '', array('class'=>'img-responsive')) ?>
+		<?php //echo $form->fileField($model, 'fileImage'); ?>				
+		<?php //echo $form->error($model,'fileImage'); ?>
 	</div>
 
 	<div class="row buttons">

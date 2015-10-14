@@ -23,6 +23,7 @@ class Engines extends CActiveRecord
 	public $DropDownlistData;
 	public $parentId;
 	public $new_parentId;
+	public $fileImage = '';
 	
 	/**
 	 * @return string the associated database table name
@@ -56,6 +57,8 @@ class Engines extends CActiveRecord
 		return array(
 			array('name', 'required'),
 			array('name', 'length', 'max'=>255),
+			array('image_file', 'length', 'max'=>64),
+			array('fileImage', 'file', 'types'=>'JPEG,JPG,PNG,TIFF,BMP', 'minSize' => 1024,'maxSize' => (5*1024*1024), 'wrongType'=>'Не формат. Только {extensions}', 'tooLarge' => 'Допустимый размер 5Мб'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, root, lft, rgt, level, parent_id, name, order', 'safe', 'on'=>'search'),
@@ -108,6 +111,8 @@ class Engines extends CActiveRecord
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
+		
+		$app = Yii::app();
 
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('root',$this->root);
@@ -125,6 +130,10 @@ class Engines extends CActiveRecord
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+			'pagination' => array(
+				'pageSize' => $app->params->pagination['models_per_page'],
+			),			
+			
 		));
 	}
 
@@ -185,7 +194,7 @@ class Engines extends CActiveRecord
 		$list_data1 = $this->getDropDownlistItems();
 		
 		$selected = 'Верхний уровень';
-		$list_data = array(0 => $selected);
+		$list_data = array(1 => $selected);
 		
 		$list_data = $list_data + $list_data1;
 		
@@ -247,6 +256,39 @@ class Engines extends CActiveRecord
 			//echo'<pre>';print_r($parent->id);echo'</pre>';
 		}
 		return true;
+	}
+	
+	//загрузка фото
+	public function uploadFile()
+	{
+		$app = Yii::app();
+		if($this->fileImage != null)	{
+			$imagePath = Yii::getPathOfAlias($app->params->product_imagePath);
+			
+			if($this->image_file != '' && file_exists($imagePath . DIRECTORY_SEPARATOR . $this->image_file)) {
+				unlink($imagePath . DIRECTORY_SEPARATOR . $this->image_file);
+			}
+			
+			
+
+			$file_extention = $this->getExtentionFromFileName($this->fileImage->name);
+			
+			$filename = md5(strtotime('now')).$file_extention;
+			
+			$file_path = $imagePath . DIRECTORY_SEPARATOR . $filename;
+			
+			$this->fileImage->saveAs($file_path);
+			
+			$this->image_file = $filename;
+		}
+	}
+	
+	//получение расширения имени файла
+	public function getExtentionFromFileName($filename)
+	{
+		//разбиваем имя загружаемого файла на части чтобы получить его расширение
+		$file_name_arr = explode('.', strtolower($filename));
+		return '.'.$file_name_arr[(count($file_name_arr)-1)];
 	}
 	
 }

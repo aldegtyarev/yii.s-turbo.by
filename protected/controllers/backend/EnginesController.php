@@ -95,15 +95,24 @@ class EnginesController extends Controller
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
+		
+		//echo'<pre>';print_r($_FILES,0);echo'</pre>';die;
 
 		if(isset($_POST['Engines']))
 		{
 			$model->attributes=$_POST['Engines'];
 			$model->new_parentId = $_POST['Engines']['parentId'];
 			$model->parent_id = $_POST['Engines']['parentId'];
+			if($_FILES['Engines']["name"]["fileImage"]) {
+				$model->fileImage = CUploadedFile::getInstance($model,'fileImage');
+				
+			}
 			
-			if($model->save())
+			if($model->validate()) {
+				$model->uploadFile();
+				$model->save();
 				$this->redirect(array('admin'));
+			}
 		}
 
 		$this->render('update',array(
@@ -118,7 +127,8 @@ class EnginesController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		$this->loadModel($id)->delete();
+		//$this->loadModel($id)->delete();
+		$this->loadModel($id)->deleteNode();
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))

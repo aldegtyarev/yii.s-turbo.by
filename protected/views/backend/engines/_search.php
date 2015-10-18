@@ -13,32 +13,12 @@
 
 	<div class="row">
 		<?php echo $form->label($model,'id'); ?>
-		<?php echo $form->textField($model,'id',array('size'=>11,'maxlength'=>11)); ?>
+		<?php echo $form->textField($model,'id'); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'root'); ?>
-		<?php echo $form->textField($model,'root'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'lft'); ?>
-		<?php echo $form->textField($model,'lft'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'rgt'); ?>
-		<?php echo $form->textField($model,'rgt'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'level'); ?>
-		<?php echo $form->textField($model,'level'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'parent_id'); ?>
-		<?php echo $form->textField($model,'parent_id'); ?>
+		<?php echo $form->label($model,'model_id'); ?>
+		<?php echo $form->textField($model,'model_id'); ?>
 	</div>
 
 	<div class="row">
@@ -47,8 +27,28 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'order'); ?>
-		<?php echo $form->textField($model,'order'); ?>
+		<?php echo $form->label($model,'image_title'); ?>
+		<?php echo $form->textField($model,'image_title',array('size'=>60,'maxlength'=>255)); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'image_file'); ?>
+		<?php echo $form->textField($model,'image_file',array('size'=>60,'maxlength'=>64)); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'title'); ?>
+		<?php echo $form->textField($model,'title',array('size'=>60,'maxlength'=>255)); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'keywords'); ?>
+		<?php echo $form->textField($model,'keywords',array('size'=>60,'maxlength'=>255)); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'description'); ?>
+		<?php echo $form->textField($model,'description',array('size'=>60,'maxlength'=>255)); ?>
 	</div>
 
 	<div class="row buttons">

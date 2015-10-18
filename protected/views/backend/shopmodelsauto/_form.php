@@ -48,12 +48,6 @@ $cs->registerScript('shop-models-auto-form', "
 				<?php echo $form->error($model,'name'); ?>
 			</div>
 			
-            <div class="row chosen-row">
-                <?php echo $form->labelEx($model,'body_ids'); ?>
-                <?php echo $form->dropDownList($model, 'body_ids', $model->DropDownlistBodies, array('multiple' => true, 'class'=>'chosen_select', 'data-placeholder'=>'выберите категорию', 'style'=>'width:400px;', 'options' => $model->selectedBodies));?>
-                <?php echo $form->error($model,'body_ids'); ?>
-            </div>
-			
 <?
 /*
 			<div class="row">
@@ -99,7 +93,9 @@ $cs->registerScript('shop-models-auto-form', "
 		</div>
 	</div>
 	
-	
+	<div class="row">
+		<a href="<?= $this->createUrl('engines/modellist', array('model_id'=>$model->id))?>">Объемы двигателей</a>
+	</div>
 
 	
 	<div class="row buttons">

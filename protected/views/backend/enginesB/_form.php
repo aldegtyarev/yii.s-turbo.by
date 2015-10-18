@@ -2,6 +2,19 @@
 /* @var $this EnginesController */
 /* @var $model Engines */
 /* @var $form CActiveForm */
+$cs = Yii::app()->clientScript;
+
+//$cs->registerCssFile('/css/chosen.css', 'screen');
+//$cs->registerScriptFile('/js/chosen.jquery.min.js', CClientScript::POS_END);
+
+$cs->registerScript('loading', "
+	var options = {
+		onText: 'Да',
+		offText: 'Нет',
+	};
+	$('#Engines_engine').bootstrapSwitch(options);
+");
+
 ?>
 
 <div class="form">
@@ -19,21 +32,27 @@
 	
 )); ?>
 
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
+	<p class="note">Поля, отмеченные <span class="required">*</span>, обязательны для заполнения.</p>
 
 	<?php echo $form->errorSummary($model); ?>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'model_id'); ?>
-		<?php echo $form->dropDownList($model, 'model_id', $model->DropDownListModels); ?>
-		<?php echo $form->error($model,'model_id'); ?>
-	</div>
 	
+	<div class="row">
+		<?php echo $form->labelEx($model,'dropDownListTree'); ?>
+		<?php echo $form->dropDownList($model, 'parentId', $model->DropDownlistData); ?>
+		<?php echo $form->error($model,'dropDownListTree'); ?>		
+	</div>
+
 	<div class="row">
 		<?php echo $form->labelEx($model,'name'); ?>
 		<?php echo $form->textField($model,'name',array('size'=>60,'maxlength'=>255)); ?>
 		<?php echo $form->error($model,'name'); ?>
 	</div>
+	
+	<div class="row">
+		<?php echo $form->checkBoxControlGroup($model, 'engine'); ?>
+		<?php echo $form->error($model,'engine'); ?>
+	</div>
+	
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'image_title'); ?>
@@ -50,28 +69,11 @@
 	<?php if($model->image_file != '')	{	?>
 		<div class="row">
 			<?php echo CHtml::image(Yii::app()->params->product_images_liveUrl.$model->image_file, '', array('class'=>'img-responsive')) ?>
-			<p><a href="<?= $this->createUrl('engines/removeimage', array('id'=>$model->id)) ?>">Удалить изображение</a></p>
+			<p><a href="<?= $this->createUrl('engines/removeimg', array('id'=>$model->id)) ?>">Удалить изображение</a></p>
 		</div>
+	
 	<?php	}	?>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'title'); ?>
-		<?php echo $form->textField($model,'title',array('size'=>60,'maxlength'=>255)); ?>
-		<?php echo $form->error($model,'title'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'keywords'); ?>
-		<?php echo $form->textField($model,'keywords',array('size'=>60,'maxlength'=>255)); ?>
-		<?php echo $form->error($model,'keywords'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'description'); ?>
-		<?php echo $form->textField($model,'description',array('size'=>60,'maxlength'=>255)); ?>
-		<?php echo $form->error($model,'description'); ?>
-	</div>
-
+	
 	<div class="row buttons">
 		<?php echo BsHtml::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить', array('color' => BsHtml::BUTTON_COLOR_PRIMARY, 'name'=>'save')); ?>
 		<?php echo BsHtml::submitButton('Применить', array('color' => BsHtml::BUTTON_COLOR_SUCCESS, 'name'=>'apply')); ?>

@@ -43,6 +43,8 @@ class ShopProductsController extends Controller
 					'publishup',
 					'publishdown',
 					'batchdelete',
+					'moveup',
+					'movedown',
 				),
 				'users'=>array('superman'),
 			),
@@ -347,12 +349,12 @@ class ShopProductsController extends Controller
 		$model->SelectedProductSideId[$model->side] = array('selected' => 'selected');
 		
 		//подготавливаем выпадающий список объемов двигателей
-		$model->DropDownListEngines = Engines::model()->getDropDownlistDataProduct();
+		$model->DropDownListEngines = Engines::model()->getDropDownlistEngines($model->SelectedModels);
 		$model->getSelectedEngines();
 		
 		
 		
-		//echo'<pre>';print_r($params,0);echo'</pre>';
+		//echo'<pre>';print_r($model->SelectedModels);echo'</pre>';
 
 		$this->render('update',array(
 			'model'=>$model,
@@ -431,16 +433,24 @@ class ShopProductsController extends Controller
 		//если выбрали какую-то модель авто - сохнаняем ее в сессию
 		$selected_model = $app->request->getParam('selected_model', -1);
 		
+		//если выбрали какой-то двигатель - сохнаняем его в сессию
+		$selected_engine = $app->request->getParam('selected_engine', -1);
+		
 		
 		
 		if($selected_category > -1)	{
 			$app->session['ShopProducts.selected_category'] = (int)$selected_category;
-			$app->session['ShopModelsAuto.selected_model'] = 0;
+			//$app->session['ShopModelsAuto.selected_model'] = 0;
 		}
 		
 		if($selected_model > -1)	{
 			$app->session['ShopModelsAuto.selected_model'] = (int)$selected_model;
-			$app->session['ShopProducts.selected_category'] = 0;
+			//$app->session['ShopProducts.selected_category'] = 0;
+		}
+		
+		if($selected_engine > -1)	{
+			$app->session['ShopProducts.selected_engine'] = (int)$selected_engine;
+			//$app->session['ShopProducts.selected_category'] = 0;
 		}
 		
 		
@@ -455,9 +465,6 @@ class ShopProductsController extends Controller
 		$ShopCategories = new ShopCategories;
 		$ShopCategories->getDropDownlistData();
 		
-		
-		
-		
 		$SelectedModel = -1;
 		if(isset($app->session['ShopModelsAuto.selected_model']))	{
 			$SelectedModel = (int)$app->session['ShopModelsAuto.selected_model'];
@@ -469,8 +476,20 @@ class ShopProductsController extends Controller
 		$ShopModelsAuto = new ShopModelsAuto;
 		$ShopModelsAuto->getDropDownlistData();
 		
+		$EnginesDropDownlistData = CHtml::listData((Engines::model()->getEnginesInfo($SelectedModel)), 'id','name');
+		if(count($EnginesDropDownlistData))
+			$EnginesDropDownlistData = array(0=>'Все') + $EnginesDropDownlistData;
 		
+		//echo'<pre>';print_r($EnginesDropDownlistData);echo'</pre>';//die;
 		
+		$SelectedEngine = -1;
+		if(isset($app->session['ShopProducts.selected_engine']))	{
+			$SelectedEngine = (int)$app->session['ShopProducts.selected_engine'];
+		}
+		
+		$model->SelectedEngine = $SelectedEngine;
+		
+		//echo'<pre>';print_r($SelectedEngine);echo'</pre>';//die;
 		
 		$this->render('admin',array(
 			'model'=>$model,
@@ -478,7 +497,40 @@ class ShopProductsController extends Controller
 			'SelectedCategory' => $SelectedCategory,
 			'DropDownModels' => $ShopModelsAuto->DropDownlistData,
 			'SelectedModel' => $SelectedModel,
+			'EnginesDropDown' => $EnginesDropDownlistData,
 		));
+	}
+	
+	public function actionMoveup()
+	{
+		$app = Yii::app();
+		
+		$product_id = $app->request->getParam('id', 0);
+		$category_id = $app->request->getParam('category', 0);
+		$model_id = $app->request->getParam('model', 0);
+		$engine_id = $app->request->getParam('engine', 0);
+		
+		$connection = $app->db;
+		
+		ProductsEngines::model()->movePosition($connection, 'up', $product_id, $category_id, $model_id, $engine_id);
+		
+		$this->redirect(array('admin'));
+	}
+
+	public function actionMovedown()
+	{
+		$app = Yii::app();
+		
+		$product_id = $app->request->getParam('id', 0);
+		$category_id = $app->request->getParam('category', 0);
+		$model_id = $app->request->getParam('model', 0);
+		$engine_id = $app->request->getParam('engine', 0);
+		
+		$connection = $app->db;
+		
+		ProductsEngines::model()->movePosition($connection, 'down', $product_id, $category_id, $model_id, $engine_id);
+		
+		$this->redirect(array('admin'));
 	}
 
 	/**

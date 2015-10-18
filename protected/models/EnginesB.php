@@ -4,24 +4,28 @@
  * This is the model class for table "{{engines}}".
  *
  * The followings are the available columns in table '{{engines}}':
- * @property integer $id
- * @property integer $model_id
+ * @property string $id
+ * @property integer $root
+ * @property integer $lft
+ * @property integer $rgt
+ * @property integer $level
+ * @property integer $parent_id
  * @property string $name
- * @property string $image_title
- * @property string $image_file
- * @property string $title
- * @property string $keywords
- * @property string $description
+ * @property integer $order
  *
  * The followings are the available model relations:
- * @property ShopModelsAuto $model
  * @property ShopProductsEngines[] $shopProductsEngines
  */
 class Engines extends CActiveRecord
 {
 	
+	public $dropDownListTree;
+	public $DropDownlistData;
+	public $parentId;
+	public $new_parentId;
 	public $fileImage = '';
-	public $DropDownListModels;
+	
+	public $SelectedCategory;
 	
 	/**
 	 * @return string the associated database table name
@@ -30,6 +34,20 @@ class Engines extends CActiveRecord
 	{
 		return '{{engines}}';
 	}
+	
+	public function behaviors()
+	{
+		return array(
+			'tree'=>array(
+				'class'=>'ext.yiiext.behaviors.model.trees.NestedSetBehavior',
+				'leftAttribute'=>'lft',
+				'rightAttribute'=>'rgt',
+				'levelAttribute'=>'level',
+				'hasManyRoots'=>true,
+			),
+		);
+	}		
+	
 
 	/**
 	 * @return array validation rules for model attributes.
@@ -39,14 +57,14 @@ class Engines extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('model_id, name', 'required'),
-			array('model_id', 'numerical', 'integerOnly'=>true),
-			array('name, image_title, title, keywords, description', 'length', 'max'=>255),
+			array('name', 'required'),
+			array('name, image_title', 'length', 'max'=>255),
 			array('image_file', 'length', 'max'=>64),
+			array('engine', 'numerical', 'integerOnly'=>true),
 			array('fileImage', 'file', 'types'=>'JPEG,JPG,PNG,TIFF,BMP', 'minSize' => 1024,'maxSize' => (5*1024*1024), 'wrongType'=>'Не формат. Только {extensions}', 'tooLarge' => 'Допустимый размер 5Мб', 'on'=>'upload_file'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, model_id, name, image_title, image_file, title, keywords, description', 'safe', 'on'=>'search'),
+			array('id, root, lft, rgt, level, parent_id, name, order', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -58,8 +76,7 @@ class Engines extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'model' => array(self::BELONGS_TO, 'ShopModelsAuto', 'model_id'),
-			'productsEngines' => array(self::HAS_MANY, 'ShopProductsEngines', 'engine_id'),
+			'shopProductsEngines' => array(self::HAS_MANY, 'ShopProductsEngines', 'engine_id'),
 		);
 	}
 
@@ -70,16 +87,17 @@ class Engines extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'model_id' => 'Model',
+			'root' => 'Root',
+			'lft' => 'Lft',
+			'rgt' => 'Rgt',
+			'level' => 'Level',
+			'parent_id' => 'Parent',
 			'name' => 'Название',
 			'image_title' => 'Заголовок изображения',
 			'fileImage' => 'Изображение',
 			'order' => 'Order',
 			'dropDownListTree' => 'Родитель',
 			'engine' => 'Объем двигателя',
-			'title' => 'Meta Title',
-			'keywords' => 'Meta Keywords',
-			'description' => 'Meta Description',
 		);
 	}
 
@@ -100,54 +118,45 @@ class Engines extends CActiveRecord
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
-		$sort = new CSort();
 		
 		$app = Yii::app();
 		
-		if(isset($app->session['Engines.selected_model']) && $app->session['Engines.selected_model'] > 0)	{
-			$this->model_id = (int)$app->session['Engines.selected_model'];
+		$this->SelectedCategory = 0;
+		if(isset($app->session['Engines.backend.selected']))	{
+			$this->SelectedCategory = (int)$app->session['Engines.backend.selected'];
 		}
 				
-		$criteria->compare('id',$this->id);
-		$criteria->compare('model_id',$this->model_id);
+		if($this->SelectedCategory)	{
+			//echo'<pre>';var_dump($SelectedCategory);echo'</pre>';
+			$cat_ids = $this->getChildrensIds($this->SelectedCategory);
+			//echo'<pre>';var_dump($cat_ids);echo'</pre>';
+			//$this->catego_ids = ShopProductsCategories::model()->getProductIdsInCategories($cat_ids);
+			//echo'<pre>';print_r($product_ids);echo'</pre>';
+			if($cat_ids)	{
+				$criteria->condition = "t.`id` IN ($cat_ids)";
+			}
+		}		
+
+		$criteria->compare('id',$this->id,true);
+		$criteria->compare('root',$this->root);
+		$criteria->compare('lft',$this->lft);
+		$criteria->compare('rgt',$this->rgt);
+		$criteria->compare('level',$this->level);
+		$criteria->compare('parent_id',$this->parent_id);
 		$criteria->compare('name',$this->name,true);
-		$criteria->compare('image_title',$this->image_title,true);
-		$criteria->compare('image_file',$this->image_file,true);
-		$criteria->compare('title',$this->title,true);
-		$criteria->compare('keywords',$this->keywords,true);
-		$criteria->compare('description',$this->description,true);
+		$criteria->compare('order',$this->order);
 		
-		$sort->defaultOrder = '`model_id` DESC'; // устанавливаем сортировку по умолчанию
+		$criteria->order = $this->tree->hasManyRoots
+			?$this->tree->rootAttribute . ', ' . $this->tree->leftAttribute
+			:$this->tree->leftAttribute;		
+		
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+			'pagination' => array(
+				'pageSize' => $app->params->pagination['models_per_page'],
+			),			
 			
-			'sort'=>$sort,
-			
-			'pagination'=>array(
-				'pageSize' => $app->params->pagination['products_per_page'],
-			),		
-			
-		));
-	}
-
-	public function searchmodellist()
-	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
-		$criteria=new CDbCriteria;
-
-		$criteria->compare('id',$this->id);
-		$criteria->compare('model_id',$this->model_id);
-		$criteria->compare('name',$this->name,true);
-		$criteria->compare('image_title',$this->image_title,true);
-		$criteria->compare('image_file',$this->image_file,true);
-		$criteria->compare('title',$this->title,true);
-		$criteria->compare('keywords',$this->keywords,true);
-		$criteria->compare('description',$this->description,true);
-
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
 		));
 	}
 
@@ -169,13 +178,11 @@ class Engines extends CActiveRecord
 				// строим для заголовка картинки цепочку из названий
 				$full_name = '';
 				$full_name_arr = array('Схема выхлопной системы для');
-				$model = ShopModelsAuto::model()->findByPk($this->model_id);
-				$ancestors = $model->ancestors()->findAll();
+				$ancestors = $this->ancestors()->findAll();
 				if(count($ancestors)) {
 					foreach($ancestors as $row) {
 						$full_name_arr[] = $row->name;
 					}
-					$full_name_arr[] = $model->name;
 					$full_name_arr[] = $this->name;
 					$this->image_title = implode(' ', $full_name_arr);
 				}
@@ -185,59 +192,115 @@ class Engines extends CActiveRecord
 	}
 	
 	
-	// возвращает выпадающий список двигателей
-	public function getDropDownlistEngines($selectedModels)
+	public function save($runValidation = true, $attributes = null)
 	{
-		$model_ids = array();
-		foreach($selectedModels as $k=>$i)
-			$model_ids[] = $k;
-				
-		//echo'<pre>';print_r($model_ids);echo'</pre>';
-		$list_data = $this->getDropDownlistItems($model_ids);
+		if($this->isNewRecord)	{
+			switch($this->parentId)	{
+				case 0:
+					$this->saveNode();
+					break;
+				default:
+					$root = $this->findByPk($this->parentId);
+					if($root)	{
+						$this->appendTo($root);
+					}
+					break;
+			}
+		
+		}	else	{
+			if($this->new_parentId != $this->parentId)	{
+				if($this->new_parentId > 0)	{
+					$root = $this->findByPk($this->new_parentId);
+					$this->moveAsLast($root);
+				}	else	{
+					$this->moveAsRoot();
+				}
+			}
+			$this->saveNode();
+		}
+		return true;
+	}	
+	
+	public function getDropDownlistTypes()
+	{
+		return $this->getDropDownlistItems();
+	}
+	
+	// возвращает выпадающий список категорий для редактирования категории
+	public function getDropDownlistData()
+	{
+		$list_data1 = $this->getDropDownlistItems();
+		
+		$selected = 'Верхний уровень';
+		$list_data = array(0 => $selected);
+		
+		$list_data = $list_data + $list_data1;
+		
+		$this->DropDownlistData = $list_data;
+		
+		return true;
+	}
+	
+	// возвращает выпадающий список категорий для редактирования товара
+	public function getDropDownlistDataProduct()
+	{
+		$list_data = $this->getDropDownlistItems();
 		return $list_data;
 	}
 	
-	public function getDropDownlistItems($model_ids = array(0))
+	public function getDropDownlistItems()
 	{
 		$criteria = new CDbCriteria;
-		$criteria->condition = 'model_id IN ('.implode(',', $model_ids).')';
-		$criteria->order = 'id';
-		
-		//echo'<pre>';print_r($criteria);echo'</pre>';
-		
-		$rows = $this->findAll($criteria);
-		//echo'<pre>';print_r($categories);echo'</pre>';
-		
-		foreach($rows as $row)	{
-			$model_title = ShopModelsAuto::model()->getModelChain($row->model_id);
-			$row->name = $model_title.' '.$row->name;
+		$criteria->order = 't.root, t.lft'; // или 't.root, t.lft' для множественных деревьев
+		$categories = $this->findAll($criteria);
+		$level = 0;
+		foreach($categories as $c){
+			$separator = '';
+			for ($x=1; $x++ < $c->level;) $separator .= '-';
+			$c->name = $separator.$c->name;
 		}
 		
-		
-		$result = CHtml::listData($rows, 'id','name');
+		$result = CHtml::listData($categories, 'id','name');
 		
 		//Yii::app()->cache->set('DropDownlistCategories', $result, 300);		
 		
 		return $result;
 	}
 	
-	public function getEnginesInfo($model_id)
-	{
-		$connection = Yii::app()->db;
-		
-		$criteria = new CDbCriteria;
-		$criteria->condition = 'model_id = :model_id';
-		$criteria->order = 'id';
-		
-		$criteria->params = array(':model_id'=>$model_id);
-		
-		$sql = "SELECT `id`, `name` FROM ".$this->tableName()." WHERE `model_id` = :model_id";
-		$command = $connection->createCommand($sql);		
-		$command->bindParam(":model_id", $model_id);
-		
-		//$rows = $command->queryAll();
-		return $command->queryAll();
+	//получаем ID родительской категории
+	public function getParentId()
+	{	
+		$parent = $this->parent()->find();
+		$this->parentId = $parent->id ? $parent->id : 0;
 	}
+	
+	//получает список id дочерних категорий и текущей
+	public function getChildrensIds($parentId)
+	{
+		$category = $this->findByPk($parentId);
+		$descendants = $category->descendants()->findAll();
+		$ids_arr = array();
+		$ids_arr[] = $parentId;
+		foreach($descendants as $item)	{
+			$ids_arr[] = $item->id;
+		}
+		
+		return implode(',', $ids_arr);		
+	}
+	
+	
+	function setparentid()
+	{
+		$criteria = new CDbCriteria;
+		if($id != 0) {
+			$criteria->condition = "`root` = $id";
+		}
+		$criteria->order = 't.root, t.lft'; // или 't.root, t.lft' для множественных деревьев
+		$categories = $this->findAll($criteria);
+		return true;
+	}
+	
+	
 	
 	//удаление файла изображения
 	public function deleteFile()
@@ -277,4 +340,5 @@ class Engines extends CActiveRecord
 		$file_name_arr = explode('.', strtolower($filename));
 		return '.'.$file_name_arr[(count($file_name_arr)-1)];
 	}
+	
 }

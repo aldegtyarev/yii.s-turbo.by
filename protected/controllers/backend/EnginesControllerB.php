@@ -1,6 +1,6 @@
 <?php
 
-class ShopModelsAutoController extends Controller
+class EnginesController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -36,15 +36,7 @@ class ShopModelsAutoController extends Controller
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array(
-					'admin',
-					'delete',
-					'create',
-					'moveup',
-					'movedown',
-					'updateparents',
-				),
-
+				'actions'=>array('admin','delete','moveup','movedown','removeimg'),
 				'users'=>array('superman'),
 			),
 			array('deny',  // deny all users
@@ -70,24 +62,34 @@ class ShopModelsAutoController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new ShopModelsAuto;
+		$model=new Engines;
+		$model->getDropDownlistData();
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
-		
-		$model->getDropDownlistData();
-		
-		$model->operate_method = 'insert';
 
-		if(isset($_POST['ShopModelsAuto']))
+		if(isset($_POST['Engines']))
 		{
-			$model->attributes = $_POST['ShopModelsAuto'];
-			$model->parentId = $_POST['ShopModelsAuto']['parentId'];
-			$model->parent_id = $_POST['ShopModelsAuto']['parentId'];
+			$model->attributes=$_POST['Engines'];
+			$model->parentId = $_POST['Engines']['parentId'];
+			$model->parent_id = $_POST['Engines']['parentId'];
 			
-			if($model->save())
-				//$this->redirect(array('view','id'=>$model->id));
-				$this->redirect(array('admin'));
+			if($_FILES['Engines']["name"]["fileImage"]) {
+				$model->scenario = 'upload_file';
+				$model->fileImage = CUploadedFile::getInstance($model,'fileImage');
+			}
+						
+			if($model->validate()) {
+				$model->uploadFile();
+				$model->save();
+				
+				if(isset($_POST['save']))	{
+					$this->redirect(array('admin'));
+				}	else	{
+					$this->redirect(array('update','id'=>$model->id));
+				}
+
+			}
 		}
 
 		$this->render('create',array(
@@ -100,34 +102,40 @@ class ShopModelsAutoController extends Controller
 	 * If update is successful, the browser will be redirected to the 'view' page.
 	 * @param integer $id the ID of the model to be updated
 	 */
-	public function actionUpdateparents()	{
-		$models = ShopModelsAuto::model()->findAll();
-		foreach($models as $model) {
-			$parent_ = $model->parent()->find();
-			$model->parent_id = $parent_->id;
-			$model->save(false);
-		}
-	}
-	
-	
 	public function actionUpdate($id)
 	{
-		$model = $this->loadModel($id);
+		$model=$this->loadModel($id);
 		$model->getDropDownlistData();
-		
+
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 		
-		$model->operate_method = 'update';
+		//echo'<pre>';print_r($_FILES,0);echo'</pre>';die;
 
-		if(isset($_POST['ShopModelsAuto']))
+		if(isset($_POST['Engines']))
 		{
-			$model->attributes=$_POST['ShopModelsAuto'];
-			$model->new_parentId = $_POST['ShopModelsAuto']['parentId'];
-			$model->parent_id = $_POST['ShopModelsAuto']['parentId'];
-						
-			if($model->save())
-				$this->redirect(array('admin'));
+			$model->attributes=$_POST['Engines'];
+			$model->new_parentId = $_POST['Engines']['parentId'];
+			$model->parent_id = $_POST['Engines']['parentId'];
+			
+			if($_FILES['Engines']["name"]["fileImage"]) {
+				$model->scenario = 'upload_file';
+				$model->fileImage = CUploadedFile::getInstance($model,'fileImage');
+				
+			}
+			
+			if($model->validate()) {
+				$model->uploadFile();
+				$model->save();
+				
+				if(isset($_POST['save']))	{
+					$this->redirect(array('admin'));
+				}	else	{
+					$this->redirect(array('update','id'=>$model->id));
+				}
+				
+				//$this->redirect(array('admin'));
+			}
 		}
 
 		$this->render('update',array(
@@ -143,7 +151,9 @@ class ShopModelsAutoController extends Controller
 	public function actionDelete($id)
 	{
 		//$this->loadModel($id)->delete();
-        $this->loadModel($id)->deleteNode();
+		$model = $this->loadModel($id);
+		$model->deleteFile();
+		$model->deleteNode();
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))
@@ -155,7 +165,7 @@ class ShopModelsAutoController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('ShopModelsAuto');
+		$dataProvider=new CActiveDataProvider('Engines');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
@@ -166,78 +176,92 @@ class ShopModelsAutoController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model=new ShopModelsAuto('search');
+		$model=new Engines('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['ShopModelsAuto']))
-			$model->attributes=$_GET['ShopModelsAuto'];
+		if(isset($_GET['Engines']))
+			$model->attributes=$_GET['Engines'];
 		
 		$app = Yii::app();
 		
 		//если выбрали какую-то категорию - сохнаняем ее в сессию
 		$selected_category = $app->request->getParam('selected_category', -1);
 		if($selected_category > -1)	{
-			$app->session['ShopModelsAuto.selected_category'] = (int)$selected_category;
+			$app->session['Engines.backend.selected'] = (int)$selected_category;
 		}
 		
 		$SelectedCategory = -1;
-		if(isset($app->session['ShopModelsAuto.selected_category']))	{
-			$SelectedCategory = (int)$app->session['ShopModelsAuto.selected_category'];
+		if(isset($app->session['Engines.backend.selected']))	{
+			$SelectedCategory = (int)$app->session['Engines.backend.selected'];
 		}
 		
 		$model->SelectedCategory = $SelectedCategory;
 		
-		
-		$ShopModelsAuto = new ShopModelsAuto;
-		$ShopModelsAuto->getDropDownlistData();
+		$ShopCategories = new Engines;
+		$ShopCategories->getDropDownlistData();
 		
 
 		$this->render('admin',array(
 			'model'=>$model,
-			'DropDownCategories'=>$ShopModelsAuto->DropDownlistData,
+			'DropDownCategories'=>$ShopCategories->DropDownlistData,
 			'SelectedCategory'=>$SelectedCategory,
 		));
 	}
 	
 	public function actionMoveup($id=0)
 	{
-		$category = ShopModelsAuto::model()->findByPk($id);
-		$prev_cat = $category->prev()->find();
-		$category->moveBefore($prev_cat);
+		$model=$this->loadModel($id);
+		$prev_model = $model->prev()->find();
+		$model->moveBefore($prev_model);
 		$this->redirect(array('admin'));
 	}	
 	
 	public function actionMovedown($id=0)
 	{
-		$category = ShopModelsAuto::model()->findByPk($id);
-		$next_cat = $category->next()->find();
-		$category->moveAfter($next_cat);
+		$model=$this->loadModel($id);
+		$next_next = $model->next()->find();
+		$model->moveAfter($next_next);
 		$this->redirect(array('admin'));
-	}	
+	}
+	
+	public function actionRemoveimg($id=0)
+	{
+		$app = Yii::app();
+		$model = $this->loadModel($id);
+		$model->new_parentId = $model->parent_id;
+		
+		//echo'<pre>';print_r($model,0);echo'</pre>';die;
+
+		$model->deleteFile();
+		$model->save();
+		
+		$this->redirect(array('update','id'=>$model->id));
+	}
+	
 
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer $id the ID of the model to be loaded
-	 * @return ShopModelsAuto the loaded model
+	 * @return Engines the loaded model
 	 * @throws CHttpException
 	 */
 	public function loadModel($id)
 	{
-		$model=ShopModelsAuto::model()->findByPk($id);
+		$model=Engines::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		
-		$model->getParentId();
+		$model->getParentId();		
 		return $model;
 	}
 
 	/**
 	 * Performs the AJAX validation.
-	 * @param ShopModelsAuto $model the model to be validated
+	 * @param Engines $model the model to be validated
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='shop-models-auto-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='engines-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

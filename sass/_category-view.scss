@@ -56,3 +56,12 @@
 	}
 	
 }
+
+.engine-info {
+	@extend %text_c;
+	@extend .mb-30;
+	
+	img {
+		max-width: 100%;
+	}
+}

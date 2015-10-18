@@ -104,6 +104,8 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 	public $firm_name = array();
     
     public $_modelsList = '';
+	
+	public $SelectedEngine;
     
     
 	
@@ -268,6 +270,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
         $criteria = new CDbCriteria;
 		
 		$sort = new CSort();
+		$sort->defaultOrder = '`product_id` DESC'; // устанавливаем сортировку по умолчанию
 		
 		
 		$app = Yii::app();
@@ -281,24 +284,79 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		if(isset($app->session['ShopModelsAuto.selected_model']))	{
 			$this->SelectedModel = (int)$app->session['ShopModelsAuto.selected_model'];
 		}
+		
+		$category_product_ids = '';
+		$model_product_ids = '';
+		$product_ids = '';
 
 		//если выбрана атегория, то получаем id товаров из выбранной и вложенной категорий
 		if($this->SelectedCategory)	{
 			$cat_ids = ShopCategories::model()->getChildrensIds($this->SelectedCategory);
-			$this->product_ids = ShopProductsCategories::model()->getProductIdsInCategories($cat_ids);
-			if($this->product_ids)	{
-				$criteria->condition = "t.`product_id` IN ($this->product_ids)";
-			}
+			$category_product_ids = ShopProductsCategories::model()->getProductIdsInCategories($cat_ids);
 		}
 		
 		//если выбрана модель авто, то получаем id товаров из выбранной и вложенной категорий
 		if($this->SelectedModel)	{
 			$cat_ids = ShopModelsAuto::model()->getChildrensIds($this->SelectedModel);
-			$this->product_ids = ShopProductsModelsAuto::model()->getProductIdsInCategories($cat_ids);
-			if($this->product_ids)	{
-				$criteria->condition = "t.`product_id` IN ($this->product_ids)";
-			}
+			$model_product_ids = ShopProductsModelsAuto::model()->getProductIdsInCategories($cat_ids);
 		}
+		
+		//если выбран двигатель, то получаем id товаров из выбранного двигателя
+		if($this->SelectedEngine)	{
+			$engine_product_ids = ProductsEngines::model()->getProductIds(array($this->SelectedEngine));
+		}
+		
+		//echo'<pre>';print_r($engine_product_ids);echo'</pre>';//die;
+		//echo'<pre>';print_r($cat_ids);echo'</pre>';//die;
+		//echo'<pre>';print_r($cat_ids1);echo'</pre>';die;
+		
+		if(($category_product_ids != '') && ($model_product_ids != '') && count($engine_product_ids))	{
+			//если выбрана и категория и модель и двигатель
+			$category_product_ids_arr = explode(',', $category_product_ids);
+			$model_product_ids_arr = explode(',', $model_product_ids);
+			$product_ids = array();
+			foreach($category_product_ids_arr as $cat) {
+				foreach($model_product_ids_arr as $mod) {
+					foreach($engine_product_ids as $eng) {
+						if($cat == $mod && $cat == $eng)
+							$product_ids[] = $mod;
+					}
+				}
+			}
+			$this->product_ids = implode(',', $product_ids);
+			
+			$criteria->join = 'INNER JOIN {{shop_products_engines}} as eng ON t.product_id = eng.product_id';
+			$criteria->distinct = true;
+			
+			$sort->defaultOrder = 'eng.order ASC, eng.product_id ASC'; // устанавливаем сортировку по умолчанию
+		}	elseif(($category_product_ids != '') && ($model_product_ids != ''))	{
+			//если выбрана и категория и модель
+			$category_product_ids_arr = explode(',', $category_product_ids);
+			$model_product_ids_arr = explode(',', $model_product_ids);
+			$product_ids = array();
+			foreach($category_product_ids_arr as $cat) {
+				foreach($model_product_ids_arr as $mod) {
+					if($cat == $mod)
+						$product_ids[] = $mod;
+				}
+			}
+			$this->product_ids = implode(',', $product_ids);
+			
+			
+		}	elseif($category_product_ids != '')	{
+			//если выбрана категория
+			$this->product_ids = $category_product_ids;
+		}	elseif($model_product_ids != '')	{
+			//если выбрана модель
+			$this->product_ids = $model_product_ids;
+		}
+		
+		
+		
+		if($this->product_ids)	{
+			$criteria->condition = "t.`product_id` IN ($this->product_ids)";
+		}
+		
 
         $criteria->compare('product_id',$this->product_id,true);
         $criteria->compare('product_s_desc',$this->product_s_desc,true);
@@ -318,9 +376,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
         $criteria->compare('code',$this->code,true);
         $criteria->compare('in_stock',$this->in_stock,true);
         $criteria->compare('delivery',$this->delivery,true);
-        $criteria->compare('prepayment',$this->prepayment,true);
-		
-		$sort->defaultOrder = '`product_id` DESC'; // устанавливаем сортировку по умолчанию
+        $criteria->compare('prepayment',$this->prepayment,true);		
 		
 		
 
@@ -930,6 +986,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 	//копирование товара
 	function copyProduct()
 	{
+		//echo'<pre>';print_r($this->ProductsEngines);echo'</pre>';die;
 		$app = Yii::app();
 		//создаем копию изображений товара
 		$command = $app->db->createCommand();
@@ -1028,8 +1085,6 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		if(count($Images))	{
 			foreach($Images as $row)	{
 				$filename = md5(date);
-				
-				
 				$command->insert('{{shop_products_images}}', array(
 					'product_id' => $new_product_id,
 					'image_file' => $row['image_file'],
@@ -1040,10 +1095,17 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 			}
 		}
 		
-		
-		
-		
-		
+		// дублируем двигатели товара
+		$ProductsEngines = $this->ProductsEngines;
+		if(count($ProductsEngines))	{
+			foreach($ProductsEngines as $row)	{
+				$command->insert('{{shop_products_engines}}', array(
+					'product_id' => $new_product_id,
+					'engine_id' => $row['engine_id'],
+				));
+				$command->reset();
+			}
+		}
 		//echo'<pre>';print_r($Images[0]['image_file'],0);echo'</pre>';die;
 	}
 

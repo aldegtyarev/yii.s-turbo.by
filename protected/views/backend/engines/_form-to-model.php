@@ -19,16 +19,8 @@
 	
 )); ?>
 
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
-
 	<?php echo $form->errorSummary($model); ?>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'model_id'); ?>
-		<?php echo $form->dropDownList($model, 'model_id', $model->DropDownListModels); ?>
-		<?php echo $form->error($model,'model_id'); ?>
-	</div>
-	
 	<div class="row">
 		<?php echo $form->labelEx($model,'name'); ?>
 		<?php echo $form->textField($model,'name',array('size'=>60,'maxlength'=>255)); ?>
@@ -50,7 +42,7 @@
 	<?php if($model->image_file != '')	{	?>
 		<div class="row">
 			<?php echo CHtml::image(Yii::app()->params->product_images_liveUrl.$model->image_file, '', array('class'=>'img-responsive')) ?>
-			<p><a href="<?= $this->createUrl('engines/removeimage', array('id'=>$model->id)) ?>">Удалить изображение</a></p>
+			<p><a href="<?= $this->createUrl('engines/removeimg', array('id'=>$model->id)) ?>">Удалить изображение</a></p>
 		</div>
 	<?php	}	?>
 

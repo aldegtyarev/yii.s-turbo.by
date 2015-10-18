@@ -36,7 +36,7 @@ class EnginesController extends Controller
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete','moveup','movedown'),
+				'actions'=>array('admin','delete','modellist','createtomodel','updatetomodel','removeimg','removeimage','copy'),
 				'users'=>array('superman'),
 			),
 			array('deny',  // deny all users
@@ -63,7 +63,13 @@ class EnginesController extends Controller
 	public function actionCreate()
 	{
 		$model=new Engines;
-		$model->getDropDownlistData();
+		
+		//подготавливаем выпадающий список модельного ряда
+		$model->DropDownListModels = ShopModelsAuto::model()->getDropDownlistDataProduct();
+		//$selected = 'Все';
+		//$list_data = array(0 => $selected);		
+		//$model->DropDownListModels = $list_data + $model->DropDownListModels;
+		
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -71,15 +77,62 @@ class EnginesController extends Controller
 		if(isset($_POST['Engines']))
 		{
 			$model->attributes=$_POST['Engines'];
-			$model->parentId = $_POST['Engines']['parentId'];
-			$model->parent_id = $_POST['Engines']['parentId'];
+			if($_FILES['Engines']["name"]["fileImage"]) {
+				$model->scenario = 'upload_file';
+				$model->fileImage = CUploadedFile::getInstance($model,'fileImage');
+			}
 			
-			if($model->save())
-				$this->redirect(array('admin'));
+			if($model->validate()) {
+				$model->uploadFile();
+				$model->save();
+				if(isset($_POST['save']))	{
+					$this->redirect(array('admin'));
+				}	else	{
+					$this->redirect(array('update','id'=>$model->id));
+				}
+
+			}
 		}
 
 		$this->render('create',array(
 			'model'=>$model,
+		));
+	}
+
+	public function actionCreatetomodel($id)
+	{
+		$model=new Engines;
+		
+		$model->model_id = $id;
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['Engines']))
+		{
+			$model->attributes=$_POST['Engines'];
+			
+			if($_FILES['Engines']["name"]["fileImage"]) {
+				$model->scenario = 'upload_file';
+				$model->fileImage = CUploadedFile::getInstance($model,'fileImage');
+			}
+			
+			if($model->validate()) {
+				$model->uploadFile();
+				$model->save();
+				
+				if(isset($_POST['save']))	{
+					$this->redirect(array('modellist','model_id'=>$id));
+				}	else	{
+					$this->redirect(array('update','id'=>$model->id));
+				}
+
+			}
+		}
+
+		$this->render('create-to-model',array(
+			'model'=>$model,
+			'model_title'=>ShopModelsAuto::model()->getModelChain($id),
 		));
 	}
 
@@ -91,32 +144,68 @@ class EnginesController extends Controller
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
-		$model->getDropDownlistData();
+		
+		//подготавливаем выпадающий список модельного ряда
+		$model->DropDownListModels = ShopModelsAuto::model()->getDropDownlistDataProduct();
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
-		
-		//echo'<pre>';print_r($_FILES,0);echo'</pre>';die;
 
 		if(isset($_POST['Engines']))
 		{
 			$model->attributes=$_POST['Engines'];
-			$model->new_parentId = $_POST['Engines']['parentId'];
-			$model->parent_id = $_POST['Engines']['parentId'];
 			if($_FILES['Engines']["name"]["fileImage"]) {
+				$model->scenario = 'upload_file';
 				$model->fileImage = CUploadedFile::getInstance($model,'fileImage');
-				
 			}
 			
 			if($model->validate()) {
 				$model->uploadFile();
 				$model->save();
-				$this->redirect(array('admin'));
+				if(isset($_POST['save']))	{
+					$this->redirect(array('admin'));
+				}	else	{
+					$this->redirect(array('update','id'=>$model->id));
+				}
+
 			}
 		}
 
 		$this->render('update',array(
 			'model'=>$model,
+		));
+	}
+
+	public function actionUpdatetomodel($id)
+	{
+		$model=$this->loadModel($id);
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['Engines']))
+		{
+			$model->attributes=$_POST['Engines'];
+			if($_FILES['Engines']["name"]["fileImage"]) {
+				$model->scenario = 'upload_file';
+				$model->fileImage = CUploadedFile::getInstance($model,'fileImage');
+			}
+			
+			if($model->validate()) {
+				$model->uploadFile();
+				$model->save();
+				
+				if(isset($_POST['save']))	{
+					$this->redirect(array('modellist', 'model_id'=>$model->model_id));
+				}	else	{
+					$this->redirect(array('updatetomodel','id'=>$model->id));
+				}
+			}
+		}
+
+		$this->render('update-to-model',array(
+			'model'=>$model,
+			'model_title'=>ShopModelsAuto::model()->getModelChain($model->model_id),
 		));
 	}
 
@@ -128,7 +217,10 @@ class EnginesController extends Controller
 	public function actionDelete($id)
 	{
 		//$this->loadModel($id)->delete();
-		$this->loadModel($id)->deleteNode();
+		$model=$this->loadModel($id);
+		$model->deleteFile();
+		$model->delete();
+		
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))
@@ -153,29 +245,116 @@ class EnginesController extends Controller
 	{
 		$model=new Engines('search');
 		$model->unsetAttributes();  // clear any default values
+		
+		$app = Yii::app();
+		
+		//подготавливаем выпадающий список модельного ряда
+		$model->DropDownListModels = ShopModelsAuto::model()->getDropDownlistDataProduct();
+		$list_data = array(0 => 'Все');
+		$model->DropDownListModels = $list_data + $model->DropDownListModels;
+		
 		if(isset($_GET['Engines']))
 			$model->attributes=$_GET['Engines'];
+		
+		//если выбрали какую-то модель авто - сохнаняем ее в сессию
+		$selected_model = $app->request->getParam('selected_model', -1);
+
+		if($selected_model > -1)	{
+			$app->session['Engines.selected_model'] = (int)$selected_model;
+		}
+		
+		$SelectedModel = -1;
+		if(isset($app->session['Engines.selected_model']))	{
+			$SelectedModel = (int)$app->session['Engines.selected_model'];
+		}
+		
 
 		$this->render('admin',array(
 			'model'=>$model,
+			'SelectedModel' => $SelectedModel,			
+		));
+	}
+
+	public function actionModellist($model_id)
+	{
+		$model = new Engines('searchmodellist');
+		$model->unsetAttributes();  // clear any default values
+		
+		$model->model_id = $model_id;
+		
+		if(isset($_GET['Engines']))
+			$model->attributes=$_GET['Engines'];
+
+		$this->render('model-list',array(
+			'model'=>$model,
+			'model_id'=>$model_id,
+			'model_title'=>ShopModelsAuto::model()->getModelChain($model_id),
 		));
 	}
 	
-	public function actionMoveup($id=0)
+	public function actionRemoveimg($id=0)
 	{
-		$model=$this->loadModel($id);
-		$prev_model = $model->prev()->find();
-		$model->moveBefore($prev_model);
-		$this->redirect(array('admin'));
-	}	
+		$model = $this->loadModel($id);
+		
+		//echo'<pre>';print_r($model,0);echo'</pre>';die;
+
+		$model->deleteFile();
+		$model->save();
+		
+		$this->redirect(array('updatetomodel','id'=>$model->id));
+	}
 	
-	public function actionMovedown($id=0)
+	public function actionRemoveimage($id=0)
 	{
-		$model=$this->loadModel($id);
-		$next_next = $model->next()->find();
-		$model->moveAfter($next_next);
+		$model = $this->loadModel($id);
+		
+		//echo'<pre>';print_r($model,0);echo'</pre>';die;
+
+		$model->deleteFile();
+		$model->save();
+		
+		$this->redirect(array('update','id'=>$model->id));
+	}
+	
+	public function actionCopy($id)
+	{
+		$app = Yii::app();
+		$model_copy = $this->loadModel($id);
+		
+		$model = new Engines();
+		$model->model_id = $model_copy->model_id;
+		$model->name = $model_copy->name.' copy';
+		$model->image_title = $model_copy->image_title;
+		$model->image_file = $model_copy->image_file;
+		$model->title = $model_copy->title;
+		$model->keywords = $model_copy->keywords;
+		$model->description = $model_copy->description;
+		
+		
+		//echo'<pre>';print_r($model);echo'</pre>';die;
+		
+		$imagePath = Yii::getPathOfAlias(Yii::app()->params->product_imagePath);
+		
+		if($model->image_file != '' && file_exists($imagePath . DIRECTORY_SEPARATOR . $model->image_file)) {
+			//echo'<pre>';print_r($model);echo'</pre>';	
+			$file_extention = $model->getExtentionFromFileName($model->image_file);
+			
+			$filename = md5(strtotime('now')).$file_extention;
+			
+			copy (($imagePath . DIRECTORY_SEPARATOR . $model->image_file), ($imagePath . DIRECTORY_SEPARATOR . $filename) );
+			
+			$model->image_file = $filename;
+		}
+		
+		$model->save();
+		
+		//die;
+		
+		//$model->copyProduct();
+        //$app->session['ShopproductForm.current_tab'] = '#tab1';
 		$this->redirect(array('admin'));
 	}
+	
 	
 
 	/**

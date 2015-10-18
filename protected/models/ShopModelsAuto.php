@@ -33,12 +33,9 @@ class ShopModelsAuto extends CActiveRecord
 	public $new_parentId;
 	
 	public $SelectedCategory;
-	
-	public $DropDownlistBodies;
-	public $selectedBodies;
-	public $body_ids;
-	
+		
 	public $operate_method;
+	public $_modelChain;
 	
 	/**
 	 * @return string the associated database table name
@@ -90,7 +87,6 @@ class ShopModelsAuto extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
         return array(
-            'ModelsBodies' => array(self::HAS_MANY, 'ModelsBodies', 'model_id'),
             'ProductsModelsAutos' => array(self::HAS_MANY, 'ShopProductsModelsAuto', 'model_id'),
         );	
 	}
@@ -120,7 +116,6 @@ class ShopModelsAuto extends CActiveRecord
 			'show_in_menu' => 'Show In Menu',
 			'category_description' => 'Описание',
 			'dropDownListTree' => 'Родитель',
-			'body_ids' => 'Уточняющий год',
 		);
 	}
 
@@ -218,56 +213,19 @@ class ShopModelsAuto extends CActiveRecord
 	{
 		$app = Yii::app();
 		$connection = $app->db;
-		
+		/*
 		switch($this->operate_method)	{
 			case 'insert':
-				ModelsBodies::model()->insertModelBody($this->selectedBodies, $this->id, $connection);
 				break;
 			
 			case 'update':
-				$this->checkModelsBodies($connection);
 				break;
 		}
+		*/
 		
 		$this->setFullName($connection);
 	}
 	
-	//проверяем, не изменились ли категории...
-	function checkModelsBodies(&$connection)
-	{
-		$ModelsBodies = $this->ModelsBodies;
-		if(count($ModelsBodies))	{
-			$arrays_of_identical = true;
-		}	else	{
-			$arrays_of_identical = false;
-		}
-		//echo'<pre>';print_r($ModelsBodies);echo'</pre>';die;
-		//проверяем, не изменились ли категории...
-		if(count($ModelsBodies) != count($this->selectedBodies))	{
-			$arrays_of_identical = false;
-		}	else	{
-			foreach($ModelsBodies as $cat_item)	{
-				$cat_is_present = false;
-				foreach($this->selectedBodies as $key=>$val)	{
-					if($cat_item['body']['id'] == $key)	{
-						$cat_is_present = true;
-					}
-				}
-				if($cat_is_present == false)	{
-					$arrays_of_identical = false;
-				}
-			}
-		}
-
-		if($arrays_of_identical == false)	{
-			ModelsBodies::model()->clearModelBody($this->id, $connection);
-			ModelsBodies::model()->insertModelBody($this->selectedBodies, $this->id, $connection);
-		}
-	}
-	
-	
-	
-
 	/**
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
@@ -547,21 +505,7 @@ class ShopModelsAuto extends CActiveRecord
 		$command = $connection->createCommand($sql);
 		//$rows = $command->queryAll();
 		return $command->queryAll();
-	}
-	
-	//получает выбранные категории для товара
-	function getSelectedBodies()
-	{
-		$selectedValues = array();
-		//echo'<pre>';print_r($this->ModelsBodies,0);echo'</pre>';die;
-		
-		foreach($this->ModelsBodies as $cat) {
-			//echo'<pre>';print_r($cat['body']['body_id'],0);echo'</pre>';//die;
-			$selectedValues[$cat['body']['id']] = Array ( 'selected' => 'selected' );
-		}
-		$this->selectedBodies = $selectedValues;		
-	}
-	
+	}	
 	
 	public function setFullName(&$connection)
 	{
@@ -603,5 +547,20 @@ class ShopModelsAuto extends CActiveRecord
 		return $rows;
 	}
 	
-	
+	public function getModelChain($id)
+	{
+		$chain_arr = array();
+		$model = $this->findByPk($id);
+		$ancestors = $model->ancestors()->findAll();
+		if(count($ancestors)) {
+			foreach($ancestors as $row) {
+				$chain_arr[] = $row->name;
+			}
+			
+			$full_name_arr[] = $this->name;
+		}
+		
+		$chain_arr[] = $model->name;
+		return implode(' ', $chain_arr);
+	}
 }

@@ -68,13 +68,14 @@ class ShopCategoriesController extends Controller
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
 	 */
+	/*
 	public function actionView($id)
 	{
-		//echo'11111111111111111111111111111111';
 		$this->render('view',array(
 			'model'=>$this->loadModel($id),
 		));
 	}
+	*/
 	
 	
 	public function actionShow($id)
@@ -84,13 +85,18 @@ class ShopCategoriesController extends Controller
 		
 		$this->processPageRequest('page');
 		
-		//echo'$id = <pre>';print_r($_GET);echo'</pre>';die;
+		//echo'<pre>';print_r($_GET);echo'</pre>';//die;
 		
 		$selected_view = $app->request->getParam('select-view', -1);
 		
 		$type_request = (int)$app->request->getParam('type', 0);
 		$firm_request = (int)$app->request->getParam('firm', 0);
 		$body_request = (int)$app->request->getParam('body', 0);
+		$engine_id = (int)$app->request->getParam('engine', 0);
+		
+		$engineInfo = null;
+		
+		//echo'<pre>';print_r($engine_id);echo'</pre>';//die;
 		
 		
 		if($selected_view != -1)	{
@@ -145,7 +151,10 @@ class ShopCategoriesController extends Controller
 		$condition_arr[] = "pc.`category_id` = ".$category->id;
 		
 		if(count($model_ids))	{
-			$product_ids = ShopProductsModelsAuto::model()->getProductIdFromModels($connection, $model_ids);
+			
+			if($engine_id != 0) $product_ids = ProductsEngines::model()->getProductIdFromEngines($connection, array($engine_id));
+				else $product_ids = ShopProductsModelsAuto::model()->getProductIdFromModels($connection, $model_ids);
+			
 			if(count($product_ids))	{
 				$condition_arr[] = "t.`product_id` IN (".implode(', ', $product_ids).")";
 			}
@@ -175,6 +184,15 @@ class ShopCategoriesController extends Controller
 		$criteria->condition = implode(' AND ', $condition_arr);
 				
 		$criteria->select = "t.*";
+		
+		if($engine_id != 0) {
+			$criteria->join .= ' INNER JOIN {{shop_products_engines}} as eng ON t.product_id = eng.product_id';
+			$criteria->distinct = true;
+			
+			$criteria->order = 'eng.order ASC, eng.product_id ASC'; // устанавливаем сортировку по умолчанию
+			
+			$engineInfo = Engines::model()->findByPk($engine_id);
+		}
 		
         $dataProvider = new CActiveDataProvider('ShopProducts', array(
             'criteria'=>$criteria,
@@ -286,6 +304,7 @@ class ShopCategoriesController extends Controller
 				'firms' => $firms,
 				'productsTotal' => count($finded_product_ids),
 				'firmsDropDown' => $firmsDropDown,
+				'engineInfo' => $engineInfo,
 			);
 
 			$this->render('show', $data);

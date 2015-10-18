@@ -43,6 +43,9 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 )); ?>
 </div><!-- search-form -->
 */
+
+if($model->SelectedEngine > 0) $btn_tmpl = '{update}&nbsp;{delete}&nbsp;{copy}&nbsp;{publish_up}&nbsp;{publish_down}&nbsp;{moveup}&nbsp;{movedown}';
+	else	$btn_tmpl = '{update}&nbsp;{delete}&nbsp;{copy}&nbsp;{publish_up}&nbsp;{publish_down}';
 ?>
 	<div class="row">
 		<div class="col-lg-6 col-md-6">
@@ -55,7 +58,9 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 			
 			<?php $this->endWidget(); ?>			
 		</div>
-		
+	</div>
+	
+	<div class="row">
 		<div class="col-lg-6 col-md-6">
 			<?php $form=$this->beginWidget('bootstrap.widgets.BsActiveForm', array(
 				'id'=>'select-model',
@@ -63,6 +68,17 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 			)); ?>
 				<p>Модельный ряд</p>
 				<?php echo BsHtml::dropDownList('selected_model', $SelectedModel, $DropDownModels, array('onchange'=>'form.submit()')); ?>
+			
+			<?php $this->endWidget(); ?>			
+		</div>
+		
+		<div class="col-lg-6 col-md-6">
+			<?php $form=$this->beginWidget('bootstrap.widgets.BsActiveForm', array(
+				'id'=>'select-model',
+				'enableAjaxValidation'=>false,
+			)); ?>
+				<p>Двигатели</p>
+				<?php echo BsHtml::dropDownList('selected_engine', $model->SelectedEngine, $EnginesDropDown, array('onchange'=>'form.submit()')); ?>
 			
 			<?php $this->endWidget(); ?>			
 		</div>
@@ -124,7 +140,7 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 		array(
 			'class' => 'CButtonColumn',
 			//'template' => '{update}&nbsp;{delete}&nbsp;{moveup}&nbsp;{movedown}',
-			'template' => '{update}&nbsp;{delete}&nbsp;{copy}&nbsp;{publish_up}&nbsp;{publish_down}',
+			'template' => $btn_tmpl,
 			'buttons' => array(
 				'update' => array(
 					'imageUrl'=>'/img/grid-icons/update.png',
@@ -150,59 +166,22 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 					'url' => 'Yii::app()->createUrl("shopproducts/publishdown", array("id"=>$data->product_id))',
                     'visible'=>'$data->published',
 				),
+				
+				'moveup' => array(
+					//url до картинки
+					'imageUrl'=>'/img/grid-icons/uparrow.png',
+					//здесь должен быть url для удаления записи
+					'url' => 'Yii::app()->createUrl("shopproducts/moveup", array("id"=>$data->product_id, "category"=>Yii::app()->session["ShopProducts.selected_category"], "model"=>Yii::app()->session["ShopModelsAuto.selected_model"], "engine"=>Yii::app()->session["ShopProducts.selected_engine"]))',
+
+				),
+				'movedown' => array(
+					//url до картинки
+					'imageUrl'=>'/img/grid-icons/downarrow.png',
+					//здесь должен быть url для удаления записи
+					'url' => 'Yii::app()->createUrl("shopproducts/movedown", array("id"=>$data->product_id, "category"=>Yii::app()->session["ShopProducts.selected_category"], "model"=>Yii::app()->session["ShopModelsAuto.selected_model"], "engine"=>Yii::app()->session["ShopProducts.selected_engine"]))',
+				),
+				
 			),
 		),
 	),
 )); ?>
-
-
-<?php /*$this->widget('bootstrap.widgets.BsGridView', array(
-	'id'=>'shop-products-grid',
-	'dataProvider'=>$model->search(),
-	'filter'=>$model,
-	'ajaxUpdate' => false,
-	'columns'=>array(
-		'product_id',
-		'product_name',
-		'product_sku',
-		array(
-			'name' => 'modelsList',
-			'type' => 'raw',
-			'htmlOptions' => array('class'=>'modelsList'),
-			'filter' => '',
-		),
-		
-		'product_price',
-		array(
-			'class' => 'CButtonColumn',
-			//'template' => '{update}&nbsp;{delete}&nbsp;{moveup}&nbsp;{movedown}',
-			'template' => '{update}&nbsp;{delete}&nbsp;{copy}&nbsp;{publish_up}&nbsp;{publish_down}',
-			'buttons' => array(
-				'update' => array(
-					'imageUrl'=>'/img/grid-icons/update.png',
-				),
-
-				'delete' => array(
-					'imageUrl'=>'/img/grid-icons/delete.png',
-				),
-					
-				'copy' => array(
-					'imageUrl'=>'/img/grid-icons/copy.png',
-					'url' => 'Yii::app()->createUrl("shopproducts/copy", array("id"=>$data->product_id))',
-				),
-				'publish_up' => array(
-                    'label'=>'Опубликовать',
-					'imageUrl'=>'/img/grid-icons/publish_x.png',
-					'url' => 'Yii::app()->createUrl("shopproducts/publishup", array("id"=>$data->product_id))',
-                    'visible'=>'!$data->published',
-				),
-				'publish_down' => array(
-                    'label'=>'Снять с публикации',
-					'imageUrl'=>'/img/grid-icons/publish_g.png',
-					'url' => 'Yii::app()->createUrl("shopproducts/publishdown", array("id"=>$data->product_id))',
-                    'visible'=>'$data->published',
-				),
-			),
-		),
-	),
-));*/ ?>

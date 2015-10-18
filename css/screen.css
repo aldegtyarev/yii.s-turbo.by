@@ -551,7 +551,7 @@ a:hover, .underline_n_y:hover, .product-types-list-item a.active .name:hover {
 }
 
 .jcarousel-control-prev,
-.jcarousel-control-next, .text_c, .logo-top, .search-auto-form .step-num, .product-list-item .status, .category-view .category-item-wr a, .category-view .category-item-wr a span, .cart-step-num, .cart-remove {
+.jcarousel-control-next, .text_c, .logo-top, .search-auto-form .step-num, .product-list-item .status, .category-view .category-item-wr a, .category-view .category-item-wr a span, .engine-info, .cart-step-num, .cart-remove {
   text-align: center;
 }
 
@@ -872,7 +872,7 @@ span sup {
 }
 
 .central {
-  background: #f5f5f5;
+  background: #e6e6e6;
   padding-bottom: 55px;
 }
 
@@ -991,7 +991,7 @@ span sup {
   margin-bottom: 25px;
 }
 
-.mb-30 {
+.mb-30, .engine-info {
   margin-bottom: 30px;
 }
 
@@ -1714,7 +1714,7 @@ span sup {
 
 .product-list-item-row-info-block {
   padding-left: 25px;
-  width: 330px;
+  width: 350px;
 }
 .product-list-item-row-info-block:before {
   content: ' ';
@@ -1746,7 +1746,7 @@ span sup {
 }
 
 .product-list-item-row-price-block {
-  width: 160px;
+  width: 140px;
   height: 180px;
 }
 .product-list-item-row-price-block .addtocart-button,
@@ -1988,6 +1988,10 @@ span sup {
 .category-view .category-item-wr a span {
   bottom: 0;
   width: 100%;
+}
+
+.engine-info img {
+  max-width: 100%;
 }
 
 /* ╨д╤Г╤В╨╡╤А */

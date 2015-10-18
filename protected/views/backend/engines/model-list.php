@@ -3,12 +3,12 @@
 /* @var $model Engines */
 
 $this->breadcrumbs=array(
-	'Engines'=>array('index'),
-	'Manage',
+	$model_title => array('shopmodelsauto/update', 'id'=>$model_id),
+	'Двигатели',
 );
 
 $this->menu=array(
-	//array('label'=>'Create Engines', 'url'=>array('create')),
+	array('label'=>'Добавить', 'url'=>array('createtomodel', 'id'=>$model_id)),
 );
 
 Yii::app()->clientScript->registerScript('search', "
@@ -25,22 +25,7 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<h1>Manage Engines</h1>
-
-<div class="row">
-	<div class="col-lg-6 col-md-6">
-		<?php $form=$this->beginWidget('bootstrap.widgets.BsActiveForm', array(
-			'id'=>'select-model',
-			'enableAjaxValidation'=>false,
-		)); ?>
-			<p>Модельный ряд</p>
-			<?php echo BsHtml::dropDownList('selected_model', $SelectedModel, $model->DropDownListModels, array('onchange'=>'form.submit()')); ?>
-
-		<?php $this->endWidget(); ?>			
-	</div>
-
-</div>
-
+<h1>Список двигателей для <?= $model_title ?></h1>
 
 <?php $this->widget('bootstrap.widgets.BsGridView', array(
 	'id'=>'categories-grid',
@@ -56,24 +41,18 @@ $('.search-form form').submit(function(){
 
 		array(
 			'class' => 'CButtonColumn',
-			'template' => '{update}&nbsp;{delete}&nbsp;{copy}',
-			//'template' => '{update}&nbsp;{delete}',
+			/*'template' => '{update}&nbsp;{delete}&nbsp;{moveup}&nbsp;{movedown}',*/
+			'template' => '{update}&nbsp;{delete}',
 			'buttons' => array(
 				'update' => array(
 					'imageUrl'=>'/img/grid-icons/update.png',
+					'url' => 'Yii::app()->createUrl("engines/updatetomodel", array("id"=>$data->id))',
 				),
 
 				'delete' => array(
 					'imageUrl'=>'/img/grid-icons/delete.png',
 				),
-				'copy' => array(
-					'label'=>'Доблировать',
-					'imageUrl'=>'/img/grid-icons/copy.png',
-					'url' => 'Yii::app()->createUrl("engines/copy", array("id"=>$data->id))',
-				),
-				
 			),
 		),
 	),
 )); ?>
-

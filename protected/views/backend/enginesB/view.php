@@ -22,12 +22,12 @@ $this->menu=array(
 	'data'=>$model,
 	'attributes'=>array(
 		'id',
-		'model_id',
+		'root',
+		'lft',
+		'rgt',
+		'level',
+		'parent_id',
 		'name',
-		'image_title',
-		'image_file',
-		'title',
-		'keywords',
-		'description',
+		'order',
 	),
 )); ?>

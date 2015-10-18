@@ -14,7 +14,13 @@ $app = Yii::app();
 $cs = $app->clientScript;
 $cs->registerCoreScript('fancybox');
 
-$this->pageTitle = $category->name.' | '.$app->name;
+if ($engineInfo != null) {
+	$title = $engineInfo->image_title;
+}	else	{
+	$title = $category->name;
+}
+
+$this->pageTitle = $title.' | '.$app->name;
 //$base_url = $app->getBaseUrl(true);
 //echo'<pre>';print_r($base_url);echo'</pre>';
 //echo'<pre>';print_r($app->homeUrl);echo'</pre>';
@@ -36,7 +42,7 @@ $params = $app->params;
 ?>
 
 <div class="category-view">
-	<h1><?=$category->name?></h1>
+	<h1><?=$title?></h1>
 <?php if(count($descendants) && $descendants[0]->category_image == null)	{
 			$child_col0 = array();
 			$child_col1 = array();
@@ -134,6 +140,12 @@ $params = $app->params;
 
 ?>
 </div>
+
+<?php	if ($engineInfo != null) {	?>
+	<div class="engine-info">
+		<?= $engineInfo->image_file ? (CHtml::image($app->params->product_images_liveUrl . DIRECTORY_SEPARATOR . $engineInfo->image_file)) : '' ?>
+	</div>
+<?php	}	?>
 
 <?php	if (count($dataProvider->data)) {	?>
 	

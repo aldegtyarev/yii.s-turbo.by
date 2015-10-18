@@ -34,10 +34,12 @@ return CMap::mergeArray(
 					//'<path:.+-detail>'=>'shopproducts/detail',
 					'product/<product>'=>'shopproducts/detail',
 					'category/index'=>'shopcategories/index',
+					'category/<id:.+>/engine/<engine:.+>'=>'shopcategories/show',
 					'category/<id:.+>'=>'shopcategories/show',
 					'<controller:\w+>/<id:\d+>'=>'<controller>/view',
 					'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
 					'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
+					
 				),
 			),
 			/**/

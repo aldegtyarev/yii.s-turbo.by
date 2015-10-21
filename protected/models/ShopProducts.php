@@ -443,11 +443,11 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 			case 'update':
 				$this->checkProductAdminCategories($connection);
 				$this->checkProductCategories($connection);
-				$this->checkProductsModels($connection);
+				$this->checkProductsModels($connection, $models_changed);
 				$this->checkProductsBodies($connection);
 				$this->checkMainFoto($app, $connection);
 				$this->checkRelated($app, $connection);
-				$this->checkProductEngines($connection);
+				$this->checkProductEngines($connection, $models_changed);
 				break;
 		}
 		
@@ -524,7 +524,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 	}
 	
 	//проверяем, не изменились ли модели авто...
-	function checkProductsModels(&$connection)
+	function checkProductsModels(&$connection, &$models_changed = false)
 	{
 		$ProductsModels = $this->ProductsModelsAutos;
 
@@ -553,6 +553,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		}
 
 		if($arrays_of_identical == false)	{
+			$models_changed = true;
 			ShopProductsModelsAuto::model()->clearItemModels($this->product_id, $connection);
 			ShopProductsModelsAuto::model()->insertItemModels($this->SelectedModels, $this->product_id, $connection);
 		}
@@ -651,7 +652,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		}
 		
 		//echo'<pre>';print_r($ProductsEngines);echo'</pre>';//die;
-		//echo'<pre>';print_r($this->SelectedEngines);echo'</pre>';die;
+		//echo'<pre>';print_r($this->ProductsModelsAutos);echo'</pre>';die;
 
 		//проверяем, не изменились ли категории...
 		if(count($ProductsEngines) != count($this->SelectedEngines))	{
@@ -670,9 +671,9 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 			}
 		}
 
-		if($arrays_of_identical == false)	{
-			ProductsEngines::model()->clearItemEngines($this->product_id, $connection);
-			ProductsEngines::model()->insertItemEngines($this->SelectedEngines, $this->product_id, $connection);
+		if($arrays_of_identical == false || $models_changed == true)	{
+			ProductsEngines::model()->clearItemEngines($this->product_id, $this->ProductsModelsAutos, $connection);
+			ProductsEngines::model()->insertItemEngines($this->SelectedEngines, $this->ProductsModelsAutos, $this->product_id, $connection);
 		}
 	}
 	

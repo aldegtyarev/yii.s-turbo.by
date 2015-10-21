@@ -104,7 +104,7 @@ class ProductsEngines extends CActiveRecord
 	//удаление объемов назначенных товару
 	public function clearItemEngines($product_id, &$connection)
 	{
-		$sql = 'DELETE FROM '.$this->tableName().' WHERE `product_id` = :product_id';
+		$sql = 'DELETE FROM '.$this->tableName().' WHERE `product_id` = :product_id AND `model_id` = :model_id';
 		$command = $connection->createCommand($sql);
 		$command->bindParam(":product_id", $product_id);
 		$res = $command->execute();		

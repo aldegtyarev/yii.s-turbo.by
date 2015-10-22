@@ -66,6 +66,7 @@ class EnginesController extends Controller
 		
 		//подготавливаем выпадающий список модельного ряда
 		$model->DropDownListModels = ShopModelsAuto::model()->getDropDownlistDataProduct();
+		$model->getSelectedModels();
 		//$selected = 'Все';
 		//$list_data = array(0 => $selected);		
 		//$model->DropDownListModels = $list_data + $model->DropDownListModels;
@@ -81,7 +82,7 @@ class EnginesController extends Controller
 				$model->scenario = 'upload_file';
 				$model->fileImage = CUploadedFile::getInstance($model,'fileImage');
 			}
-			
+						
 			if($model->validate()) {
 				$model->uploadFile();
 				$model->save();
@@ -101,9 +102,13 @@ class EnginesController extends Controller
 
 	public function actionCreatetomodel($id)
 	{
-		$model=new Engines;
+		$model = new Engines;
 		
-		$model->model_id = $id;
+		//$model->model_id = $id;
+		//подготавливаем выпадающий список модельного ряда
+		$model->DropDownListEngines = $model->getDropDownlistAllEngines();
+		$model->getSelectedModels();
+		
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -147,6 +152,7 @@ class EnginesController extends Controller
 		
 		//подготавливаем выпадающий список модельного ряда
 		$model->DropDownListModels = ShopModelsAuto::model()->getDropDownlistDataProduct();
+		$model->getSelectedModels();
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -158,6 +164,16 @@ class EnginesController extends Controller
 				$model->scenario = 'upload_file';
 				$model->fileImage = CUploadedFile::getInstance($model,'fileImage');
 			}
+			
+			$SelectedModels = isset($_POST['Engines']['model_ids']) ? $_POST['Engines']['model_ids'] : array();
+			$selectedValues = array();
+			foreach($SelectedModels as $cat)	{
+				$selectedValues[$cat] = Array ( 'selected' => 'selected' );
+			}
+			$model->SelectedModels = $selectedValues;
+			//echo'<pre>';print_r($selectedValues);echo'</pre>';die;
+			
+			
 			
 			if($model->validate()) {
 				$model->uploadFile();

@@ -102,27 +102,38 @@ class ProductsEngines extends CActiveRecord
 	}
 	
 	//удаление объемов назначенных товару
-	public function clearItemEngines($product_id, &$connection)
+	public function clearItemEngines($product_id, $models, &$connection)
 	{
-		$sql = 'DELETE FROM '.$this->tableName().' WHERE `product_id` = :product_id AND `model_id` = :model_id';
+		$model_ids = CHtml::listData($models, 'model_id','model_id');
+		$sql = 'DELETE FROM '.$this->tableName().' WHERE `product_id` = :product_id AND `model_id` IN ('.implode(',', $model_ids).')';
+		
 		$command = $connection->createCommand($sql);
 		$command->bindParam(":product_id", $product_id);
 		$res = $command->execute();		
+		//echo'<pre>';print_r($models);echo'</pre>';die;
+		//echo'<pre>';print_r($sql);echo'</pre>';die;
 	}
 	
 	//добавление объемов товару
-	public function insertItemEngines($categories, $product_id, &$connection)
+	public function insertItemEngines($engines, $models, $product_id, &$connection)
 	{
-		if(count($categories))	{
-			$sql = 'INSERT INTO '.$this->tableName().' (`product_id`, `engine_id`) VALUES ';	
-			foreach($categories as $key => $cat)	{
-				$sql .= "(".$product_id.",".$key."),";
+		//echo'$models<pre>';print_r($models);echo'</pre>';//die;
+		if(count($engines))	{
+			$sql = 'INSERT INTO '.$this->tableName().' (`product_id`, `model_id`, `engine_id`) VALUES ';	
+			foreach($engines as $key => $engine)	{
+				foreach($models as $model)	{
+					//$sql .= "(".$product_id.",".$model->id.",".$key."),";
+					$sql_arr[] = "(".$product_id.",".$model->model_id.",".$key.")";
+				}
 			}
-			$sql = substr($sql, 0, -1);
-			//echo'<pre>';print_r($sql);echo'</pre>';
+			//$sql = substr($sql, 0, -1);
+			$sql .= implode(',', $sql_arr);
+			
 			$command = $connection->createCommand($sql);
 			$res = $command->execute();
+			
 		}
+		//echo'$sql<pre>';print_r($sql);echo'</pre>';die;
 	}
 	
 	public function getProductIds($engine_ids=array(0) )
@@ -145,9 +156,9 @@ class ProductsEngines extends CActiveRecord
 	//меняет порядок отображения товаров
 	public function movePosition(&$connection, $direction = 'up', $product_id = 0, $category_id = 0, $model_id = 0, $engine_id = 0 )
 	{
-		//echo'<pre>';print_r($product_id);echo'</pre>';
+		//echo'<pre>';var_dump($category_id);echo'</pre>';die;
 		
-		if($product_id == 0 || $category_id = 0 || $model_id == 0 || $engine_id == 0)
+		if($product_id == 0 || $category_id == 0 || $model_id == 0 || $engine_id == 0)
 			return;
 		
 		$sql = "
@@ -161,8 +172,9 @@ ORDER BY eng.order ASC, eng.product_id ASC";
 		$command = $connection->createCommand($sql);
 		$rows = $command->queryAll();
 		
-		//echo'<pre>';print_r($rows);echo'</pre>';
-		//die;
+		echo'<pre>';print_r($sql);echo'</pre>';
+		echo'<pre>';print_r($rows);echo'</pre>';
+		die;
 		
 		switch($direction) {
 			case 'up':

@@ -22,6 +22,12 @@ class Engines extends CActiveRecord
 	
 	public $fileImage = '';
 	public $DropDownListModels;
+	public $SelectedModels;
+	public $model_ids;
+	
+	public $DropDownListEngines;
+	public $SelectedEngines;
+	public $engine_ids;
 	
 	/**
 	 * @return string the associated database table name
@@ -60,6 +66,7 @@ class Engines extends CActiveRecord
 		return array(
 			'model' => array(self::BELONGS_TO, 'ShopModelsAuto', 'model_id'),
 			'productsEngines' => array(self::HAS_MANY, 'ShopProductsEngines', 'engine_id'),
+			'enginesModels' => array(self::HAS_MANY, 'EnginesModels', 'engine_id'),
 		);
 	}
 
@@ -99,7 +106,7 @@ class Engines extends CActiveRecord
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
-		$criteria=new CDbCriteria;
+		$criteria = new CDbCriteria;
 		$sort = new CSort();
 		
 		$app = Yii::app();
@@ -109,7 +116,7 @@ class Engines extends CActiveRecord
 		}
 				
 		$criteria->compare('id',$this->id);
-		$criteria->compare('model_id',$this->model_id);
+		//$criteria->compare('model_id',$this->model_id);
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('image_title',$this->image_title,true);
 		$criteria->compare('image_file',$this->image_file,true);
@@ -136,16 +143,21 @@ class Engines extends CActiveRecord
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
+		
+		$app = Yii::app();
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('model_id',$this->model_id);
+		//$criteria->compare('model_id',$this->model_id);
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('image_title',$this->image_title,true);
 		$criteria->compare('image_file',$this->image_file,true);
 		$criteria->compare('title',$this->title,true);
 		$criteria->compare('keywords',$this->keywords,true);
 		$criteria->compare('description',$this->description,true);
-
+		
+		$criteria->join = 'INNER JOIN {{engines_models}} as em ON t.id = em.engine_id';
+		$criteria->addCondition("em.model_id = ".(int)$app->request->getParam('model_id', -1));
+		
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
@@ -184,6 +196,47 @@ class Engines extends CActiveRecord
 		}
 	}
 	
+	public function afterSave()
+	{
+		$app = Yii::app();
+		$connection = $app->db;
+		$this->checkEnginesModels($connection);
+	}
+	
+	//проверяем, не изменились ли объемы двигателей...
+	function checkEnginesModels(&$connection)
+	{
+		$EnginesModels = $this->enginesModels;
+		
+		if(count($EnginesModels))	{
+			$arrays_of_identical = true;
+		}	else	{
+			$arrays_of_identical = false;
+		}
+		
+		//проверяем, не изменились ли категории...
+		if(count($EnginesModels) != count($this->SelectedModels))	{
+			$arrays_of_identical = false;
+		}	else	{
+			foreach($EnginesModels as $cat_item)	{
+				$cat_is_present = false;
+				foreach($this->SelectedModels as $key=>$val)	{
+					if($cat_item['model_id'] == $key)	{
+						$cat_is_present = true;
+					}
+				}
+				if($cat_is_present == false)	{
+					$arrays_of_identical = false;
+					break;
+				}
+			}
+		}
+		
+		if($arrays_of_identical == false || $models_changed == true)	{
+			EnginesModels::model()->clearItemEngines($this->id, $connection);
+			EnginesModels::model()->insertItemEngines($this->SelectedModels, $this->id, $connection);
+		}
+	}
 	
 	// возвращает выпадающий список двигателей
 	public function getDropDownlistEngines($selectedModels)
@@ -197,27 +250,28 @@ class Engines extends CActiveRecord
 		return $list_data;
 	}
 	
+	public function getDropDownlistAllEngines($model_ids = array(0))
+	{
+		$rows = $this->findAll();
+		foreach($rows as $row)	{
+			$model_title = ShopModelsAuto::model()->getModelChain($row->model_id);
+			$row->name = $model_title.' '.$row->name;
+		}
+		$result = CHtml::listData($rows, 'id','name');
+		return $result;
+	}
+	
 	public function getDropDownlistItems($model_ids = array(0))
 	{
 		$criteria = new CDbCriteria;
 		$criteria->condition = 'model_id IN ('.implode(',', $model_ids).')';
 		$criteria->order = 'id';
-		
-		//echo'<pre>';print_r($criteria);echo'</pre>';
-		
 		$rows = $this->findAll($criteria);
-		//echo'<pre>';print_r($categories);echo'</pre>';
-		
 		foreach($rows as $row)	{
 			$model_title = ShopModelsAuto::model()->getModelChain($row->model_id);
 			$row->name = $model_title.' '.$row->name;
 		}
-		
-		
 		$result = CHtml::listData($rows, 'id','name');
-		
-		//Yii::app()->cache->set('DropDownlistCategories', $result, 300);		
-		
 		return $result;
 	}
 	
@@ -238,6 +292,31 @@ class Engines extends CActiveRecord
 		//$rows = $command->queryAll();
 		return $command->queryAll();
 	}
+	
+	//получает выбранные модели
+	function getSelectedModels()
+	{
+		$selectedValues = array();
+		//echo'<pre>';print_r($this->enginesModels);echo'</pre>';die;
+		
+		foreach($this->enginesModels as $row) {
+			$selectedValues[$row['model_id']] = array( 'selected' => 'selected' );
+		}
+		$this->SelectedModels = $selectedValues;
+	}
+	
+	//получает выбранные двигатели
+	function getSelectedEngines()
+	{
+		$selectedValues = array();
+		//echo'<pre>';print_r($this->enginesModels);echo'</pre>';die;
+		
+		foreach($this->enginesModels as $row) {
+			$selectedValues[$row['model_id']] = array( 'selected' => 'selected' );
+		}
+		$this->SelectedEngines = $selectedValues;
+	}
+	
 	
 	//удаление файла изображения
 	public function deleteFile()

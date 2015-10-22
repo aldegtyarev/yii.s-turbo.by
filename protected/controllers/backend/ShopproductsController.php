@@ -425,7 +425,7 @@ class ShopProductsController extends Controller
 		
 		$app = Yii::app();
 		
-		//echo'<pre>';print_r($_POST,0);echo'</pre>';
+		echo'<pre>';print_r($_POST,0);echo'</pre>';
 		
 		//если выбрали какую-то категорию - сохнаняем ее в сессию
 		$selected_category = $app->request->getParam('selected_category', -1);

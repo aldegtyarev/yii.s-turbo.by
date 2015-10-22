@@ -29,7 +29,7 @@ $('.search-form form').submit(function(){
 
 <?php $this->widget('bootstrap.widgets.BsGridView', array(
 	'id'=>'categories-grid',
-	'dataProvider'=>$model->search(),
+	'dataProvider'=>$model->searchmodellist(),
 	'filter'=>$model,
 	'columns'=>array(
 		'id',

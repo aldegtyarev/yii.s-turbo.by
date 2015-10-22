@@ -2,6 +2,16 @@
 /* @var $this EnginesController */
 /* @var $model Engines */
 /* @var $form CActiveForm */
+
+$cs = Yii::app()->clientScript;
+
+$cs->registerCssFile('/css/chosen.css', 'screen');
+$cs->registerScriptFile('/js/chosen.jquery.min.js', CClientScript::POS_END);
+
+$cs->registerScript('loading', "
+	$('.chosen_select').chosen();
+");
+
 ?>
 
 <div class="form">
@@ -25,7 +35,8 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'model_id'); ?>
-		<?php echo $form->dropDownList($model, 'model_id', $model->DropDownListModels); ?>
+		<?php //echo $form->dropDownList($model, 'model_id', $model->DropDownListModels); ?>
+		<?php echo $form->dropDownList($model, 'model_ids', $model->DropDownListModels, array('multiple' => true, 'class'=>'chosen_select', 'data-placeholder'=>'выберите модель', 'style'=>'width:400px;', 'options' => $model->SelectedModels));?>
 		<?php echo $form->error($model,'model_id'); ?>
 	</div>
 	

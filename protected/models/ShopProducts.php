@@ -431,6 +431,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 	{
 		$app = Yii::app();
 		$connection = $app->db;
+		$models_changed = false;
 		
 		switch($this->operate_method)	{
 			case 'insert':
@@ -642,36 +643,69 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 	}
 	
 	//проверяем, не изменились ли объемы двигателей...
-	function checkProductEngines(&$connection)
+	function checkProductEngines(&$connection, $models_changed = false)
 	{
 		$ProductsEngines = $this->ProductsEngines;
+		$ProductsModels = $this->ProductsModelsAutos;
+		
+		
 		if(count($ProductsEngines))	{
 			$arrays_of_identical = true;
 		}	else	{
 			$arrays_of_identical = false;
 		}
 		
-		//echo'<pre>';print_r($ProductsEngines);echo'</pre>';//die;
+		//echo'<pre>';print_r(count($ProductsEngines));echo'</pre>';//die;
+		//echo'<pre>';print_r(count($this->SelectedEngines));echo'</pre>';//die;
+		//echo'<pre>';print_r($this->SelectedEngines);echo'</pre>';die;
 		//echo'<pre>';print_r($this->ProductsModelsAutos);echo'</pre>';die;
 
 		//проверяем, не изменились ли категории...
-		if(count($ProductsEngines) != count($this->SelectedEngines))	{
-			$arrays_of_identical = false;
-		}	else	{
+		//if(count($ProductsEngines) != count($this->SelectedEngines))	{
+		//	$arrays_of_identical = false;
+		//}	else	{
 			foreach($ProductsEngines as $cat_item)	{
-				$cat_is_present = false;
-				foreach($this->SelectedEngines as $key=>$val)	{
-					if($cat_item['engine']['id'] == $key)	{
-						$cat_is_present = true;
+				//echo'<pre>';print_r($cat_item);echo'</pre>';//die;
+				//echo'<pre>';print_r($cat_item['engine_id']);echo'</pre>';//die;
+				//echo'<pre>';print_r($cat_item['engine']['id']);echo'</pre>';//die;
+				
+				foreach($ProductsModels as $model_item)	{
+					$cat_is_present = false;
+					//echo'<pre>';print_r($model_item['model_id']);echo'</pre>';//die;
+					foreach($this->SelectedEngines as $key=>$val)	{
+						//echo'<pre>';print_r($cat_item['engine_id']. ' ' . $key . ' ' . $cat_item['model_id'] . $model_item['model_id']);echo'</pre>';//die;
+						
+						if($cat_item['engine_id'] == $key && $cat_item['model_id'] == $model_item['model_id'])	{
+						//if($cat_item['engine_id'] == $key)	{
+							$cat_is_present = true;
+						}
+						//echo'<pre>';var_dump($cat_is_present);echo'</pre>';//die;
+						
+						if($cat_is_present == false)	{
+							break;
+						}
+						
 					}
+					
+					if($cat_is_present == false)	{
+						break;
+					}
+					
 				}
+				
 				if($cat_is_present == false)	{
 					$arrays_of_identical = false;
+					break;
 				}
 			}
-		}
+		//}
+		
+		//echo'<pre>';var_dump($models_changed);echo'</pre>';//die;
+		//echo'<pre>';var_dump($arrays_of_identical);echo'</pre>';die;
+		
 
 		if($arrays_of_identical == false || $models_changed == true)	{
+			//echo'<pre>';print_r($this->ProductsModelsAutos);echo'</pre>';//die;
 			ProductsEngines::model()->clearItemEngines($this->product_id, $this->ProductsModelsAutos, $connection);
 			ProductsEngines::model()->insertItemEngines($this->SelectedEngines, $this->ProductsModelsAutos, $this->product_id, $connection);
 		}

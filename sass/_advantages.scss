@@ -1,0 +1,160 @@
+.advantages {
+	padding-top: 20px;
+}
+.advantages-row {
+	@extend .clearfix;
+}
+
+.advantages-item {
+	@extend %fl;
+	@extend %w_50;
+	@extend %border_box;
+	
+	padding: 0 20px 20px 20px;
+	
+	
+}
+
+.advantages-item-cnt {
+	border: 1px solid #D3D3D3;
+	background-color: #fff;
+}
+
+.advantages-item-popup {
+	@extend %pos_abs;
+	
+	display: none;
+	background-color: #fffffb;
+	padding: 10px 20px;
+	border: 3px solid #DCDCDC;
+	width: 600px;
+	top: 100px;
+	left: 50%;
+	margin-left: -300px;
+	
+	@include border_radius(10px);
+}
+
+.advantages-item-popup-cnt {
+	@extend %pos_rel;
+	
+	p {
+		@extend %font_16;
+		@extend %c_000;
+	}
+	
+	.advantages-item-popup-title {
+		@extend %c_000;
+		@extend %font_20;
+		@extend %uppercase;
+
+		font-family: Arial;
+	}
+	
+}
+
+
+.advantages-item-close-modal {
+	@extend %pos_abs;
+	@extend %pointer;
+	@extend %font_18;
+	@extend %underline_n_n;
+	
+	right: 0;
+	top: 0;
+	color: #FB0404;
+	
+	span {
+		@extend %font_16;
+		@extend %c_000;
+	}
+}
+
+.advantages-item-title {
+	@extend %font_22;
+	@extend %bold;
+	
+	font-family: Arial Narrow, sans-serif;
+	padding-bottom: 10px;
+	line-height: 1;
+	
+	.cifra {
+		font-size: 35px;
+		color: #E00404;
+		padding-left: 10px;
+		font-family: Arial;
+	}
+	
+	.n-news {
+		padding-left: 5px;
+	}
+}
+
+.advantages-item-sdesc {
+	@extend %font_15;
+	@extend %pos_rel;
+	
+	padding-left: 10px;
+	padding-right: 10px;
+	
+	line-height: 20px;
+	height: 105px;
+	
+	.small {
+		font-family: Arial Narrow, sans-serif;
+		font-size: 14px;
+	}
+	
+	.advantages-item-detail {
+		@extend %pos_abs;
+		@extend %font_10;
+		@extend %uppercase;
+		@extend %bold;
+		
+		font-family: Arial;
+		padding: 0 3px;
+		
+		right: 0;
+		bottom: 0;
+		
+		background-color: #efefef;
+		
+	}
+}
+
+.advantages-item-img {
+	@extend %pos_abs;
+}
+
+.advantages-item-img-1 {
+	height: 100px;
+	right: 0;
+	top: -44px;
+}
+
+.advantages-item-img-2 {
+	height: 110px;
+	right: 5px;
+	top: -20px;
+}
+
+.advantages-item-img-3 {
+	height: 95px;
+	right: 5px;
+	top: -40px;
+}
+
+.advantages-item-img-4 {
+	height: 80px;
+	right: 0px;
+	top: -45px;
+}
+
+.advantages-title {
+	@extend %uppercase;
+	@extend %bold;
+	@extend %font_16;
+	@extend %text_c;
+	padding-bottom: 20px;
+}
+

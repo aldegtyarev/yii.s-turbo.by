@@ -302,8 +302,8 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		}
 		
 		//если выбран двигатель, то получаем id товаров из выбранного двигателя
-		if($this->SelectedEngine)	{
-			$engine_product_ids = ProductsEngines::model()->getProductIds(array($this->SelectedEngine));
+		if($this->SelectedEngine && $this->SelectedModel)	{
+			$engine_product_ids = ProductsEngines::model()->getProductIds(array($this->SelectedEngine), array($this->SelectedModel));
 		}
 		
 		//echo'<pre>';print_r($engine_product_ids);echo'</pre>';//die;
@@ -328,7 +328,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 			$criteria->join = 'INNER JOIN {{shop_products_engines}} as eng ON t.product_id = eng.product_id';
 			$criteria->distinct = true;
 			
-			$sort->defaultOrder = 'eng.order ASC, eng.product_id ASC'; // устанавливаем сортировку по умолчанию
+			$sort->defaultOrder = 'eng.ordering ASC, eng.product_id ASC'; // устанавливаем сортировку по умолчанию
 		}	elseif(($category_product_ids != '') && ($model_product_ids != ''))	{
 			//если выбрана и категория и модель
 			$category_product_ids_arr = explode(',', $category_product_ids);
@@ -357,7 +357,10 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 			$criteria->condition = "t.`product_id` IN ($this->product_ids)";
 		}
 		
-
+		if(($category_product_ids != '') && ($model_product_ids != '') && count($engine_product_ids))	{
+			$criteria->addCondition("eng.`model_id` = ".$this->SelectedModel." AND eng.`engine_id` = ".$this->SelectedEngine);
+		}
+		
         $criteria->compare('product_id',$this->product_id,true);
         $criteria->compare('product_s_desc',$this->product_s_desc,true);
         $criteria->compare('product_desc',$this->product_desc,true);
@@ -654,8 +657,12 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		}	else	{
 			$arrays_of_identical = false;
 		}
-		
-		//echo'<pre>';print_r(count($ProductsEngines));echo'</pre>';//die;
+		if($_SERVER['REMOTE_ADDR'] == '178.121.85.185') {
+			//echo'<pre>';print_r(($this->ProductsModelsAutos));echo'</pre>';die;
+			//echo'<pre>';print_r($this->SelectedEngines);echo'</pre>';die;
+		}
+		//echo'<pre>';print_r($_SERVER['REMOTE_ADDR']);echo'</pre>';//die;
+		//echo'<pre>';print_r(($this->ProductsModelsAutos));echo'</pre>';die;
 		//echo'<pre>';print_r(count($this->SelectedEngines));echo'</pre>';//die;
 		//echo'<pre>';print_r($this->SelectedEngines);echo'</pre>';die;
 		//echo'<pre>';print_r($this->ProductsModelsAutos);echo'</pre>';die;
@@ -706,8 +713,18 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 
 		if($arrays_of_identical == false || $models_changed == true)	{
 			//echo'<pre>';print_r($this->ProductsModelsAutos);echo'</pre>';//die;
+			//echo'<pre>';print_r($this->SelectedEngines);echo'</pre>';die;
+			
+			$engines_models = array();
+			foreach($this->SelectedEngines as $key=>$row) {
+				$engines_models[] = EnginesModels::model()->findByPk($key);
+			}
+			
+			//echo'<pre>';print_r($engines_models);echo'</pre>';die;
+
 			ProductsEngines::model()->clearItemEngines($this->product_id, $this->ProductsModelsAutos, $connection);
-			ProductsEngines::model()->insertItemEngines($this->SelectedEngines, $this->ProductsModelsAutos, $this->product_id, $connection);
+			//ProductsEngines::model()->insertItemEngines($this->SelectedEngines, $this->ProductsModelsAutos, $this->product_id, $connection);
+			ProductsEngines::model()->insertItemEngines($this->SelectedEngines, $engines_models, $this->product_id, $connection);
 		}
 	}
 	
@@ -992,9 +1009,10 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 	function getSelectedEngines()
 	{
 		$selectedValues = array();
-		
+		//echo'<pre>';print_r($this->ProductsEngines);echo'</pre>';
 		foreach($this->ProductsEngines as $cat) {
-			$selectedValues[$cat['engine']['id']] = array( 'selected' => 'selected' );
+			//$selectedValues[$cat['engine']['id']] = array( 'selected' => 'selected' );
+			$selectedValues[$cat['engines_models_id']] = array( 'selected' => 'selected' );
 		}
 		$this->SelectedEngines = $selectedValues;
 	}
@@ -1057,6 +1075,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 			'product_price' => $this->product_price,
 			'override' => $this->override,
 			'product_override_price' => $this->product_override_price,
+			'currency_id' => $this->currency_id,
 			
 		));
 		$new_product_id = $app->db->getLastInsertId();
@@ -1131,6 +1150,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		}
 		
 		// дублируем двигатели товара
+		/*
 		$ProductsEngines = $this->ProductsEngines;
 		if(count($ProductsEngines))	{
 			foreach($ProductsEngines as $row)	{
@@ -1141,6 +1161,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 				$command->reset();
 			}
 		}
+		*/
 		//echo'<pre>';print_r($Images[0]['image_file'],0);echo'</pre>';die;
 	}
 

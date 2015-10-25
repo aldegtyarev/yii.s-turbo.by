@@ -15,15 +15,13 @@ class SearchAutoWidget extends CWidget {
 			unset($app->session['autofilter.marka']);
 			unset($app->session['autofilter.model']);
 			unset($app->session['autofilter.year']);
+			unset($app->session['autofilter.modelinfo']);
 			
 			$select_marka = null;
 			$select_model = null;
 			$select_year = null;
 			
 			$do_redirect = true;
-			
-			
-			
 		}	else	{
 			$select_marka = $app->request->getParam('select-marka', null);
 			$select_model = $app->request->getParam('select-model', null);

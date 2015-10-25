@@ -65,3 +65,47 @@
 		max-width: 100%;
 	}
 }
+
+.search-notice-1,
+.search-notice {
+	img {
+		height: 60px;
+		vertical-align: middle;
+	}
+	
+	p {
+		@extend %c_000;
+		@extend %font_18;
+		@extend %bold;
+		
+		
+	}
+	
+	padding-bottom: 40px;
+}
+
+.search-notice {
+	img {
+		margin-left: 90px;
+	}
+	
+	p {
+		@extend %text_c;
+		
+		
+	}
+	
+}
+
+.search-notice-1 {
+	img {
+		margin-right: 20px;
+	}
+	
+	p {
+		padding-left: 40px;
+		
+		
+	}
+	
+}

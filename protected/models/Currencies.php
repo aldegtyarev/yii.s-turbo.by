@@ -15,6 +15,7 @@
  */
 class Currencies extends CActiveRecord
 {
+	public $_dropDownCurrenciesList;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -113,4 +114,11 @@ class Currencies extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+	
+	function getDropDownCurrenciesList()
+	{
+		$result = CHtml::listData(self::findAll(), 'currency_id', 'currency_name');
+		return $result;
+	}
+	
 }

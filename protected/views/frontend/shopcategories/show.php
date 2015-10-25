@@ -14,8 +14,8 @@ $app = Yii::app();
 $cs = $app->clientScript;
 $cs->registerCoreScript('fancybox');
 
-if ($engineInfo != null) {
-	$title = $engineInfo->image_title;
+if ($engineTitle != null) {
+	$title = $engineTitle;
 }	else	{
 	$title = $category->name;
 }
@@ -42,7 +42,14 @@ $params = $app->params;
 ?>
 
 <div class="category-view">
-	<h1><?=$title?></h1>
+	<?php if($show_search_notice == true)	{	?>
+		<div class="search-notice">
+			<img src="/img/notice-arrow-up.png" alt="Для точного поиска, воспользуйтесь формой ПОИСК ПО АВТОМОБИЛЮ">
+			<p>Для точного поиска, воспользуйтесь формой ПОИСК ПО АВТОМОБИЛЮ</p>
+		</div>
+	<?php }	?>
+	
+	<h1<?= $show_search_notice ? ' class="h1-small"' : '' ?>><?=$title?></h1>
 <?php if(count($descendants) && $descendants[0]->category_image == null)	{
 			$child_col0 = array();
 			$child_col1 = array();
@@ -141,9 +148,9 @@ $params = $app->params;
 ?>
 </div>
 
-<?php	if ($engineInfo != null) {	?>
+<?php	if ($engineImage != null) {	?>
 	<div class="engine-info">
-		<?= $engineInfo->image_file ? (CHtml::image($app->params->product_images_liveUrl . DIRECTORY_SEPARATOR . $engineInfo->image_file)) : '' ?>
+		<?=CHtml::image($app->params->product_images_liveUrl . DIRECTORY_SEPARATOR . $engineImage) ?>
 	</div>
 <?php	}	?>
 

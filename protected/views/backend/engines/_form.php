@@ -34,23 +34,26 @@ $cs->registerScript('loading', "
 	<?php echo $form->errorSummary($model); ?>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'model_id'); ?>
+		<?php echo $form->labelEx($model,'model_ids'); ?>
 		<?php //echo $form->dropDownList($model, 'model_id', $model->DropDownListModels); ?>
 		<?php echo $form->dropDownList($model, 'model_ids', $model->DropDownListModels, array('multiple' => true, 'class'=>'chosen_select', 'data-placeholder'=>'выберите модель', 'style'=>'width:400px;', 'options' => $model->SelectedModels));?>
-		<?php echo $form->error($model,'model_id'); ?>
+		<?php echo $form->error($model,'model_ids'); ?>
 	</div>
+	
 	
 	<div class="row">
 		<?php echo $form->labelEx($model,'name'); ?>
 		<?php echo $form->textField($model,'name',array('size'=>60,'maxlength'=>255)); ?>
 		<?php echo $form->error($model,'name'); ?>
 	</div>
-
+	
+	<?/*
 	<div class="row">
 		<?php echo $form->labelEx($model,'image_title'); ?>
 		<?php echo $form->textField($model,'image_title',array('size'=>60,'maxlength'=>255)); ?>
 		<?php echo $form->error($model,'image_title'); ?>
 	</div>
+	*/?>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'fileImage'); ?>

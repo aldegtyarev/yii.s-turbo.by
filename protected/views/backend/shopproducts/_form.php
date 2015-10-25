@@ -18,6 +18,7 @@ $cs->registerScript('loading', "
 	$('#ShopProducts_protect_copy').bootstrapSwitch();
 	$('#ShopProducts_published').bootstrapSwitch();
 	$('#ShopProducts_override').bootstrapSwitch();
+
 	$('.chosen_select').chosen();
 	
 	$('#suggestions li').on('click', function(){
@@ -362,20 +363,24 @@ $cs->registerScript('loading', "
 				</div>
 				<div class="col-lg-2">
 					<?php echo $form->labelEx($model,'currency_id'); ?>
-					<?php echo $form->dropDownList($model, 'currency_id', $model->dropDownListCurrensies, array('options' => $model->currency_id));?>
+					<?php echo $form->dropDownList($model, 'currency_id', Currencies::model()->dropDownCurrenciesList, array('options' => $model->currency_id));?>
 					<?php echo $form->error($model,'currency_id'); ?>					
 				</div>
 			</div>
 			
 			<div class="row">
-				<?php echo $form->labelEx($model,'product_override_price'); ?>
-				<?php echo $form->textField($model,'product_override_price',array('size'=>60,'maxlength'=>180)); ?>
-				<?php echo $form->error($model,'product_override_price'); ?>
+				<div class="col-lg-12">
+					<?php echo $form->labelEx($model,'product_override_price'); ?>
+					<?php echo $form->textField($model,'product_override_price',array('size'=>60,'maxlength'=>180)); ?>
+					<?php echo $form->error($model,'product_override_price'); ?>
+				</div>
 			</div>
 		
 			<div class="row">
-				<?php echo $form->checkBoxControlGroup($model, 'override'); ?>
-				<?php echo $form->error($model,'override'); ?>
+				<div class="col-lg-12">
+					<?php echo $form->checkBoxControlGroup($model, 'override'); ?>
+					<?php echo $form->error($model,'override'); ?>
+				</div>
 			</div>
 		
 		</div>
@@ -461,9 +466,11 @@ $cs->registerScript('loading', "
 
 
 	<div class="row buttons">
-		<?php echo BsHtml::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить', array('color' => BsHtml::BUTTON_COLOR_PRIMARY, 'name'=>'save')); ?>
-		<?php echo BsHtml::submitButton('Применить', array('color' => BsHtml::BUTTON_COLOR_SUCCESS, 'name'=>'apply')); ?>
-		<?php echo BsHtml::submitButton('Отмена', array('name'=>'cancel')); ?>		
+		<div class="col-lg-12">
+			<?php echo BsHtml::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить', array('color' => BsHtml::BUTTON_COLOR_PRIMARY, 'name'=>'save')); ?>
+			<?php echo BsHtml::submitButton('Применить', array('color' => BsHtml::BUTTON_COLOR_SUCCESS, 'name'=>'apply')); ?>
+			<?php echo BsHtml::submitButton('Отмена', array('name'=>'cancel')); ?>		
+		</div>
 	</div>
 	
 	<input type="hidden" name="current-tab" id="current-tab" value="<?=$current_tab?>" />

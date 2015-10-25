@@ -45,8 +45,8 @@ class Engines extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('model_id, name', 'required'),
-			array('model_id', 'numerical', 'integerOnly'=>true),
+			array('model_ids, name', 'required'),
+			//array('model_id', 'numerical', 'integerOnly'=>true),
 			array('name, image_title, title, keywords, description', 'length', 'max'=>255),
 			array('image_file', 'length', 'max'=>64),
 			array('fileImage', 'file', 'types'=>'JPEG,JPG,PNG,TIFF,BMP', 'minSize' => 1024,'maxSize' => (5*1024*1024), 'wrongType'=>'Не формат. Только {extensions}', 'tooLarge' => 'Допустимый размер 5Мб', 'on'=>'upload_file'),
@@ -111,8 +111,9 @@ class Engines extends CActiveRecord
 		
 		$app = Yii::app();
 		
+		$selected_model = 0;
 		if(isset($app->session['Engines.selected_model']) && $app->session['Engines.selected_model'] > 0)	{
-			$this->model_id = (int)$app->session['Engines.selected_model'];
+			$selected_model = (int)$app->session['Engines.selected_model'];
 		}
 				
 		$criteria->compare('id',$this->id);
@@ -123,6 +124,21 @@ class Engines extends CActiveRecord
 		$criteria->compare('title',$this->title,true);
 		$criteria->compare('keywords',$this->keywords,true);
 		$criteria->compare('description',$this->description,true);
+		
+		
+		if($selected_model > 0) {
+			
+			//находим дочерние элементы и тоже добавляем их в поиск
+			$ShopModelAuto = ShopModelsAuto::model()->findByPk($selected_model);
+			$descendants = $ShopModelAuto->descendants()->findAll();
+			$children_ids = CHtml::listData($descendants, 'id','id');
+
+			$model_ids = array($selected_model => $selected_model) + $children_ids;
+			
+			$criteria->distinct = true;
+			$criteria->join = 'INNER JOIN {{engines_models}} AS em ON t.id = em.engine_id';
+			$criteria->addInCondition("em.model_id", $model_ids);
+		}
 		
 		$sort->defaultOrder = '`model_id` DESC'; // устанавливаем сортировку по умолчанию
 
@@ -177,21 +193,6 @@ class Engines extends CActiveRecord
 	protected function beforeSave()
 	{
 		if(parent::beforeSave())	{
-			if($this->image_title == '' && $this->image_file != '') {
-				// строим для заголовка картинки цепочку из названий
-				$full_name = '';
-				$full_name_arr = array('Схема выхлопной системы для');
-				$model = ShopModelsAuto::model()->findByPk($this->model_id);
-				$ancestors = $model->ancestors()->findAll();
-				if(count($ancestors)) {
-					foreach($ancestors as $row) {
-						$full_name_arr[] = $row->name;
-					}
-					$full_name_arr[] = $model->name;
-					$full_name_arr[] = $this->name;
-					$this->image_title = implode(' ', $full_name_arr);
-				}
-			}
 			return true;
 		}
 	}
@@ -201,6 +202,37 @@ class Engines extends CActiveRecord
 		$app = Yii::app();
 		$connection = $app->db;
 		$this->checkEnginesModels($connection);
+		
+		if($this->image_title == '' && $this->image_file != '') {
+			// строим для заголовка картинки цепочку из названий
+			$full_name = '';
+			
+			$models = $this->enginesModels;
+			
+			//echo'<pre>';print_r($models);echo'</pre>';die;		
+			if(count($models)) {
+				foreach($models as $row) {
+					//echo'<pre>';print_r($row);echo'</pre>';die;		
+					$model_info = ShopModelsAuto::model()->findByPk($row->model_id);
+					
+					$ancestors = $model_info->ancestors()->findAll();
+					if(count($ancestors)) {
+						$full_name_arr = array('Схема выхлопной системы для');
+						
+						foreach($ancestors as $ancestor) {
+							$full_name_arr[] = $ancestor->name;
+						}
+						
+						$full_name_arr[] = $model_info->name;
+						$full_name_arr[] = $this->name;
+						$row->image_title = implode(' ', $full_name_arr);
+						$row->save(false);
+					}
+
+				}
+			}
+		}
+		
 	}
 	
 	//проверяем, не изменились ли объемы двигателей...
@@ -241,12 +273,16 @@ class Engines extends CActiveRecord
 	// возвращает выпадающий список двигателей
 	public function getDropDownlistEngines($selectedModels)
 	{
-		$model_ids = array();
-		foreach($selectedModels as $k=>$i)
-			$model_ids[] = $k;
-				
-		//echo'<pre>';print_r($model_ids);echo'</pre>';
-		$list_data = $this->getDropDownlistItems($model_ids);
+		if(count($selectedModels))	{
+			$model_ids = array();
+			foreach($selectedModels as $k=>$i)
+				$model_ids[] = $k;
+
+			//echo'<pre>';print_r($model_ids);echo'</pre>';
+			$list_data = $this->getDropDownlistItems($model_ids);
+		}	else	{
+			$list_data = array();
+		}
 		return $list_data;
 	}
 	
@@ -264,14 +300,32 @@ class Engines extends CActiveRecord
 	public function getDropDownlistItems($model_ids = array(0))
 	{
 		$criteria = new CDbCriteria;
+		
+		//$criteria->distinct = true;
+		//$criteria->join = 'INNER JOIN {{engines_models}} AS em ON t.id = em.engine_id';
 		$criteria->condition = 'model_id IN ('.implode(',', $model_ids).')';
 		$criteria->order = 'id';
-		$rows = $this->findAll($criteria);
+		//$rows = $this->findAll($criteria);
+		$rows = EnginesModels::model()->findAll($criteria);
+		
+		$model_infos = array();
+		foreach($model_ids as $model_id) {
+			$model_infos[] = ShopModelsAuto::model()->findByPk($model_id);
+		}
+		
+		
+		
+		//echo'<pre>';print_r($rows);echo'</pre>';die;
 		foreach($rows as $row)	{
-			$model_title = ShopModelsAuto::model()->getModelChain($row->model_id);
-			$row->name = $model_title.' '.$row->name;
+			
+			foreach($model_infos as $model_info) {
+				$model_title = $model_info->getModelChain($row->model_id);
+				$row->name = $model_title.' '.$row->engine->name;
+				
+			}
 		}
 		$result = CHtml::listData($rows, 'id','name');
+		//echo'<pre>';print_r($result);echo'</pre>';die;
 		return $result;
 	}
 	
@@ -279,18 +333,22 @@ class Engines extends CActiveRecord
 	{
 		$connection = Yii::app()->db;
 		
-		$criteria = new CDbCriteria;
-		$criteria->condition = 'model_id = :model_id';
-		$criteria->order = 'id';
-		
-		$criteria->params = array(':model_id'=>$model_id);
-		
-		$sql = "SELECT `id`, `name` FROM ".$this->tableName()." WHERE `model_id` = :model_id";
+		$sql = "SELECT e.`id`, e.`name` FROM ".$this->tableName()." AS e INNER JOIN {{engines_models}} AS em ON e.id = em.engine_id  WHERE em.`model_id` = :model_id";
 		$command = $connection->createCommand($sql);		
 		$command->bindParam(":model_id", $model_id);
 		
 		//$rows = $command->queryAll();
 		return $command->queryAll();
+	}
+	
+	public function getEngineImage(&$connection, $engine_id)
+	{
+		$sql = "SELECT `image_file` FROM ".$this->tableName()." WHERE `id` = :engine_id";
+		$command = $connection->createCommand($sql);		
+		$command->bindParam(":engine_id", $engine_id);
+		
+		//$rows = $command->queryAll();
+		return $command->queryScalar();
 	}
 	
 	//получает выбранные модели

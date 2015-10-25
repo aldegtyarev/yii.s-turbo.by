@@ -7,7 +7,110 @@ $this->pageTitle=Yii::app()->name;
 ?>
 
 
-<?php $this->widget('application.components.NewProductsWidget'); ?>
+<?php //$this->widget('application.components.NewProductsWidget'); ?>
+
+
+<div class="advantages">
+	<p class="advantages-title">Наши преимущества</p>
+	<div class="advantages-row">
+		<div class="advantages-item advantages-item-1">
+			<div class="advantages-item-cnt">
+				<div class="advantages-item-sdesc-cnt">
+					<p class="advantages-item-title"><span class="cifra">1</span><span class="n-news">Лучшие цены</span></p>
+					<div class="advantages-item-sdesc">
+						<p>Цены ниже<br>среднерыночных</p>
+						<p class="small">мы предложим самые конкурентные цены</p>
+						<img src="/img/advantages-1.png" alt="Лучшие цены" class="advantages-item-img advantages-item-img-1">
+						<span class="advantages-item-detail">Подробнее</span>
+					</div>
+				</div>
+				<div class="advantages-item-popup">
+					<div class="advantages-item-popup-cnt">
+						<p class="advantages-item-popup-title">Заголовок</p>
+						<p>Наша цель обеспечить высокий уровень обслуживания каждого клиента. Будем рады видеть вас среди наших постоянных покупателей.</p>
+						<a class="advantages-item-close-modal"><span>закрыть </span>x</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="advantages-item advantages-item-2">
+			<div class="advantages-item-cnt">
+				<div class="advantages-item-sdesc-cnt">
+					<p class="advantages-item-title"><span class="cifra">2</span><span class="n-news">Доставка по всей Беларуси</span></p>
+					<div class="advantages-item-sdesc">
+						<p>Доставляем товар в течении<br>2-3 дней</p>
+						<p class="small">
+							- курьерской службой<br>
+							- почтовым отправлением<br>
+							- самовывоз<br>
+						</p>
+						<img src="/img/advantages-2.png" alt="Доставка по всей Беларуси" class="advantages-item-img advantages-item-img-2">
+						<span class="advantages-item-detail">Подробнее</span>
+					</div>
+				</div>
+				<div class="advantages-item-popup">
+					<div class="advantages-item-popup-cnt">
+						<p class="advantages-item-popup-title">Заголовок</p>
+						<p>Наша цель обеспечить высокий уровень обслуживания каждого клиента. Будем рады видеть вас среди наших постоянных покупателей.</p>
+						<a class="advantages-item-close-modal"><span>закрыть </span>x</a>
+					</div>
+				</div>
+			</div>
+		</div>
+				
+		<div class="advantages-item advantages-item-3">
+			<div class="advantages-item-cnt">
+				<div class="advantages-item-sdesc-cnt">
+					<p class="advantages-item-title"><span class="cifra">3</span><span class="n-news">Удобная оплата</span></p>
+					<div class="advantages-item-sdesc">
+						<p class="small">
+							- наличными курьеру<br>
+							- наличными либо картой на почте<br>
+							- наличными либо картой через кассу банка<br>
+							- безналичный расчет (для юридических лиц)<br>
+						</p>
+						<img src="/img/advantages-3.png" alt="Удобная оплата" class="advantages-item-img advantages-item-img-3">
+						<span class="advantages-item-detail">Подробнее</span>
+					</div>
+				</div>
+				<div class="advantages-item-popup">
+					<div class="advantages-item-popup-cnt">
+						<p class="advantages-item-popup-title">Заголовок</p>
+						<p>Наша цель обеспечить высокий уровень обслуживания каждого клиента. Будем рады видеть вас среди наших постоянных покупателей.</p>
+						<a class="advantages-item-close-modal"><span>закрыть </span>x</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="advantages-item advantages-item-4">
+			<div class="advantages-item-cnt">
+				<div class="advantages-item-sdesc-cnt">
+					<p class="advantages-item-title"><span class="cifra">4</span><span class="n-news">Гарантия и возврат</span></p>
+					<div class="advantages-item-sdesc">
+						<p>Все наши товары<br>сертифицированы и полностью<br>соответствуют оригиналу</p>
+						<p class="small">
+							- гарантия на товары 1 год<br>
+							- обмен/возврат в течении 14 дней<br>
+						</p>
+						<img src="/img/advantages-4.png" alt="Гарантия и возврат" class="advantages-item-img advantages-item-img-4">
+						<span class="advantages-item-detail">Подробнее</span>
+					</div>
+				</div>
+				<div class="advantages-item-popup">
+					<div class="advantages-item-popup-cnt">
+						<p class="advantages-item-popup-title">Заголовок</p>
+						<p>Наша цель обеспечить высокий уровень обслуживания каждого клиента. Будем рады видеть вас среди наших постоянных покупателей.</p>
+						<a class="advantages-item-close-modal"><span>закрыть </span>x</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
+	</div>
+</div>
 
 
 

@@ -61,7 +61,7 @@ class ShopCategories extends CActiveRecord
 		return array(
 			//array('root, lft, rgt, level, name, title, keywords, description, alias, ordering, category_companies, cat_column', 'required'),
 			array('name', 'required'),
-			array('root, lft, rgt, level, ordering, cat_column', 'numerical', 'integerOnly'=>true),
+			array('root, lft, rgt, level, ordering, cat_column, currency_id', 'numerical', 'integerOnly'=>true),
 			array('name, name1, title, alias, category_companies', 'length', 'max'=>255),
 			array('category_description, keywords, description', 'length', 'max'=>7000),
 			array('alias','ext.LocoTranslitFilter','translitAttribute'=>'name'), 
@@ -105,6 +105,7 @@ class ShopCategories extends CActiveRecord
 			'cat_column' => 'Cat Column',
 			'dropDownListTree' => 'Родительская категория',
 			'category_description' => 'Описание категории',
+			'currency_id' => 'Валюта по умолчанию',
 		);
 	}
 
@@ -285,12 +286,6 @@ class ShopCategories extends CActiveRecord
 		$criteria->order = 't.root, t.lft'; // или 't.root, t.lft' для множественных деревьев
 		$categories = $this->findAll($criteria);
 		
-//		echo'<pre>';print_r($criteria);echo'</pre>';
-//		echo'<pre>';print_r(count($categories));echo'</pre>';
-//		echo'<pre>';print_r(($categories[0]->attributes));echo'</pre>';
-//		echo'<pre>';print_r(($categories[1]->attributes));echo'</pre>';
-//		echo'<pre>';print_r(($categories[2]->attributes));echo'</pre>';
-		
 		if(count($categories) == 0 && $filtering )	{
 			$categories[0] = 'Не найдено';
 			return $categories;
@@ -306,7 +301,6 @@ class ShopCategories extends CActiveRecord
 					$categories[count($categories)] = $parent;
 				}
 			}
-			
 
 			//получаем id текущей категории
 			$current_category_id = $app->request->getParam('id', 0);
@@ -316,14 +310,11 @@ class ShopCategories extends CActiveRecord
 				$current_category = $this->findByPk($current_category_id);
 				$current_category_ancestors = $current_category->ancestors()->findAll();
 			}	else	{
-				
 				$current_category_ancestors = array();				
 			}
 
 			$categories1 = $categories;
 			
-			//echo'<pre>';print_r(count($categories));echo'</pre>';
-
 			foreach($categories as $n => $category)
 			{
 				if($current_category_id == $category->id) {
@@ -496,6 +487,15 @@ class ShopCategories extends CActiveRecord
 		$command = $connection->createCommand($sql);
 		//$rows = $command->queryAll();
 		return $command->queryColumn();
+	}	
+	
+	public function getCategoryCurrencyId(&$connection, $id = 0)
+	{
+		$sql = "SELECT `currency_id` FROM ".$this->tableName()." WHERE `id`=:id";
+		$command = $connection->createCommand($sql);
+		$command->bindParam(":id", $id);
+		//$rows = $command->queryAll();
+		return $command->queryScalar();
 	}	
 	
 }

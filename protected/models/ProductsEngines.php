@@ -104,28 +104,30 @@ class ProductsEngines extends CActiveRecord
 	//удаление объемов назначенных товару
 	public function clearItemEngines($product_id, $models, &$connection)
 	{
-		$model_ids = CHtml::listData($models, 'model_id','model_id');
-		$sql = 'DELETE FROM '.$this->tableName().' WHERE `product_id` = :product_id AND `model_id` IN ('.implode(',', $model_ids).')';
-		
-		$command = $connection->createCommand($sql);
-		$command->bindParam(":product_id", $product_id);
-		$res = $command->execute();		
-		//echo'<pre>';print_r($models);echo'</pre>';die;
-		//echo'<pre>';print_r($sql);echo'</pre>';die;
+		if(count($models)) {
+			$model_ids = CHtml::listData($models, 'model_id','model_id');
+
+			$sql = 'DELETE FROM '.$this->tableName().' WHERE `product_id` = :product_id AND `model_id` IN ('.implode(',', $model_ids).')';
+
+			$command = $connection->createCommand($sql);
+			$command->bindParam(":product_id", $product_id);
+			$res = $command->execute();		
+			//echo'<pre>';print_r($models);echo'</pre>';die;
+		}
 	}
 	
 	//добавление объемов товару
 	public function insertItemEngines($engines, $models, $product_id, &$connection)
 	{
-		//echo'$models<pre>';print_r($models);echo'</pre>';//die;
+		//echo'$models<pre>';print_r($models);echo'</pre>';die;
 		if(count($engines))	{
-			$sql = 'INSERT INTO '.$this->tableName().' (`product_id`, `model_id`, `engine_id`) VALUES ';	
-			foreach($engines as $key => $engine)	{
+			$sql = 'INSERT INTO '.$this->tableName().' (`engines_models_id`, `product_id`, `model_id`, `engine_id`) VALUES ';	
+			//foreach($engines as $key => $engine)	{
 				foreach($models as $model)	{
-					//$sql .= "(".$product_id.",".$model->id.",".$key."),";
-					$sql_arr[] = "(".$product_id.",".$model->model_id.",".$key.")";
+					//$sql_arr[] = "(".$product_id.",".$model->model_id.",".$key.")";
+					$sql_arr[] = "(".$model->id.",".$product_id.",".$model->model_id.",".$model->engine_id.")";
 				}
-			}
+			//}
 			//$sql = substr($sql, 0, -1);
 			$sql .= implode(',', $sql_arr);
 			
@@ -136,15 +138,18 @@ class ProductsEngines extends CActiveRecord
 		//echo'$sql<pre>';print_r($sql);echo'</pre>';die;
 	}
 	
-	public function getProductIds($engine_ids=array(0) )
+	public function getProductIds($engine_ids=array(0), $model_ids=array(0) )
 	{
 		$connection = Yii::app()->db;
-		return $this->getProductIdFromEngines($connection, $engine_ids );
+		return $this->getProductIdFromEngines($connection, $engine_ids, $model_ids );
 	}
 	
-	public function getProductIdFromEngines(&$connection, $engine_ids=array(0) )
+	public function getProductIdFromEngines(&$connection, $engine_ids=array(0), $model_ids=array(0) )
 	{
-		$sql = 'SELECT DISTINCT (`product_id`) FROM '.$this->tableName().' WHERE `engine_id` IN ('.implode(', ', $engine_ids).')';		
+		$sql = '
+SELECT DISTINCT (`product_id`) FROM '.$this->tableName().' AS pe
+INNER JOIN {{engines_models}} AS em ON pe.engines_models_id = em.id
+WHERE em.`engine_id` IN ('.implode(', ', $engine_ids).') AND em.`model_id` IN ('.implode(', ', $model_ids).')';		
 		$command = $connection->createCommand($sql);
 		$rows = $command->queryColumn();
 		if(count($rows) == 0) $rows = array(0);
@@ -162,19 +167,19 @@ class ProductsEngines extends CActiveRecord
 			return;
 		
 		$sql = "
-SELECT eng.* FROM `{{shop_products_engines}}` AS eng
+SELECT DISTINCT(eng.id), eng.* FROM `{{shop_products_engines}}` AS eng
 INNER JOIN `{{shop_products_models_auto}}` AS model ON eng.`product_id` = model.`product_id`
 INNER JOIN `{{shop_products_categories}}` AS cat ON eng.`product_id` = cat.`product_id`
 
-WHERE eng.`engine_id` = $engine_id AND model.model_id = $model_id AND cat.category_id = $category_id
+WHERE eng.`engine_id` = $engine_id AND eng.`model_id` = $model_id AND cat.`category_id` = $category_id
 
-ORDER BY eng.order ASC, eng.product_id ASC";		
+ORDER BY eng.ordering ASC, eng.product_id ASC";		
 		$command = $connection->createCommand($sql);
 		$rows = $command->queryAll();
 		
-		echo'<pre>';print_r($sql);echo'</pre>';
-		echo'<pre>';print_r($rows);echo'</pre>';
-		die;
+		//echo'<pre>';print_r($sql);echo'</pre>';
+		//echo'<pre>';print_r($rows);echo'</pre>';
+		//die;
 		
 		switch($direction) {
 			case 'up':
@@ -182,25 +187,27 @@ ORDER BY eng.order ASC, eng.product_id ASC";
 					return;
 				break;
 			case 'down':
-				if($rows[(count($rows)-1)]['product_id'] == $product_id)
+				if($rows[(count($rows)-1)]['product_id'] == $product_id) {
+					//die;
 					return;
+				}
 				break;
 		}
 		
 		$is_moved = false;
 		for ($key=0; $key<count($rows); $key++) {
-			$rows[$key]['order'] = $key;
+			$rows[$key]['ordering'] = $key;
 			
 			if($rows[$key]['product_id'] == $product_id && $is_moved == false) {
 				switch($direction) {
 					case 'up':
-						$rows[$key]['order'] = $key-1;
-						$rows[$key-1]['order'] = $key;
+						$rows[$key]['ordering'] = $key-1;
+						$rows[$key-1]['ordering'] = $key;
 						$is_moved = true;
 						break;
 					case 'down':
-						$rows[$key]['order'] = $key+1;
-						$rows[$key+1]['order'] = $key;
+						$rows[$key]['ordering'] = $key+1;
+						$rows[$key+1]['ordering'] = $key;
 						$is_moved = true;
 						$key++;
 						break;
@@ -208,10 +215,10 @@ ORDER BY eng.order ASC, eng.product_id ASC";
 			}
 		}
 		
-		//echo'<pre>';print_r($rows);echo'</pre>';
+		//echo'<pre>';print_r($rows);echo'</pre>';die;
 		
 		foreach($rows as $row) {
-			$sql = "UPDATE ".$this->tableName()." SET `order` = '".$row['order']."' WHERE `id` = ".$row['id'];
+			$sql = "UPDATE ".$this->tableName()." SET `ordering` = '".$row['ordering']."' WHERE `id` = ".$row['id'];
 			$command = $connection->createCommand($sql);
 			$command->execute();			
 		}

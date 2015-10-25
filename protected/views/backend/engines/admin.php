@@ -8,7 +8,7 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	//array('label'=>'Create Engines', 'url'=>array('create')),
+	array('label'=>'Добавить', 'url'=>array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "
@@ -56,8 +56,8 @@ $('.search-form form').submit(function(){
 
 		array(
 			'class' => 'CButtonColumn',
-			'template' => '{update}&nbsp;{delete}&nbsp;{copy}',
-			//'template' => '{update}&nbsp;{delete}',
+			//'template' => '{update}&nbsp;{delete}&nbsp;{copy}',
+			'template' => '{update}&nbsp;{delete}',
 			'buttons' => array(
 				'update' => array(
 					'imageUrl'=>'/img/grid-icons/update.png',
@@ -66,11 +66,13 @@ $('.search-form form').submit(function(){
 				'delete' => array(
 					'imageUrl'=>'/img/grid-icons/delete.png',
 				),
+				/*
 				'copy' => array(
 					'label'=>'Доблировать',
 					'imageUrl'=>'/img/grid-icons/copy.png',
 					'url' => 'Yii::app()->createUrl("engines/copy", array("id"=>$data->id))',
 				),
+				*/
 				
 			),
 		),

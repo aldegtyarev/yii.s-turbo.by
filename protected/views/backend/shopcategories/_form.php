@@ -28,9 +28,11 @@
 	
 		<div class="tab-pane active" id="tab1">
 			<div class="row">
-				<?php echo $form->labelEx($model,'dropDownListTree'); ?>
-				<?php echo $form->dropDownList($model, 'parentId', $model->DropDownlistData); ?>
-				<?php echo $form->error($model,'dropDownListTree'); ?>		
+				<div class="col-lg-12">
+					<?php echo $form->labelEx($model,'dropDownListTree'); ?>
+					<?php echo $form->dropDownList($model, 'parentId', $model->DropDownlistData); ?>
+					<?php echo $form->error($model,'dropDownListTree'); ?>		
+				</div>
 			</div>
 
 			<div class="row">
@@ -46,6 +48,15 @@
 					<?php echo $form->error($model,'name1'); ?>
 				</div>
 			</div>
+			
+			<div class="row">
+				<div class="col-lg-6">
+					<?php echo $form->labelEx($model,'currency_id'); ?>
+					<?php echo $form->dropDownList($model, 'currency_id', Currencies::model()->dropDownCurrenciesList, array('options' => $model->currency_id));?>
+					<?php echo $form->error($model,'currency_id'); ?>					
+				</div>
+			</div>
+			
 <?
 /*
 			<div class="row">

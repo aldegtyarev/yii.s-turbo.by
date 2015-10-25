@@ -4,10 +4,12 @@
 	
 	
 	h3 {
-		margin: 8px 10px 15px 8px; 
+		padding: 8px 10px 15px 8px;
+		background-color: #fff;
 		
 		@extend %c_d70000;
 		@extend %uppercase;
+		
 	}
 	
 	.body {
@@ -25,7 +27,7 @@
 			@extend %font_12;
 			
 			&:hover {
-				@extend %c_242424;
+				@extend %c_000;
 			}
 			
 		}
@@ -41,7 +43,12 @@
 	}
 	
 	& .active > a {
-		@extend %c_242424;
+		@extend %c_000;
+		text-decoration: underline;
+	}
+	
+	& .active.parent > a {
+		text-decoration: none;
 	}
 }
 

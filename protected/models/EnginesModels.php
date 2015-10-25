@@ -14,6 +14,8 @@
  */
 class EnginesModels extends CActiveRecord
 {
+	
+	public $name;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -123,5 +125,22 @@ class EnginesModels extends CActiveRecord
 			$res = $command->execute();
 		}
 	}
+	
+	//получает полное название для выхлопной системы
+	public function getEngineTitle(&$connection, $engine_id, $model_ids)
+	{
+		//$sql = "SELECT `id`, `name` FROM ".$this->tableName()." WHERE `level`= 1";
+	
+		$sql = "
+SELECT `image_title` FROM ".$this->tableName()." WHERE id IN (
+SELECT DISTINCT(`engines_models_id`) FROM ".ProductsEngines::model()->tableName()."
+WHERE `model_id` IN (".implode(',', $model_ids).") AND `engine_id` = $engine_id)";
+		//echo'<pre>';print_r($sql);echo'</pre>';//die;
+		$command = $connection->createCommand($sql);
+		$rows = $command->queryScalar();
+		//echo'<pre>';print_r($rows);echo'</pre>';die;
+		return $command->queryScalar();
+	}
+	
 	
 }

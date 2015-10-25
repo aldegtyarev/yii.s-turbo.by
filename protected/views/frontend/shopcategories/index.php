@@ -11,7 +11,15 @@ $main_url = '/'.Yii::app()->getRequest()->getPathInfo();
 
 <?	/*<h1><?php echo $category->name; ?></h1>	*/?>
 <div class="category-view">
-	<h1><?=$title?></h1>
+
+	<?php if($show_search_notice == true)	{	?>
+		<div class="search-notice-1">
+			
+			<p><img src="/img/notice-arrow-left.png" alt="Для точного поиска, воспользуйтесь КАТАЛОГОМ">Для точного поиска, воспользуйтесь КАТАЛОГОМ</p>
+		</div>
+	<?php }	?>
+
+	<h1<?= $show_search_notice ? ' class="h1-small"' : '' ?>><?=$title?></h1>
 </div>
 <?php //echo'<pre>';print_r($producttypes);echo'</pre>'; ?>
 

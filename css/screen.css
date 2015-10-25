@@ -358,11 +358,12 @@ span.required, .breadcrumbs a, .sorting-block-conteiner .sorting-block a:hover,
   color: #aaa;
 }
 
-h2, .c_000, .news-block-item .item-title, .product-list-item .small span, .productdetails-view-main-info-part .value, .productdetails-price-row .label, .productdetails-price-row .price-byr {
+h2, .c_000, .menu-cat li a:hover, .menu-cat .active > a, .news-block-item .item-title, .product-list-item .small span, .search-notice-1 p,
+.search-notice p, .productdetails-view-main-info-part .value, .productdetails-price-row .label, .productdetails-price-row .price-byr, .advantages-item-popup-cnt p, .advantages-item-popup-cnt .advantages-item-popup-title, .advantages-item-close-modal span {
   color: #000;
 }
 
-.menu-cat li a:hover, .menu-cat .active > a, .categories-menu > li > a {
+.categories-menu > li > a {
   color: #242424;
 }
 
@@ -382,7 +383,7 @@ h2, .c_000, .news-block-item .item-title, .product-list-item .small span, .produ
 }
 
 .breadcrumbs, .font-10, .product-list-item .small, .productdetails-price-row .price-byr, .productview-ask-question a, .productdetails-client-info .payment a,
-.productdetails-client-info .delivery a, .filter-block .clear-filter {
+.productdetails-client-info .delivery a, .filter-block .clear-filter, .advantages-item-sdesc .advantages-item-detail {
   font-size: 10px;
 }
 
@@ -409,11 +410,11 @@ h2, .c_000, .news-block-item .item-title, .product-list-item .small span, .produ
   font-size: 14px;
 }
 
-.font-15 {
+.font-15, .advantages-item-sdesc {
   font-size: 15px;
 }
 
-h3, .font-16, .product-list-item-row-info-block .short-description li:before, .productdetails-price-row .price {
+h3, .font-16, .product-list-item-row-info-block .short-description li:before, .productdetails-price-row .price, .advantages-item-popup-cnt p, .advantages-item-close-modal span, .advantages-title {
   font-size: 16px;
 }
 
@@ -421,15 +422,16 @@ h3, .font-16, .product-list-item-row-info-block .short-description li:before, .p
   font-size: 17px;
 }
 
-.font-18, .news-block-item-big a.item-title {
+.font-18, .news-block-item-big a.item-title, .search-notice-1 p,
+.search-notice p, .advantages-item-close-modal {
   font-size: 18px;
 }
 
-.font-20, .last-viewed-item-prices .price {
+.font-20, .last-viewed-item-prices .price, .advantages-item-popup-cnt .advantages-item-popup-title {
   font-size: 20px;
 }
 
-.cart-remove {
+.cart-remove, .advantages-item-title {
   font-size: 22px;
 }
 
@@ -447,12 +449,13 @@ h1, h2, h3, b, strong, .button,
 .sorting-block-conteiner .currency-select, .sorting-block-conteiner .sorting-block a,
 .sorting-block-conteiner .currency-select a, .bold, .main-menu li a, .search-auto-form .jq-selectbox__select-text, .search-auto-form .jq-selectbox__dropdown li, .categories-menu > li > a, .news-block-item .item-title, .news-block .created-by,
 .news-block .created-by a,
-.news-block .created, .product-list-item .product-label, .product-list-item .status, .product-list-item-row-info-block .short-description li:before, .how-it-work-list .wr, .last-viewed-title, .last-viewed-status, .last-viewed-item-prices .price, .last-viewed-item-prices .price-byr, .category-view .category-item-wr a, .footer-hdr, .productdetails-view-main-info-part .label,
+.news-block .created, .product-list-item .product-label, .product-list-item .status, .product-list-item-row-info-block .short-description li:before, .how-it-work-list .wr, .last-viewed-title, .last-viewed-status, .last-viewed-item-prices .price, .last-viewed-item-prices .price-byr, .category-view .category-item-wr a, .search-notice-1 p,
+.search-notice p, .footer-hdr, .productdetails-view-main-info-part .label,
 .productdetails-view-main-info-part .value, .productdetails-price-row .price, .productdetails-price-row .price-byr, .productview-ask-question a, .productdetails-client-info .title, .productdetails-client-info .payment a,
 .productdetails-client-info .delivery a, .productdetails-view-tab .tabs a, .filter-block .clear-filter, .filter-block-header, .product-types-list-item a.active span, .filter-block-all-items.active, .product-types-index-all a,
 .product-types-index-all p,
 .product-types-index a,
-.product-types-index p, .cart-remove {
+.product-types-index p, .cart-remove, .advantages-item-title, .advantages-item-sdesc .advantages-item-detail, .advantages-title {
   font-weight: bold;
 }
 
@@ -460,7 +463,7 @@ i, em, .errorMessage, .italic, .logo-top, .search-auto-block-title {
   font-style: italic;
 }
 
-h2, .logo-top, .search-auto-block-title, .menu-cat h3, .categories-menu > li > a, .news-block .header-wr h3, .last-viewed-block h3, .footer-hdr {
+h2, .logo-top, .search-auto-block-title, .menu-cat h3, .categories-menu > li > a, .news-block .header-wr h3, .last-viewed-block h3, .footer-hdr, .advantages-item-popup-cnt .advantages-item-popup-title, .advantages-item-sdesc .advantages-item-detail, .advantages-title {
   text-transform: uppercase;
 }
 
@@ -485,19 +488,19 @@ a:hover, .underline_n_y:hover, .product-types-list-item a.active .name:hover {
 .button,
 .button-red,
 .button-green, .jcarousel-control-prev,
-.jcarousel-control-next, .underline_n_n, .main-menu li a, .logo-top, .menu-cat li a, .productdetails-view-tab .tabs a, .product-types-list-item a, .filter-block-all-items, .cart-remove, .cart-btn {
+.jcarousel-control-next, .underline_n_n, .main-menu li a, .logo-top, .menu-cat li a, .productdetails-view-tab .tabs a, .product-types-list-item a, .filter-block-all-items, .cart-remove, .cart-btn, .advantages-item-close-modal {
   text-decoration: none;
 }
 .button:hover,
 .button-red:hover,
 .button-green:hover, .jcarousel-control-prev:hover,
-.jcarousel-control-next:hover, .underline_n_n:hover, .main-menu li a:hover, .logo-top:hover, .menu-cat li a:hover, .productdetails-view-tab .tabs a:hover, .product-types-list-item a:hover, .filter-block-all-items:hover, .cart-remove:hover, .cart-btn:hover {
+.jcarousel-control-next:hover, .underline_n_n:hover, .main-menu li a:hover, .logo-top:hover, .menu-cat li a:hover, .productdetails-view-tab .tabs a:hover, .product-types-list-item a:hover, .filter-block-all-items:hover, .cart-remove:hover, .cart-btn:hover, .advantages-item-close-modal:hover {
   text-decoration: none;
 }
 
 .sideLeft, .container, .select-view-block a, .fLeft, .floatLeft, .main-menu li, .search-auto-block-title, .search-auto-form, .search-auto-form .step-wr, .news-block-item, .product-list-item-row-image-block .additional-images-list-item, .additional-images-wr ul, .additional-images-wr li, .products-on-auto-item, .how-it-work-list li, .category-view .category-item, .footer .contacts, .footer .ur-data, .productdetails-view-image-part, .productdetails-slider-images li, .productdetails-client-info .payment,
 .productdetails-client-info .delivery, .productdetails-view-tab .tabs li, .product-types-list-item, .product-types-block .filter-block-list, .product-types-index-all > li,
-.product-types-index > li {
+.product-types-index > li, .advantages-item {
   float: left;
 }
 
@@ -536,13 +539,13 @@ a:hover, .underline_n_y:hover, .product-types-list-item a.active .name:hover {
   display: none;
 }
 
-.sorting-block-conteiner, .pos-rel, .main-menu li, .consultant-block .status, .search-auto-form, .categories-menu > li > a, .news-block-item-wr, .news-block .all-items, .product-list-item-row-info-block, .preloaderBig, .additional-images-wr ul, .additional-images-wr li, .how-it-work-list li, .last-viewed-title, .last-viewed-status, .last-viewed-item-wr, .category-view .category-item-wr a, .productdetails-view-main-info-part, .productdetails-view-main-info-part .row, .productdetails-view-tab .tabs li, .cart-summary td {
+.sorting-block-conteiner, .pos-rel, .main-menu li, .consultant-block .status, .search-auto-form, .categories-menu > li > a, .news-block-item-wr, .news-block .all-items, .product-list-item-row-info-block, .preloaderBig, .additional-images-wr ul, .additional-images-wr li, .how-it-work-list li, .last-viewed-title, .last-viewed-status, .last-viewed-item-wr, .category-view .category-item-wr a, .productdetails-view-main-info-part, .productdetails-view-main-info-part .row, .productdetails-view-tab .tabs li, .cart-summary td, .advantages-item-popup-cnt, .advantages-item-sdesc {
   position: relative;
 }
 
 .jcarousel-control-prev,
 .jcarousel-control-next, .sorting-block-conteiner .currency-select, .pos-abs, .consultant-block .status:before, .search-auto-form .step-num, .clear-search-auto, .product-list-item .product-label, .product-list-item-row-info-block:before, .last-viewed-item-pattern, .last-viewed-item-prices, .category-view .category-item-wr a span, .productdetails-view-main-info-part .label,
-.productdetails-view-main-info-part .value, .productview-ask-question, .productview-ask-question a, .productdetails-view-tab .tabs sup, .cart-summary td:before, .cart-summary td:after {
+.productdetails-view-main-info-part .value, .productview-ask-question, .productview-ask-question a, .productdetails-view-tab .tabs sup, .cart-summary td:before, .cart-summary td:after, .advantages-item-popup, .advantages-item-close-modal, .advantages-item-sdesc .advantages-item-detail, .advantages-item-img {
   position: absolute;
 }
 
@@ -551,7 +554,7 @@ a:hover, .underline_n_y:hover, .product-types-list-item a.active .name:hover {
 }
 
 .jcarousel-control-prev,
-.jcarousel-control-next, .text_c, .logo-top, .search-auto-form .step-num, .product-list-item .status, .category-view .category-item-wr a, .category-view .category-item-wr a span, .engine-info, .cart-step-num, .cart-remove {
+.jcarousel-control-next, .text_c, .logo-top, .search-auto-form .step-num, .product-list-item .status, .category-view .category-item-wr a, .category-view .category-item-wr a span, .engine-info, .search-notice p, .cart-step-num, .cart-remove, .advantages-title {
   text-align: center;
 }
 
@@ -561,7 +564,7 @@ a:hover, .underline_n_y:hover, .product-types-list-item a.active .name:hover {
 
 .button,
 .button-red,
-.button-green, .pointer, .search-block .search-btn, .search-auto-button, .productdetails-view .addtocart-button, .cart-qty {
+.button-green, .pointer, .search-block .search-btn, .search-auto-button, .productdetails-view .addtocart-button, .cart-qty, .advantages-item-close-modal {
   cursor: pointer;
 }
 
@@ -575,7 +578,7 @@ a:hover, .underline_n_y:hover, .product-types-list-item a.active .name:hover {
 
 .width50, .news-block-item-big, .productdetails-client-info .payment,
 .productdetails-client-info .delivery, .product-types-index-all > li,
-.product-types-index > li {
+.product-types-index > li, .advantages-item {
   width: 50%;
 }
 
@@ -583,7 +586,7 @@ a:hover, .underline_n_y:hover, .product-types-list-item a.active .name:hover {
   width: 100%;
 }
 
-.border-box, .product-types-list-item {
+.border-box, .product-types-list-item, .advantages-item {
   box-sizing: border-box;
 }
 
@@ -725,6 +728,10 @@ h1 {
   margin: 0 0 20px 0;
 }
 
+.h1-small {
+  font-size: 16px;
+}
+
 h2 {
   font-size: 22px;
   margin: 0 0 25px 0;
@@ -748,11 +755,11 @@ span sup {
 }
 
 .clearfix, .productdetails-view-tab .tabs, .product-types-index-all > li,
-.product-types-index > li {
+.product-types-index > li, .advantages-row {
   *zoom: 1;
 }
 .clearfix:after, .productdetails-view-tab .tabs:after, .product-types-index-all > li:after,
-.product-types-index > li:after {
+.product-types-index > li:after, .advantages-row:after {
   content: "";
   display: table;
   clear: both;
@@ -1511,7 +1518,8 @@ span sup {
   margin: 0 0 35px 0;
 }
 .menu-cat h3 {
-  margin: 8px 10px 15px 8px;
+  padding: 8px 10px 15px 8px;
+  background-color: #fff;
 }
 .menu-cat .body {
   background-color: #fff;
@@ -1522,6 +1530,12 @@ span sup {
 .menu-cat li > ul {
   margin-left: 5px;
   margin-bottom: 15px;
+}
+.menu-cat .active > a {
+  text-decoration: underline;
+}
+.menu-cat .active.parent > a {
+  text-decoration: none;
 }
 
 .categories-menu > li > a:before {
@@ -1821,6 +1835,10 @@ span sup {
   bottom: 0;
 }
 
+.category-products-list .product-list-item-right-side {
+  margin-top: -10px;
+}
+
 .products-on-auto .jcarousel-control-prev,
 .products-on-auto .jcarousel-control-next {
   top: -36px;
@@ -1992,6 +2010,27 @@ span sup {
 
 .engine-info img {
   max-width: 100%;
+}
+
+.search-notice-1,
+.search-notice {
+  padding-bottom: 40px;
+}
+.search-notice-1 img,
+.search-notice img {
+  height: 60px;
+  vertical-align: middle;
+}
+
+.search-notice img {
+  margin-left: 90px;
+}
+
+.search-notice-1 img {
+  margin-right: 20px;
+}
+.search-notice-1 p {
+  padding-left: 40px;
 }
 
 /* ╨д╤Г╤В╨╡╤А */
@@ -2479,4 +2518,102 @@ span sup {
 
 #CheckoutForm_comment {
   resize: none;
+}
+
+.advantages {
+  padding-top: 20px;
+}
+
+.advantages-item {
+  padding: 0 20px 20px 20px;
+}
+
+.advantages-item-cnt {
+  border: 1px solid #D3D3D3;
+  background-color: #fff;
+}
+
+.advantages-item-popup {
+  display: none;
+  background-color: #fffffb;
+  padding: 10px 20px;
+  border: 3px solid #DCDCDC;
+  width: 600px;
+  top: 100px;
+  left: 50%;
+  margin-left: -300px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+}
+
+.advantages-item-popup-cnt .advantages-item-popup-title {
+  font-family: Arial;
+}
+
+.advantages-item-close-modal {
+  right: 0;
+  top: 0;
+  color: #FB0404;
+}
+
+.advantages-item-title {
+  font-family: Arial Narrow, sans-serif;
+  padding-bottom: 10px;
+  line-height: 1;
+}
+.advantages-item-title .cifra {
+  font-size: 35px;
+  color: #E00404;
+  padding-left: 10px;
+  font-family: Arial;
+}
+.advantages-item-title .n-news {
+  padding-left: 5px;
+}
+
+.advantages-item-sdesc {
+  padding-left: 10px;
+  padding-right: 10px;
+  line-height: 20px;
+  height: 105px;
+}
+.advantages-item-sdesc .small {
+  font-family: Arial Narrow, sans-serif;
+  font-size: 14px;
+}
+.advantages-item-sdesc .advantages-item-detail {
+  font-family: Arial;
+  padding: 0 3px;
+  right: 0;
+  bottom: 0;
+  background-color: #efefef;
+}
+
+.advantages-item-img-1 {
+  height: 100px;
+  right: 0;
+  top: -44px;
+}
+
+.advantages-item-img-2 {
+  height: 110px;
+  right: 5px;
+  top: -20px;
+}
+
+.advantages-item-img-3 {
+  height: 95px;
+  right: 5px;
+  top: -40px;
+}
+
+.advantages-item-img-4 {
+  height: 80px;
+  right: 0px;
+  top: -45px;
+}
+
+.advantages-title {
+  padding-bottom: 20px;
 }

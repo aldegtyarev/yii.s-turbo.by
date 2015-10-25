@@ -163,6 +163,11 @@ class ShopProductsController extends Controller
 		$model->SelectedProductSideId = array();
 		$model->SelectedProductSideId[$model->side] = array('selected' => 'selected');
 		
+		//подготавливаем выпадающий список объемов двигателей
+		$model->DropDownListEngines = Engines::model()->getDropDownlistEngines($model->SelectedModels);
+		$model->getSelectedEngines();
+		
+		
 		
 		
 		$params = $app->params;
@@ -184,9 +189,8 @@ class ShopProductsController extends Controller
 		$app = Yii::app();
 		
 		//если нажали "Отмена" возврат на список компаний
-		if(isset($_POST['cancel']))	{
+		if(isset($_POST['cancel']))	
 			$this->redirect(array('admin'));
-		}
 		
 		$current_tab_request = $app->request->getParam('current-tab', '');
 		
@@ -352,9 +356,14 @@ class ShopProductsController extends Controller
 		$model->DropDownListEngines = Engines::model()->getDropDownlistEngines($model->SelectedModels);
 		$model->getSelectedEngines();
 		
-		
-		
-		//echo'<pre>';print_r($model->SelectedModels);echo'</pre>';
+		//echo'<pre>';print_r($model->SelectedCategories);echo'</pre>';
+		if($model->product_price == 0) {
+			foreach($model->SelectedCategories as $cat_id=>$i) {
+				$model->currency_id = ShopCategories::model()->getCategoryCurrencyId($app->db, $cat_id);
+				break;
+			}
+		}
+			
 
 		$this->render('update',array(
 			'model'=>$model,
@@ -425,7 +434,7 @@ class ShopProductsController extends Controller
 		
 		$app = Yii::app();
 		
-		echo'<pre>';print_r($_POST,0);echo'</pre>';
+		//echo'<pre>';print_r($_POST,0);echo'</pre>';
 		
 		//если выбрали какую-то категорию - сохнаняем ее в сессию
 		$selected_category = $app->request->getParam('selected_category', -1);
@@ -480,6 +489,7 @@ class ShopProductsController extends Controller
 		if(count($EnginesDropDownlistData))
 			$EnginesDropDownlistData = array(0=>'Все') + $EnginesDropDownlistData;
 		
+		//echo'<pre>';print_r($SelectedModel);echo'</pre>';//die;
 		//echo'<pre>';print_r($EnginesDropDownlistData);echo'</pre>';//die;
 		
 		$SelectedEngine = -1;

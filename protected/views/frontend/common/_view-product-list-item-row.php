@@ -1,4 +1,4 @@
-<div class="product-item product-list-item product-list-item-row">
+<div class="product-item product-list-item product-list-item-row <?php if($data->side == 2) echo 'product-list-item-right-side' ?>">
 		<div class="product-item-wr clearfix">
 			<? 
 				if($data->product_availability == 2) {

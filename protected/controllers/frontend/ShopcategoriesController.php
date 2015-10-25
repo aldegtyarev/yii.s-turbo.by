@@ -94,7 +94,8 @@ class ShopCategoriesController extends Controller
 		$body_request = (int)$app->request->getParam('body', 0);
 		$engine_id = (int)$app->request->getParam('engine', 0);
 		
-		$engineInfo = null;
+		$engineImage = null;
+		$engineTitle = null;
 		
 		//echo'<pre>';print_r($engine_id);echo'</pre>';//die;
 		
@@ -143,6 +144,7 @@ class ShopCategoriesController extends Controller
 		$model_ids = ShopModelsAuto::model()->getModelIds($app);
 		//echo'$model_ids<pre>';print_r($model_ids,0);echo'</pre>';
 		
+		
 		$criteria = new CDbCriteria();
 		$criteria->select = "t.product_id";
 		$criteria->join = 'INNER JOIN {{shop_products_categories}} AS pc USING (`product_id`) ';
@@ -152,10 +154,11 @@ class ShopCategoriesController extends Controller
 		
 		if(count($model_ids))	{
 			
-			if($engine_id != 0) $product_ids = ProductsEngines::model()->getProductIdFromEngines($connection, array($engine_id));
+			if($engine_id != 0) $product_ids = ProductsEngines::model()->getProductIdFromEngines($connection, array($engine_id), $model_ids);
 				else $product_ids = ShopProductsModelsAuto::model()->getProductIdFromModels($connection, $model_ids);
 			
 			if(count($product_ids))	{
+				
 				$condition_arr[] = "t.`product_id` IN (".implode(', ', $product_ids).")";
 			}
 		}
@@ -185,14 +188,22 @@ class ShopCategoriesController extends Controller
 				
 		$criteria->select = "t.*";
 		
+		//echo'<pre>';print_r($engine_id,0);echo'</pre>';
+		
 		if($engine_id != 0) {
 			$criteria->join .= ' INNER JOIN {{shop_products_engines}} as eng ON t.product_id = eng.product_id';
 			$criteria->distinct = true;
 			
-			$criteria->order = 'eng.order ASC, eng.product_id ASC'; // устанавливаем сортировку по умолчанию
+			$criteria->order = 'eng.ordering ASC, eng.product_id ASC'; // устанавливаем сортировку по умолчанию
+			$criteria->addCondition("eng.model_id IN (".implode(',', $model_ids).") AND eng.engine_id = $engine_id");
 			
-			$engineInfo = Engines::model()->findByPk($engine_id);
+			//$engineInfo = Engines::model()->findByPk($engine_id);
+			$engineImage = Engines::model()->getEngineImage($connection, $engine_id);
+			$engineTitle = EnginesModels::model()->getEngineTitle($connection, $engine_id, $model_ids);
+			//echo'<pre>';print_r($engineImage,0);echo'</pre>';
 		}
+		
+		//echo'<pre>';print_r($criteria,0);echo'</pre>';
 		
         $dataProvider = new CActiveDataProvider('ShopProducts', array(
             'criteria'=>$criteria,
@@ -278,6 +289,10 @@ class ShopCategoriesController extends Controller
 			$itemView = "_view";
 		}
 		
+		// если не выбрана марка модель год то выводим уведомление
+		if($select_marka != -1 && $select_model != -1 && $select_year != -1) $show_search_notice = false;
+			else $show_search_notice = true;
+		
         if ($app->request->isAjaxRequest){
             $this->renderPartial('_loopAjax', array(
 				//'app'=> $app,
@@ -304,7 +319,9 @@ class ShopCategoriesController extends Controller
 				'firms' => $firms,
 				'productsTotal' => count($finded_product_ids),
 				'firmsDropDown' => $firmsDropDown,
-				'engineInfo' => $engineInfo,
+				'engineImage' => $engineImage,
+				'engineTitle' => $engineTitle,
+				'show_search_notice' => $show_search_notice,
 			);
 
 			$this->render('show', $data);
@@ -479,6 +496,11 @@ class ShopCategoriesController extends Controller
 			$itemView = "_view";
 		}
 		
+		// если выбрана марка модель год то выводим уведомление
+		if($select_marka != -1 && $select_model != -1 && $select_year != -1) $show_search_notice = true;
+			else $show_search_notice = false;
+		
+		
         if ($app->request->isAjaxRequest){
             $this->renderPartial('_loopAjax', array(
                 'dataProvider'=>$dataProvider,
@@ -495,6 +517,7 @@ class ShopCategoriesController extends Controller
 				'title' => $title,
 				//'producttypes' => $producttypes,
 				'productsTotal' => count($finded_product_ids),
+				'show_search_notice' => $show_search_notice,
 			);
 
 			$this->render('index', $data);

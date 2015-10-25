@@ -67,10 +67,6 @@ class EnginesController extends Controller
 		//подготавливаем выпадающий список модельного ряда
 		$model->DropDownListModels = ShopModelsAuto::model()->getDropDownlistDataProduct();
 		$model->getSelectedModels();
-		//$selected = 'Все';
-		//$list_data = array(0 => $selected);		
-		//$model->DropDownListModels = $list_data + $model->DropDownListModels;
-		
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -82,6 +78,9 @@ class EnginesController extends Controller
 				$model->scenario = 'upload_file';
 				$model->fileImage = CUploadedFile::getInstance($model,'fileImage');
 			}
+			
+			$this->setSelectedModels($model);
+			//echo'<pre>';print_r($model);echo'</pre>';die;			
 						
 			if($model->validate()) {
 				$model->uploadFile();
@@ -91,7 +90,6 @@ class EnginesController extends Controller
 				}	else	{
 					$this->redirect(array('update','id'=>$model->id));
 				}
-
 			}
 		}
 
@@ -165,14 +163,7 @@ class EnginesController extends Controller
 				$model->fileImage = CUploadedFile::getInstance($model,'fileImage');
 			}
 			
-			$SelectedModels = isset($_POST['Engines']['model_ids']) ? $_POST['Engines']['model_ids'] : array();
-			$selectedValues = array();
-			foreach($SelectedModels as $cat)	{
-				$selectedValues[$cat] = Array ( 'selected' => 'selected' );
-			}
-			$model->SelectedModels = $selectedValues;
-			//echo'<pre>';print_r($selectedValues);echo'</pre>';die;
-			
+			$this->setSelectedModels($model);
 			
 			
 			if($model->validate()) {
@@ -273,16 +264,18 @@ class EnginesController extends Controller
 			$model->attributes=$_GET['Engines'];
 		
 		//если выбрали какую-то модель авто - сохнаняем ее в сессию
-		$selected_model = $app->request->getParam('selected_model', -1);
+		$selected_model = $app->request->getParam('selected_model', 0);
 
-		if($selected_model > -1)	{
+		if($selected_model >= 0)	{
 			$app->session['Engines.selected_model'] = (int)$selected_model;
 		}
 		
-		$SelectedModel = -1;
+		$SelectedModel = 0;
 		if(isset($app->session['Engines.selected_model']))	{
 			$SelectedModel = (int)$app->session['Engines.selected_model'];
 		}
+		
+		//echo'<pre>';print_r($SelectedModel);echo'</pre>';//die;
 		
 
 		$this->render('admin',array(
@@ -311,12 +304,8 @@ class EnginesController extends Controller
 	public function actionRemoveimg($id=0)
 	{
 		$model = $this->loadModel($id);
-		
-		//echo'<pre>';print_r($model,0);echo'</pre>';die;
-
 		$model->deleteFile();
 		$model->save();
-		
 		$this->redirect(array('updatetomodel','id'=>$model->id));
 	}
 	
@@ -338,9 +327,7 @@ class EnginesController extends Controller
 		$model_copy = $this->loadModel($id);
 		
 		$model = new Engines();
-		$model->model_id = $model_copy->model_id;
 		$model->name = $model_copy->name.' copy';
-		$model->image_title = $model_copy->image_title;
 		$model->image_file = $model_copy->image_file;
 		$model->title = $model_copy->title;
 		$model->keywords = $model_copy->keywords;
@@ -399,5 +386,17 @@ class EnginesController extends Controller
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
+	}
+	
+	private function setSelectedModels(&$model)
+	{
+		$SelectedModels = isset($_POST['Engines']['model_ids']) ? $_POST['Engines']['model_ids'] : array();
+		$selectedValues = array();
+		foreach($SelectedModels as $cat)	{
+			$selectedValues[$cat] = array( 'selected' => 'selected' );
+		}
+		$model->SelectedModels = $selectedValues;
+		//echo'<pre>';print_r($selectedValues);echo'</pre>';die;
+		return;
 	}
 }

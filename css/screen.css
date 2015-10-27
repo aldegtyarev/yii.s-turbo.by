@@ -554,7 +554,7 @@ a:hover, .underline_n_y:hover, .product-types-list-item a.active .name:hover {
 }
 
 .jcarousel-control-prev,
-.jcarousel-control-next, .text_c, .logo-top, .search-auto-form .step-num, .product-list-item .status, .category-view .category-item-wr a, .category-view .category-item-wr a span, .engine-info, .search-notice p, .cart-step-num, .cart-remove, .advantages-title {
+.jcarousel-control-next, .text_c, .logo-top, .search-auto-form .step-num, .product-list-item .status, .category-view .category-item-wr a, .category-view .category-item-wr a span, .engine-info, .cart-step-num, .cart-remove, .advantages-title {
   text-align: center;
 }
 
@@ -1430,13 +1430,16 @@ span sup {
   box-shadow: none;
   text-shadow: none;
   margin: 34px 0 0 0;
-  width: 118px;
+  width: 135px;
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px;
   border-radius: 4px;
 }
 .search-auto-form .jq-selectbox__select:hover {
   background-color: transparent;
+}
+.search-auto-form .jq-selectbox__select:focus {
+  outline: none;
 }
 .search-auto-form .jq-selectbox__select-text {
   line-height: 37px;
@@ -1465,6 +1468,11 @@ span sup {
 .search-auto-form select {
   margin-top: 42px;
   background-color: #333;
+}
+
+.search-auto-form__border_white .jq-selectbox__select,
+.search-auto-form__border_white .jq-selectbox__trigger {
+  border-color: #fff;
 }
 
 .step-selected .jq-selectbox__select-text,
@@ -2018,12 +2026,15 @@ span sup {
 }
 .search-notice-1 img,
 .search-notice img {
-  height: 60px;
+  height: 45px;
   vertical-align: middle;
 }
 
 .search-notice img {
   margin-left: 90px;
+}
+.search-notice p {
+  padding-left: 92px;
 }
 
 .search-notice-1 img {

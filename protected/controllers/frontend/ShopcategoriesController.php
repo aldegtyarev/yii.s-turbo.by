@@ -97,7 +97,7 @@ class ShopCategoriesController extends Controller
 		$engineImage = null;
 		$engineTitle = null;
 		
-		//echo'<pre>';print_r($engine_id);echo'</pre>';//die;
+		//echo'<pre>';print_r($_POST);echo'</pre>';die;
 		
 		
 		if($selected_view != -1)	{

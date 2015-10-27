@@ -22,10 +22,15 @@ class SearchAutoWidget extends CWidget {
 			$select_year = null;
 			
 			$do_redirect = true;
+			
+			$return_url = '';
 		}	else	{
 			$select_marka = $app->request->getParam('select-marka', null);
 			$select_model = $app->request->getParam('select-model', null);
 			$select_year = $app->request->getParam('select-year', null);
+			
+			$return_url = $app->request->getParam('return', '');
+			if($return_url != '')	$return_url = base64_decode($return_url);
 			
 			if($select_marka != null) {
 				$do_redirect = true;
@@ -52,13 +57,17 @@ class SearchAutoWidget extends CWidget {
 		}
 		
 		if($do_redirect) {
+		//echo'<pre>';print_r($app->homeUrl);echo'</pre>';
+		//echo'<pre>';var_dump($return_url);echo'</pre>';
+		//die;
+			if($return_url != '' && $return_url != '/')
+				$this->owner->redirect($return_url);
+			
 			//$this->owner->redirect($app->homeUrl);
 			$this->owner->redirect($this->controller->createUrl('shopcategories/index'));
 		}
 		
 		
-		//echo'<pre>';print_r($rows);echo'</pre>';
-		//echo'<pre>';var_dump($select_model);echo'</pre>';
 		//echo'<pre>';var_dump($select_year);echo'</pre>';
 		
 		$markaDropDown = ShopModelsAuto::model()->getModelsLevel1($connection);
@@ -86,7 +95,7 @@ class SearchAutoWidget extends CWidget {
 			$yearDropDown = array();
 		}
 		
-//		/echo'<pre>';print_r($markaDropDown);echo'</pre>';die;
+		$return_url = base64_encode($app->request->requestUri);
 		
 		$this->render('SearchAutoWidget', array(
 			'markaDropDown' => $markaDropDown,
@@ -96,6 +105,7 @@ class SearchAutoWidget extends CWidget {
 			'select_marka' => $select_marka,
 			'select_model' => $select_model,
 			'select_year' => $select_year,
+			'return_url' => $return_url,
 		));
     }
 }

@@ -69,7 +69,7 @@
 .search-notice-1,
 .search-notice {
 	img {
-		height: 60px;
+		height: 45px;
 		vertical-align: middle;
 	}
 	
@@ -90,9 +90,7 @@
 	}
 	
 	p {
-		@extend %text_c;
-		
-		
+		padding-left: 92px;
 	}
 	
 }

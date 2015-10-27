@@ -214,7 +214,7 @@ class ShopModelsAutoController extends Controller
 		
 		
 		
-		echo CHtml::dropDownList($name, $selected, $dropdownData, array('empty' => $empty));
+		echo CHtml::dropDownList($name, $selected, $dropdownData, array('empty' => $empty, 'class'=>'search-auto-form__border_white'));
 		
 		Yii::app()->end();
 	}

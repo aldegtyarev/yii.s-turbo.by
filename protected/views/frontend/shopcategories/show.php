@@ -44,8 +44,8 @@ $params = $app->params;
 <div class="category-view">
 	<?php if($show_search_notice == true)	{	?>
 		<div class="search-notice">
-			<img src="/img/notice-arrow-up.png" alt="Для точного поиска, воспользуйтесь формой ПОИСК ПО АВТОМОБИЛЮ">
-			<p>Для точного поиска, воспользуйтесь формой ПОИСК ПО АВТОМОБИЛЮ</p>
+			<img src="/img/notice-arrow-up.png" alt="Для точного поиска, выберите СВОЙ АВТОМОБИЛЬ">
+			<p>Для точного поиска, выберите СВОЙ АВТОМОБИЛЬ</p>
 		</div>
 	<?php }	?>
 	

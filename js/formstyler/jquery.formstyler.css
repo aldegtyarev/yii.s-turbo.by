@@ -141,9 +141,11 @@
 	background: #F5F5F5;
 	box-shadow: inset 1px 1px 3px #DDD;
 }
+/*
 .jq-selectbox.focused .jq-selectbox__select {
 	border: 1px solid #5794BF;
 }
+*/
 .jq-selectbox.disabled .jq-selectbox__select {
 	border-color: #CCC;
 	background: #F5F5F5;

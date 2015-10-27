@@ -79,7 +79,7 @@
 		box-shadow: none;
 		text-shadow: none;
 		margin: 34px 0 0 0;
-		width: 118px;
+		width: 135px;
 		
 		@include border-radius(4px);
 		
@@ -89,6 +89,10 @@
 			.jq-selectbox__trigger-arrow {
 				@extend .ico-select-arrowhover;
 			}
+		}
+		
+		&:focus {
+			outline: none;
 		}
 	}
 	
@@ -143,6 +147,12 @@
 		background-color: #333;
 		@extend %c_999;
 	}
+}
+
+.search-auto-form__border_white .jq-selectbox__select,
+.search-auto-form__border_white .jq-selectbox__trigger { 
+	border-color: #fff;
+	
 }
 
 .step-selected .jq-selectbox__select-text,

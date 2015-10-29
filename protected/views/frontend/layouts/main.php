@@ -6,8 +6,8 @@
 	$app = Yii::app();
 	
 	//$requestUri	= $app->request->requestUri;
-	//$current_action = $app->getController()->getAction()->getId();
-	//$current_controller =  $app->getController()->getId();
+	$current_action = $app->getController()->getAction()->getId();
+	$current_controller =  $app->getController()->getId();
 	
 	//$baseUrl = $app->request->HostInfo;
 	//$baseUrl_banners = $baseUrl."/images/banners/";
@@ -22,15 +22,18 @@
 
 	//$cs->registerCoreScript('fancybox');
 	//$cs->registerCoreScript('selectbox');
+	
+	if($current_controller == 'site' && $current_action == 'index') $isMainPage = true;
+		else $isMainPage = false;
 
 ?>
 
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="language" content="ru" />
-
-	<!-- blueprint CSS framework -->
 	<?
 	/*
+
+	<!-- blueprint CSS framework -->
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/screen.css" media="screen, projection" />
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/print.css" media="print" />
 	*/
@@ -53,7 +56,7 @@
 <div id="msiMask"></div>
 <div class="wrapper">
 	<div class="wrapperPage">
-
+<? //echo $current_controller ?>
 		<header class="header">
 			<div class="top-line">
 				<div class="width-wrap">
@@ -62,7 +65,7 @@
 						<?php $this->widget('zii.widgets.CMenu',array(
 							'items'=>array(
 
-								array('label'=>'Главная', 'url'=>(Yii::app()->homeUrl)),
+								array('label'=>'Главная', 'url'=>(Yii::app()->homeUrl), 'itemOptions'=> $isMainPage ? array('class'=>'active') : array()),
 								//array('label'=>'тест', 'url'=>array('/pages/view', 'id'=> 1)),
 								array('label'=>'Оплата и доставка', 'url'=>array('/site/oplataidostavka')),
 								array('label'=>'Контакты', 'url'=>array('/site/contact')),

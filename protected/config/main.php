@@ -189,6 +189,12 @@ return array(
 					'js' => array('js/scripts.js'),
 					'depends' => array('jquery'),
 				),
+				
+				'phone-input' => array(
+					'baseUrl' => '/',
+					'js' => array('js/phone-input.js', 'js/jquery.maskedinput.min.js'),
+					'depends' => array('jquery'),
+				),
             ),
         ),	
 	),

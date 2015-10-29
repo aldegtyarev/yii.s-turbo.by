@@ -13,10 +13,12 @@ $this->breadcrumbs=array(
 $app = Yii::app();
 $baseUrl = $app->getBaseUrl(true).'/';
 
-$cs = $app->clientScript;
-$cs->registerCoreScript('fancybox');
-
 $clientScript = $app->clientScript;
+
+$clientScript->registerCoreScript('fancybox');
+$clientScript->registerCoreScript('phone-input');
+
+
 
 
 if ($model->metatitle)	{
@@ -87,8 +89,9 @@ $model_images = $model->Images;
 						<div class="row productdetails-price-row clearfix">
 							<span class="label"><? echo $model->getAttributeLabel('product_price');?>:</span>
 							<div class="value" id="productPrice<?=$model->product_id?>">
-								<p class="price"><?=PriceHelper::formatPrice($model->product_price, 3)?></p>
-								<p class="price-byr"><?=PriceHelper::formatPrice($model->product_price)?></p>
+								<p class="price-byr"><?=PriceHelper::formatPrice($model->product_price, $model->currency_id)?></p>
+								<p class="price"><?=PriceHelper::formatPrice($model->product_price, $model->currency_id, 3)?></p>
+								
 							</div>
 						</div>
 						
@@ -133,7 +136,11 @@ $model_images = $model->Images;
 							<? if(!empty($model->prepayment))	{	?>
 							<p class="row clearfix">
 								<span class="label"><? echo $model->getAttributeLabel('prepayment');?>:</span>
-								<span class="value"><?=$model->prepayment?></span>
+								<span class="value">
+									<?=$model->prepayment?>
+									<img src="/img/question_ico.gif" alt="предоплата" class="productdetails-prepayment-ico">
+								</span>
+								
 							</p>
 							<?	}	?>
 						
@@ -148,11 +155,11 @@ $model_images = $model->Images;
 					<?php 
 						echo Chtml::hiddenField('quantity', '1', array('class'=>'quantity', 'id'=>false));
 						echo Chtml::hiddenField('product_id', $model->product_id, array('class'=>'product_id', 'id'=>false));
-						echo CHtml::submitButton('В корзину', array('name'=>'addtocart','id'=>false,'class'=>'addtocart addtocart-button add button','title'=>'Добавить этот товар в корзину'));
+						echo CHtml::submitButton('В корзину', array('name'=>'addtocart','id'=>false,'class'=>'addtocart addtocart-button add button-green','title'=>'Добавить этот товар в корзину'));
 						echo CHtml::endForm(); 
 					?>
 										
-					<div class="productview-ask-question"><a href="#">Задать вопрос</a></div>
+					<?/*<div class="productview-ask-question"><a href="#">Задать вопрос</a></div>*/?>
 
 
 
@@ -166,13 +173,23 @@ $model_images = $model->Images;
 						</div>
 					</div>
 					<? echo CHtml::link('Сообщение корзины', '#cart-popup', array('id'=>'cart-message', 'class'=>'fancybox cart-message hidden')); ?>
+					
+					<div class="buy-in-one-click">
+						<a href="#" id="buy-in-one-click-btn" class="buy-in-one-click-btn">Купить в 1 клик</a>
+						<input type="text" id="buy-in-one-click-input" class="inputbox phone-input" placeholder="+375 (XX) XXX-XX-XX"/>
+						<img id="buy-in-one-click-sending" class="v-middle" src="/img/loading.gif" />
+						<p id="buy-in-one-click-err" class="buy-in-one-click-err">Укажите номер своего телефона</p>
+						<p id="buy-in-one-click-ok" class="buy-in-one-click-ok">Ваша заявка отправлена.</p>
+					</div>
 
 			</div>
-			<div class="productdetails-view-main-info-part productdetails-client-info">
+			<div class="productdetails-client-info">
 				<p class="title">Информация для клиента</p>
-				<div class="clearfix">
-					<p class="payment"><a href="#">Вопросы оплаты</a></p>
-					<p class="delivery"><a href="#">Информация по доствке</a></p>
+				<div class="productdetails-client-info-wr clearfix">
+					<p class="delivery"><a href="#" title="Доставка"><img src="/img/dostavka.png" alt="Доставка">Доставка</a></p>
+					<p class="payment"><a href="#" title="Оплата"><img src="/img/oplata.png" alt="Оплата">Оплата</a></p>
+					<p class="guarantie"><a href="#" title="Гарантия"><img src="/img/garanties.png" alt="Гарантия">Гарантия</a></p>
+					
 				</div>
 			</div>
 		</div>		

@@ -180,6 +180,29 @@ $(document).ready(function () {
 		return false;
 	});
 	
+	$('#buy-in-one-click-btn').on('click', function() {
+		$('#buy-in-one-click-err').hide();
+		$('#buy-in-one-click-ok').hide();
+		
+		if($('#buy-in-one-click-input').val() == '') {
+			$('#buy-in-one-click-err').slideDown();
+		} else {
+			$.ajax({
+				type: 'post',
+				url: '/product/buyoneclick',
+				data: {product_id : $('input[name="product_id"]').val(), phone : $('#buy-in-one-click-input').val()},
+				beforeSend: function () {
+					$('#buy-in-one-click-sending').show();
+				},
+				success: function (msg) {
+					$('#buy-in-one-click-sending').hide();
+					$('#buy-in-one-click-ok').slideDown();
+				}
+			});
+		}
+		return false;
+	});
+	
 	/*
 	$('.select-view-btn').on('click', function(e) {
 		e.preventDefault();

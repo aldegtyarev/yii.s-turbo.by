@@ -32,7 +32,9 @@ return CMap::mergeArray(
 					//'showcart'=>'cart/showcart',
 					'<path:.+cart>'=>'cart/<path>',
 					//'<path:.+-detail>'=>'shopproducts/detail',
+					'product/buyoneclick'=>'shopproducts/buyoneclick',
 					'product/<product>'=>'shopproducts/detail',
+					
 					'category/index'=>'shopcategories/index',
 					'category<id:.+>/type<type:.+>'=>'shopcategories/show',
 					'category<id:.+>/body<body:.+>'=>'shopcategories/show',

@@ -1,7 +1,7 @@
 /* Шапка сайта */
 .top-line {
   height: 43px;
-  background: #fff;
+  background-color: #f1f1f1;
 }
 
 .main-menu	{
@@ -154,7 +154,9 @@
 	@extend %c_fff;
 	@extend %underline_n_n;
 	@extend %uppercase;
-	@extend %font_11;
+	@extend %font_13;
+	
+	font-family: Calibri;
 
 	img {
 		@extend %db;
@@ -225,10 +227,19 @@
 	border-right: 1px solid #4c5154;
 	margin: 15px 0 0 0;
 	
+	
+	& > p {
+		//font-family: Calibri;
+		//@extend %font_18;
+		@extend %font_14;
+		@extend %bold;
+		
+	}
+	
 	.email,
 	.velcom,
 	.mts {
-		margin: 0 0 1px 0;
+		margin: 0 0 3px 0;
 		text-indent: 22px;
 	}
 	

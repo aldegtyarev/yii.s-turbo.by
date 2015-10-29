@@ -67,6 +67,10 @@
 	
 	@extend %pos_rel;
 	
+	.fields * {
+		
+	}
+	
 	.row {
 		margin: 0 0 15px 0;
 		
@@ -80,21 +84,24 @@
 	}
 	.label,
 	.value {
+		color: #2b2b2b;
 		
 		width: 50%;
 		
 		@extend %db;
 		@extend %pos_abs;
 		@extend %bold;
-		@extend %font_11;
+		
 	}
 	
 	.label {
+		@extend %font_12;
 		left: 0;
 		top: 0;
 		
 		
-		@extend %c_7e7e7e;
+		
+		font-weight: normal;
 	}
 	
 	.value {
@@ -102,6 +109,7 @@
 		top: 0;
 		
 		@extend %c_000;
+		@extend %font_14;
 	}
 	
 	.productdetails-price-row {
@@ -115,9 +123,14 @@
 	
 	.label {
 		line-height: 40px;
+		height: auto;
 		
 		@extend %font_14;
 		@extend %c_000;		
+	}
+	
+	.value {
+		height: auto;
 	}
 	
 	.price {
@@ -130,7 +143,7 @@
 	
 	.price-byr {
 		@extend %bold;
-		@extend %font_10;
+		@extend %font_12;
 		@extend %c_000;
 	}
 	
@@ -138,24 +151,23 @@
 }
 
 .productdetails-view .addtocart-button {
-	background: #d70000;
-	border-color: #d70000;
-	padding-left: 55px;
-	padding-right: 55px;	
+	padding-left: 25px;
+	padding-right: 25px;	
 	
-	@include border-radius(3px);
-	@include transition-property(background-color);
-	@include transition-duration(500ms);
+//	@include border-radius(3px);
+//	@include transition-property(background-color);
+//	@include transition-duration(500ms);
 	
 	//@extend %db;
-	@extend %pointer;
-	@extend %c_fff;
-	@extend %font_12;
+//	@extend %pointer;
+//	@extend %c_fff;
+	@extend %font_14;
+	@extend %bold;
 	
-	&:hover {
-		background: #be0000;
-		border-color: #d70000;
-	}	
+//	&:hover {
+//		background: #be0000;
+//		border-color: #d70000;
+//	}	
 	
 }
 
@@ -196,45 +208,79 @@
 		@extend %bold;
 	}
 	
-	.payment,
-	.delivery {
-		@extend %fl;
-		@extend %w_50;
-		@extend %for_sprite;
+	.productdetails-client-info-wr {
+		box-sizing: border-box;
+		margin-left: -3px;
+		margin-right: -3px;
 		
-		a {
-			margin-left: 45px;
-			
-			@extend %db;
-			@extend %c_d70000;
-			@extend %underline_y_n;
-			@extend %font_10;
-			@extend %bold;
-			
-		}
 	}
 	
-	.payment {
-		a {
-			width: 60px;
-		}
-		
-		&:before {
-			left: 10px;
-			top: 0;
-			
-			@extend .ico-payment-question;
-		}
-	}
+	.guarantie,
+	.payment,
 	.delivery {
-		&:before {
-			left: 10px;
-			top: 0;
+
+		@extend %fl;
+		@extend %w_33;
+		
+		box-sizing: border-box;
+		padding-left: 3px;
+		padding-right: 3px;
+		
+		
+		a {
+			@extend %db;
+			@extend %text_c;
+			@extend %underline_n_n;
+			@extend %font_13;
 			
-			@extend .ico-delivery-question;
+			padding-top: 3px;
+			box-sizing: border-box;
+			height: 60px;
+			line-height: 1;
+			color: #777;
+
+			background-color: #f3f3f3;
+			
+			&:hover {
+				background-color: #f0f0f0;
+			}
 		}
 		
+		
 	}
+	
+	.guarantie img {
+		margin: 0 15px 3px 15px;
+	}
+	
+	.payment img {
+		margin: 0 10px;
+	}
+	.delivery img {
+		margin: 5px 0 5px 0;
+	}
+	
+//	.payment {
+//		a {
+//			width: 60px;
+//		}
+//		
+//		&:before {
+//			left: 10px;
+//			top: 0;
+//			
+//			@extend .ico-payment-question;
+//		}
+//	}
+//	.delivery {
+//		&:before {
+//			left: 10px;
+//			top: 0;
+//			
+//			@extend .ico-delivery-question;
+//		}
+//		
+//	}
 }
 
 .productdetails-view-tab {
@@ -304,3 +350,52 @@
 		margin-bottom: 12px;
 	}
 }
+
+.buy-in-one-click {
+	white-space: nowrap;
+	padding-top: 30px;
+	
+	a {
+		@extend %font_13;
+		@extend %bold;
+		@extend %underline_y_n;
+		
+		color: #0066A4;
+	}
+	
+	.inputbox {
+		width: 150px;
+		margin-left: 5px;
+		padding: 3px;
+	}
+}
+
+.productdetails-prepayment-ico {
+	@extend .pos-rel;
+	top: -4px;
+}
+
+.buy-in-one-click img,
+.buy-in-one-click-err,
+.buy-in-one-click-ok {
+	display: none;
+}
+
+.buy-in-one-click-err,
+.buy-in-one-click-ok {
+	padding-top: 5px;
+}
+
+
+.buy-in-one-click img {
+	height: 12px;
+}
+
+.buy-in-one-click-err {
+	color: red;
+}
+
+.buy-in-one-click-ok {
+	color: green;
+}
+

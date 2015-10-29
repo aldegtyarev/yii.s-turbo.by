@@ -28,7 +28,7 @@ class ShopProductsController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view','detail','lastviewed'),
+				'actions'=>array('index','view','detail','lastviewed','buyoneclick'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -147,6 +147,11 @@ class ShopProductsController extends Controller
 		$this->render('lastViewed', $data);
 	}
 
+	
+	public function actionBuyoneclick()
+	{
+		echo 'ok';
+	}
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.

@@ -197,3 +197,16 @@
 }
 
 
+.cartBlockEmpty {
+	width: 145px;
+	
+	& > span {
+		@extend .pos-abs;
+		@extend %bold;
+		@extend %font_13;
+		
+		top: 10px;
+		left: 50px;
+		
+	}
+}

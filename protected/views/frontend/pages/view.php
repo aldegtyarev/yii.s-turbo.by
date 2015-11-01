@@ -3,25 +3,19 @@
 /* @var $model Pages */
 
 $this->breadcrumbs=array(
-	'Pages'=>array('index'),
 	$model->name,
 );
 
+$app = Yii::app();
+$clientScript = $app->clientScript;
+$clientScript->registerCoreScript('fancybox');
+
+
+MetaHelper::setMeta($this, $model);
+
 ?>
+<div class="page-cnt <?=$current_controller . '-' . $current_action?>">
+	<h1><?php echo $model->name; ?></h1>
 
-<h1>View Pages #<?php echo $model->id; ?></h1>
-
-<? echo $model->text; ?>
-
-<?
-/*
-маз 8585 белый
-16.15
-
-
-автобус
-
-
-коробочка для алексея
-*/
-?>
+	<div class="page-body"><? echo $model->text; ?></div>
+</div>

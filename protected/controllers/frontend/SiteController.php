@@ -75,13 +75,6 @@ class SiteController extends Controller
 	}
 	
 	
-	public function actionCompanies()
-	{
-		// renders the view file 'protected/views/site/index.php'
-		// using the default layout 'protected/views/layouts/main.php'
-		$this->render('empty-page');
-	}	
-
 	public function actionOplataidostavka()
 	{
 		// renders the view file 'protected/views/site/index.php'
@@ -131,8 +124,4 @@ class SiteController extends Controller
 		$this->redirect(Yii::app()->homeUrl);
 	}	
 	
-	public function actionSetparentid()
-	{
-		$res = ShopCategories::model()->setparentid();
-	}
 }

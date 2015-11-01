@@ -39,33 +39,34 @@ $form=$this->beginWidget('bootstrap.widgets.BsActiveForm', array(
 			  'attribute'=>'text',
 			  'language'=>'ru',
 			  'editorTemplate'=>'full',
-			  'height'=>'200px'
+			  'height'=>'600px'
 		)); ?>	
 		<?php echo $form->error($model,'text'); ?>
 	</div>
 	
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'meta_title'); ?>
-		<?php echo $form->textField($model,'meta_title',array('size'=>60,'maxlength'=>255)); ?>
-		<?php echo $form->error($model,'meta_title'); ?>
+		<?php echo $form->labelEx($model,'metatitle'); ?>
+		<?php echo $form->textField($model,'metatitle',array('size'=>60,'maxlength'=>255)); ?>
+		<?php echo $form->error($model,'metatitle'); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'meta_keywords'); ?>
-		<?php echo $form->textField($model,'meta_keywords',array('size'=>60,'maxlength'=>255)); ?>
-		<?php echo $form->error($model,'meta_keywords'); ?>
+		<?php echo $form->labelEx($model,'metakey'); ?>
+		<?php echo $form->textField($model,'metakey',array('size'=>60,'maxlength'=>255)); ?>
+		<?php echo $form->error($model,'metakey'); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'meta_description'); ?>
-		<?php echo $form->textArea($model,'meta_description',array('rows'=>6, 'cols'=>50)); ?>
-		<?php echo $form->error($model,'meta_description'); ?>		
+		<?php echo $form->label($model,'metadesc'); ?>
+		<?php echo $form->textArea($model,'metadesc',array('rows'=>6, 'cols'=>50)); ?>
+		<?php echo $form->error($model,'metadesc'); ?>		
 	</div>
 	
 
 	<div class="row buttons">
-		<?php echo BsHtml::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить', array('color' => BsHtml::BUTTON_COLOR_SUCCESS)); ?>
+		<?php echo BsHtml::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить', array('color' => BsHtml::BUTTON_COLOR_PRIMARY, 'name'=>'save')); ?>
+		<?php echo BsHtml::submitButton('Применить', array('color' => BsHtml::BUTTON_COLOR_SUCCESS, 'name'=>'apply')); ?>
 	</div>
 
 <?php $this->endWidget(); ?>

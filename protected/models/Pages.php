@@ -31,7 +31,7 @@ class Pages extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('name, text', 'required'),
-			array('name, alias, meta_title, meta_keywords, meta_description', 'length', 'max'=>255),
+			array('name, alias, metatitle, metakey, metadesc', 'length', 'max'=>255),
 			array('alias','ext.LocoTranslitFilter','translitAttribute'=>'name'), 
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
@@ -60,9 +60,9 @@ class Pages extends CActiveRecord
 			'name' => 'Заголовок',
 			'alias' => 'Alias',
 			'text' => 'Текст',
-			'meta_title' => 'Meta Title',
-			'meta_keywords' => 'Meta Keywords',
-			'meta_description' => 'Meta Description',
+			'metatitle' => 'Meta Title',
+			'metakey' => 'Meta Keywords',
+			'metadesc' => 'Meta Description',
 		);
 	}
 
@@ -88,9 +88,9 @@ class Pages extends CActiveRecord
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('alias',$this->alias,true);
 		$criteria->compare('text',$this->text,true);
-		$criteria->compare('meta_title',$this->meta_title,true);
-		$criteria->compare('meta_keywords',$this->meta_keywords,true);
-		$criteria->compare('meta_description',$this->meta_description,true);
+		$criteria->compare('metatitle',$this->metatitle,true);
+		$criteria->compare('metakey',$this->metakey,true);
+		$criteria->compare('metadesc',$this->metadesc,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

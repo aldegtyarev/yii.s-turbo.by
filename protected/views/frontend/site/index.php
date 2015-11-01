@@ -1,7 +1,12 @@
 <?php
 /* @var $this SiteController */
 
-$this->pageTitle=Yii::app()->name;
+$app = Yii::app();
+
+$this->pageTitle = $app->name;
+
+$clientScript = $app->clientScript;
+$clientScript->registerCoreScript('fancybox');
 
 
 ?>
@@ -9,7 +14,10 @@ $this->pageTitle=Yii::app()->name;
 
 <?php //$this->widget('application.components.NewProductsWidget'); ?>
 
-
+<style>
+	.fancybox-wrap {/*top:50px !important;*/max-width:800px !important;}
+	.fancybox-inner {max-width:760px !important;}
+</style>
 <div class="advantages">
 	<p class="advantages-title">Наши преимущества</p>
 	<div class="advantages-row">
@@ -18,18 +26,18 @@ $this->pageTitle=Yii::app()->name;
 				<div class="advantages-item-sdesc-cnt">
 					<p class="advantages-item-title"><span class="cifra">1</span><span class="n-news">Лучшие цены</span></p>
 					<div class="advantages-item-sdesc">
-						<p>Цены ниже<br>среднерыночных</p>
-						<p class="small">мы предложим самые конкурентные цены</p>
+						<?/*<p>Цены ниже<br>среднерыночных</p>*/?>
+						<p>Мы предлагаем самые<br>конкурентные цены</p>
 						<img src="/img/advantages-1.png" alt="Лучшие цены" class="advantages-item-img advantages-item-img-1">
-						<span class="advantages-item-detail">Подробнее</span>
+						<a href="#adv-item-1" class="advantages-item-detail fancybox1">Подробнее</a>
 					</div>
 				</div>
-				<div class="advantages-item-popup">
-					<div class="advantages-item-popup-cnt">
-						<p class="advantages-item-popup-title">Заголовок</p>
-						<p>Наша цель обеспечить высокий уровень обслуживания каждого клиента. Будем рады видеть вас среди наших постоянных покупателей.</p>
-						<a class="advantages-item-close-modal"><span>закрыть </span>x</a>
-					</div>
+				<div id="adv-item-1" class="advantages-item-popup" style="display:none; width:600px;">					
+					<p class="advantages-item-popup-title">Лучшие цены</p>
+					<ul>
+						<li>Мы постоянно следим за ценами и стремимся сделать для Вас лучшее предложение!</li>
+						<li>Наши цены ниже среднерыночных,  так как запасные части мы покупаем у производителей и официальных дилеров оптом.</li>
+					</ul>
 				</div>
 			</div>
 		</div>
@@ -46,14 +54,7 @@ $this->pageTitle=Yii::app()->name;
 							- самовывоз<br>
 						</p>
 						<img src="/img/advantages-2.png" alt="Доставка по всей Беларуси" class="advantages-item-img advantages-item-img-2">
-						<span class="advantages-item-detail">Подробнее</span>
-					</div>
-				</div>
-				<div class="advantages-item-popup">
-					<div class="advantages-item-popup-cnt">
-						<p class="advantages-item-popup-title">Заголовок</p>
-						<p>Наша цель обеспечить высокий уровень обслуживания каждого клиента. Будем рады видеть вас среди наших постоянных покупателей.</p>
-						<a class="advantages-item-close-modal"><span>закрыть </span>x</a>
+						<a href="<?= $this->createUrl('pages/delivery')?>" class="advantages-item-detail modal-url fancybox1 fancybox.ajax">Подробнее</a>
 					</div>
 				</div>
 			</div>
@@ -65,20 +66,13 @@ $this->pageTitle=Yii::app()->name;
 					<p class="advantages-item-title"><span class="cifra">3</span><span class="n-news">Удобная оплата</span></p>
 					<div class="advantages-item-sdesc">
 						<p class="small">
-							- наличными курьеру<br>
-							- наличными либо картой на почте<br>
-							- наличными либо картой через кассу банка<br>
+							- курьеру при получении<br>
+							- на почте при получении<br>
+							- через кассу банка<br>
 							- безналичный расчет (для юридических лиц)<br>
 						</p>
 						<img src="/img/advantages-3.png" alt="Удобная оплата" class="advantages-item-img advantages-item-img-3">
-						<span class="advantages-item-detail">Подробнее</span>
-					</div>
-				</div>
-				<div class="advantages-item-popup">
-					<div class="advantages-item-popup-cnt">
-						<p class="advantages-item-popup-title">Заголовок</p>
-						<p>Наша цель обеспечить высокий уровень обслуживания каждого клиента. Будем рады видеть вас среди наших постоянных покупателей.</p>
-						<a class="advantages-item-close-modal"><span>закрыть </span>x</a>
+						<a href="<?= $this->createUrl('pages/payment')?>" class="advantages-item-detail modal-url fancybox1 fancybox.ajax">Подробнее</a>
 					</div>
 				</div>
 			</div>
@@ -89,20 +83,12 @@ $this->pageTitle=Yii::app()->name;
 				<div class="advantages-item-sdesc-cnt">
 					<p class="advantages-item-title"><span class="cifra">4</span><span class="n-news">Гарантия и возврат</span></p>
 					<div class="advantages-item-sdesc">
-						<p>Все наши товары<br>сертифицированы и полностью<br>соответствуют оригиналу</p>
-						<p class="small">
-							- гарантия на товары 1 год<br>
-							- обмен/возврат в течении 14 дней<br>
+						<p>Все наши товары соответствуют<br>стандартам как международным,<br>так и национальным требованиям качества</p>
+						<p class="small" style="padding-top:5px;">
+							- обмен / возврат в течении 14 дней<br>
 						</p>
 						<img src="/img/advantages-4.png" alt="Гарантия и возврат" class="advantages-item-img advantages-item-img-4">
-						<span class="advantages-item-detail">Подробнее</span>
-					</div>
-				</div>
-				<div class="advantages-item-popup">
-					<div class="advantages-item-popup-cnt">
-						<p class="advantages-item-popup-title">Заголовок</p>
-						<p>Наша цель обеспечить высокий уровень обслуживания каждого клиента. Будем рады видеть вас среди наших постоянных покупателей.</p>
-						<a class="advantages-item-close-modal"><span>закрыть </span>x</a>
+						<a href="<?= $this->createUrl('pages/guarantee')?>" class="advantages-item-detail modal-url fancybox1 fancybox.ajax">Подробнее</a>
 					</div>
 				</div>
 			</div>

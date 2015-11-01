@@ -5,8 +5,7 @@
 }
 
 .search-auto-block-title {
-	/* padding: 40px 55px 40px 45px; */
-	padding: 36px 55px 36px 45px;
+	padding: 40px 55px 40px 45px;
 	width: 110px;
 	background: #d70000;
 	font-weight: bold;
@@ -20,6 +19,7 @@
 	@extend %uppercase;
 	@extend %fl;
 	@extend %font_14;
+	@extend %db;
 		
 	&:after {
 		content: '';
@@ -28,6 +28,10 @@
 		top: 49px;
 		border: 5px solid transparent;
 		border-left: 5px solid #d70000;
+	}
+	
+	img {
+		height: 30px;
 	}
 }
 

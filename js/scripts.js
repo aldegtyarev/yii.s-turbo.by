@@ -93,11 +93,22 @@ $(document).ready(function () {
 		}
 	);
 	
-	$('.tabs a').click(function(){
+	$('.nav-tabs a').on('click', function(){
 		switch_tabs(jQuery(this));
+		/*
+		var obj = jQuery(this);
+		//$('.tab-pane').hide();
+		//$('.nav-tabs li').removeClass("selected");
+		var id = jQuery(this).attr("href");
+		console.log(obj);
+		console.log(id);
+		$(id).show();
+		obj.parent().addClass("selected");
+		*/
+		return false
 	});
 
-	switch_tabs($('.defaultTab'));
+	switch_tabs($('.nav-tabs .defaultTab'));
 	
     $('#search-auto-form').on('change', '#select-marka', function () {
 		//$(this).parent().parent().parent().addClass('step-selected');
@@ -215,6 +226,10 @@ $(document).ready(function () {
 	
 	$('#firm').on('change', function() {
 		$('#select-view-form').submit();
+	});
+	
+	$('.modal-url').on('click', function() {
+		$(this).attr('href', ($(this).attr('href') + '?modal=1'));
 	});
 	
 	
@@ -336,9 +351,11 @@ function ClosePopUp() {
 
 function switch_tabs(obj)
 {
-	$('.tab-content').hide();
-	$('.tabs li').removeClass("selected");
-	var id = obj.attr("rel");
-	$('#'+id).show();
+	$('.tab-pane').hide();
+	$('.nav-tabs li').removeClass("selected");
+	var id = obj.attr("href");
+	//console.log(obj);
+	//console.log(id);
+	$(id).show();
 	obj.parent().addClass("selected");
 }

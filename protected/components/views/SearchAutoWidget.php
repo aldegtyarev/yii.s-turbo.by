@@ -19,7 +19,9 @@ if (count($yearDropDown))
 ?>
 <div class="search-auto-block clearfix">
 	<form id="searchautoform" action="" method="post">
-		<div class="search-auto-block-title">Поиск по автомобилю</div>
+		<a href="/" class="search-auto-block-title" title="Поиск по автомобилю">
+			<img src="/img/search-auto-ttl.png" alt="Поиск по автомобилю">
+		</a>
 		<div id="search-auto-form" class="search-auto-form">
 			<?php if($select_marka != NULL || $select_model != NULL || $select_year != NULL)	{	?>
 			<a href="javascript:void(0)" id="clear-search-auto" class="clear-search-auto">Сбросить фильтр по автомобилю</a>

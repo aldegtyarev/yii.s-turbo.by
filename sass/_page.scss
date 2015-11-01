@@ -1,0 +1,130 @@
+.page-cnt {
+	h1 {
+		@extend %dib;
+		@extend %font_20;
+		background-color: #fff;
+		margin: 0;
+		padding: 5px 10px;
+		
+		@include border-radius(5px 5px 0 0);
+	}
+}
+
+.page-body {
+	@include border-radius(0 5px 5px 5px);
+	
+	background-color: #fff;
+	padding: 20px 10px 10px 10px;
+	
+}
+
+.page-cnt {
+	p,
+	table,
+	ol,
+	ul {
+		margin-bottom: 15px;
+	}
+	
+	ul {
+		padding-left: 30px;
+	}
+	
+	li {
+		padding-bottom: 5px;
+		list-style: disc outside;
+	}
+	
+	table {
+		border-collapse: collapse;
+	}
+	
+	table, td {
+		border: 1px solid #000;
+	}
+	
+	td {
+		padding: 5px;
+	}
+	
+	a {
+		@extend %c_d70000;
+		@extend %underline_y_n;
+	}
+	
+	h4 {
+		color: #337ab7;
+		margin-bottom: 5px;
+		@extend %font_14;
+		
+	}
+	
+}
+
+.nav-tabs {
+	padding-bottom: 15px;
+	
+	ul {
+		padding-left: 0;
+	}
+	
+	li {
+		@extend %fl;
+		padding-right: 20px;
+		list-style: none;
+		
+		a {
+			@extend %dib;
+			@extend %underline_n_n;
+			@extend %font_14;
+			
+			color: #337ab7;
+			border-bottom: 1px dashed #337ab7;
+			
+			&:hover {
+				border-bottom: none;
+			}
+			
+			img {
+				height: 40px;
+				//margin: 0 auto;
+				@extend %db;
+				
+			}
+				
+		}
+		
+	}
+	
+	.selected a {
+		border-bottom: none;
+	}
+}
+
+.pages-townslist {
+	table {
+		border: none;
+	}
+	td {
+		vertical-align: top;
+		padding: 0 2px;
+		border: none;
+	}
+	
+	p {
+		margin-bottom: 5px;
+	}
+}
+
+.page-modal {
+	.tab-pane img {
+		height: 100px !important;
+		width: auto !important;
+	}
+	
+	&.pages-delivery {
+		p {
+			margin-bottom: 5px;
+		}
+	}
+}

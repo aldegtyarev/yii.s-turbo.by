@@ -11,5 +11,6 @@ CKEDITOR.editorConfig = function( config ) {
 	// при нажатии enter добавляем br
 	config.enterMode = CKEDITOR.ENTER_P ;
 	config.shiftEnterMode = CKEDITOR.ENTER_BR;
+	config.allowedContent = true;
 	
 };

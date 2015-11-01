@@ -70,8 +70,10 @@ class PagesController extends Controller
 		if(isset($_POST['Pages']))
 		{
 			$model->attributes=$_POST['Pages'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+			if($model->save()) {
+				if(isset($_POST['save'])) $this->redirect(array('admin'));
+					else  $this->redirect(array('update','id'=>$model->id));
+			}
 		}
 
 		$this->render('create',array(
@@ -94,8 +96,10 @@ class PagesController extends Controller
 		if(isset($_POST['Pages']))
 		{
 			$model->attributes=$_POST['Pages'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+			if($model->save()) {
+				if(isset($_POST['save'])) $this->redirect(array('admin'));
+					else  $this->redirect(array('update','id'=>$model->id));
+			}
 		}
 
 		$this->render('update',array(

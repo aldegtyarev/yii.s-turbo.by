@@ -8,7 +8,8 @@
 		background-color: #fff;
 		
 		@extend %c_d70000;
-		@extend %uppercase;
+		@extend %arial;
+		@extend %bold;
 		
 	}
 	
@@ -23,17 +24,17 @@
 			
 			@extend %db;
 			@extend %underline_n_n;
-			@extend %c_777;
+			@extend %c_000;
 			@extend %font_12;
 			
 			&:hover {
-				@extend %c_000;
+				@extend %c_d70000;
 			}
 			
 		}
 		
 		& > ul {
-			margin-left: 5px;
+			margin-left: 15px;
             margin-bottom: 15px;
 		}
 	}
@@ -43,12 +44,29 @@
 	}
 	
 	& .active > a {
-		@extend %c_000;
-		text-decoration: underline;
+		@extend %c_d70000;
+		/* text-decoration: underline; */
 	}
 	
 	& .active.parent > a {
-		text-decoration: none;
+		/* text-decoration: none; */
+		@extend %c_000;
+	}
+	
+	.cat-4613 > a,
+	.cat-4594 > a {
+		background: url('../img/cat1-ico.png') no-repeat 2px center;
+		padding-left: 24px;
+	}
+	
+	.cat-4593 > a {
+		background: url('../img/cat2-ico.png') no-repeat 2px 6px;
+		padding-left: 24px;
+	}
+	
+	.cat-4622 > a {
+		background: url('../img/cat3-ico.png') no-repeat 2px center;
+		padding-left: 24px;
 	}
 }
 
@@ -61,14 +79,14 @@
 		@extend %for_sprite;
 		@extend %pos_rel;
 		
-		&:before {
+/* 		&:before {
 			right: 10px;
 			top: 50%;
 			margin-top: -3px;
-
+		
 			@extend .ico-arrow-down;
 		}
-		
+		 */		
 		
 	}
 	

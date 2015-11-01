@@ -15,5 +15,15 @@ $(document).ready(function () {
 		}
 	});
 
+	$(".fancybox1").fancybox({
+		padding : 20,
+		helpers: {
+			overlay: {
+				locked: false
+			}
+		},
+	});
+
     
 });
+

@@ -17,14 +17,17 @@
 	$cs->registerCoreScript('scripts');
 	//$cs->registerCoreScript('fancybox');
 	$cs->registerCoreScript('formstyler');
-	//$cs->registerCoreScript('jcarousel-new-positions');
-	$cs->registerCoreScript('jcarousel-products-on-auto');
 
 	//$cs->registerCoreScript('fancybox');
 	//$cs->registerCoreScript('selectbox');
 	
 	if($current_controller == 'site' && $current_action == 'index') $isMainPage = true;
 		else $isMainPage = false;
+	
+	if($isMainPage) {
+		//$cs->registerCoreScript('jcarousel-new-positions');
+		$cs->registerCoreScript('jcarousel-products-on-auto');		
+	}
 
 ?>
 
@@ -52,8 +55,6 @@
 </head>
 
 <body>
-<div id="msiUniBox" class="window"></div>
-<div id="msiMask"></div>
 <div class="wrapper">
 	<div class="wrapperPage">
 <? //echo $current_controller ?>
@@ -67,9 +68,12 @@
 
 								array('label'=>'Главная', 'url'=>(Yii::app()->homeUrl), 'itemOptions'=> $isMainPage ? array('class'=>'active') : array()),
 								//array('label'=>'тест', 'url'=>array('/pages/view', 'id'=> 1)),
-								array('label'=>'Оплата и доставка', 'url'=>array('/site/oplataidostavka')),
-								array('label'=>'Контакты', 'url'=>array('/site/contact')),
-								array('label'=>'Отзывы', 'url'=>array('/site/feedback'), 'itemOptions'=>array('class'=>'last-item'),),
+								array('label'=>'Доставка', 'url'=>array('/pages/delivery')),
+								array('label'=>'Оплата', 'url'=>array('/pages/payment')),
+								array('label'=>'Гарантия', 'url'=>array('/pages/guarantee')),
+								array('label'=>'Контакты', 'url'=>array('/pages/contacts')),
+								array('label'=>'О нас', 'url'=>array('/pages/about'), 'itemOptions'=>array('class'=>'last-item')),
+								//array('label'=>'Отзывы', 'url'=>array('/site/feedback'), 'itemOptions'=>array('class'=>'last-item'),),
 							),'htmlOptions' => array('class'=>'main-menu clearfix', 'id'=>'main-menu')
 						)); ?>
 					</div>

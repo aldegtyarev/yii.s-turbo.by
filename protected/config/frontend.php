@@ -22,9 +22,7 @@ return CMap::mergeArray(
 				'urlFormat'=>'path',
 				'urlSuffix' => '.html',
 				'rules'=>array(
-					'<_action:(companies|contact|feedback)>'=>'site/<_action>',
-					'oplata-i-dostavka'=>'site/oplataidostavka',
-					//'companyes'=>'companies/index',
+					'<_action:(delivery|payment|guarantee|contacts|about|townslist)>'=>'pages/<_action>',
 					
 					//'shop/<path:.+>'=>'/shopcategories/show',
 

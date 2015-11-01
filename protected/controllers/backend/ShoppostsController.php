@@ -70,8 +70,11 @@ class ShopPostsController extends Controller
 		if(isset($_POST['ShopPosts']))
 		{
 			$model->attributes=$_POST['ShopPosts'];
-			if($model->save())
-				$this->redirect(array('admin'));
+			if($model->save()) {
+				if(isset($_POST['save'])) $this->redirect(array('admin'));
+					else  $this->redirect(array('update','id'=>$model->id));
+			}
+
 		}
 
 		$this->render('create',array(
@@ -94,8 +97,10 @@ class ShopPostsController extends Controller
 		if(isset($_POST['ShopPosts']))
 		{
 			$model->attributes=$_POST['ShopPosts'];
-			if($model->save())
-				$this->redirect(array('admin'));
+			if($model->save()) {
+				if(isset($_POST['save'])) $this->redirect(array('admin'));
+					else  $this->redirect(array('update','id'=>$model->id));
+			}
 		}
 
 		$this->render('update',array(

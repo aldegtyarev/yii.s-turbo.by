@@ -4,7 +4,7 @@
 	
 	
 	h3 {
-		padding: 8px 10px 15px 8px;
+		padding: 8px 10px 20px 8px;
 		background-color: #fff;
 		
 		@extend %c_d70000;
@@ -34,7 +34,7 @@
 		}
 		
 		& > ul {
-			margin-left: 15px;
+			//margin-left: 15px;
             margin-bottom: 15px;
 		}
 	}
@@ -53,21 +53,55 @@
 		@extend %c_000;
 	}
 	
-	.cat-4613 > a,
 	.cat-4594 > a {
-		background: url('../img/cat1-ico.png') no-repeat 2px center;
-		padding-left: 24px;
+		background: url('../img/optika7.png') no-repeat 2px 4px;
+		padding-left: 50px;
+		//font-family: Cambria, Tahoma;
 	}
 	
+	
 	.cat-4593 > a {
-		background: url('../img/cat2-ico.png') no-repeat 2px 6px;
-		padding-left: 24px;
+		background: url('../img/kuzov7.png') no-repeat 4px 5px;
+		padding-left: 43px;
+		//font-family: Cambria, Tahoma;
 	}
 	
 	.cat-4622 > a {
-		background: url('../img/cat3-ico.png') no-repeat 2px center;
-		padding-left: 24px;
+		background: url('../img/vihlop7.png') no-repeat 8px 4px;
+		padding-left: 40px;
+		//font-family: Cambria, Tahoma;
+		
 	}
+	
+	.cat-4613 > a {
+		background: url('../img/cooling7.png') no-repeat 5px 5px;
+		padding-left: 40px; 
+		//font-family: Cambria, Tahoma;
+	}
+	
+	.cat-4594,
+	.cat-4593,
+	.cat-4622,
+	.cat-4613	{
+		@extend %pos_rel;
+		
+		margin-bottom: 26px;
+		
+		&:after {
+			@extend %db;
+			@extend %pos_abs;
+			
+			content: '';
+			width: 90%;
+			height: 1px;
+			background-color: #c0c0c0;
+			bottom: -11px;
+			left: 50%;
+			margin-left: -46%;
+			
+		}
+	}
+	
 }
 
 .categories-menu {
@@ -92,6 +126,11 @@
 	
 	ul > li > ul{
 		@extend %hide;
+		margin-left: 10px;
+		
+		a {
+			color: #555;
+		}
 	}
 }
 

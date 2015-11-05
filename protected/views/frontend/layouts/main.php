@@ -116,6 +116,37 @@
 	
 	<footer class="footer">
 		<div class="width-wrap clearfix">
+			<div class="ur-data">
+				<p class="footer-hdr">Юридические данные</p>
+				<p class="txt">
+					ИП Коленко Виталий Викторович<br>
+					УНП 591400676<br>
+					Свидетельство №0280855 от 14.01.2011 г. Волковыск<br>
+					Зарегистрирован в Торговом реестре 05.11.2012 г.
+				</p>
+				
+				<p class="copyright">
+					© 2012-<?php echo date('Y'); ?> <span class="site-name">S-TURBO.BY</span><br>
+					<a href="#" class="copyright-note">Контент защищается от копирования технически и юридически</a>
+				</p>
+			</div>
+		
+			<div class="contacts">
+				<p class="footer-hdr">Контакты</p>
+				
+				<p class="phones phones-mts"><img src="/img/ico-mts.jpg" alt=""> +375 29 530 22 99</p>
+				<p class="phones phones-vel"><img src="/img/ico-velcom.png" alt="">+375 44 530 22 99</p>
+				<p class="email"><img src="/img/ico-email.png" alt="">info@s-turbo.by</p>
+			</div>
+
+			<div class="contacts">
+				<p class="footer-hdr">Звоните</p>
+				<p class="txt">
+					с 9.00 до 22.00 БЕЗ ВЫХОДНЫХ<br>
+					Заказы на сайте через корзину - КРУГЛОСУТОЧНО
+				</p>
+			</div>
+			<?/*
 			<div class="contacts">
 				<p class="footer-hdr">Контакты</p>
 				<p class="email">E-mail: info@s-turbo.by</p>
@@ -141,6 +172,9 @@
 				<p class="footer-hdr uppercase">Наш магазин</p>
 				<a href="#" class="view-map"><img src="/images/map.jpg" alt="Наш магазин" /></a>
 			</div>
+			*/?>
+			
+			
  		</div>
  		<div class="db-stat" style="display:none;"><? print_r(Yii::app()->db->getStats()); ?></div>
 	</footer>

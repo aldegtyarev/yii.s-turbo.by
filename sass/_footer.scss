@@ -2,10 +2,13 @@
 
 
 .footer {
-	height: 472px;
-	margin: -476px 0 0 0;
+	height: 220px;
+	//height: 472px;
+	margin: -224px 0 0 0;
 	border-top: 4px solid #d70000;
-	background: url("/img/footer-bg.jpg") no-repeat left center #3b3b3b;
+	//background: url("/img/footer-bg.jpg") no-repeat left center #3b3b3b;
+	background: #3b3b3b;
+	//background: url(../img/main-bg.jpg) no-repeat center -90px #414649;
 	position: relative;
 	z-index: 2;
 
@@ -21,13 +24,13 @@
 	}
 	
 	.contacts {
-		width: 300px;
+		width: 290px;
 		
 		@extend %fl;
 	}
 	
 	.ur-data {
-		width: 285px;
+		width: 385px;
 		margin: 0 25px 0 0;
 		
 		@extend %fl;
@@ -52,32 +55,59 @@
 	.adress,
 	.phones,
 	.email {
-		padding: 0 0 0 45px;
-		margin: 0 0 28px 0;
+//		padding: 0 0 0 45px;
+		margin: 0 0 10px 0;
 		
-		@extend %for_sprite;
+//		@extend %for_sprite;
+		img {
+			vertical-align: middle;
+			height: 15px;
+		}
+			
 	}
 	
 	.email {
-		height: 19px;
-		line-height: 19px;
+		@extend %font_14;
 		
-		&:before {
-			left: 0;
-			top: 0;
-			
-			@extend .ico-email;
+		img {
+			margin: -3px 5px 0 0;
 		}
+		
+//		height: 19px;
+//		line-height: 19px;
+		
+//		&:before {
+//			left: 0;
+//			top: 0;
+//			
+//			@extend .ico-email;
+//		}
 	}
 	
 	.phones {
 		
-		&:before {
-			left: 0;
-			top: 2px;
-			
-			@extend .ico-phone;
+//		&:before {
+//			left: 0;
+//			top: 2px;
+//			
+//			@extend .ico-phone;
+//		}
+		img {
+			&:first-of-type {
+				
+			}
+			&:last-of-type {
+				
+			}
 		}
+	}
+	
+	.phones-mts img {
+		margin: 0 5px 0 3px;
+	}
+	
+	.phones-vel img {
+		margin: 0 7px 0 0;
 	}
 	
 	.adress {
@@ -99,11 +129,15 @@
 }
 
 .footer-hdr {
-	margin: 0 0 30px 0;
+	margin: 0 0 15px 0;
 	
 	@extend %bold;
 	@extend %uppercase;
-	@extend %font_13;
+	@extend %font_17;
+}
+
+.copyright-note {
+	@extend %underline_y_n;
 }
 
 /* end Футер */

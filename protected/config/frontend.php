@@ -22,7 +22,8 @@ return CMap::mergeArray(
 				'urlFormat'=>'path',
 				'urlSuffix' => '.html',
 				'rules'=>array(
-					'<_action:(delivery|payment|guarantee|contacts|about|townslist)>'=>'pages/<_action>',
+					'<_action:(news|our)>/<alias:.+>'=>'pages/<_action>',
+					'<_action:(delivery|payment|guarantee|contacts|about|townslist|news|our)>'=>'pages/<_action>',
 					
 					//'shop/<path:.+>'=>'/shopcategories/show',
 

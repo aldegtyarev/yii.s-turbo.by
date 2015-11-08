@@ -553,9 +553,8 @@ class ShopModelsAuto extends CActiveRecord
 		$model = $this->findByPk($id);
 		$ancestors = $model->ancestors()->findAll();
 		if(count($ancestors)) {
-			foreach($ancestors as $row) {
+			foreach($ancestors as $row)
 				$chain_arr[] = $row->name;
-			}
 			
 			$full_name_arr[] = $this->name;
 		}

@@ -19,3 +19,25 @@
 		width: 100%;
 	}
 }
+
+.products-on-auto-item-img {
+	@extend %db;
+	
+	min-height: 210px;
+}
+
+.products-on-auto-item-ttl {
+	@extend %bold;
+	@extend %c_000;
+}
+
+.products-on-auto-item-intro {
+	@extend %c_000;
+}
+
+.products-on-auto-item-more {
+	@extend %underline_y_n;
+	
+	color: #1a8bfc;
+}
+

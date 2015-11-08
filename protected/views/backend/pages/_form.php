@@ -14,6 +14,10 @@ $form=$this->beginWidget('bootstrap.widgets.BsActiveForm', array(
 	// There is a call to performAjaxValidation() commented in generated controller code.
 	// See class documentation of CActiveForm for details on this.
 	'enableAjaxValidation'=>false,
+	'htmlOptions' =>	array(
+		'enctype'=>'multipart/form-data',
+	),
+	
 )); ?>
 
 	<p class="note">Поля, отмеченные <span class="required">*</span>, обязательны для заполнения.</p>
@@ -31,7 +35,37 @@ $form=$this->beginWidget('bootstrap.widgets.BsActiveForm', array(
 		<?php echo $form->textField($model,'alias',array('size'=>60,'maxlength'=>255)); ?>
 		<?php echo $form->error($model,'alias'); ?>
 	</div>
+	
+	<div class="row">
+		<?php echo $form->labelEx($model,'type'); ?>
+		<?php //echo $form->dropDownList($model, 'type', Yii::app()->params->pages_rubriks); ?>
+		<?php echo $form->dropDownList($model, 'type', $model->categoriesDropDownList); ?>
+		<?php echo $form->error($model,'type'); ?>
+	</div>
+	
+	<?php if($model->foto != '')	{	?>
+		<img src="<?= Yii::app()->params->pages_images_liveUrl . 'full_'.$model->foto ?>" alt="">
+		
+	<?php	}	?>
+	<fieldset>
+		<legend>Добавить фото</legend>
+		<input type="checkbox" value="1" name="no_watermark" id="no_watermark" /> <label for="no_watermark">Без водяного знака</label>
+		<?php echo BsHtml::activeFileField($model, 'uploading_foto'); ?>				
+	</fieldset>
+	
 
+	<div class="row">
+		<?php echo $form->labelEx($model,'intro'); ?>
+		<?php $this->widget('application.extensions.ckeditor.ECKEditor', array(
+			  'model'=>$model,
+			  'attribute'=>'intro',
+			  'language'=>'ru',
+			  'editorTemplate'=>'full',
+			  'height'=>'200px'
+		)); ?>	
+		<?php echo $form->error($model,'intro'); ?>
+	</div>
+	
 	<div class="row">
 		<?php echo $form->labelEx($model,'text'); ?>
 		<?php $this->widget('application.extensions.ckeditor.ECKEditor', array(

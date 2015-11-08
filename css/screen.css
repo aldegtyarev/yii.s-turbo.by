@@ -339,7 +339,7 @@ span.required, .breadcrumbs a, .sorting-block-conteiner .sorting-block a:hover,
   color: #999;
 }
 
-.c-777, .c_777 {
+.c-777, .c_777, .page-item-created {
   color: #777;
 }
 
@@ -351,7 +351,7 @@ span.required, .breadcrumbs a, .sorting-block-conteiner .sorting-block a:hover,
   color: #aaa;
 }
 
-h2, .c_000, .menu-cat li a, .menu-cat .active.parent > a, .news-block-item .item-title, .product-list-item .small span, .search-notice-1 p,
+h2, .c_000, .menu-cat li a, .menu-cat .active.parent > a, .news-block-item .item-title, .product-list-item .small span, .products-on-auto-item-ttl, .products-on-auto-item-intro, .search-notice-1 p,
 .search-notice p, .productdetails-view-main-info-part .value, .productdetails-price-row .label, .productdetails-price-row .price-byr, .advantages-item-popup p, .advantages-item-popup .advantages-item-popup-title {
   color: #000;
 }
@@ -375,7 +375,7 @@ h2, .c_000, .menu-cat li a, .menu-cat .active.parent > a, .news-block-item .item
   font-size: 9px;
 }
 
-.breadcrumbs, .font-10, .product-list-item .small, .productview-ask-question a, .filter-block .clear-filter, .advantages-item-sdesc .advantages-item-detail {
+.breadcrumbs, .font-10, .product-list-item .small, .page-item-created, .productview-ask-question a, .filter-block .clear-filter, .advantages-item-sdesc .advantages-item-detail {
   font-size: 10px;
 }
 
@@ -442,7 +442,7 @@ h1, h2, h3, b, strong, .button,
 .sorting-block-conteiner .currency-select, .sorting-block-conteiner .sorting-block a,
 .sorting-block-conteiner .currency-select a, .bold, .main-menu li a, .top-contacts > p, .search-auto-form .jq-selectbox__select-text, .search-auto-form .jq-selectbox__dropdown li, .menu-cat h3, .categories-menu > li > a, .news-block-item .item-title, .news-block .created-by,
 .news-block .created-by a,
-.news-block .created, .product-list-item .product-label, .product-list-item .status, .product-list-item-row-info-block .short-description li:before, .how-it-work-list .wr, .last-viewed-title, .last-viewed-status, .last-viewed-item-prices .price, .last-viewed-item-prices .price-byr, .category-view .category-item-wr a, .search-notice-1 p,
+.news-block .created, .product-list-item .product-label, .product-list-item .status, .product-list-item-row-info-block .short-description li:before, .products-on-auto-item-ttl, .how-it-work-list .wr, .last-viewed-title, .last-viewed-status, .last-viewed-item-prices .price, .last-viewed-item-prices .price-byr, .category-view .category-item-wr a, .search-notice-1 p,
 .search-notice p, .footer-hdr, .productdetails-view-main-info-part .label,
 .productdetails-view-main-info-part .value, .productdetails-price-row .price, .productdetails-price-row .price-byr, .productdetails-view .addtocart-button, .productview-ask-question a, .productdetails-client-info .title, .productdetails-view-tab .tabs a, .buy-in-one-click a, .filter-block .clear-filter, .filter-block-header, .product-types-list-item a.active span, .filter-block-all-items.active, .product-types-index-all a,
 .product-types-index-all p,
@@ -460,11 +460,11 @@ h2, .logo-top, .search-auto-block-title, .categories-menu > li > a, .news-block 
 }
 
 .breadcrumbs a, .sorting-block-conteiner .sorting-block a,
-.sorting-block-conteiner .currency-select a, .underline_y_n, .clear-search-auto, .news-block .all-items, .last-viewed-block .all-items, .copyright-note, .productview-ask-question a, .buy-in-one-click a, .product-types-list-item a .name, .page-cnt a {
+.sorting-block-conteiner .currency-select a, .underline_y_n, .clear-search-auto, .news-block .all-items, .products-on-auto-item-more, .last-viewed-block .all-items, .copyright-note, .productview-ask-question a, .buy-in-one-click a, .product-types-list-item a .name, .page-cnt a {
   text-decoration: underline;
 }
 .breadcrumbs a:hover, .sorting-block-conteiner .sorting-block a:hover,
-.sorting-block-conteiner .currency-select a:hover, .underline_y_n:hover, .clear-search-auto:hover, .news-block .all-items:hover, .last-viewed-block .all-items:hover, .copyright-note:hover, .productview-ask-question a:hover, .buy-in-one-click a:hover, .product-types-list-item a .name:hover, .page-cnt a:hover {
+.sorting-block-conteiner .currency-select a:hover, .underline_y_n:hover, .clear-search-auto:hover, .news-block .all-items:hover, .products-on-auto-item-more:hover, .last-viewed-block .all-items:hover, .copyright-note:hover, .productview-ask-question a:hover, .buy-in-one-click a:hover, .product-types-list-item a .name:hover, .page-cnt a:hover {
   text-decoration: none;
 }
 
@@ -492,7 +492,7 @@ a:hover, .underline_n_y:hover, .product-types-list-item a.active .name:hover {
   text-decoration: none;
 }
 
-.sideLeft, .container, .select-view-block a, .fLeft, .floatLeft, .main-menu li, .search-auto-block-title, .search-auto-form, .search-auto-form .step-wr, .news-block-item, .product-list-item-row-image-block .additional-images-list-item, .additional-images-wr ul, .additional-images-wr li, .products-on-auto-item, .how-it-work-list li, .category-view .category-item, .footer .contacts, .footer .ur-data, .productdetails-view-image-part, .productdetails-slider-images li, .productdetails-client-info .guarantie,
+.sideLeft, .container, .select-view-block a, .fLeft, .floatLeft, .main-menu li, .search-auto-block-title, .search-auto-form, .search-auto-form .step-wr, .news-block-item, .product-list-item-row-image-block .additional-images-list-item, .additional-images-wr ul, .additional-images-wr li, .page-cnt-main-image, .products-on-auto-item, .how-it-work-list li, .category-view .category-item, .footer .contacts, .footer .ur-data, .productdetails-view-image-part, .productdetails-slider-images li, .productdetails-client-info .guarantie,
 .productdetails-client-info .payment,
 .productdetails-client-info .delivery, .productdetails-view-tab .tabs li, .product-types-list-item, .product-types-block .filter-block-list, .product-types-index-all > li,
 .product-types-index > li, .advantages-item, .nav-tabs li {
@@ -504,10 +504,11 @@ a:hover, .underline_n_y:hover, .product-types-list-item a.active .name:hover {
 }
 
 .select-view-block a, .sorting-block-conteiner .sorting-block,
-.sorting-block-conteiner .currency-select, .db, .logo-top, .logo-top img, .search-auto-block-title, .search-auto-form .step-num, .search-auto-button, .menu-cat li a, .menu-cat .active > ul, .menu-cat .cat-4594:after,
+.sorting-block-conteiner .currency-select, .db, .logo-top, .logo-top img, .search-auto-block-title, .search-auto-form .step-num, .search-auto-button, .menu-cat li a, .menu-cat .active > ul, .menu-cat .cat-4635:after,
+.menu-cat .cat-4594:after,
 .menu-cat .cat-4593:after,
 .menu-cat .cat-4622:after,
-.menu-cat .cat-4613:after, .news-block-item .item-title, .product-list-item-row-image-block .additional-images-list-item a, .popup-full-img, .preloaderBig, .category-view .category-item-wr a, .category-view .category-item-wr a span, .productdetails-slider-images a, .productdetails-view-main-info-part .label,
+.menu-cat .cat-4613:after, .news-block-item .item-title, .product-list-item-row-image-block .additional-images-list-item a, .popup-full-img, .preloaderBig, .page-cnt-main-image, .products-on-auto-item-img, .category-view .category-item-wr a, .category-view .category-item-wr a span, .productdetails-slider-images a, .productdetails-view-main-info-part .label,
 .productdetails-view-main-info-part .value, .productdetails-client-info .guarantie a,
 .productdetails-client-info .payment a,
 .productdetails-client-info .delivery a, .filter-block .clear-filter, .product-types-list-item a, .nav-tabs li a img {
@@ -538,15 +539,17 @@ a:hover, .underline_n_y:hover, .product-types-list-item a.active .name:hover {
   display: none;
 }
 
-.sorting-block-conteiner, .pos-rel, .productdetails-prepayment-ico, .main-menu li, .consultant-block .status, .search-auto-form, .menu-cat .cat-4594,
+.sorting-block-conteiner, .pos-rel, .productdetails-prepayment-ico, .main-menu li, .consultant-block .status, .search-auto-form, .menu-cat .cat-4635,
+.menu-cat .cat-4594,
 .menu-cat .cat-4593,
 .menu-cat .cat-4622,
-.menu-cat .cat-4613, .categories-menu > li > a, .news-block-item-wr, .news-block .all-items, .product-list-item-row-info-block, .preloaderBig, .additional-images-wr ul, .additional-images-wr li, .how-it-work-list li, .last-viewed-title, .last-viewed-status, .last-viewed-item-wr, .category-view .category-item-wr a, .productdetails-view-main-info-part, .productdetails-view-main-info-part .row, .productdetails-view-tab .tabs li, .cart-summary td, .advantages-item-sdesc {
+.menu-cat .cat-4613, .categories-menu > li > a, .news-block-item-wr, .news-block .all-items, .product-list-item-row-info-block, .preloaderBig, .additional-images-wr ul, .additional-images-wr li, .pages-list .product-detail, .how-it-work-list li, .last-viewed-title, .last-viewed-status, .last-viewed-item-wr, .category-view .category-item-wr a, .productdetails-view-main-info-part, .productdetails-view-main-info-part .row, .productdetails-view-tab .tabs li, .cart-summary td, .advantages-item-sdesc {
   position: relative;
 }
 
 .jcarousel-control-prev,
-.jcarousel-control-next, .sorting-block-conteiner .currency-select, .pos-abs, .cartBlockEmpty > span, .consultant-block .status:before, .search-auto-form .step-num, .clear-search-auto, .menu-cat .cat-4594:after,
+.jcarousel-control-next, .sorting-block-conteiner .currency-select, .pos-abs, .cartBlockEmpty > span, .consultant-block .status:before, .search-auto-form .step-num, .clear-search-auto, .menu-cat .cat-4635:after,
+.menu-cat .cat-4594:after,
 .menu-cat .cat-4593:after,
 .menu-cat .cat-4622:after,
 .menu-cat .cat-4613:after, .product-list-item .product-label, .product-list-item-row-info-block:before, .last-viewed-item-pattern, .last-viewed-item-prices, .category-view .category-item-wr a span, .productdetails-view-main-info-part .label,
@@ -992,7 +995,7 @@ span sup {
   margin-bottom: 0px !important;
 }
 
-.mb-5 {
+.mb-5, .page-item-created {
   margin-bottom: 5px;
 }
 
@@ -1582,12 +1585,18 @@ span sup {
   background: url("../img/cooling7.png") no-repeat 5px 5px;
   padding-left: 40px;
 }
+.menu-cat .cat-4635 > a {
+  background: url("../img/tuning.png") no-repeat 5px 5px;
+  padding-left: 45px;
+}
+.menu-cat .cat-4635,
 .menu-cat .cat-4594,
 .menu-cat .cat-4593,
 .menu-cat .cat-4622,
 .menu-cat .cat-4613 {
   margin-bottom: 26px;
 }
+.menu-cat .cat-4635:after,
 .menu-cat .cat-4594:after,
 .menu-cat .cat-4593:after,
 .menu-cat .cat-4622:after,
@@ -1802,7 +1811,9 @@ span sup {
 
 .product-list-item-row-info-block {
   padding-left: 25px;
-  width: 350px;
+  padding-right: 10px;
+  width: 340px;
+  min-height: 155px;
 }
 .product-list-item-row-info-block:before {
   content: ' ';
@@ -1913,6 +1924,15 @@ span sup {
   margin-top: -10px;
 }
 
+.pages-list .product-detail {
+  top: 50%;
+  margin-top: -25px;
+}
+
+.page-cnt-main-image {
+  margin-right: 10px;
+}
+
 .products-on-auto .jcarousel-control-prev,
 .products-on-auto .jcarousel-control-next {
   top: -36px;
@@ -1928,6 +1948,14 @@ span sup {
 }
 .products-on-auto-item img {
   width: 100%;
+}
+
+.products-on-auto-item-img {
+  min-height: 210px;
+}
+
+.products-on-auto-item-more {
+  color: #1a8bfc;
 }
 
 /* ╨Ъ╨░╨║ ╤Н╤В╨╛ ╤А╨░╨▒╨╛╤В╨░╨╡╤В */

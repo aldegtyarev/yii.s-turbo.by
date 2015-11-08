@@ -278,7 +278,7 @@ class Engines extends CActiveRecord
 			foreach($selectedModels as $k=>$i)
 				$model_ids[] = $k;
 
-			//echo'<pre>';print_r($model_ids);echo'</pre>';
+			//echo'<pre>';print_r($model_ids);echo'</pre>';die;
 			$list_data = $this->getDropDownlistItems($model_ids);
 		}	else	{
 			$list_data = array();
@@ -299,6 +299,9 @@ class Engines extends CActiveRecord
 	
 	public function getDropDownlistItems($model_ids = array(0))
 	{
+		//$base_memory_usage = memory_get_usage();
+		//echo'<pre>';print_r($base_memory_usage);echo'</pre>';//die;
+		
 		$criteria = new CDbCriteria;
 		
 		//$criteria->distinct = true;
@@ -308,26 +311,73 @@ class Engines extends CActiveRecord
 		//$rows = $this->findAll($criteria);
 		$rows = EnginesModels::model()->findAll($criteria);
 		
-		$model_infos = array();
-		foreach($model_ids as $model_id) {
-			$model_infos[] = ShopModelsAuto::model()->findByPk($model_id);
-		}
+		
+		
+//		$model_infos = array();
+//		foreach($model_ids as $model_id) {
+//			$model_infos[] = ShopModelsAuto::model()->findByPk($model_id);
+//		}
 		
 		
 		
-		//echo'<pre>';print_r($rows);echo'</pre>';die;
-		foreach($rows as $row)	{
+		
+		//echo'<pre>';print_r(count($rows));echo'</pre>';//die;
+		//echo'<pre>';print_r(count($model_infos));echo'</pre>';//die;
+		
+//		echo "String memory usage test.\n\n";
+		
+		
+		//$this->memoryUsage(memory_get_usage(), $base_memory_usage);
+		
+		//$i = 1;
+		//$max = 50;
+		
+		foreach($rows as &$row)	{
+			//echo'<pre>-------------------</pre>';
+			//echo'<pre>';print_r($row->name);echo'</pre>';
 			
-			foreach($model_infos as $model_info) {
+			$model_title = ShopModelsAuto::model()->getModelChain($row->model_id);
+			$row->name = $model_title.' '.$row->engine->name;
+			/*
+			foreach($model_infos as &$model_info) {
 				$model_title = $model_info->getModelChain($row->model_id);
 				$row->name = $model_title.' '.$row->engine->name;
 				
+				echo'<pre>';print_r($row->name);echo'</pre>';
+				
+				$this->memoryUsage(memory_get_usage(), $base_memory_usage);
+				
+				$i++;
+				if($i > $max) break;
 			}
+			*/
+			$i++;
+			//if($i > $max) break;
+			
+			//echo'<pre>';print_r($row->name);echo'</pre>';
+			//echo'<pre>-------------------</pre>';
+			
+			//if($i > $max) break;
 		}
+		
+		//$this->memoryUsage(memory_get_usage(), $base_memory_usage);
+		//4886376
+		//4886056
+		//4885336
+		//echo'<pre>';print_r($rows);echo'</pre>';die;
+		
 		$result = CHtml::listData($rows, 'id','name');
 		//echo'<pre>';print_r($result);echo'</pre>';die;
 		return $result;
 	}
+	
+	function memoryUsage($usage, $base_memory_usage) {
+		echo'<pre>';printf("Bytes diff: %d\n", $usage - $base_memory_usage);echo'</pre>';
+	}
+	
+	function someBigValue() {
+		return str_repeat('SOME BIG STRING', 1024);
+	}	
 	
 	public function getEnginesInfo($model_id)
 	{

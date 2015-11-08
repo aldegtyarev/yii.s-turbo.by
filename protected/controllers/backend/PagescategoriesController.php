@@ -1,6 +1,6 @@
 <?php
 
-class PagesController extends Controller
+class PagescategoriesController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -33,7 +33,7 @@ class PagesController extends Controller
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array('create','update'),
-				'users'=>array('superman'),
+				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions'=>array('admin','delete'),
@@ -62,23 +62,16 @@ class PagesController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new Pages;
+		$model=new PagesCategories;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Pages']))
+		if(isset($_POST['PagesCategories']))
 		{
-			if($_FILES['Pages']["name"]["uploading_foto"]) {
-				$model->scenario = Pages::SCENARIO_UPLOADING_FOTO;
-				$model->uploading_foto = CUploadedFile::getInstance($model,'uploading_foto');
-			}			
-			
-			$model->attributes=$_POST['Pages'];
-			if($model->save()) {
-				if(isset($_POST['save'])) $this->redirect(array('admin'));
-					else  $this->redirect(array('update','id'=>$model->id));
-			}
+			$model->attributes=$_POST['PagesCategories'];
+			if($model->save())
+				$this->redirect(array('admin'));
 		}
 
 		$this->render('create',array(
@@ -98,18 +91,11 @@ class PagesController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Pages']))
+		if(isset($_POST['PagesCategories']))
 		{
-			if($_FILES['Pages']["name"]["uploading_foto"]) {
-				$model->scenario = Pages::SCENARIO_UPLOADING_FOTO;
-				$model->uploading_foto = CUploadedFile::getInstance($model,'uploading_foto');
-			}			
-			
-			$model->attributes=$_POST['Pages'];
-			if($model->save()) {
-				if(isset($_POST['save'])) $this->redirect(array('admin'));
-					else  $this->redirect(array('update','id'=>$model->id));
-			}
+			$model->attributes=$_POST['PagesCategories'];
+			if($model->save())
+				$this->redirect(array('admin'));
 		}
 
 		$this->render('update',array(
@@ -136,7 +122,7 @@ class PagesController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Pages');
+		$dataProvider=new CActiveDataProvider('PagesCategories');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
@@ -147,10 +133,10 @@ class PagesController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model=new Pages('search');
+		$model=new PagesCategories('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Pages']))
-			$model->attributes=$_GET['Pages'];
+		if(isset($_GET['PagesCategories']))
+			$model->attributes=$_GET['PagesCategories'];
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -161,12 +147,12 @@ class PagesController extends Controller
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer $id the ID of the model to be loaded
-	 * @return Pages the loaded model
+	 * @return PagesCategories the loaded model
 	 * @throws CHttpException
 	 */
 	public function loadModel($id)
 	{
-		$model=Pages::model()->findByPk($id);
+		$model=PagesCategories::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -174,11 +160,11 @@ class PagesController extends Controller
 
 	/**
 	 * Performs the AJAX validation.
-	 * @param Pages $model the model to be validated
+	 * @param PagesCategories $model the model to be validated
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='pages-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='pages-categories-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

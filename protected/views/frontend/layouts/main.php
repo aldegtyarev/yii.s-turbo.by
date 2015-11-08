@@ -24,10 +24,10 @@
 	if($current_controller == 'site' && $current_action == 'index') $isMainPage = true;
 		else $isMainPage = false;
 	
-	if($isMainPage) {
-		//$cs->registerCoreScript('jcarousel-new-positions');
-		$cs->registerCoreScript('jcarousel-products-on-auto');		
-	}
+//	if($isMainPage) {
+//		//$cs->registerCoreScript('jcarousel-new-positions');
+//		$cs->registerCoreScript('jcarousel-products-on-auto');
+//	}
 
 ?>
 

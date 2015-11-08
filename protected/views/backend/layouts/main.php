@@ -60,7 +60,8 @@ echo Yii::app()->theme->baseUrl . '/assets/js/respond.min.js';
 	<div id="header" class="row">
 		<div id="logo"><?php echo CHtml::encode(Yii::app()->name); ?></div>
 	</div><!-- header -->
-
+	
+	<?/*
 	<div id="mainmenu" class="row">
 		<?php $this->widget('zii.widgets.CMenu',array(
 			'items'=>array(
@@ -75,7 +76,16 @@ echo Yii::app()->theme->baseUrl . '/assets/js/respond.min.js';
 				array('label'=>'Группа товаров', 'url'=>array('shopproducttypes/admin'), 'visible'=>!Yii::app()->user->isGuest),
 				array('label'=>'Двигатели', 'url'=>array('engines/admin'), 'visible'=>!Yii::app()->user->isGuest),
 				array('label'=>'Валюта', 'url'=>array('currencies/admin'), 'visible'=>!Yii::app()->user->isGuest),
-				array('label'=>'Страницы', 'url'=>array('pages/admin'), 'visible'=>!Yii::app()->user->isGuest),
+				
+				array(
+					'label'=>'Страницы', 
+					'url'=>array('pages/admin'), 
+					'visible'=>!Yii::app()->user->isGuest,
+					'items' => array(
+						array('label'=>'Категории', 'url'=>array('pagescategories/admin')),
+					),
+				),
+				
 				array('label'=>'Новости магазина', 'url'=>array('shopposts/admin'), 'visible'=>!Yii::app()->user->isGuest),
 				//array('label'=>'Баннеры', 'url'=>array('banners/admin'), 'visible'=>!Yii::app()->user->isGuest),
 				array('label'=>'Вход', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
@@ -84,6 +94,57 @@ echo Yii::app()->theme->baseUrl . '/assets/js/respond.min.js';
 		)); ?>
 	<?php //$this->widget('application.components.MsiLogin'); ?>		
 	</div><!-- mainmenu -->
+	*/?>
+	<div class="row">
+	<?
+	
+	//$this->widget('bootstrap.widgets.BsNavbar', array());
+
+	$this->widget('bootstrap.widgets.BsNav', array(
+		'htmlOptions' => array('class' => 'navbar-nav navbar-default col-lg-12'),
+		'items' => array(
+					array(
+						'label'=>'Каталог', 
+						'url'=>array('#'), 
+						'visible'=>!Yii::app()->user->isGuest,
+						'items' => array(
+							array('label'=>'Товары', 'url'=>array('shopproducts/admin'), 'visible'=>!Yii::app()->user->isGuest),
+							array('label'=>'Адм. категории', 'url'=>array('shopadmincategories/admin'), 'visible'=>!Yii::app()->user->isGuest),
+							array('label'=>'Категории магазина', 'url'=>array('shopcategories/admin'), 'visible'=>!Yii::app()->user->isGuest),
+							array('label'=>'Модельный ряд', 'url'=>array('shopmodelsauto/admin'), 'visible'=>!Yii::app()->user->isGuest),			
+							array('label'=>'Фирмы', 'url'=>array('shopfirms/admin'), 'visible'=>!Yii::app()->user->isGuest),
+							array('label'=>'Группа товаров', 'url'=>array('shopproducttypes/admin'), 'visible'=>!Yii::app()->user->isGuest),
+							array('label'=>'Двигатели', 'url'=>array('engines/admin'), 'visible'=>!Yii::app()->user->isGuest),
+							
+						),
+					),
+
+					array(
+						'label'=>'Страницы', 
+						'url'=>array('#'), 
+						'visible'=>!Yii::app()->user->isGuest,
+						'items' => array(
+							array('label'=>'Список страниц', 'url'=>array('pages/admin')),
+							array('label'=>'Категории', 'url'=>array('pagescategories/admin')),
+						),
+					),
+			
+					array('label'=>'Валюта', 'url'=>array('currencies/admin'), 'visible'=>!Yii::app()->user->isGuest),			
+
+					//array('label'=>'Новости магазина', 'url'=>array('shopposts/admin'), 'visible'=>!Yii::app()->user->isGuest),
+					//array('label'=>'Баннеры', 'url'=>array('banners/admin'), 'visible'=>!Yii::app()->user->isGuest),
+					array('label'=>'Вход', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
+					array('label'=>'Выход ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest)
+
+		),
+	)); 
+	
+	
+	
+	?>
+	</div>
+	
+
 	
 	<?php if(isset($this->breadcrumbs)):?>
 		<div class="row">

@@ -3,18 +3,22 @@
 /* @var $dataProvider CActiveDataProvider */
 
 $this->breadcrumbs=array(
-	'Pages',
+	$model->name,
 );
 
-$this->menu=array(
-	array('label'=>'Create Pages', 'url'=>array('create')),
-	array('label'=>'Manage Pages', 'url'=>array('admin')),
-);
+MetaHelper::setMeta($this, $model);
 ?>
 
-<h1>Pages</h1>
+<h1><?= $model->name ?></h1>
 
-<?php $this->widget('zii.widgets.CListView', array(
-	'dataProvider'=>$dataProvider,
-	'itemView'=>'_view',
-)); ?>
+<?	if (count($dataProvider->data)) {	?>	
+	<div class="category-products-list pages-list">		
+		<? 
+			$this->renderPartial('_loop', array(
+				'app'=>$app,
+				'dataProvider'=>$dataProvider,
+				'url_path'=>$url_path,
+			));						 
+		?>
+	</div>		
+<?	}	?>

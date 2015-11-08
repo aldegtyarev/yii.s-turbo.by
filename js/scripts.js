@@ -243,17 +243,19 @@ $(document).ready(function () {
 	}
 	
 	$("#listView").on('mouseover', '.product-list-item-row .product-image', function() {
-		parent_el = $(this).parent();
-		hovered_img = $(this);
-		hovered = true;
-		
-		timeOut = setTimeout(function(){
-			if(hovered === true) {					
-				popup_gallery.html(('<span class="preloaderBig"></span>' + parent_el.find('.popup-prod-img').html()));
-				popup_img = popup_gallery.find('.popup-full-img');
-				loadGalleryImg(hovered_img, popup_img,  parent_el);
-			}
-		}, 500);
+		if(!$(this).hasClass('page-image')) {
+			parent_el = $(this).parent();
+			hovered_img = $(this);
+			hovered = true;
+
+			timeOut = setTimeout(function(){
+				if(hovered === true) {					
+					popup_gallery.html(('<span class="preloaderBig"></span>' + parent_el.find('.popup-prod-img').html()));
+					popup_img = popup_gallery.find('.popup-full-img');
+					loadGalleryImg(hovered_img, popup_img,  parent_el);
+				}
+			}, 500);
+		}
 	});
 	
 	$("#listView").on('mouseover', ".add-prod-img", function() {

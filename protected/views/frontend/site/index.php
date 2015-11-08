@@ -98,8 +98,11 @@ $clientScript->registerCoreScript('fancybox');
 	</div>
 </div>
 
+<?php $this->widget('application.components.NewsWidget', array('type' => 2)); ?>
 
+<?php $this->widget('application.components.NewsWidget', array('type' => 3)); ?>
 
+<?/*
 <div class="news-block clearfix">
 
 		<div class="header-wr">
@@ -173,6 +176,9 @@ $clientScript->registerCoreScript('fancybox');
 			</ul>
 		</div>
 </div>
+*/?>
+
+<?/*
 
 <div class="products-on-auto news-block">
 	<div class="header-wr">
@@ -224,6 +230,7 @@ $clientScript->registerCoreScript('fancybox');
 	</div>
 
 </div>
+*/?>
 
 
 <div class="content-text">

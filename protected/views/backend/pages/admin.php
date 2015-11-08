@@ -51,6 +51,7 @@ $this->widget('bootstrap.widgets.BsGridView', array(
 	'columns'=>array(
 		'id',
 		'name',
+		'type',
 		array(
 			'class' => 'CButtonColumn',
 			//'template' => '{update}&nbsp;{delete}&nbsp;{moveup}&nbsp;{movedown}',

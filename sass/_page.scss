@@ -128,3 +128,73 @@
 		}
 	}
 }
+
+.pages-list {
+	.product-detail {
+		@extend %pos_rel;
+		
+		top: 50%;
+		margin-top: -25px;
+	}
+	
+	.product-title {
+		@extend .mb-20;
+		
+		height: auto;
+	}
+	
+	.page-row-info {
+		@extend %pos_rel;
+		
+		min-height: 150px;
+	}
+	
+	.page-readmode {
+		@extend %pos_abs;
+		@extend %underline_y_n;
+		
+		right: 5px;
+		bottom: 0;
+		color: #1a8bfc;
+	}
+}
+
+.page-item-created {
+	@extend %font_10;
+	@extend %c_777;
+	@extend .mb-5;
+}
+
+.page-cnt-main-image {
+	@extend %db;
+	@extend %fr;
+	
+	margin-left: 10px;
+}
+
+.page-row-info {
+	margin-left: 230px;
+}
+
+.pages-news {
+	h1 {
+		display: block;
+	}
+	
+	.page-body {
+		@include border-radius(0 0 5px 5px);
+	}
+}
+
+.page-text-intro {
+	@extend %bold;
+}
+
+.yashare-auto-init {
+	@extend %fr;
+}
+
+.last-news-item {
+	///border: 1px solid #fff;
+	//background-color: #fff;
+}

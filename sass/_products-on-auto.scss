@@ -3,7 +3,47 @@
 	.jcarousel-control-prev,
 	.jcarousel-control-next {
 		top: -36px;
+		
+		border-color: #000;
+		
+		&:hover {
+			border-color: #000;			
+		}
+		
+		&:active {
+			border-color: #cdcdcd;			
+		}
+		
 	}
+	
+	.jcarousel-control-prev {
+		&:before {
+			@extend .ico-arrow-left-act;
+		}
+
+		&:hover:before {
+			@extend .ico-arrow-left-act;
+		}
+		
+		&:active:before {
+			@extend .ico-arrow-left;
+		}
+	}
+	
+	.jcarousel-control-next {
+		&:before {
+			@extend .ico-arrow-right-act;
+		}	
+
+		&:hover:before {
+			@extend .ico-arrow-right-act;
+		}	
+		&:active:before {
+			@extend .ico-arrow-right;
+		}
+	}
+	
+	
 }
 
 .products-on-auto-item {
@@ -23,7 +63,7 @@
 .products-on-auto-item-img {
 	@extend %db;
 	
-	min-height: 210px;
+	min-height: 175px;
 }
 
 .products-on-auto-item-ttl {

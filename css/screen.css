@@ -60,7 +60,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 }
 
 /* необходимо для @filter-gradient */
-.ico-sprite, .ico-adress, .footer .adress:before, .ico-arrow-down, .ico-arrow-left-act, .jcarousel-control-prev:hover:before, .ico-arrow-left-red, .ico-arrow-left, .jcarousel-control-prev:before, .ico-arrow-right-act, .jcarousel-control-next:hover:before, .ico-arrow-right-red, .how-it-work-list .wr:before, .ico-arrow-right, .jcarousel-control-next:before, .ico-cart-n, .add-tocart-btn, .ico-cart, .to-cart, .ico-clear-filter-black, .filter-block .clear-filter:before, .ico-clear-filter, .ico-consultant, .consultant-block:before, .ico-delivery-question, .ico-email, .ico-email1, .top-contacts .email:before, .ico-mts, .top-contacts .mts:before, .ico-no-avatar, .ico-on-product-page, .product-detail-tile, .ico-payment-question, .ico-phone, .ico-product-list-view1-act, .select-view-block .view-row:hover, .select-view-block .view-row-active, .ico-product-list-view1, .select-view-block .view-row, .ico-product-list-view2-act, .select-view-block .view-tile:hover, .select-view-block .view-tile-active, .ico-product-list-view2, .select-view-block .view-tile, .ico-question, .productview-ask-question:before, .ico-search-btn-white, .search-auto-button:before, .ico-search-btn, .search-block .search-btn, .ico-search-reset, .clear-search-auto:before, .ico-select-arrow, .search-auto-form .jq-selectbox__trigger-arrow, .ico-select-arrowhover, .search-auto-form .jq-selectbox__select:hover .jq-selectbox__trigger-arrow, .ico-top-menu-active-left, .main-menu li.active a:before, .main-menu li:hover a:before, .ico-top-menu-active-right, .main-menu li.active a:after, .main-menu li:hover a:after, .ico-top-menu-separator, .main-menu li:after, .ico-velcom, .top-contacts .velcom:before, .ico-we-work1, .how-it-work-list .step1:before, .ico-we-work2, .how-it-work-list .step2:before, .ico-we-work3, .how-it-work-list .step3:before, .ico-we-work4, .how-it-work-list .step4:before {
+.ico-sprite, .ico-adress, .footer .adress:before, .ico-arrow-down, .ico-arrow-left-act, .jcarousel-control-prev:hover:before, .products-on-auto .jcarousel-control-prev:before, .products-on-auto .jcarousel-control-prev:hover:before, .ico-arrow-left-red, .ico-arrow-left, .jcarousel-control-prev:before, .products-on-auto .jcarousel-control-prev:active:before, .ico-arrow-right-act, .jcarousel-control-next:hover:before, .products-on-auto .jcarousel-control-next:before, .products-on-auto .jcarousel-control-next:hover:before, .ico-arrow-right-red, .how-it-work-list .wr:before, .ico-arrow-right, .jcarousel-control-next:before, .products-on-auto .jcarousel-control-next:active:before, .ico-cart-n, .add-tocart-btn, .ico-cart, .to-cart, .ico-clear-filter-black, .filter-block .clear-filter:before, .ico-clear-filter, .ico-consultant, .consultant-block:before, .ico-delivery-question, .ico-email, .ico-email1, .top-contacts .email:before, .ico-mts, .top-contacts .mts:before, .ico-no-avatar, .ico-on-product-page, .product-detail-tile, .ico-payment-question, .ico-phone, .ico-product-list-view1-act, .select-view-block .view-row:hover, .select-view-block .view-row-active, .ico-product-list-view1, .select-view-block .view-row, .ico-product-list-view2-act, .select-view-block .view-tile:hover, .select-view-block .view-tile-active, .ico-product-list-view2, .select-view-block .view-tile, .ico-question, .productview-ask-question:before, .ico-search-btn-white, .search-auto-button:before, .ico-search-btn, .search-block .search-btn, .ico-search-reset, .clear-search-auto:before, .ico-select-arrow, .search-auto-form .jq-selectbox__trigger-arrow, .ico-select-arrowhover, .search-auto-form .jq-selectbox__select:hover .jq-selectbox__trigger-arrow, .ico-top-menu-active-left, .main-menu li.active a:before, .main-menu li:hover a:before, .ico-top-menu-active-right, .main-menu li.active a:after, .main-menu li:hover a:after, .ico-top-menu-separator, .main-menu li:after, .ico-velcom, .top-contacts .velcom:before, .ico-we-work1, .how-it-work-list .step1:before, .ico-we-work2, .how-it-work-list .step2:before, .ico-we-work3, .how-it-work-list .step3:before, .ico-we-work4, .how-it-work-list .step4:before {
   background-image: url('../img/ico-s2298154919.png');
   background-repeat: no-repeat;
 }
@@ -77,7 +77,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   width: 11px;
 }
 
-.ico-arrow-left-act, .jcarousel-control-prev:hover:before {
+.ico-arrow-left-act, .jcarousel-control-prev:hover:before, .products-on-auto .jcarousel-control-prev:before, .products-on-auto .jcarousel-control-prev:hover:before {
   background-position: 0 -28px;
   height: 11px;
   width: 6px;
@@ -89,13 +89,13 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   width: 9px;
 }
 
-.ico-arrow-left, .jcarousel-control-prev:before {
+.ico-arrow-left, .jcarousel-control-prev:before, .products-on-auto .jcarousel-control-prev:active:before {
   background-position: 0 -56px;
   height: 11px;
   width: 6px;
 }
 
-.ico-arrow-right-act, .jcarousel-control-next:hover:before {
+.ico-arrow-right-act, .jcarousel-control-next:hover:before, .products-on-auto .jcarousel-control-next:before, .products-on-auto .jcarousel-control-next:hover:before {
   background-position: 0 -67px;
   height: 11px;
   width: 6px;
@@ -107,7 +107,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   width: 9px;
 }
 
-.ico-arrow-right, .jcarousel-control-next:before {
+.ico-arrow-right, .jcarousel-control-next:before, .products-on-auto .jcarousel-control-next:active:before {
   background-position: 0 -95px;
   height: 11px;
   width: 6px;
@@ -375,7 +375,7 @@ h2, .c_000, .menu-cat li a, .menu-cat .active.parent > a, .news-block-item .item
   font-size: 9px;
 }
 
-.breadcrumbs, .font-10, .product-list-item .small, .page-item-created, .productview-ask-question a, .filter-block .clear-filter, .advantages-item-sdesc .advantages-item-detail {
+.breadcrumbs, .font-10, .product-list-item .small, .productview-ask-question a, .filter-block .clear-filter, .advantages-item-sdesc .advantages-item-detail, .page-item-created {
   font-size: 10px;
 }
 
@@ -447,7 +447,7 @@ h1, h2, h3, b, strong, .button,
 .productdetails-view-main-info-part .value, .productdetails-price-row .price, .productdetails-price-row .price-byr, .productdetails-view .addtocart-button, .productview-ask-question a, .productdetails-client-info .title, .productdetails-view-tab .tabs a, .buy-in-one-click a, .filter-block .clear-filter, .filter-block-header, .product-types-list-item a.active span, .filter-block-all-items.active, .product-types-index-all a,
 .product-types-index-all p,
 .product-types-index a,
-.product-types-index p, .cart-remove, .cartBlockEmpty > span, .advantages-item-title, .advantages-item-sdesc .advantages-item-detail, .advantages-title {
+.product-types-index p, .cart-remove, .cartBlockEmpty > span, .advantages-item-title, .advantages-item-sdesc .advantages-item-detail, .advantages-title, .page-text-intro {
   font-weight: bold;
 }
 
@@ -460,11 +460,11 @@ h2, .logo-top, .search-auto-block-title, .categories-menu > li > a, .news-block 
 }
 
 .breadcrumbs a, .sorting-block-conteiner .sorting-block a,
-.sorting-block-conteiner .currency-select a, .underline_y_n, .clear-search-auto, .news-block .all-items, .products-on-auto-item-more, .last-viewed-block .all-items, .copyright-note, .productview-ask-question a, .buy-in-one-click a, .product-types-list-item a .name, .page-cnt a {
+.sorting-block-conteiner .currency-select a, .underline_y_n, .clear-search-auto, .news-block .all-items, .products-on-auto-item-more, .last-viewed-block .all-items, .copyright-note, .productview-ask-question a, .buy-in-one-click a, .product-types-list-item a .name, .page-cnt a, .pages-list .page-readmode {
   text-decoration: underline;
 }
 .breadcrumbs a:hover, .sorting-block-conteiner .sorting-block a:hover,
-.sorting-block-conteiner .currency-select a:hover, .underline_y_n:hover, .clear-search-auto:hover, .news-block .all-items:hover, .products-on-auto-item-more:hover, .last-viewed-block .all-items:hover, .copyright-note:hover, .productview-ask-question a:hover, .buy-in-one-click a:hover, .product-types-list-item a .name:hover, .page-cnt a:hover {
+.sorting-block-conteiner .currency-select a:hover, .underline_y_n:hover, .clear-search-auto:hover, .news-block .all-items:hover, .products-on-auto-item-more:hover, .last-viewed-block .all-items:hover, .copyright-note:hover, .productview-ask-question a:hover, .buy-in-one-click a:hover, .product-types-list-item a .name:hover, .page-cnt a:hover, .pages-list .page-readmode:hover {
   text-decoration: none;
 }
 
@@ -492,14 +492,14 @@ a:hover, .underline_n_y:hover, .product-types-list-item a.active .name:hover {
   text-decoration: none;
 }
 
-.sideLeft, .container, .select-view-block a, .fLeft, .floatLeft, .main-menu li, .search-auto-block-title, .search-auto-form, .search-auto-form .step-wr, .news-block-item, .product-list-item-row-image-block .additional-images-list-item, .additional-images-wr ul, .additional-images-wr li, .page-cnt-main-image, .products-on-auto-item, .how-it-work-list li, .category-view .category-item, .footer .contacts, .footer .ur-data, .productdetails-view-image-part, .productdetails-slider-images li, .productdetails-client-info .guarantie,
+.sideLeft, .container, .select-view-block a, .fLeft, .floatLeft, .main-menu li, .search-auto-block-title, .search-auto-form, .search-auto-form .step-wr, .news-block-item, .product-list-item-row-image-block .additional-images-list-item, .additional-images-wr ul, .additional-images-wr li, .products-on-auto-item, .how-it-work-list li, .category-view .category-item, .footer .contacts, .footer .ur-data, .productdetails-view-image-part, .productdetails-slider-images li, .productdetails-client-info .guarantie,
 .productdetails-client-info .payment,
 .productdetails-client-info .delivery, .productdetails-view-tab .tabs li, .product-types-list-item, .product-types-block .filter-block-list, .product-types-index-all > li,
 .product-types-index > li, .advantages-item, .nav-tabs li {
   float: left;
 }
 
-.fRight, .floatRight, .search-auto-button, .footer .our-shop, .productdetails-view-main-info-part-wr, .filter-block .clear-filter {
+.fRight, .floatRight, .search-auto-button, .footer .our-shop, .productdetails-view-main-info-part-wr, .filter-block .clear-filter, .page-cnt-main-image, .yashare-auto-init {
   float: right;
 }
 
@@ -508,10 +508,10 @@ a:hover, .underline_n_y:hover, .product-types-list-item a.active .name:hover {
 .menu-cat .cat-4594:after,
 .menu-cat .cat-4593:after,
 .menu-cat .cat-4622:after,
-.menu-cat .cat-4613:after, .news-block-item .item-title, .product-list-item-row-image-block .additional-images-list-item a, .popup-full-img, .preloaderBig, .page-cnt-main-image, .products-on-auto-item-img, .category-view .category-item-wr a, .category-view .category-item-wr a span, .productdetails-slider-images a, .productdetails-view-main-info-part .label,
+.menu-cat .cat-4613:after, .news-block-item .item-title, .product-list-item-row-image-block .additional-images-list-item a, .popup-full-img, .preloaderBig, .products-on-auto-item-img, .category-view .category-item-wr a, .category-view .category-item-wr a span, .productdetails-slider-images a, .productdetails-view-main-info-part .label,
 .productdetails-view-main-info-part .value, .productdetails-client-info .guarantie a,
 .productdetails-client-info .payment a,
-.productdetails-client-info .delivery a, .filter-block .clear-filter, .product-types-list-item a, .nav-tabs li a img {
+.productdetails-client-info .delivery a, .filter-block .clear-filter, .product-types-list-item a, .nav-tabs li a img, .page-cnt-main-image {
   display: block;
 }
 
@@ -543,7 +543,7 @@ a:hover, .underline_n_y:hover, .product-types-list-item a.active .name:hover {
 .menu-cat .cat-4594,
 .menu-cat .cat-4593,
 .menu-cat .cat-4622,
-.menu-cat .cat-4613, .categories-menu > li > a, .news-block-item-wr, .news-block .all-items, .product-list-item-row-info-block, .preloaderBig, .additional-images-wr ul, .additional-images-wr li, .pages-list .product-detail, .how-it-work-list li, .last-viewed-title, .last-viewed-status, .last-viewed-item-wr, .category-view .category-item-wr a, .productdetails-view-main-info-part, .productdetails-view-main-info-part .row, .productdetails-view-tab .tabs li, .cart-summary td, .advantages-item-sdesc {
+.menu-cat .cat-4613, .categories-menu > li > a, .news-block-item-wr, .news-block .all-items, .product-list-item-row-info-block, .preloaderBig, .additional-images-wr ul, .additional-images-wr li, .how-it-work-list li, .last-viewed-title, .last-viewed-status, .last-viewed-item-wr, .category-view .category-item-wr a, .productdetails-view-main-info-part, .productdetails-view-main-info-part .row, .productdetails-view-tab .tabs li, .cart-summary td, .advantages-item-sdesc, .pages-list .product-detail, .pages-list .page-row-info {
   position: relative;
 }
 
@@ -553,7 +553,7 @@ a:hover, .underline_n_y:hover, .product-types-list-item a.active .name:hover {
 .menu-cat .cat-4593:after,
 .menu-cat .cat-4622:after,
 .menu-cat .cat-4613:after, .product-list-item .product-label, .product-list-item-row-info-block:before, .last-viewed-item-pattern, .last-viewed-item-prices, .category-view .category-item-wr a span, .productdetails-view-main-info-part .label,
-.productdetails-view-main-info-part .value, .productview-ask-question, .productview-ask-question a, .productdetails-view-tab .tabs sup, .cart-summary td:before, .cart-summary td:after, .advantages-item-sdesc .advantages-item-detail, .advantages-item-img {
+.productdetails-view-main-info-part .value, .productview-ask-question, .productview-ask-question a, .productdetails-view-tab .tabs sup, .cart-summary td:before, .cart-summary td:after, .advantages-item-sdesc .advantages-item-detail, .advantages-item-img, .pages-list .page-readmode {
   position: absolute;
 }
 
@@ -1007,7 +1007,7 @@ span sup {
   margin-bottom: 15px;
 }
 
-.mb-20 {
+.mb-20, .pages-list .product-title {
   margin-bottom: 20px;
 }
 
@@ -1589,6 +1589,11 @@ span sup {
   background: url("../img/tuning.png") no-repeat 5px 5px;
   padding-left: 45px;
 }
+.menu-cat .cat-4641 > a {
+  background: url("../img/accesories.png") no-repeat 5px 0;
+  padding-left: 40px;
+  padding-bottom: 15px;
+}
 .menu-cat .cat-4635,
 .menu-cat .cat-4594,
 .menu-cat .cat-4593,
@@ -1628,6 +1633,20 @@ span sup {
 }
 
 /* end ╨С╨╛╨║╨╛╨▓╨╛╨╡ ╨╝╨╡╨╜╤О */
+/*
+╤А╨░╨╖╨┤╨╡╨╗╨╕╤В╨╡╨╗╤М╨╜╨░╤П ╨┐╨╛╨╗╨╛╤Б╨░ ╨║╤А╨░╤Б╨╜╨░╤П ╤Б╨▓╨╡╤А╤Е╤Г ╨╜╨╛╨▓╨╛╤Б╤В╨╡╨╣.
+╤В╨░╨╝ ╨╢╨╡ ╨▓╨╝╨╡╤Б╤В╨╛ "╤З╨╕╤В╨░╤В╤М ╨┤╨░╨╗╤М╤И╨╡" - ╨┐╨╛╨┤╤А╨╛╨▒╨╜╨╡╨╡ + 
+╨┐╨╛╨┤╤В╤П╨╜╤Г╤В╤М ╨╖╨░╨│╨╛╨╗╨╛╨▓╨║╨╕ ╨▓ ╨║╨░╤А╤В╨╕╨╜╨║╨░╨╝ ╨╕ ╤Б╨┤╨╡╨╗╨░╤В╤М ╨╕╤Е ╤Б╤Б╤Л╨╗╨║╨░╨╝╨╕ ╨╕ ╨┤╨▒ ╨┐╨╛╨┤╤З╨╡╤А╨║╨╜╤Г╤В╤Л╨╝╨╕ ╨┐╤А╨╕ ╨╜╨░╨▓╨╡╨┤╨╡╨╜╨╕╨╕ +
+╤Б╨┤╨╡╨╗╨░╤В╤М ╨▒╨╡╨╗╤Г╤О ╨┐╨╛╨┤╨╗╨╛╨╢╨║╤Г ╨╕ ╨║╨░╤А╤В╨╕╨╜╨║╨╕ ╤Б ╤В╨╡╨╜╤П╨╝╨╕
+╨║╨╜╨╛╨┐╨║╨╕ ╨╜╨░╨▓╨╕╨│╨░╤Ж╨╕╨╕ ╤Б╨┤╨╡╨╗╨░╤В╤М ╤Б╤А╨░╨╖╤Г ╤З╨╡╤А╨╜╤Л╨╝╨╕. ╨Р ╤Б╨╡╤А╤Л╨╝╨╕ ╨╛╨╜╨╕ ╤Б╤В╨░╨╜╨╛╨▓╤П╤В╤Б╤П ╨╡╤Б╨╗╨╕ ╨╜╨░ ╨╜╨╕╤Е ╨╜╨░╨╢╨░╤В╤М ╨╝╤Л╤И╤М╤О.
+
+╤Б╨┐╨╕╤Б╨║╨╛ ╨╜╨╛╨▓╨╛╤Б╤В╨╡╨╣
+╨┐╤А╨╕ ╨║╨╗╨╕╨║╨╡ ╨╜╨░ ╨║╨░╤А╤В╨╕╨╜╨║╤Г ╨┐╨╛╨┐╨░╨┤╨░╨╡╨╝ ╨╜╨░ ╨╜╨╛╨▓╨╛╤Б╤В╤М.++
+
+╨╜╨░ ╤Б╤В╤А╨░╨╜╨╕╤Ж╨╡ ╨╜╨╛╨▓╨╛╤Б╤В╨╕ ╨╕╨╜╤В╤А╨╛-╤В╨╡╨║╤Б╤В ╤Б╤А╨░╨╖╤Г ╤Б╨┤╨╡╨╗╨░╤В╤М ╨╢╨╕╤А╨╜╤Л╨╝. +
+
+
+*/
 /* ╨С╨╗╨╛╨║ ╨╜╨╛╨▓╨╛╤Б╤В╨╡╨╣ */
 .news-block-body ul {
   margin: 0 -5px;
@@ -1924,18 +1943,18 @@ span sup {
   margin-top: -10px;
 }
 
-.pages-list .product-detail {
-  top: 50%;
-  margin-top: -25px;
-}
-
-.page-cnt-main-image {
-  margin-right: 10px;
-}
-
 .products-on-auto .jcarousel-control-prev,
 .products-on-auto .jcarousel-control-next {
   top: -36px;
+  border-color: #000;
+}
+.products-on-auto .jcarousel-control-prev:hover,
+.products-on-auto .jcarousel-control-next:hover {
+  border-color: #000;
+}
+.products-on-auto .jcarousel-control-prev:active,
+.products-on-auto .jcarousel-control-next:active {
+  border-color: #cdcdcd;
 }
 
 .products-on-auto-item {
@@ -1951,7 +1970,7 @@ span sup {
 }
 
 .products-on-auto-item-img {
-  min-height: 210px;
+  min-height: 175px;
 }
 
 .products-on-auto-item-more {
@@ -2871,4 +2890,37 @@ span sup {
 }
 .page-modal.pages-delivery p {
   margin-bottom: 5px;
+}
+
+.pages-list .product-detail {
+  top: 50%;
+  margin-top: -25px;
+}
+.pages-list .product-title {
+  height: auto;
+}
+.pages-list .page-row-info {
+  min-height: 150px;
+}
+.pages-list .page-readmode {
+  right: 5px;
+  bottom: 0;
+  color: #1a8bfc;
+}
+
+.page-cnt-main-image {
+  margin-left: 10px;
+}
+
+.page-row-info {
+  margin-left: 230px;
+}
+
+.pages-news h1 {
+  display: block;
+}
+.pages-news .page-body {
+  -moz-border-radius: 0 0 5px 5px;
+  -webkit-border-radius: 0;
+  border-radius: 0 0 5px 5px;
 }

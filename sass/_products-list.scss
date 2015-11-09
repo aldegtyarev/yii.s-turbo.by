@@ -316,25 +316,3 @@
 	margin-top: -10px;
 
 }
-
-.pages-list {
-	.product-detail {
-		@extend %pos_rel;
-		
-		top: 50%;
-		margin-top: -25px;
-	}
-}
-
-.page-item-created {
-	@extend %font_10;
-	@extend %c_777;
-	@extend .mb-5;
-}
-
-.page-cnt-main-image {
-	@extend %db;
-	@extend %fl;
-	
-	margin-right: 10px;
-}

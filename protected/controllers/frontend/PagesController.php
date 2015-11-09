@@ -182,6 +182,9 @@ class PagesController extends Controller
 		
 		$breadcrumbs[] = $model->name;
 		
+		$aadThumbnails = new AadThumbnails();
+		//$aadThumbnails->onPrepareContent($model);
+		
 		if($modal == 0) {
 			$this->render('view',array(
 				'model'=>$model,

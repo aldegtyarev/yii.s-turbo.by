@@ -216,7 +216,7 @@ return array(
 		'product_imagePath' => 'webroot.images.shop.products',
 		'product_images_liveUrl' => '/images/shop/products/',
 		'universal_products' => '1247',	// id универсальных товаров в модельном ряде
-		'count_last_viewed_in_widget' => '5',	// кол-во последних просмотренных в виджете слева
+		'count_last_viewed_in_widget' => '2',	// кол-во последних просмотренных в виджете слева
 		'count_last_viewed_in_page' => '20',	// кол-во последних просмотренных в отдельной странице
 		//'usd_rate' => 18000,	// курс USD
 		'pages_imagePath' => 'webroot.images.pages',

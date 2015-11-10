@@ -4,10 +4,12 @@
 	.jcarousel-control-next {
 		top: -36px;
 		
-		border-color: #000;
+		//border-color: #000;
+		border-color: #d1d1d1;
 		
 		&:hover {
-			border-color: #000;			
+			//border-color: #000;			
+			border-color: #d1d1d1;			
 		}
 		
 		&:active {
@@ -17,6 +19,8 @@
 	}
 	
 	.jcarousel-control-prev {
+		right: 20px;
+		
 		&:before {
 			@extend .ico-arrow-left-act;
 		}
@@ -31,6 +35,9 @@
 	}
 	
 	.jcarousel-control-next {
+		right: 0;
+		
+		
 		&:before {
 			@extend .ico-arrow-right-act;
 		}	
@@ -60,11 +67,24 @@
 	}
 }
 
+.news-block {
+	.products-on-auto-item {
+		box-sizing: border-box;
+		width: 248px;
+	}
+}
+
 .products-on-auto-item-img {
 	@extend %db;
 	
+	border: 2px solid #fff;
+}
+
+.products-on-auto-item-img-cnt {	
 	min-height: 175px;
 }
+
+
 
 .products-on-auto-item-ttl {
 	@extend %bold;

@@ -33,7 +33,7 @@
 </div>
 */?>
 
-<div class="products-on-auto news-block">
+<div class="products-on-auto news-block <?= $url_path . '-list'?>">
 	<div class="header-wr">
 		<h3><?= $block_title ?></h3>
 		<a href="<?= $this->controller->createUrl('pages/'.$url_path); ?>" class="all-items"><?= $url_title ?></a>

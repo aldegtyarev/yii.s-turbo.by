@@ -8,10 +8,15 @@ $url = $this->controller->createUrl('pages/'.$url_path, array('alias'=>$data->al
 ?>
 
 <li class="products-on-auto-item last-news-item floatLeft">
-	<a class="products-on-auto-item-img" href="<?= $url ?>" title="<?= $data->name ?>">
-		<img src="<?= $data->foto?>" alt="" class="medium-image">
+	<a href="<?= $url ?>" title="<?= $data->name ?>" class="db">
+		<span class="db products-on-auto-item-img-cnt">
+		<span class="db products-on-auto-item-img">
+			<img src="<?= $data->foto?>" alt="" class="medium-image">
+		</span>
+		</span>
+		<span class="db products-on-auto-item-ttl"><?= $data->name ?></span>
 	</a>
-	<a href="<?= $url ?>" title="<?= $data->name ?>" class="db products-on-auto-item-ttl"><?= $data->name ?></a>			
+	<?/*<a href="<?= $url ?>" title="<?= $data->name ?>" class="db products-on-auto-item-ttl"><?= $data->name ?></a>*/?>
 	<p class="products-on-auto-item-intro">
 		<?= strip_tags($data->intro) ?>
 		<br>

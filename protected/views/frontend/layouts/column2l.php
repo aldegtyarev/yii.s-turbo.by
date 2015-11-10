@@ -37,7 +37,7 @@ $images_live_url = Yii::app()->params->images_live_url;
 		<!-- VK Widget -->
 		<div id="vk_groups" class="vk_groups"></div>
 		<script type="text/javascript">
-		VK.Widgets.Group("vk_groups", {mode: 0, width: "180", height: "400"}, 38498818);
+		VK.Widgets.Group("vk_groups", {mode: 0, width: "180", height: "350"}, 38498818);
 		</script>
 	</div>
 	

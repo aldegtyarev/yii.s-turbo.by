@@ -351,7 +351,7 @@ span.required, .breadcrumbs a, .sorting-block-conteiner .sorting-block a:hover,
   color: #aaa;
 }
 
-h2, .c_000, .menu-cat li a, .menu-cat .active.parent > a, .news-block-item .item-title, .product-list-item .small span, .products-on-auto-item-ttl, .products-on-auto-item-intro, .search-notice-1 p,
+h2, h3, .c_000, .menu-cat li a, .menu-cat .active.parent > a, .news-block-item .item-title, .product-list-item .small span, .products-on-auto-item-ttl, .products-on-auto-item-intro, .search-notice-1 p,
 .search-notice p, .productdetails-view-main-info-part .value, .productdetails-price-row .label, .productdetails-price-row .price-byr, .advantages-item-popup p, .advantages-item-popup .advantages-item-popup-title {
   color: #000;
 }
@@ -455,7 +455,7 @@ i, em, .errorMessage, .italic, .logo-top, .search-auto-block-title {
   font-style: italic;
 }
 
-h2, .logo-top, .search-auto-block-title, .categories-menu > li > a, .news-block .header-wr h3, .last-viewed-block h3, .footer-hdr, .advantages-item-popup .advantages-item-popup-title, .advantages-item-sdesc .advantages-item-detail, .advantages-title {
+h2, h3, .logo-top, .search-auto-block-title, .categories-menu > li > a, .news-block .header-wr h3, .last-viewed-block h3, .footer-hdr, .advantages-item-popup .advantages-item-popup-title, .advantages-item-sdesc .advantages-item-detail, .advantages-title {
   text-transform: uppercase;
 }
 
@@ -720,7 +720,7 @@ img {
 }
 
 .content-text p {
-  margin: 0 0 28px 0;
+  padding: 0 0 28px 0;
   color: #333;
 }
 
@@ -921,11 +921,12 @@ span sup {
 .jcarousel-control-prev,
 .jcarousel-control-next {
   top: -25px;
-  width: 21px;
-  height: 21px;
+  width: 16px;
+  height: 16px;
   text-indent: 7777px;
   overflow: hidden;
-  border: 1px solid #cdcdcd;
+  border: 1px solid #d1d1d1;
+  background-color: #f5f5f5;
   -moz-border-radius: 2px;
   -webkit-border-radius: 2px;
   border-radius: 2px;
@@ -1003,7 +1004,7 @@ span sup {
   margin-bottom: 10px;
 }
 
-.mb-15, .advantages-item-popup p, .advantages-item-popup li {
+.mb-15, h3, .advantages-item-popup p, .advantages-item-popup li {
   margin-bottom: 15px;
 }
 
@@ -1553,6 +1554,7 @@ span sup {
 .menu-cat h3 {
   padding: 8px 10px 20px 8px;
   background-color: #fff;
+  margin-bottom: 0;
 }
 .menu-cat .body {
   background-color: #fff;
@@ -1633,20 +1635,6 @@ span sup {
 }
 
 /* end ╨С╨╛╨║╨╛╨▓╨╛╨╡ ╨╝╨╡╨╜╤О */
-/*
-╤А╨░╨╖╨┤╨╡╨╗╨╕╤В╨╡╨╗╤М╨╜╨░╤П ╨┐╨╛╨╗╨╛╤Б╨░ ╨║╤А╨░╤Б╨╜╨░╤П ╤Б╨▓╨╡╤А╤Е╤Г ╨╜╨╛╨▓╨╛╤Б╤В╨╡╨╣.
-╤В╨░╨╝ ╨╢╨╡ ╨▓╨╝╨╡╤Б╤В╨╛ "╤З╨╕╤В╨░╤В╤М ╨┤╨░╨╗╤М╤И╨╡" - ╨┐╨╛╨┤╤А╨╛╨▒╨╜╨╡╨╡ + 
-╨┐╨╛╨┤╤В╤П╨╜╤Г╤В╤М ╨╖╨░╨│╨╛╨╗╨╛╨▓╨║╨╕ ╨▓ ╨║╨░╤А╤В╨╕╨╜╨║╨░╨╝ ╨╕ ╤Б╨┤╨╡╨╗╨░╤В╤М ╨╕╤Е ╤Б╤Б╤Л╨╗╨║╨░╨╝╨╕ ╨╕ ╨┤╨▒ ╨┐╨╛╨┤╤З╨╡╤А╨║╨╜╤Г╤В╤Л╨╝╨╕ ╨┐╤А╨╕ ╨╜╨░╨▓╨╡╨┤╨╡╨╜╨╕╨╕ +
-╤Б╨┤╨╡╨╗╨░╤В╤М ╨▒╨╡╨╗╤Г╤О ╨┐╨╛╨┤╨╗╨╛╨╢╨║╤Г ╨╕ ╨║╨░╤А╤В╨╕╨╜╨║╨╕ ╤Б ╤В╨╡╨╜╤П╨╝╨╕
-╨║╨╜╨╛╨┐╨║╨╕ ╨╜╨░╨▓╨╕╨│╨░╤Ж╨╕╨╕ ╤Б╨┤╨╡╨╗╨░╤В╤М ╤Б╤А╨░╨╖╤Г ╤З╨╡╤А╨╜╤Л╨╝╨╕. ╨Р ╤Б╨╡╤А╤Л╨╝╨╕ ╨╛╨╜╨╕ ╤Б╤В╨░╨╜╨╛╨▓╤П╤В╤Б╤П ╨╡╤Б╨╗╨╕ ╨╜╨░ ╨╜╨╕╤Е ╨╜╨░╨╢╨░╤В╤М ╨╝╤Л╤И╤М╤О.
-
-╤Б╨┐╨╕╤Б╨║╨╛ ╨╜╨╛╨▓╨╛╤Б╤В╨╡╨╣
-╨┐╤А╨╕ ╨║╨╗╨╕╨║╨╡ ╨╜╨░ ╨║╨░╤А╤В╨╕╨╜╨║╤Г ╨┐╨╛╨┐╨░╨┤╨░╨╡╨╝ ╨╜╨░ ╨╜╨╛╨▓╨╛╤Б╤В╤М.++
-
-╨╜╨░ ╤Б╤В╤А╨░╨╜╨╕╤Ж╨╡ ╨╜╨╛╨▓╨╛╤Б╤В╨╕ ╨╕╨╜╤В╤А╨╛-╤В╨╡╨║╤Б╤В ╤Б╤А╨░╨╖╤Г ╤Б╨┤╨╡╨╗╨░╤В╤М ╨╢╨╕╤А╨╜╤Л╨╝. +
-
-
-*/
 /* ╨С╨╗╨╛╨║ ╨╜╨╛╨▓╨╛╤Б╤В╨╡╨╣ */
 .news-block-body ul {
   margin: 0 -5px;
@@ -1709,6 +1697,17 @@ span sup {
 .news-block .all-items {
   padding: 0 0 0 20px;
   top: -2px;
+}
+.news-block .jcarousel-products-on-auto {
+  width: auto;
+  margin-left: -5px;
+}
+
+.news-list {
+  border-top: 3px solid #d70000;
+  padding-top: 10px;
+  margin-top: 20px;
+  border-bottom: none;
 }
 
 /* ╨б╨┐╨╕╤Б╨╛╨║ ╤В╨╛╨▓╨░╤А╨╛╨▓ */
@@ -1946,15 +1945,21 @@ span sup {
 .products-on-auto .jcarousel-control-prev,
 .products-on-auto .jcarousel-control-next {
   top: -36px;
-  border-color: #000;
+  border-color: #d1d1d1;
 }
 .products-on-auto .jcarousel-control-prev:hover,
 .products-on-auto .jcarousel-control-next:hover {
-  border-color: #000;
+  border-color: #d1d1d1;
 }
 .products-on-auto .jcarousel-control-prev:active,
 .products-on-auto .jcarousel-control-next:active {
   border-color: #cdcdcd;
+}
+.products-on-auto .jcarousel-control-prev {
+  right: 20px;
+}
+.products-on-auto .jcarousel-control-next {
+  right: 0;
 }
 
 .products-on-auto-item {
@@ -1969,7 +1974,16 @@ span sup {
   width: 100%;
 }
 
+.news-block .products-on-auto-item {
+  box-sizing: border-box;
+  width: 248px;
+}
+
 .products-on-auto-item-img {
+  border: 2px solid #fff;
+}
+
+.products-on-auto-item-img-cnt {
   min-height: 175px;
 }
 
@@ -1979,12 +1993,9 @@ span sup {
 
 /* ╨Ъ╨░╨║ ╤Н╤В╨╛ ╤А╨░╨▒╨╛╤В╨░╨╡╤В */
 .how-it-work {
-  margin: 70px 0 0 0;
+  margin: 40px 0 0 0;
 }
 
-.how-it-work-list {
-  margin: 60px 0 0 0;
-}
 .how-it-work-list li {
   width: 191px;
   height: 178px;

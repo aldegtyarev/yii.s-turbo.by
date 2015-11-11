@@ -198,3 +198,93 @@
 	///border: 1px solid #fff;
 	//background-color: #fff;
 }
+
+.pages-contacts {
+	td {
+		border: none;
+		vertical-align: top;
+		padding-right: 30px;
+		
+		img {
+			vertical-align: middle;
+			margin-right: 5px;
+			width: 17px;
+		}
+		
+		p {
+			line-height: 20px;
+			margin-bottom: 5px;
+		}
+	}
+	
+	h4 {
+		color: #000;
+		font-size: 14px;
+		font-weight: bold;
+	}
+}
+
+.contact-form-cnt {
+	@extend .mt-30;
+	@extend .mb-20;
+	
+	.row {
+		@extend .clearfix;
+		
+		padding-bottom: 15px;
+		
+		
+		& > label {
+			@extend %db;
+			@extend %fl;
+			@extend .pt-5;
+			
+			width: 110px;
+		}
+		
+		& > input[type=text],
+		& > textarea {
+			@extend %db;
+			@extend %fl;
+			
+			background-color: #fff;
+			border-color: #d7d4d1;
+			padding: 4px 7px;
+			
+			width: 250px;
+		}
+		
+		#ContactForm_verifyCode {
+			width: 100px;
+		}
+		
+		.errorMessage {
+			clear: both;
+			padding-left: 110px;
+		}
+	}
+	
+	.button-red {
+		@extend %uppercase;
+		
+		margin-left: 110px;
+	}
+}
+
+#reload_captcha_button {
+	@extend %pointer;
+	@extend %pos_abs;
+	@extend .hide-text;
+	
+	background: url('../img/reload-16.png') no-repeat transparent;
+	border: none;
+	width: 16px;
+	height: 16px;
+	outline: none;
+	top: 4px;
+	left: 350px;
+}
+
+#reload_captcha {
+	margin-top: -5px;
+}

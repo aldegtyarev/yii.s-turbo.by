@@ -399,7 +399,9 @@ h2, h3, .c_000, .menu-cat li a, .menu-cat .active.parent > a, .news-block-item .
 
 .sorting-block-conteiner .sorting-block,
 .sorting-block-conteiner .currency-select, .sorting-block-conteiner .sorting-block a,
-.sorting-block-conteiner .currency-select a, .font-14, .top-contacts > p, .search-auto-block-title, .more-products, .last-viewed-status, .footer .email, .productdetails-view-main-info-part .value, .productdetails-price-row .label, .productdetails-view .addtocart-button, .productdetails-view-tab .tabs a, .productdetails-view-tab .tabs .active, .filter-block-header, .advantages-item-popup p, .advantages-item-popup li, .page-cnt h4, .nav-tabs li a {
+.sorting-block-conteiner .currency-select a, .flash-warning,
+.flash-error,
+.flash-success, .font-14, .top-contacts > p, .search-auto-block-title, .more-products, .last-viewed-status, .footer .email, .productdetails-view-main-info-part .value, .productdetails-price-row .label, .productdetails-view .addtocart-button, .productdetails-view-tab .tabs a, .productdetails-view-tab .tabs .active, .filter-block-header, .advantages-item-popup p, .advantages-item-popup li, .page-cnt h4, .nav-tabs li a {
   font-size: 14px;
 }
 
@@ -455,7 +457,7 @@ i, em, .errorMessage, .italic, .logo-top, .search-auto-block-title {
   font-style: italic;
 }
 
-h2, h3, .logo-top, .search-auto-block-title, .categories-menu > li > a, .news-block .header-wr h3, .last-viewed-block h3, .footer-hdr, .advantages-item-popup .advantages-item-popup-title, .advantages-item-sdesc .advantages-item-detail, .advantages-title {
+h2, h3, .logo-top, .search-auto-block-title, .categories-menu > li > a, .news-block .header-wr h3, .last-viewed-block h3, .footer-hdr, .advantages-item-popup .advantages-item-popup-title, .advantages-item-sdesc .advantages-item-detail, .advantages-title, .contact-form-cnt .button-red {
   text-transform: uppercase;
 }
 
@@ -495,7 +497,7 @@ a:hover, .underline_n_y:hover, .product-types-list-item a.active .name:hover {
 .sideLeft, .container, .select-view-block a, .fLeft, .floatLeft, .main-menu li, .search-auto-block-title, .search-auto-form, .search-auto-form .step-wr, .news-block-item, .product-list-item-row-image-block .additional-images-list-item, .additional-images-wr ul, .additional-images-wr li, .products-on-auto-item, .how-it-work-list li, .category-view .category-item, .footer .contacts, .footer .ur-data, .productdetails-view-image-part, .productdetails-slider-images li, .productdetails-client-info .guarantie,
 .productdetails-client-info .payment,
 .productdetails-client-info .delivery, .productdetails-view-tab .tabs li, .product-types-list-item, .product-types-block .filter-block-list, .product-types-index-all > li,
-.product-types-index > li, .advantages-item, .nav-tabs li {
+.product-types-index > li, .advantages-item, .nav-tabs li, .contact-form-cnt .row > label, .contact-form-cnt .row > input[type=text], .contact-form-cnt .row > textarea {
   float: left;
 }
 
@@ -511,7 +513,7 @@ a:hover, .underline_n_y:hover, .product-types-list-item a.active .name:hover {
 .menu-cat .cat-4613:after, .news-block-item .item-title, .product-list-item-row-image-block .additional-images-list-item a, .popup-full-img, .preloaderBig, .products-on-auto-item-img, .category-view .category-item-wr a, .category-view .category-item-wr a span, .productdetails-slider-images a, .productdetails-view-main-info-part .label,
 .productdetails-view-main-info-part .value, .productdetails-client-info .guarantie a,
 .productdetails-client-info .payment a,
-.productdetails-client-info .delivery a, .filter-block .clear-filter, .product-types-list-item a, .nav-tabs li a img, .page-cnt-main-image {
+.productdetails-client-info .delivery a, .filter-block .clear-filter, .product-types-list-item a, .nav-tabs li a img, .page-cnt-main-image, .contact-form-cnt .row > label, .contact-form-cnt .row > input[type=text], .contact-form-cnt .row > textarea {
   display: block;
 }
 
@@ -553,7 +555,7 @@ a:hover, .underline_n_y:hover, .product-types-list-item a.active .name:hover {
 .menu-cat .cat-4593:after,
 .menu-cat .cat-4622:after,
 .menu-cat .cat-4613:after, .product-list-item .product-label, .product-list-item-row-info-block:before, .last-viewed-item-pattern, .last-viewed-item-prices, .category-view .category-item-wr a span, .productdetails-view-main-info-part .label,
-.productdetails-view-main-info-part .value, .productview-ask-question, .productview-ask-question a, .productdetails-view-tab .tabs sup, .cart-summary td:before, .cart-summary td:after, .advantages-item-sdesc .advantages-item-detail, .advantages-item-img, .pages-list .page-readmode {
+.productdetails-view-main-info-part .value, .productview-ask-question, .productview-ask-question a, .productdetails-view-tab .tabs sup, .cart-summary td:before, .cart-summary td:after, .advantages-item-sdesc .advantages-item-detail, .advantages-item-img, .pages-list .page-readmode, #reload_captcha_button {
   position: absolute;
 }
 
@@ -574,7 +576,7 @@ a:hover, .underline_n_y:hover, .product-types-list-item a.active .name:hover {
 
 .button,
 .button-red,
-.button-green, .pointer, .search-block .search-btn, .search-auto-button, .cart-qty {
+.button-green, .pointer, .search-block .search-btn, .search-auto-button, .cart-qty, #reload_captcha_button {
   cursor: pointer;
 }
 
@@ -764,11 +766,11 @@ span sup {
 }
 
 .clearfix, .productdetails-view-tab .tabs, .product-types-index-all > li,
-.product-types-index > li, .advantages-row {
+.product-types-index > li, .advantages-row, .contact-form-cnt .row {
   *zoom: 1;
 }
 .clearfix:after, .productdetails-view-tab .tabs:after, .product-types-index-all > li:after,
-.product-types-index > li:after, .advantages-row:after {
+.product-types-index > li:after, .advantages-row:after, .contact-form-cnt .row:after {
   content: "";
   display: table;
   clear: both;
@@ -992,6 +994,18 @@ span sup {
   right: 10px;
 }
 
+.flash-success {
+  background-color: #85bf32;
+}
+
+.flash-error {
+  background-color: #de5151;
+}
+
+.flash-warning {
+  background-color: #dd973d;
+}
+
 .mb-0 {
   margin-bottom: 0px !important;
 }
@@ -1000,7 +1014,9 @@ span sup {
   margin-bottom: 5px;
 }
 
-.mb-10 {
+.mb-10, .flash-warning,
+.flash-error,
+.flash-success {
   margin-bottom: 10px;
 }
 
@@ -1008,7 +1024,7 @@ span sup {
   margin-bottom: 15px;
 }
 
-.mb-20, .pages-list .product-title {
+.mb-20, .pages-list .product-title, .contact-form-cnt {
   margin-bottom: 20px;
 }
 
@@ -1048,7 +1064,7 @@ span sup {
   margin-top: 25px;
 }
 
-.mt-30 {
+.mt-30, .contact-form-cnt {
   margin-top: 30px;
 }
 
@@ -1060,7 +1076,9 @@ span sup {
   padding: 10px;
 }
 
-.p-15 {
+.p-15, .flash-warning,
+.flash-error,
+.flash-success {
   padding: 15px;
 }
 
@@ -1092,7 +1110,7 @@ span sup {
   padding: 10px 0;
 }
 
-.pt-5 {
+.pt-5, .contact-form-cnt .row > label {
   padding-top: 5px;
 }
 
@@ -1156,7 +1174,7 @@ span sup {
   overflow: hidden;
 }
 
-.hide-text {
+.hide-text, #reload_captcha_button {
   overflow: hidden;
   text-indent: 7777px;
   white-space: nowrap;
@@ -2934,4 +2952,61 @@ span sup {
   -moz-border-radius: 0 0 5px 5px;
   -webkit-border-radius: 0;
   border-radius: 0 0 5px 5px;
+}
+
+.pages-contacts td {
+  border: none;
+  vertical-align: top;
+  padding-right: 30px;
+}
+.pages-contacts td img {
+  vertical-align: middle;
+  margin-right: 5px;
+  width: 17px;
+}
+.pages-contacts td p {
+  line-height: 20px;
+  margin-bottom: 5px;
+}
+.pages-contacts h4 {
+  color: #000;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.contact-form-cnt .row {
+  padding-bottom: 15px;
+}
+.contact-form-cnt .row > label {
+  width: 110px;
+}
+.contact-form-cnt .row > input[type=text], .contact-form-cnt .row > textarea {
+  background-color: #fff;
+  border-color: #d7d4d1;
+  padding: 4px 7px;
+  width: 250px;
+}
+.contact-form-cnt .row #ContactForm_verifyCode {
+  width: 100px;
+}
+.contact-form-cnt .row .errorMessage {
+  clear: both;
+  padding-left: 110px;
+}
+.contact-form-cnt .button-red {
+  margin-left: 110px;
+}
+
+#reload_captcha_button {
+  background: url("../img/reload-16.png") no-repeat transparent;
+  border: none;
+  width: 16px;
+  height: 16px;
+  outline: none;
+  top: 4px;
+  left: 350px;
+}
+
+#reload_captcha {
+  margin-top: -5px;
 }

@@ -15,7 +15,6 @@ $clientScript->registerCoreScript('fancybox');
 
 MetaHelper::setMeta($this, $model);
 
-
 ?>
 <div class="page-cnt <?=$current_controller . '-' . $current_action?>">
 	<h1><?php echo $model->name; ?></h1>
@@ -29,6 +28,9 @@ MetaHelper::setMeta($this, $model);
 		<div class="page-text-intro"><? echo $model->intro; ?></div>
 		<div class="page-text-main"><? echo $model->text; ?></div>
 		
-		<script type="text/javascript" src="//yastatic.net/share/share.js" charset="utf-8"></script><div class="yashare-auto-init" data-yashareL10n="ru" data-yashareType="button" data-yashareQuickServices="vkontakte,facebook,twitter,odnoklassniki,moimir,lj,gplus"></div>		
+		?>
+		<?php if($model->type != 1)	{	?>
+			<script type="text/javascript" src="//yastatic.net/share/share.js" charset="utf-8"></script><div class="yashare-auto-init" data-yashareL10n="ru" data-yashareType="button" data-yashareQuickServices="vkontakte,facebook,twitter,odnoklassniki,moimir,lj,gplus"></div>		
+		<?php	}	?>
 	</div>
 </div>

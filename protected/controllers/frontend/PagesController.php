@@ -18,6 +18,28 @@ class PagesController extends Controller
 			'postOnly + delete', // we only allow deletion via POST request
 		);
 	}
+	
+	/**
+	 * Declares class-based actions.
+	 */
+	public function actions()
+	{
+		return array(
+			// captcha action renders the CAPTCHA image displayed on the contact page
+			'captcha'=>array(
+				'class'=>'CCaptchaAction',
+				'backColor'=>0xFFFFFF,
+				//'height'=>40,
+				//'width'=>120,				
+			),
+			// page action renders "static" pages stored under 'protected/views/site/pages'
+			// They can be accessed via: index.php?r=site/page&view=FileName
+			'page'=>array(
+				'class'=>'CViewAction',
+			),
+		);
+	}
+	
 
 	/**
 	 * Specifies the access control rules.
@@ -152,7 +174,45 @@ class PagesController extends Controller
 	public function actionContacts()
 	{
 		$id = 6;
-		$this->renderPage($id);
+		$app = Yii::app();
+		
+		$model = $this->loadModel($id);
+		$form = new ContactForm;
+		
+		if(isset($_POST['ContactForm']))
+		{
+			$form->attributes=$_POST['ContactForm'];
+			if($form->validate())
+			{
+				$name='=?UTF-8?B?'.base64_encode($form->name).'?=';
+				$subject='=?UTF-8?B?'.base64_encode('Сообщение с сайта').'?=';
+				$headers="From: $name <{$form->email}>\r\n".
+					"Reply-To: {$form->email}\r\n".
+					"MIME-Version: 1.0\r\n".
+					"Content-Type: text/plain; charset=UTF-8";
+
+				mail(Yii::app()->params['adminEmail'],$subject,$form->body,$headers);
+				Yii::app()->user->setFlash('contact','Спасибо за Ваше сообщение.');
+				$this->refresh();
+			}
+		}
+		
+		
+		$current_action = $app->getController()->getAction()->getId();
+		$current_controller =  $app->getController()->getId();
+		
+		$breadcrumbs = array($model->name);
+		
+		$this->render('view-contacts',array(
+			'model'=>$model,
+			'current_action'=>$current_action,
+			'current_controller'=>$current_controller,
+			'breadcrumbs'=>$breadcrumbs,
+			'form'=>$form,
+		));			
+		
+		
+		//$this->renderPage($id);
 	}
 	
 	
@@ -173,8 +233,6 @@ class PagesController extends Controller
 		
 		$breadcrumbs = array();
 				
-		
-		
 		if($category_id > 1) {
 			$category = $this->loadCategoryModel($category_id);
 			$breadcrumbs[$category->name] = array('pages/'.$category->alias);

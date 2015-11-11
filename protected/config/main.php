@@ -209,7 +209,7 @@ return array(
 	// using Yii::app()->params['paramName']
 	'params'=>array(
 		// this is used in contact page
-		'adminEmail'=>'webmaster@example.com',
+		'adminEmail'=>'aldegtyarev@yandex.ru',
 		'pagination' => array('per_page' => 30, 'products_per_page' => 32),		//параметры для пагинации
 		'images_live_url' => 'http://s-turbo.by/',
 		'products_list_order' => 't.`product_price`', //t.`product_id` // порядок сортировки списка товаров

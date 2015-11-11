@@ -520,3 +520,22 @@ span.required { @extend %c_d70000; }
 	
 	
 }
+
+.flash-warning,
+.flash-error,
+.flash-success {
+	@extend %font_14;
+	@extend .mb-10;
+	@extend .p-15;
+}
+
+.flash-success {
+	background-color: #85bf32;
+}
+
+.flash-error {
+	background-color: #de5151;
+}
+.flash-warning {
+	background-color: #dd973d;
+}

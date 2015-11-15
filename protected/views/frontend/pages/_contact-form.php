@@ -1,5 +1,5 @@
 <div class="contact-form-cnt">
-<h3>Форма обратной связи</h3>
+<h4>Форма обратной связи</h4>
 
 
 <?php $form=$this->beginWidget('CActiveForm', array(

@@ -6,7 +6,7 @@ class SearchAutoWidget extends CWidget {
 		$app = Yii::app();
 		
 		$connection = $app->db;
-		
+				
 		$clear_search_auto = $app->request->getParam('clear-search-auto', 0);
 		
 		$do_redirect = false;
@@ -35,6 +35,7 @@ class SearchAutoWidget extends CWidget {
 			if($select_marka != null) {
 				$do_redirect = true;
 				$app->session['autofilter.marka'] = $select_marka;
+				unset($app->session['autofilter.modelinfo']);
 			} elseif(isset($app->session['autofilter.marka'])) {
 				$select_marka = $app->session['autofilter.marka'];
 			}
@@ -42,6 +43,7 @@ class SearchAutoWidget extends CWidget {
 			if($select_model != null) {
 				$do_redirect = true;
 				$app->session['autofilter.model'] = $select_model;
+				unset($app->session['autofilter.modelinfo']);
 			} elseif(isset($app->session['autofilter.model'])) {
 				$select_model = $app->session['autofilter.model'];
 			}
@@ -49,6 +51,7 @@ class SearchAutoWidget extends CWidget {
 			if($select_year != null) {
 				$do_redirect = true;
 				$app->session['autofilter.year'] = $select_year;
+				unset($app->session['autofilter.modelinfo']);
 			} elseif(isset($app->session['autofilter.year'])) {
 				$select_year = $app->session['autofilter.year'];
 			}
@@ -57,20 +60,17 @@ class SearchAutoWidget extends CWidget {
 		}
 		
 		if($do_redirect) {
-		//echo'<pre>';print_r($app->homeUrl);echo'</pre>';
-		//echo'<pre>';var_dump($return_url);echo'</pre>';
-		//die;
-			if($return_url != '' && $return_url != '/')
-				$this->owner->redirect($return_url);
-			
-			//$this->owner->redirect($app->homeUrl);
+//			if($return_url != '' && $return_url != '/')
+//				$this->owner->redirect($return_url);
+			if($clear_search_auto) $this->owner->redirect('/');
+						
 			$this->owner->redirect($this->controller->createUrl('shopcategories/index'));
 		}
 		
 		
 		//echo'<pre>';var_dump($select_year);echo'</pre>';
 		
-		$markaDropDown = ShopModelsAuto::model()->getModelsLevel1($connection);
+		$markaDropDown = ShopModelsAuto::model()->getModelsLevel1($connection, false);
 		
 		if($select_model != null || $select_marka != null) {
 			$model = ShopModelsAuto::model()->findByPk($select_marka);

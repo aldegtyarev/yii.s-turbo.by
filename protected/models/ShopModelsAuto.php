@@ -487,9 +487,11 @@ class ShopModelsAuto extends CActiveRecord
 		return $model_ids;
 	}
 	
-	public function getModelsLevel1(&$connection)
+	public function getModelsLevel1(&$connection, $get_universal = true)
 	{
 		$sql = "SELECT `id`, `name` FROM ".$this->tableName()." WHERE `level`= 1";
+		if($get_universal == false)
+			$sql .= " AND id <> ".Yii::app()->params->universal_products;
 		$command = $connection->createCommand($sql);
 		$rows = $command->queryAll();
 		return CHtml::listData($rows, 'id','name');

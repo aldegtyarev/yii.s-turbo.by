@@ -49,7 +49,7 @@ $params = $app->params;
 		</div>
 	<?php }	?>
 	
-	<h1<?= $show_search_notice ? ' class="h1-small"' : '' ?>><?=$title?></h1>
+	<h1<?= $show_search_notice ? ' class="h1-small"' : ''; if($engineImage != null) echo ' class="engine-h1"' ?>><?=$title?></h1>
 <?php if(count($descendants) && $descendants[0]->category_image == null)	{
 			$child_col0 = array();
 			$child_col1 = array();

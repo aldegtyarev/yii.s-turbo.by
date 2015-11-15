@@ -1,26 +1,25 @@
 <?php
 
 /**
- * This is the model class for table "{{shop_products_models_auto}}".
+ * This is the model class for table "{{shop_products_models_auto_disabled}}".
  *
- * The followings are the available columns in table '{{shop_products_models_auto}}':
+ * The followings are the available columns in table '{{shop_products_models_auto_disabled}}':
  * @property string $id
  * @property string $product_id
  * @property integer $model_id
- * @property integer $ordering
  *
  * The followings are the available model relations:
  * @property ShopModelsAuto $model
  * @property ShopProducts $product
  */
-class ShopProductsModelsAuto extends CActiveRecord
+class ProductsModelsDisabled extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return '{{shop_products_models_auto}}';
+		return '{{shop_products_models_auto_disabled}}';
 	}
 
 	/**
@@ -32,11 +31,11 @@ class ShopProductsModelsAuto extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('product_id, model_id', 'required'),
-			array('model_id, ordering', 'numerical', 'integerOnly'=>true),
+			array('model_id', 'numerical', 'integerOnly'=>true),
 			array('product_id', 'length', 'max'=>11),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, product_id, model_id, ordering', 'safe', 'on'=>'search'),
+			array('id, product_id, model_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -62,7 +61,6 @@ class ShopProductsModelsAuto extends CActiveRecord
 			'id' => 'ID',
 			'product_id' => 'Product',
 			'model_id' => 'Model',
-			'ordering' => 'Ordering',
 		);
 	}
 
@@ -87,7 +85,6 @@ class ShopProductsModelsAuto extends CActiveRecord
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('product_id',$this->product_id,true);
 		$criteria->compare('model_id',$this->model_id);
-		$criteria->compare('ordering',$this->ordering);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -98,7 +95,7 @@ class ShopProductsModelsAuto extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return ShopProductsModelsAuto the static model class
+	 * @return ProductsModelsDisabled the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -114,7 +111,7 @@ class ShopProductsModelsAuto extends CActiveRecord
 		$res = $command->execute();		
 	}
 	
-	//добавление моелей товару
+	//добавление моделей товару
 	public function insertItemModels($rows, $product_id, &$connection)
 	{
 		if(count($rows))	{		
@@ -129,74 +126,4 @@ class ShopProductsModelsAuto extends CActiveRecord
 		}
 	}
 	
-	//получает ID товаров из выбранных категорий
-	public function getProductIdsInCategories($categories)
-	{
-		$result = '-1';
-		if($categories)	{
-			$connection = Yii::app()->db;
-			
-			$sql = "SELECT distinct(`product_id`) FROM ".$this->tableName()." WHERE `model_id` IN ($categories) ";
-			$command = $connection->createCommand($sql);
-			$rows = $command->queryColumn();
-			//echo'<pre>';print_r($rows);echo'</pre>';
-			
-			if(count($rows))	{
-				$result = implode(',', $rows);
-			}
-		}
-		return $result;
-	}
-	
-	public function getModelIdsFromProduct($product_id)
-	{
-		$connection = Yii::app()->db;
-
-		$sql = "SELECT distinct(`model_id`) FROM ".$this->tableName()." WHERE `product_id` = :product_id";
-		$command = $connection->createCommand($sql);
-		$command->bindParam(":product_id", $product_id);
-		//$rows = $command->queryColumn();
-		//echo'<pre>';print_r($rows);echo'</pre>';
-			
-		return $command->queryColumn();
-	}
-	
-	public function getModelsFullNames($product_id, $model_ids = array())
-	{
-		$connection = Yii::app()->db;
-
-		//$sql = "SELECT distinct(pma.`model_id`), ma.`fullname` FROM ".$this->tableName()." AS pma INNER JOIN {{shop_models_auto}} AS ma ON ma.`id` = pma.`model_id` WHERE `product_id` = :product_id";
-		
-		$sql = "SELECT distinct(pma.`model_id`), ma.`name` AS fullname FROM ".$this->tableName()." AS pma INNER JOIN {{shop_models_auto}} AS ma ON ma.`id` = pma.`model_id` WHERE `product_id` = :product_id";
-		if(count($model_ids) > 0 ) $sql .= " AND `model_id` IN (".implode(',', $model_ids).")";
-		$command = $connection->createCommand($sql);
-		$command->bindParam(":product_id", $product_id);
-		//$rows = $command->queryColumn();
-		//echo'<pre>';print_r($rows);echo'</pre>';
-			
-		return $command->queryAll();
-	}
-	
-	public function getModelsIdsForProductList(&$connection, $product_ids)
-	{
-		$connection = Yii::app()->db;
-
-		$sql = "SELECT distinct(`model_id`) FROM ".$this->tableName()." WHERE `product_id` = :product_id";
-		$command = $connection->createCommand($sql);
-		$command->bindParam(":product_id", $product_id);
-		//$rows = $command->queryColumn();
-		//echo'<pre>';print_r($rows);echo'</pre>';
-			
-		return $command->queryAll();
-	}
-	
-	public function getProductIdFromModels(&$connection, $model_ids)
-	{
-		$sql = "SELECT DISTINCT (`product_id`) FROM ".$this->tableName()."
-				WHERE `model_id` IN (".implode(', ', $model_ids).")";
-		
-		$command = $connection->createCommand($sql);
-		//$rows = $command->queryAll();
-		return $command->queryColumn();
-	}
 }

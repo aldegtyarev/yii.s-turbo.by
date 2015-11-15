@@ -9,7 +9,7 @@
 								 
 			?>
 			<div class="product-list-item-row-image-block fLeft">
-				<div class="product-image" style="background-image: url(<?=$data->product_image ?>)"></div>
+				<div class="product-image<?php if($data->featured == 1) echo ' product-image-featured' ?>" style="background-image: url(<?=$data->product_image ?>)"></div>
 				<?php/* 
 					if(count($data->AdditionalImages))	{
 						echo CHtml::OpenTag('ul', array('class'=>'additional-images-list'));
@@ -61,14 +61,16 @@
 				<ul class="prod-list-char-list">
 					<li class="prod-list-char-item arial font-10"><span class="c_999"><? echo $data->getAttributeLabel('firm_id');?>:</span> <?=$data->firm_name?></li>
 					
+					<?/*
 					<?php if($data->manufacturer_sku)	{	?>
 						<li class="prod-list-char-item arial font-10"><span class="c_999"><? echo $data->getAttributeLabel('manufacturer_sku');?>:</span> <?=$data->manufacturer_sku?></li>
 					<?php	}	?>
+					*/?>
 					
 					<li class="prod-list-char-item arial font-10"><span class="c_999"><? echo $data->getAttributeLabel('product_sku');?>:</span> <?=$data->product_sku?></li>
 					
 				</ul>
-				<br /><br />
+				<br />
 				
 				<ul class="prod-list-char-list dt">
 					
@@ -93,8 +95,8 @@
 					<?	}	?>
 					
 					<? //if($this->show_models === false)	{	?>
-					<? if($this->show_models && $data->modelsList != 'Универсальные товары')	{	?>
-						<li class="prod-list-char-item arial font-11 dtr"><span class="dtc pr-5 pb-5 bold"><? echo $data->getAttributeLabel('model_ids');?>: </span><span class="dtc pb-5"><?=$data->modelsList?></span></li>
+					<? if($this->show_models && $data->modelsList != 'Универсальные товары' && $data->modelsList != '')	{	?>
+						<li class="prod-list-char-item arial font-11 dtr"><span class="dtc pr-5 pb-5 bold nowrap">Подходит для: </span><span class="dtc pb-5"><?=$data->modelsList?></span></li>
 					<?	}	?>
 					
 				</ul>

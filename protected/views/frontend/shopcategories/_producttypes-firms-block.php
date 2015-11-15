@@ -46,7 +46,10 @@ function showFilterItems($list, $total = 0, $url_parameter, $main_url, $request_
 			$htmlOptions = array();
 		}
 		
-		$class = 'product-types-list-item';
+		if(($k-1)%4 == 0) $clr = ' clear';
+			else $clr = '';
+		
+		$class = 'product-types-list-item'.$clr;
 		//if(($k == 1 && $show_all)) $class .= ' clear';
 		echo CHtml::OpenTag('li', array('class'=>$class));
 		echo CHtml::link(CHtml::OpenTag('span', array('class'=>'name')).$item['name'].CHtml::CloseTag('span').$total_str, $url, $htmlOptions);

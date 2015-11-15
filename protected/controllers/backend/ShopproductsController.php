@@ -127,7 +127,6 @@ class ShopProductsController extends Controller
 		//подготавливаем выпадающий список адм. категорий
 		$model->DropDownListAdminCategories = ShopAdminCategories::model()->getDropDownlistDataProduct();
 		$model->getSelectedAdminCategories();
-        
 		
 		//подготавливаем выпадающий список категорий
 		$model->DropDownListCategories = ShopCategories::model()->getDropDownlistDataProduct();
@@ -136,6 +135,10 @@ class ShopProductsController extends Controller
 		//подготавливаем выпадающий список модельного ряда
 		$model->DropDownListModels = ShopModelsAuto::model()->getDropDownlistDataProduct();
 		$model->SelectedModels = array();
+		
+		//подготавливаем выпадающий список модельного ряда для исключения на опред. моделях
+		$model->DropDownListModelsDisabled = $model->DropDownListModels;
+		$model->getSelectedModelsDisabled();
 		
 		//подготавливаем выпадающий список кузовов
 		$model->DropDownListBodies = ShopBodies::model()->getDropDownlistBodies();
@@ -166,9 +169,6 @@ class ShopProductsController extends Controller
 		//подготавливаем выпадающий список объемов двигателей
 		$model->DropDownListEngines = Engines::model()->getDropDownlistEngines($model->SelectedModels);
 		$model->getSelectedEngines();
-		
-		
-		
 		
 		$params = $app->params;
 
@@ -277,6 +277,13 @@ class ShopProductsController extends Controller
 			}
 			$model->SelectedModels = $selectedValues;
 			
+			$SelectedModels = isset($_POST['ShopProducts']['model_ids_dis']) ? $_POST['ShopProducts']['model_ids_dis'] : array();
+			$selectedValues = array();
+			foreach($SelectedModels as $cat)	{
+				$selectedValues[$cat] = Array ( 'selected' => 'selected' );
+			}
+			$model->SelectedModelsDisabled = $selectedValues;
+			
 			$SelectedBodies = isset($_POST['ShopProducts']['body_ids']) ? $_POST['ShopProducts']['body_ids'] : array();
 			$selectedValues = array();
 			foreach($SelectedBodies as $cat)	{
@@ -299,16 +306,13 @@ class ShopProductsController extends Controller
 		
 			
 			if($model->save())
-				//$this->redirect(array('admin'));
 				if(isset($_POST['save']))	{
 					$app->session['ShopproductForm.current_tab'] = '#tab1';
 					$this->redirect(array('admin'));
-				//}	elseif(isset($_POST['apply']))	{
 				}	else	{
 					$app->session['ShopproductForm.current_tab'] = $current_tab;
 					$this->redirect(array('update','id'=>$model->product_id));
 				}
-			
 		}
 		
 		//подготавливаем выпадающий список адм. категорий
@@ -322,6 +326,10 @@ class ShopProductsController extends Controller
 		//подготавливаем выпадающий список модельного ряда
 		$model->DropDownListModels = ShopModelsAuto::model()->getDropDownlistDataProduct();
 		$model->getSelectedModels();
+		
+		//подготавливаем выпадающий список модельного ряда для исключения на опред. моделях
+		$model->DropDownListModelsDisabled = $model->DropDownListModels;
+		$model->getSelectedModelsDisabled();
 		
 		//подготавливаем выпадающий список производителей
 		$model->DropDownListManufacturers = ShopManufacturers::model()->getDropDownlistManufacturers();

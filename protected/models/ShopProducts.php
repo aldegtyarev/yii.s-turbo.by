@@ -59,6 +59,10 @@ class ShopProducts extends CActiveRecord implements IECartPosition
     public $model_ids;
     public $AllModelslist;
 	
+    public $DropDownListModelsDisabled;
+    public $SelectedModelsDisabled;
+	public $model_ids_dis;
+	
     public $DropDownListBodies;
     public $SelectedBodies;
     public $body_ids;
@@ -127,7 +131,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
         // will receive user inputs.
         return array(
             array('product_name, product_sku, currency_id', 'required'),
-            array('published, hide_s_desc, firm_id, type_id, protect_copy, product_availability, product_ordered, manufacturer_id, override, side, currency_id', 'numerical', 'integerOnly'=>true),
+            array('published, hide_s_desc, firm_id, type_id, protect_copy, product_availability, product_ordered, manufacturer_id, override, side, currency_id, featured', 'numerical', 'integerOnly'=>true),
             array('metatitle, manuf, material, code, in_stock, delivery, prepayment, lamps, adjustment, product_s_desc', 'length', 'max'=>255),
             array('product_desc, installation, metadesc', 'length', 'max'=>17000),
             array('product_name', 'length', 'max'=>180),
@@ -159,6 +163,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
             'Images' => array(self::HAS_MANY, 'ShopProductsImages', 'product_id'),
             'shopProductsMediases' => array(self::HAS_MANY, 'ShopProductsMedias', 'product_id', 'with'=>'media'),
 			'ProductsModelsAutos' => array(self::HAS_MANY, 'ShopProductsModelsAuto', 'product_id', 'with'=>'model'),
+			'ProductsModelsDisabled' => array(self::HAS_MANY, 'ProductsModelsDisabled', 'product_id', 'with'=>'model'),
 			'ProductsRelations' => array(self::HAS_MANY, 'ShopProductsRelations', 'product_id'),
 			'ProductsRelations1' => array(self::HAS_MANY, 'ShopProductsRelations', 'product_related_id'),
 			'ProductsAdminCategories' => array(self::HAS_MANY, 'ShopProductsAdminCategories', 'product_id'),			
@@ -200,6 +205,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
             'DropDownListCategories' => 'DropDownListCategories',
             'category_ids' => 'Категории',
             'model_ids' => 'Модельный ряд',
+            'model_ids_dis' => 'Исключить товар из моделей',
             'body_ids' => 'Уточняющий год',
             'engine_ids' => 'Объем двигателя',
             'product_price' => 'Цена',
@@ -212,6 +218,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
             'admin_category_ids' => 'Админ. категории',
             'modelsList' => 'Модельный ряд',
             'hide_s_desc' => 'Не вводить краткое описание в карточке  товара',
+            'featured' => 'Рекомендуем',
         );
     }
     
@@ -219,29 +226,20 @@ class ShopProducts extends CActiveRecord implements IECartPosition
     {
         $this->_modelsList = '';
 		$list = array();
-		// 11
 		
-		/*
-		$model_ids = ShopProductsModelsAuto::model()->getModelIdsFromProduct($this->product_id);
-        if(is_array($model_ids))	{
-			foreach($model_ids as $model_id)   {
-				$list[] = ShopModelsAuto::model()->getFullNameModel($model_id);
-			}
-
-			$this->_modelsList = implode(',<br>', $list);			
-		}
-		//	30 -> 191
-        */
+		$model_list = ShopProductsModelsAuto::model()->getModelsFullNames($this->product_id, $this->model_ids);
 		
-		$model_list = ShopProductsModelsAuto::model()->getModelsFullNames($this->product_id);
         if(is_array($model_list))	{
 			foreach($model_list as $model)   {
 				$list[] = $model['fullname'];
 			}
-			$this->_modelsList = implode('<br>', $list);
+			//$this->_modelsList = implode('<br>', $list);
+			$this->_modelsList = implode(', ', $list);
 			//echo'<pre>';print_r(implode(',<br>', $list),0);echo'</pre>';
 		}
 		// 30 -> 71
+		
+		//echo'<pre>';var_dump($this->_modelsList);echo'</pre>';
         
         return $this->_modelsList;
     }
@@ -441,6 +439,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 				ShopProductsAdminCategories::model()->insertItemCategories($this->SelectedAdminCategories, $this->product_id, $connection);
 				ShopProductsCategories::model()->insertItemCategories($this->SelectedCategories, $this->product_id, $connection);
 				ShopProductsModelsAuto::model()->insertItemModels($this->SelectedModels, $this->product_id, $connection);
+				ProductsModelsDisabled::model()->insertItemModels($this->SelectedModels, $this->product_id, $connection);
 				ShopProductsBodies::model()->insertItemBodies($this->SelectedBodies, $this->product_id, $connection);
 				break;
 			
@@ -448,6 +447,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 				$this->checkProductAdminCategories($connection);
 				$this->checkProductCategories($connection);
 				$this->checkProductsModels($connection, $models_changed);
+				$this->checkProductsModelsDisabled($connection);
 				$this->checkProductsBodies($connection);
 				$this->checkMainFoto($app, $connection);
 				$this->checkRelated($app, $connection);
@@ -562,6 +562,41 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 			ShopProductsModelsAuto::model()->insertItemModels($this->SelectedModels, $this->product_id, $connection);
 		}
 		
+	}
+	
+	//проверяем, не изменились ли модели авто для исключения...
+	function checkProductsModelsDisabled(&$connection)
+	{
+		$ProductsModels = $this->ProductsModelsDisabled;
+
+		if(count($ProductsModels))	{
+			$arrays_of_identical = true;
+		}	else	{
+			$arrays_of_identical = false;
+		}
+
+		if(count($ProductsModels) != count($this->SelectedModelsDisabled))	{
+			$arrays_of_identical = false;
+		}	else	{
+			foreach($ProductsModels as $cat_item)	{
+				$cat_is_present = false;
+
+				foreach($this->SelectedModels as $key=>$val)	{
+					if($cat_item['model']['id'] == $key)	{
+						$cat_is_present = true;
+					}
+				}
+
+				if($cat_is_present == false)	{
+					$arrays_of_identical = false;
+				}
+			}
+		}
+
+		if($arrays_of_identical == false)	{
+			ProductsModelsDisabled::model()->clearItemModels($this->product_id, $connection);
+			ProductsModelsDisabled::model()->insertItemModels($this->SelectedModelsDisabled, $this->product_id, $connection);
+		}
 	}
 	
 	//проверяем, не изменились ли кузова...
@@ -976,7 +1011,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		foreach($this->ProductsAdminCategories as $cat) {
 			//echo'<pre>';print_r($cat,0);echo'</pre>';
 			//echo'<pre>';print_r($cat['category']['id'],0);echo'</pre>';die;
-			$selectedValues[$cat['category']['id']] = Array ( 'selected' => 'selected' );
+			$selectedValues[$cat['category']['id']] = array( 'selected' => 'selected' );
 		}
 		$this->SelectedAdminCategories = $selectedValues;		
 	}
@@ -989,9 +1024,20 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		
 		foreach($this->ProductsModelsAutos as $row) {
 			//echo'<pre>';print_r($cat['category']['id'],0);echo'</pre>';
-			$selectedValues[$row['model']['id']] = Array ( 'selected' => 'selected' );
+			$selectedValues[$row['model']['id']] = array( 'selected' => 'selected' );
 		}
 		$this->SelectedModels = $selectedValues;
+	}
+	
+	//получает выбранные модели для товара для исключения на опред. моделях
+	function getSelectedModelsDisabled()
+	{
+		$selectedValues = array();
+		
+		foreach($this->ProductsModelsDisabled as $row)
+			$selectedValues[$row['model']['id']] = array( 'selected' => 'selected' );
+		
+		$this->SelectedModelsDisabled = $selectedValues;
 	}
 	
 	//получает выбранные модели для товара
@@ -1150,7 +1196,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		}
 		
 		// дублируем двигатели товара
-		/*
+		/* 01.14 01.02
 		$ProductsEngines = $this->ProductsEngines;
 		if(count($ProductsEngines))	{
 			foreach($ProductsEngines as $row)	{

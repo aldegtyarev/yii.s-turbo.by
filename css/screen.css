@@ -457,7 +457,7 @@ i, em, .errorMessage, .italic, .logo-top, .search-auto-block-title {
   font-style: italic;
 }
 
-h2, h3, .logo-top, .search-auto-block-title, .categories-menu > li > a, .news-block .header-wr h3, .last-viewed-block h3, .footer-hdr, .advantages-item-popup .advantages-item-popup-title, .advantages-item-sdesc .advantages-item-detail, .advantages-title, .contact-form-cnt .button-red {
+h2, h3, .logo-top, .search-auto-block-title, .categories-menu > li > a, .news-block .header-wr h3, .last-viewed-block h3, .engine-h1, .footer-hdr, .advantages-item-popup .advantages-item-popup-title, .advantages-item-sdesc .advantages-item-detail, .advantages-title, .pages-contacts h4, .contact-form-cnt .button-red {
   text-transform: uppercase;
 }
 
@@ -537,7 +537,7 @@ a:hover, .underline_n_y:hover, .product-types-list-item a.active .name:hover {
   display: table-cell;
 }
 
-.hidden, .categories-menu ul > li > ul {
+.hidden, .categories-menu ul > li > ul, .tab-content .tab-pane {
   display: none;
 }
 
@@ -545,7 +545,7 @@ a:hover, .underline_n_y:hover, .product-types-list-item a.active .name:hover {
 .menu-cat .cat-4594,
 .menu-cat .cat-4593,
 .menu-cat .cat-4622,
-.menu-cat .cat-4613, .categories-menu > li > a, .news-block-item-wr, .news-block .all-items, .product-list-item-row-info-block, .preloaderBig, .additional-images-wr ul, .additional-images-wr li, .how-it-work-list li, .last-viewed-title, .last-viewed-status, .last-viewed-item-wr, .category-view .category-item-wr a, .productdetails-view-main-info-part, .productdetails-view-main-info-part .row, .productdetails-view-tab .tabs li, .cart-summary td, .advantages-item-sdesc, .pages-list .product-detail, .pages-list .page-row-info {
+.menu-cat .cat-4613, .categories-menu > li > a, .news-block-item-wr, .news-block .all-items, .product-list-item-row-info-block, .preloaderBig, .additional-images-wr ul, .additional-images-wr li, .how-it-work-list li, .last-viewed-title, .last-viewed-status, .last-viewed-item-wr, .category-view .category-item-wr a, .product-image-featured, .productdetails-view-main-info-part, .productdetails-view-main-info-part .row, .productdetails-view-tab .tabs li, .cart-summary td, .advantages-item-sdesc, .pages-list .product-detail, .pages-list .page-row-info {
   position: relative;
 }
 
@@ -554,7 +554,7 @@ a:hover, .underline_n_y:hover, .product-types-list-item a.active .name:hover {
 .menu-cat .cat-4594:after,
 .menu-cat .cat-4593:after,
 .menu-cat .cat-4622:after,
-.menu-cat .cat-4613:after, .product-list-item .product-label, .product-list-item-row-info-block:before, .last-viewed-item-pattern, .last-viewed-item-prices, .category-view .category-item-wr a span, .productdetails-view-main-info-part .label,
+.menu-cat .cat-4613:after, .product-list-item .product-label, .product-list-item-row-info-block:before, .last-viewed-item-pattern, .last-viewed-item-prices, .category-view .category-item-wr a span, .product-image-featured:after, .productdetails-view-main-info-part .label,
 .productdetails-view-main-info-part .value, .productview-ask-question, .productview-ask-question a, .productdetails-view-tab .tabs sup, .cart-summary td:before, .cart-summary td:after, .advantages-item-sdesc .advantages-item-detail, .advantages-item-img, .pages-list .page-readmode, #reload_captcha_button {
   position: absolute;
 }
@@ -564,7 +564,7 @@ a:hover, .underline_n_y:hover, .product-types-list-item a.active .name:hover {
 }
 
 .jcarousel-control-prev,
-.jcarousel-control-next, .text_c, .logo-top, .search-auto-form .step-num, .product-list-item .status, .category-view .category-item-wr a, .category-view .category-item-wr a span, .engine-info, .productdetails-client-info .guarantie a,
+.jcarousel-control-next, .text_c, .logo-top, .search-auto-form .step-num, .product-list-item .status, .category-view .category-item-wr a, .category-view .category-item-wr a span, .productdetails-client-info .guarantie a,
 .productdetails-client-info .payment a,
 .productdetails-client-info .delivery a, .cart-step-num, .cart-remove, .advantages-title {
   text-align: center;
@@ -1826,8 +1826,8 @@ span sup {
 }
 
 .product-list-item-row-image-block .product-image {
-  width: 206px;
-  height: 154px;
+  width: 180px;
+  height: 145px;
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px;
   border-radius: 4px;
@@ -1848,7 +1848,7 @@ span sup {
 .product-list-item-row-info-block {
   padding-left: 25px;
   padding-right: 10px;
-  width: 340px;
+  width: 360px;
   min-height: 155px;
 }
 .product-list-item-row-info-block:before {
@@ -1882,7 +1882,7 @@ span sup {
 
 .product-list-item-row-price-block {
   width: 140px;
-  height: 180px;
+  height: auto;
 }
 .product-list-item-row-price-block .addtocart-button,
 .product-list-item-row-price-block .product-detail {
@@ -2158,6 +2158,12 @@ span sup {
   width: 100%;
 }
 
+.engine-h1 {
+  font-size: 12px;
+  color: #1a8bfc;
+  padding-top: 10px;
+}
+
 .engine-info img {
   max-width: 100%;
 }
@@ -2184,6 +2190,16 @@ span sup {
 }
 .search-notice-1 p {
   padding-left: 40px;
+}
+
+.product-image-featured:after {
+  content: '';
+  top: 0;
+  left: 0;
+  width: 55px;
+  height: 55px;
+  background: url(../img/product-tag3.png) no-repeat left top;
+  background-size: contain;
 }
 
 /* ╨д╤Г╤В╨╡╤А */
@@ -2957,16 +2973,30 @@ span sup {
 .pages-contacts td {
   border: none;
   vertical-align: top;
-  padding-right: 30px;
+  padding-right: 45px;
+  padding-left: 0;
 }
 .pages-contacts td img {
   vertical-align: middle;
-  margin-right: 5px;
-  width: 17px;
+  height: 15px;
 }
 .pages-contacts td p {
   line-height: 20px;
   margin-bottom: 5px;
+}
+.pages-contacts td .ico-mts, .pages-contacts td .top-contacts .mts:before, .top-contacts .pages-contacts td .mts:before {
+  margin-top: -2px;
+  margin-right: 4px;
+  margin-left: 3px;
+}
+.pages-contacts td .ico-vel {
+  margin-top: -2px;
+  margin-right: 5px;
+}
+.pages-contacts td .ico-e-mail {
+  margin-top: -2px;
+  margin-left: 1px;
+  margin-right: 8px;
 }
 .pages-contacts h4 {
   color: #000;
@@ -2996,6 +3026,9 @@ span sup {
 .contact-form-cnt .button-red {
   margin-left: 110px;
 }
+.contact-form-cnt #contact-form {
+  padding-bottom: 30px;
+}
 
 #reload_captcha_button {
   background: url("../img/reload-16.png") no-repeat transparent;
@@ -3008,5 +3041,5 @@ span sup {
 }
 
 #reload_captcha {
-  margin-top: -5px;
+  margin-top: -10px;
 }

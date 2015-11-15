@@ -203,24 +203,41 @@
 	td {
 		border: none;
 		vertical-align: top;
-		padding-right: 30px;
+		padding-right: 45px;
+		padding-left: 0;
 		
 		img {
 			vertical-align: middle;
-			margin-right: 5px;
-			width: 17px;
+			height: 15px;
 		}
 		
 		p {
 			line-height: 20px;
 			margin-bottom: 5px;
 		}
+		
+		.ico-mts {
+			margin-top: -2px;
+			margin-right: 4px;
+			margin-left: 3px;
+		}
+		.ico-vel {
+			margin-top: -2px;
+			margin-right: 5px;
+		}
+		.ico-e-mail {
+			margin-top: -2px;
+			margin-left: 1px;
+			margin-right: 8px;
+		}
+		
 	}
 	
 	h4 {
 		color: #000;
 		font-size: 14px;
 		font-weight: bold;
+		@extend %uppercase;
 	}
 }
 
@@ -269,6 +286,10 @@
 		
 		margin-left: 110px;
 	}
+	
+	#contact-form {
+		padding-bottom: 30px;
+	}
 }
 
 #reload_captcha_button {
@@ -286,5 +307,10 @@
 }
 
 #reload_captcha {
-	margin-top: -5px;
+	margin-top: -10px;
+}
+
+
+.tab-content .tab-pane {
+	@extend %hide;
 }

@@ -26,7 +26,14 @@ return CMap::mergeArray(
 					'<_action:(delivery|payment|guarantee|contacts|about|townslist|news|our)>'=>'pages/<_action>',
 					
 					//'shop/<path:.+>'=>'/shopcategories/show',
-
+					
+					// category4615/marka31/model34/year35.html
+					// category4615/marka31/model34/year35/engine110.html
+					// category4615/marka31/model34/year35/type9.html
+					// category/marka31/model34/year35/index.html
+					
+					
+					
 					//'addtocart'=>'cart/addtocart',
 					//'showcart'=>'cart/showcart',
 					'<path:.+cart>'=>'cart/<path>',
@@ -35,9 +42,11 @@ return CMap::mergeArray(
 					'product/<product>'=>'shopproducts/detail',
 					
 					'category/index'=>'shopcategories/index',
+					
+					'category<id:.+>/bodyset<bodyset:.+>'=>'shopcategories/show',
+					//'category<id:.+>/body<body:.+>'=>'shopcategories/show',
+					//'category<id:.+>/firm<firm:.+>'=>'shopcategories/show',
 					'category<id:.+>/type<type:.+>'=>'shopcategories/show',
-					'category<id:.+>/body<body:.+>'=>'shopcategories/show',
-					'category<id:.+>/firm<firm:.+>'=>'shopcategories/show',
 					'category<id:.+>/engine<engine:.+>'=>'shopcategories/show',
 					'category<id:.+>'=>'shopcategories/show',
 					'<controller:\w+>/<id:\d+>'=>'<controller>/view',

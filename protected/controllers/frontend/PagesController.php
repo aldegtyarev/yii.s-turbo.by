@@ -216,6 +216,15 @@ class PagesController extends Controller
 	}
 	
 	
+	/**
+	 * гарантия
+	 */
+	public function actionAbout()
+	{
+		$id = 2;
+		$id = 1;
+		$this->renderPage($id);
+	}
 	
 	public function renderPage($id)
 	{
@@ -240,7 +249,7 @@ class PagesController extends Controller
 		
 		$breadcrumbs[] = $model->name;
 		
-		$aadThumbnails = new AadThumbnails();
+		//$aadThumbnails = new AadThumbnails();
 		//$aadThumbnails->onPrepareContent($model);
 		
 		if($modal == 0) {

@@ -17,12 +17,12 @@ class ShopCategoriesController extends Controller
 	
     public function actions() {
         return array (
-            'create'=>'ext.QTreeGridView.actions.Create',
-            'update'=>'ext.QTreeGridView.actions.Update',
-            'delete'=>'ext.QTreeGridView.actions.Delete',
-            'moveNode'=>'ext.QTreeGridView.actions.MoveNode',
-            'makeRoot'=>'ext.QTreeGridView.actions.MakeRoot',
-			'rights',
+            //'create'=>'ext.QTreeGridView.actions.Create',
+            //'update'=>'ext.QTreeGridView.actions.Update',
+            //'delete'=>'ext.QTreeGridView.actions.Delete',
+            //'moveNode'=>'ext.QTreeGridView.actions.MoveNode',
+            //'makeRoot'=>'ext.QTreeGridView.actions.MakeRoot',
+			//'rights',
         );
     }	
 
@@ -82,6 +82,16 @@ class ShopCategoriesController extends Controller
 	{
 		$app = Yii::app();
 		$connection = $app->db;
+		
+		//если мы в выхлопной системе кликнули на кузов то устанавливаем 
+		//это значение в сессию и редиректим на просмотр глушителей
+		$bodyset = (int) $app->request->getParam('bodyset', -1);
+		if($bodyset > -1) {
+			$app->session['autofilter.year'] = $bodyset;			
+			$category = (int) $app->request->getParam('id', -1);
+			$this->redirect($this->createUrl('shopcategories/show', array('id'=>$category)));
+		}
+		
 		
 		$this->processPageRequest('page');
 		
@@ -143,6 +153,10 @@ class ShopCategoriesController extends Controller
 		//если фильруем по какой-то модели - то получаем ИД этих моделей
 		$model_ids = ShopModelsAuto::model()->getModelIds($app);
 		//echo'$model_ids<pre>';print_r($model_ids,0);echo'</pre>';
+		
+		//если моделей нет а есть еще и фильтрация по дригателю то редиректим на дефолтную каталога
+		if(count($model_ids) == 0 && $engine_id != 0)
+			$this->redirect($this->createUrl('shopcategories/index'));
 		
 		
 		$criteria = new CDbCriteria();
@@ -235,12 +249,19 @@ class ShopCategoriesController extends Controller
 		//echo'<pre>';print_r($firms);echo'</pre>';
 		if(count($dataProvider->data))	{
 			$product_ids = array();
+			
+			$modelIds = array();
+			foreach($model_ids as $id)
+				if($id != $select_year && $id != $app->params['universal_products'])
+					$modelIds[] = $id;
+			
 			foreach($dataProvider->data as $row)	{
 				$product_ids[] = $row->product_id;
 				$row->product_url = $this->createUrl('shopproducts/detail', array('product'=> $row->product_id));
 				$row->product_image = $app->params->product_images_liveUrl.($row->product_image ? 'thumb_'.$row->product_image : 'noimage.jpg');
 				$row->firm_name = $firms[$row->firm_id]['name'];
 				//$row->product_availability_str = $firms[$row->firm_id]['name'];
+				$row->model_ids = $modelIds;
 			}
 			
 			//получаем массив доп. изображений для списка товаров
@@ -259,7 +280,10 @@ class ShopCategoriesController extends Controller
 			$ProductsImages = array();
 		}
 		
-		//echo'<pre>';print_r(count($finded_product_ids));echo'</pre>';
+		//echo'$model_ids<pre>';print_r(($model_ids));echo'</pre>';
+		//echo'$model_ids<pre>';print_r(($select_year));echo'</pre>';
+		//echo'$model_ids<pre>';print_r(count($model_ids));echo'</pre>';
+		
 		
 		$breadcrumbs = $this->createBreadcrumbs($category);
 		
@@ -273,9 +297,10 @@ class ShopCategoriesController extends Controller
 		}	else	{
 			$firms = array();
 			$bodies = array();
-			$show_models = true;
+			//$show_models = true;
+			$this->show_models = false;
 		}
-		//echo'<pre>';print_r($firms);echo'</pre>';
+		//echo'<pre>';var_dump($this->show_models);echo'</pre>';
 		if(count($firms))	{
 			$firmsArr = array();
 			foreach($firms as $f) $firmsArr[$f['id']] = $f['name'];
@@ -443,12 +468,19 @@ class ShopCategoriesController extends Controller
 		//echo'<pre>';print_r($firms);echo'</pre>';
 		if(count($dataProvider->data))	{
 			$product_ids = array();
+			
+			$modelIds = array();
+			foreach($model_ids as $id)
+				if($id != $select_year && $id != $app->params['universal_products'])
+					$modelIds[] = $id;
+			
 			foreach($dataProvider->data as $row)	{
 				$product_ids[] = $row->product_id;
 				$row->product_url = $this->createUrl('shopproducts/detail', array('product'=> $row->product_id));
 				$row->product_image = $app->params->product_images_liveUrl.($row->product_image ? 'thumb_'.$row->product_image : 'noimage.jpg');
 				$row->firm_name = $firms[$row->firm_id]['name'];
 				//$row->product_availability_str = $firms[$row->firm_id]['name'];
+				$row->model_ids = $modelIds;				
 			}
 			
 			//получаем массив доп. изображений для списка товаров

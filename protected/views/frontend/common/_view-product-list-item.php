@@ -2,7 +2,7 @@
 	<div class="product-item-wr">
 		<a href="<?=$data->product_url?>" class="product-title db bold text_c font-12"><?=$data->product_name?></a>
 
-		<div class="product-image mb-10" style="background-image: url(<?=$data->product_image ?>)"></div>
+		<div class="product-image mb-10<?php if($data->featured == 1) echo ' product-image-featured' ?>" style="background-image: url(<?=$data->product_image ?>)"></div>
 
 		<p class="small font-13">
 			<span class="grey c_999"><? echo $data->getAttributeLabel('firm_id');?>:</span> <span class="c_fff"><?=$data->firm_name?></span><br />

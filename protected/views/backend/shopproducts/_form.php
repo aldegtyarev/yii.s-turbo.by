@@ -18,6 +18,7 @@ $cs->registerScript('loading', "
 	$('#ShopProducts_protect_copy').bootstrapSwitch();
 	$('#ShopProducts_published').bootstrapSwitch();
 	$('#ShopProducts_override').bootstrapSwitch();
+	$('#ShopProducts_featured').bootstrapSwitch();
 
 	$('.chosen_select').chosen();
 	
@@ -97,10 +98,22 @@ $cs->registerScript('loading', "
 				<?php echo $form->error($model,'product_name'); ?>
 			</div>
 			
-            <div class="row chosen-row">
-                <?php echo $form->labelEx($model,'model_ids'); ?>
-                <?php echo $form->dropDownList($model, 'model_ids', $model->DropDownListModels, array('multiple' => true, 'class'=>'chosen_select', 'data-placeholder'=>'выберите модель', 'style'=>'width:400px;', 'options' => $model->SelectedModels));?>
-                <?php echo $form->error($model,'model_ids'); ?>
+            <div class="row">
+				<div class="col-lg-6">
+					<div class="chosen-row">
+						<?php echo $form->labelEx($model,'model_ids'); ?>
+						<?php echo $form->dropDownList($model, 'model_ids', $model->DropDownListModels, array('multiple' => true, 'class'=>'chosen_select', 'data-placeholder'=>'выберите модель', 'style'=>'width:100%;', 'options' => $model->SelectedModels));?>
+						<?php echo $form->error($model,'model_ids'); ?>
+					</div>
+				</div>               
+				
+				<div class="col-lg-6">
+					<div class="chosen-row">
+						<?php echo $form->labelEx($model,'model_ids_dis'); ?>
+						<?php echo $form->dropDownList($model, 'model_ids_dis', $model->DropDownListModelsDisabled, array('multiple' => true, 'class'=>'chosen_select', 'data-placeholder'=>'выберите модель', 'style'=>'width:100%;', 'options' => $model->SelectedModelsDisabled));?>
+						<?php echo $form->error($model,'model_ids_dis'); ?>
+					</div>
+				</div>               
             </div>
 			
             <div class="row chosen-row">
@@ -382,6 +395,15 @@ $cs->registerScript('loading', "
 					<?php echo $form->error($model,'override'); ?>
 				</div>
 			</div>
+			
+			<div class="row">
+				<div class="col-lg-12">
+					<?php echo $form->checkBoxControlGroup($model, 'featured'); ?>
+					<?php echo $form->error($model,'featured'); ?>
+				</div>
+			</div>
+						
+			
 		
 		</div>
 		

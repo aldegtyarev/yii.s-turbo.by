@@ -341,11 +341,26 @@ class ShopCategories extends CActiveRecord
 						}
 					}
 				}
+				
+				$select_marka = isset($app->session['autofilter.marka']) ? $app->session['autofilter.marka'] : -1;
+				$select_model = isset($app->session['autofilter.model']) ? $app->session['autofilter.model'] : -1;
+				$select_year = isset($app->session['autofilter.year']) ? $app->session['autofilter.year'] : -1;
+				
 
 				if($add_category) {
+					$url_params = array(
+						'/shopcategories/show/',
+						'id'=>$category->id,						
+					);
+					
+//					if($select_marka > -1) $url_params['marka'] = $select_marka;
+//					if($select_model > -1) $url_params['model'] = $select_model;
+//					if($select_year > -1) $url_params['year'] = $select_year;
+					
 					$cat_arr[$category->id]['label'] = CHtml::encode($category->name);
 					$cat_arr[$category->id]['parent_id'] = CHtml::encode($category->parent_id);
-					$cat_arr[$category->id]['url'] = array('/shopcategories/show/', 'id'=>$category->id);
+					//$cat_arr[$category->id]['url'] = array('/shopcategories/show/', 'id'=>$category->id);
+					$cat_arr[$category->id]['url'] = $url_params;
 					$cat_arr[$category->id]['active'] = $active;
 					$cat_arr[$category->id]['itemOptions'] = array('class'=>'cat-'.$category->id);
 				}

@@ -60,11 +60,12 @@ class SearchAutoWidget extends CWidget {
 		}
 		
 		if($do_redirect) {
-//			if($return_url != '' && $return_url != '/')
-//				$this->owner->redirect($return_url);
+			if($return_url != '' && $return_url != '/')
+				$this->owner->redirect($return_url);
+			
 			if($clear_search_auto) $this->owner->redirect('/');
 						
-			$this->owner->redirect($this->controller->createUrl('shopcategories/index'));
+			//$this->owner->redirect($this->controller->createUrl('shopcategories/index'));
 		}
 		
 		

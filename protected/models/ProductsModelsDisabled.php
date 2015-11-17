@@ -126,4 +126,25 @@ class ProductsModelsDisabled extends CActiveRecord
 		}
 	}
 	
+	//проверка на то, чтобы исключить некоторые товары из выдачи
+	public function checkForExcludedProducts(&$connection, $product_ids = array(), $model_ids = array())
+	{
+		if(count($product_ids) == 0 || count($model_ids) == 0) return $product_ids;
+		
+		
+		$sql = "SELECT `product_id` FROM ".$this->tableName()." WHERE model_id IN (" . implode(',', $model_ids) . ")";
+		$command = $connection->createCommand($sql);
+		$rows = $command->queryColumn();		
+		//echo'<pre>';print_r($rows);echo'</pre>';die;
+		
+		foreach($rows as $row)
+			foreach($product_ids as $key=>$product_id)
+				if($product_id == $row)
+					unset($product_ids[$key]);
+		
+		//echo'<pre>';print_r($product_ids);echo'</pre>';die;
+		
+		return $product_ids;
+	}
+	
 }

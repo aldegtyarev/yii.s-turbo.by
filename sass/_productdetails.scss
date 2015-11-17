@@ -86,7 +86,7 @@
 	.value {
 		color: #2b2b2b;
 		
-		width: 50%;
+		
 		
 		@extend %db;
 		@extend %pos_abs;
@@ -99,6 +99,8 @@
 		left: 0;
 		top: 0;
 		
+		width: 55%;
+		
 		
 		
 		font-weight: normal;
@@ -107,6 +109,7 @@
 	.value {
 		right: 0;
 		top: 0;
+		width: 45%;
 		
 		@extend %c_000;
 		@extend %font_14;
@@ -152,7 +155,8 @@
 
 .productdetails-view .addtocart-button {
 	padding-left: 25px;
-	padding-right: 25px;	
+	padding-right: 25px;
+	margin-right: 12px;
 	
 //	@include border-radius(3px);
 //	@include transition-property(background-color);

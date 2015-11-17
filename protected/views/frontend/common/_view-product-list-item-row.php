@@ -33,6 +33,7 @@
 						echo CHtml::image('#', '', array('data-fullsrc'=>$full_image_url, 'class'=>'popup-full-img db'));
 
 						if(count($data->AdditionalImages))	{
+							
 							echo CHtml::OpenTag('div', array('class'=>'additional-images-wr'));
 							echo CHtml::OpenTag('ul', array('class'=>'popup-add-images'));
 
@@ -41,8 +42,11 @@
 							echo CHtml::CloseTag('li');
 
 							foreach($data->AdditionalImages as $img)	{
-								$thumb_image_url = Yii::app()->params->product_images_liveUrl . 'thumb_'.$img['image_file'];
-								$image_url = Yii::app()->params->product_images_liveUrl . 'full_'.$img['image_file'];
+								//echo'<pre>';print_r($img);echo'</pre>';
+								//$thumb_image_url = Yii::app()->params->product_images_liveUrl . 'thumb_'.$img['image_file'];
+								$thumb_image_url = Yii::app()->params->product_images_liveUrl . 'thumb_'.$img;
+								//$image_url = Yii::app()->params->product_images_liveUrl . 'full_'.$img['image_file'];
+								$image_url = Yii::app()->params->product_images_liveUrl . 'full_'.$img;
 								echo CHtml::OpenTag('li', array('class'=>'additional-images-list-item'));
 								echo CHtml::image('#', '', array('data-thmbsrc'=>$thumb_image_url, 'data-fullsrc'=>$image_url, 'class'=>'popup-thmb-img'));
 								echo CHtml::CloseTag('li');
@@ -58,8 +62,8 @@
 			<div class="product-list-item-row-info-block fLeft">
 				<a href="<?=$data->product_url?>" class="product-title  db bold text_c font-12 mt-15"><?=$data->product_name?></a>
 
-				<ul class="prod-list-char-list">
-					<li class="prod-list-char-item arial font-10"><span class="c_999"><? echo $data->getAttributeLabel('firm_id');?>:</span> <?=$data->firm_name?></li>
+				<ul class="prod-list-char-list prod-list-char-list-p1">
+					<li class="prod-list-char-item arial font-10"><span class="c_777"><? echo $data->getAttributeLabel('firm_id');?>:</span> <?=$data->firm_name?></li>
 					
 					<?/*
 					<?php if($data->manufacturer_sku)	{	?>
@@ -67,10 +71,9 @@
 					<?php	}	?>
 					*/?>
 					
-					<li class="prod-list-char-item arial font-10"><span class="c_999"><? echo $data->getAttributeLabel('product_sku');?>:</span> <?=$data->product_sku?></li>
+					<li class="prod-list-char-item arial font-10"><span class="c_777"><? echo $data->getAttributeLabel('product_sku');?>:</span> <?=$data->product_sku?></li>
 					
 				</ul>
-				<br />
 				
 				<ul class="prod-list-char-list dt">
 					

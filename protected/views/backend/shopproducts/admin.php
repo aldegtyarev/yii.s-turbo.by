@@ -118,7 +118,7 @@ if($model->SelectedEngine > 0) $btn_tmpl = '{update}&nbsp;{delete}&nbsp;{copy}&n
 		),
 		
 		array(
-			'name' => 'modelsList',
+			'name' => 'modelsListFull',
 			'type' => 'raw',
 			'headerHtmlOptions' => array(
 				'class' => 'modelsList_column'

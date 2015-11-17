@@ -317,5 +317,8 @@
 
 .category-products-list .product-list-item-right-side {
 	margin-top: -10px;
+}
 
+.prod-list-char-list-p1 {
+	@extend .mb-15;
 }

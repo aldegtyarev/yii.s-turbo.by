@@ -152,12 +152,15 @@ $model_images = $model->Images;
 						</p>
 						<p class="cart-msg hidden pb-5 font-10"></p>
 					
+					<p class="text_r">
 					<?php 
 						echo Chtml::hiddenField('quantity', '1', array('class'=>'quantity', 'id'=>false));
 						echo Chtml::hiddenField('product_id', $model->product_id, array('class'=>'product_id', 'id'=>false));
 						echo CHtml::submitButton('В корзину', array('name'=>'addtocart','id'=>false,'class'=>'addtocart addtocart-button add button-green','title'=>'Добавить этот товар в корзину'));
-						echo CHtml::endForm(); 
+						
 					?>
+					</p>
+					<?php	echo CHtml::endForm(); ?>
 										
 					<?/*<div class="productview-ask-question"><a href="#">Задать вопрос</a></div>*/?>
 

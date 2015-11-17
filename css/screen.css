@@ -1020,7 +1020,7 @@ span sup {
   margin-bottom: 10px;
 }
 
-.mb-15, h3, .advantages-item-popup p, .advantages-item-popup li {
+.mb-15, h3, .prod-list-char-list-p1, .advantages-item-popup p, .advantages-item-popup li {
   margin-bottom: 15px;
 }
 
@@ -2322,16 +2322,17 @@ span sup {
 .productdetails-view-main-info-part .label,
 .productdetails-view-main-info-part .value {
   color: #2b2b2b;
-  width: 50%;
 }
 .productdetails-view-main-info-part .label {
   left: 0;
   top: 0;
+  width: 55%;
   font-weight: normal;
 }
 .productdetails-view-main-info-part .value {
   right: 0;
   top: 0;
+  width: 45%;
 }
 .productdetails-view-main-info-part .productdetails-price-row {
   height: 40px;
@@ -2351,6 +2352,7 @@ span sup {
 .productdetails-view .addtocart-button {
   padding-left: 25px;
   padding-right: 25px;
+  margin-right: 12px;
 }
 
 .productview-ask-question {
@@ -2508,7 +2510,7 @@ span sup {
 }
 
 .product-types-list-item {
-  padding: 0 2px 4px 2px;
+  padding: 0 2px 10px 2px;
 }
 .product-types-list-item a {
   /* border: 1px solid #c8c8c8; */

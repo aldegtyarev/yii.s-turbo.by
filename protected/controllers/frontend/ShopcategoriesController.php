@@ -97,6 +97,10 @@ class ShopCategoriesController extends Controller
 		
 		//echo'<pre>';print_r($_GET);echo'</pre>';//die;
 		
+		// http://yii.s-turbo.by/category4630.html
+		// http://yii.s-turbo.by/admin.php?r=shopproducts/update&id=829
+		// http://yii.s-turbo.by/admin.php?r=shopproducts/update&id=694
+		
 		$selected_view = $app->request->getParam('select-view', -1);
 		
 		$type_request = (int)$app->request->getParam('type', 0);
@@ -171,6 +175,9 @@ class ShopCategoriesController extends Controller
 			if($engine_id != 0) $product_ids = ProductsEngines::model()->getProductIdFromEngines($connection, array($engine_id), $model_ids);
 				else $product_ids = ShopProductsModelsAuto::model()->getProductIdFromModels($connection, $model_ids);
 			
+			//echo'$product_ids<pre>';print_r($product_ids,0);echo'</pre>';
+			$product_ids = ProductsModelsDisabled::model()->checkForExcludedProducts($connection, $product_ids, $model_ids);
+				
 			if(count($product_ids))	{
 				
 				$condition_arr[] = "t.`product_id` IN (".implode(', ', $product_ids).")";
@@ -277,7 +284,12 @@ class ShopCategoriesController extends Controller
 				}
 			}
 		}	else	{
+			if($type_request != 0)	{
+				$this->redirect($this->createUrl('shopcategories/index'));
+			}
+			
 			$ProductsImages = array();
+			
 		}
 		
 		//echo'$model_ids<pre>';print_r(($model_ids));echo'</pre>';

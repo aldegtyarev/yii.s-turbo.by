@@ -177,6 +177,22 @@ class ShopProductsModelsAuto extends CActiveRecord
 		return $command->queryAll();
 	}
 	
+	public function getModelsFullNamesFull($product_id, $model_ids = array())
+	{
+		$connection = Yii::app()->db;
+
+		$sql = "SELECT distinct(pma.`model_id`), ma.`fullname` FROM ".$this->tableName()." AS pma INNER JOIN {{shop_models_auto}} AS ma ON ma.`id` = pma.`model_id` WHERE `product_id` = :product_id";
+		
+		//$sql = "SELECT distinct(pma.`model_id`), ma.`name` AS fullname FROM ".$this->tableName()." AS pma INNER JOIN {{shop_models_auto}} AS ma ON ma.`id` = pma.`model_id` WHERE `product_id` = :product_id";
+		if(count($model_ids) > 0 ) $sql .= " AND `model_id` IN (".implode(',', $model_ids).")";
+		$command = $connection->createCommand($sql);
+		$command->bindParam(":product_id", $product_id);
+		//$rows = $command->queryColumn();
+		//echo'<pre>';print_r($rows);echo'</pre>';
+			
+		return $command->queryAll();
+	}
+	
 	public function getModelsIdsForProductList(&$connection, $product_ids)
 	{
 		$connection = Yii::app()->db;

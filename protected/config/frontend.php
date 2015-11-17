@@ -30,7 +30,7 @@ return CMap::mergeArray(
 					// category4615/marka31/model34/year35.html
 					// category4615/marka31/model34/year35/engine110.html
 					// category4615/marka31/model34/year35/type9.html
-					// category/marka31/model34/year35/index.html
+					// category4615/marka31/model34/year35/index.html
 					
 					
 					
@@ -40,6 +40,8 @@ return CMap::mergeArray(
 					//'<path:.+-detail>'=>'shopproducts/detail',
 					'product/buyoneclick'=>'shopproducts/buyoneclick',
 					'product/<product>'=>'shopproducts/detail',
+					
+					'category<id:.+>/marka<marka:.+>/model<model:.+>/year<year:.+>'=>'shopcategories/show',
 					
 					'category/index'=>'shopcategories/index',
 					

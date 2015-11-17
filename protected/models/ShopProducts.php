@@ -108,6 +108,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 	public $firm_name = array();
     
     public $_modelsList = '';
+    public $_modelsListFull = '';
 	
 	public $SelectedEngine;
     
@@ -217,6 +218,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
             'adjustment' => 'Регулировка',
             'admin_category_ids' => 'Админ. категории',
             'modelsList' => 'Модельный ряд',
+            'modelsListFull' => 'Модельный ряд',
             'hide_s_desc' => 'Не вводить краткое описание в карточке  товара',
             'featured' => 'Рекомендуем',
         );
@@ -242,6 +244,28 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		//echo'<pre>';var_dump($this->_modelsList);echo'</pre>';
         
         return $this->_modelsList;
+    }
+
+    public function getModelsListFull()
+    {
+        $this->_modelsListFull = '';
+		$list = array();
+		
+		$model_list = ShopProductsModelsAuto::model()->getModelsFullNamesFull($this->product_id, $this->model_ids);
+		
+        if(is_array($model_list))	{
+			foreach($model_list as $model)   {
+				$list[] = $model['fullname'];
+			}
+			$this->_modelsListFull = implode('<br>', $list);
+			//$this->_modelsList = implode(', ', $list);
+			//echo'<pre>';print_r(implode(',<br>', $list),0);echo'</pre>';
+		}
+		// 30 -> 71
+		
+		//echo'<pre>';var_dump($this->_modelsList);echo'</pre>';
+        
+        return $this->_modelsListFull;
     }
 
     public function setModelsList($value)

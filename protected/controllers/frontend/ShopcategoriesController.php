@@ -141,10 +141,16 @@ class ShopCategoriesController extends Controller
 		if(isset($app->session['autofilter.modelinfo']))	{
 			$modelinfo = json_decode($app->session['autofilter.modelinfo'], 1);
 		}	else	{
-				$select_marka = isset($app->session['autofilter.marka']) ? $app->session['autofilter.marka'] : -1;
-				$select_model = isset($app->session['autofilter.model']) ? $app->session['autofilter.model'] : -1;
-				$select_year = isset($app->session['autofilter.year']) ? $app->session['autofilter.year'] : -1;
+				$url_params = UrlHelper::getUrlParams($app);
+			
+				$select_marka = $url_params['marka'];
+				$select_model = $url_params['model'];
+				$select_year = $url_params['year'];
 				
+//				$select_marka = isset($app->session['autofilter.marka']) ? $app->session['autofilter.marka'] : -1;
+//				$select_model = isset($app->session['autofilter.model']) ? $app->session['autofilter.model'] : -1;
+//				$select_year = isset($app->session['autofilter.year']) ? $app->session['autofilter.year'] : -1;
+//				
 				$modelinfo = ShopModelsAuto::model()->getModelInfo($connection, $select_marka, $select_model, $select_year);
 			}
 		

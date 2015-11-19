@@ -315,6 +315,9 @@ class ShopCategories extends CActiveRecord
 
 			$categories1 = $categories;
 			
+			$selected_auto = UrlHelper::getSelectedAuto($app);
+			//echo'<pre>';print_r($selected_auto);echo'</pre>';
+			
 			foreach($categories as $n => $category)
 			{
 				if($current_category_id == $category->id) {
@@ -348,14 +351,17 @@ class ShopCategories extends CActiveRecord
 				
 
 				if($add_category) {
-					$url_params = array(
-						'/shopcategories/show/',
-						'id'=>$category->id,						
-					);
+//					$url_params = array(
+//						'/shopcategories/show/',
+//						'id'=>$category->id,						
+//					);
 					
 //					if($select_marka > -1) $url_params['marka'] = $select_marka;
 //					if($select_model > -1) $url_params['model'] = $select_model;
 //					if($select_year > -1) $url_params['year'] = $select_year;
+					
+					$url_params = UrlHelper::buildUrlParams($selected_auto, $category->id);
+					//echo'<pre>';print_r($url_params);echo'</pre>';
 					
 					$cat_arr[$category->id]['label'] = CHtml::encode($category->name);
 					$cat_arr[$category->id]['parent_id'] = CHtml::encode($category->parent_id);

@@ -25,9 +25,13 @@ class SearchAutoWidget extends CWidget {
 			
 			$return_url = '';
 		}	else	{
+			
 			$select_marka = $app->request->getParam('select-marka', null);
 			$select_model = $app->request->getParam('select-model', null);
 			$select_year = $app->request->getParam('select-year', null);
+			
+			$url_params = UrlHelper::getUrlParams($app);
+			//echo'<pre>';print_r($url_params);echo'</pre>';
 			
 			$return_url = $app->request->getParam('return', '');
 			if($return_url != '')	$return_url = base64_decode($return_url);
@@ -38,6 +42,9 @@ class SearchAutoWidget extends CWidget {
 				unset($app->session['autofilter.modelinfo']);
 			} elseif(isset($app->session['autofilter.marka'])) {
 				$select_marka = $app->session['autofilter.marka'];
+			} elseif(isset($url_params['marka'])) {
+				$select_marka = $url_params['marka'];
+				$app->session['autofilter.marka'] = $select_marka;
 			}
 
 			if($select_model != null) {
@@ -46,7 +53,11 @@ class SearchAutoWidget extends CWidget {
 				unset($app->session['autofilter.modelinfo']);
 			} elseif(isset($app->session['autofilter.model'])) {
 				$select_model = $app->session['autofilter.model'];
+			} elseif(isset($url_params['model'])) {
+				$select_model = $url_params['model'];
+				$app->session['autofilter.model'] = $select_model;
 			}
+
 
 			if($select_year != null) {
 				$do_redirect = true;
@@ -54,9 +65,10 @@ class SearchAutoWidget extends CWidget {
 				unset($app->session['autofilter.modelinfo']);
 			} elseif(isset($app->session['autofilter.year'])) {
 				$select_year = $app->session['autofilter.year'];
+			} elseif(isset($url_params['year'])) {
+				$select_year = $url_params['year'];
+				$app->session['autofilter.year'] = $select_year;
 			}
-			
-			
 		}
 		
 		if($do_redirect) {

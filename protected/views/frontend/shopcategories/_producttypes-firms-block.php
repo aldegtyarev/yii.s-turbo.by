@@ -1,5 +1,5 @@
 <?php
-function showFilterItems($list, $total = 0, $url_parameter, $main_url, $request_id, $this_, $category_id, $body_request, $type_request, $firm_request, $show_all = true) 
+function showFilterItems($list, $total = 0, $url_parameter, $main_url, $request_id, $this_, $category_id, $body_request, $type_request, $firm_request, $show_all = true, $url_params) 
 {
 	$total_str = CHtml::OpenTag('span', array('class'=>'product-count')) . $total . CHtml::CloseTag('span');
 	
@@ -15,30 +15,35 @@ function showFilterItems($list, $total = 0, $url_parameter, $main_url, $request_
 		echo CHtml::link(CHtml::OpenTag('span', array('class'=>'name'))."Все".CHtml::CloseTag('span') . $total_str, $main_url, $htmlOptions);
 		echo CHtml::CloseTag('li');
 	}
-	//echo'<pre>';print_r($list);echo'</pre>';
+	//echo'<pre>';print_r($url_params);echo'</pre>';
 	
 	$k = 1;
+	
 	foreach($list as $item)	{
 		$total_str = CHtml::OpenTag('span', array('class'=>'product-count')) .$item['count'] . CHtml::CloseTag('span');
 		
-		$url_params = array(
-			'id'=>$category_id,
-		);
-		
-		if($url_parameter == 'body') {
-			$url_params[$url_parameter] = $item['id'];
-			//if($type_request != 0) $url_params['type'] = $type_request;	
-		}	elseif($url_parameter == 'type') {
-			$url_params[$url_parameter] = $item['id'];
-			if($body_request != 0) $url_params['body'] = $body_request;
-			if($firm_request != 0) $url_params['firm'] = $firm_request;
-		}	elseif($url_parameter == 'firm') {
-			$url_params[$url_parameter] = $item['id'];
-			if($body_request != 0) $url_params['body'] = $body_request;
-			if($type_request != 0) $url_params['type'] = $type_request;	
+		$url_params_ = array();
+		foreach($url_params as $k=>$v) {
+			if($k != 'current_action' && $k != 'current_controller' && !is_null($v))
+				$url_params_[$k] = $v;
 		}
 		
-		$url = $this_->createUrl('shopcategories/show', $url_params);
+		if($url_parameter == 'body') {
+			$url_params_[$url_parameter] = $item['id'];
+			//if($type_request != 0) $url_params['type'] = $type_request;	
+		}	elseif($url_parameter == 'type') {
+			$url_params_[$url_parameter] = $item['id'];
+			if($body_request != 0) $url_params_['body'] = $body_request;
+			if($firm_request != 0) $url_params_['firm'] = $firm_request;
+		}	elseif($url_parameter == 'firm') {
+			$url_params_[$url_parameter] = $item['id'];
+			if($body_request != 0) $url_params_['body'] = $body_request;
+			if($type_request != 0) $url_params_['type'] = $type_request;	
+		}
+		
+		//echo'<pre>';print_r($url_params_);echo'</pre>';
+		
+		$url = $this_->createUrl('shopcategories/show', $url_params_);
 		
 		if($request_id == $item['id'])	{
 			$htmlOptions = array('class'=>'active');
@@ -62,6 +67,8 @@ function showFilterItems($list, $total = 0, $url_parameter, $main_url, $request_
 
 $main_url = '/'.Yii::app()->getRequest()->getPathInfo();
 
+$url_params = UrlHelper::getUrlParams(Yii::app());
+
 ?>
 
 <? //if(count($producttypes) || count($firms))	{	?>
@@ -79,7 +86,7 @@ $main_url = '/'.Yii::app()->getRequest()->getPathInfo();
 				
 				<ul class="product-types-list filter-block-list filter-block-list-items clearfix">
 					<? //showFilterItems($producttypes, $productsTotal, 'type', $main_url, $type_request, $this, $category->id, $body_request, $type_request, $firm_request, true); ?>
-					<? showFilterItems($producttypes, $productsTotal, 'type', $main_url, $type_request, $this, $category->id, $body_request, $type_request, $firm_request, false); ?>
+					<?php showFilterItems($producttypes, $productsTotal, 'type', $main_url, $type_request, $this, $category->id, $body_request, $type_request, $firm_request, false, $url_params); ?>
 				</ul>
 				
 			</div>

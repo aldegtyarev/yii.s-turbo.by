@@ -32,8 +32,8 @@ class Currencies extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('currency_name, currency_code, currency_code_iso, currency_code_num, currency_ordering, currency_value, currency_publish', 'required'),
-			array('currency_ordering, currency_publish', 'numerical', 'integerOnly'=>true),
+			array('currency_name, currency_code, currency_code_iso, currency_code_num, currency_ordering, currency_value, currency_publish, precision', 'required'),
+			array('currency_ordering, currency_publish, precision', 'numerical', 'integerOnly'=>true),
 			array('currency_name', 'length', 'max'=>64),
 			array('currency_code', 'length', 'max'=>20),
 			array('currency_code_iso, currency_code_num', 'length', 'max'=>3),
@@ -69,6 +69,7 @@ class Currencies extends CActiveRecord
 			'currency_ordering' => 'Currency Ordering',
 			'currency_value' => 'Currency Value',
 			'currency_publish' => 'Currency Publish',
+			'precision' => 'precision',
 		);
 	}
 
@@ -120,5 +121,23 @@ class Currencies extends CActiveRecord
 		$result = CHtml::listData(self::findAll(), 'currency_id', 'currency_name');
 		return $result;
 	}
+	
+	public function loadCurrenciesList()
+	{
+		$connection = Yii::app()->db;
+		
+		$sql = "SELECT * FROM ".$this->tableName();		
+		$command = $connection->createCommand($sql);
+		$rows = $command->queryAll();
+		
+		$res = array();
+		
+		foreach($rows as $row)
+			$res[$row['currency_id']] = $row;
+		
+		//echo'<pre>';print_r($res);echo'</pre>';die;
+		return $res;
+	}	
+	
 	
 }

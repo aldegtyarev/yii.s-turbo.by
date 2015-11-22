@@ -1,5 +1,4 @@
 <div class="consultant-block floatLeft">
-	<p class="online status white-color">В сети</p>
-	<p class="title white-color">Онлайн-консультант</p>
-	<a href="javascript:void(0)" class="consultant-call">Задать вопрос</a>
+	<p class="title white-color bold">Звоните: с 9.00 до 22.00</p>
+	<a href="<?= $this->owner->createUrl('site/backcall') ?>" id="consultant-call" class="consultant-call fancybox.ajax">Заказать звонок</a>
 </div>

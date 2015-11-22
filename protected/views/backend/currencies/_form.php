@@ -61,6 +61,12 @@
 		<?php echo $form->error($model,'currency_publish'); ?>
 	</div>
 
+	<div class="row">
+		<?php echo $form->labelEx($model,'precision'); ?>
+		<?php echo $form->textField($model,'precision'); ?>
+		<?php echo $form->error($model,'precision'); ?>
+	</div>
+
 	<div class="row buttons">
 		<?php echo BsHtml::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить', array('color' => BsHtml::BUTTON_COLOR_SUCCESS)); ?>
 	</div>

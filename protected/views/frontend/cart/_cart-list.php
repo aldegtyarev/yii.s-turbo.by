@@ -39,8 +39,7 @@
 
 				<td align="center">
 					<? $product_price = $product->getSumPrice(); ?>
-					<p class="c_d70000 bold font-20 text_c"><?=PriceHelper::formatPrice($product->product_price)?></p>
-					<p class="c_000 bold font-12 mt-10 text_c"><?=PriceHelper::formatPrice($product->product_price, 3)?></p>
+					<p class="c_d70000 bold font-20 text_c"><?=PriceHelper::formatPrice($product->product_price, $product->currency_id, 3)?></p>
 				</td>
 
 				<td align="center" class="remove-td">
@@ -53,14 +52,19 @@
 	</tbody>
 </table>
 
-<div class="cart-total p-10 fLeft">
-	<p class="bold mb-10">Итого</p>
-	<? $product_price = $app->shoppingCart->getCost(); ?>
-	<p id="total-cost-usd" class="c_d70000 bold font-20"><?=PriceHelper::formatPrice($product_price)?></p>
-	<p id="total-cost-byr" class="c_000 bold font-12 mt-5"><?=PriceHelper::formatPrice($product_price, 3)?></p>
-</div>
 
 <div class="p-10 fRight">
-	<? echo CHtml::link('Продолжать покупки', '/', array('title' => 'Продолжать покупки', 'class'=>'db fLeft c_fff bold cart-btn cart-btn-continue')); ?>
-	<? echo CHtml::link('Оформить', $this->createUrl('/cart/checkout'), array('title' => 'Оформить заказ', 'class'=>'db fLeft c_fff bold cart-btn cart-btn-checkout')); ?>
+
+	<div class="cart-total">
+		<p class="bold mb-10">Итого</p>
+		<? $product_price = $app->shoppingCart->getCost(); ?>
+		<p id="total-cost-usd" class="c_d70000 bold font-20"><?=PriceHelper::formatPrice($product_price, $product->currency_id, 3)?></p>
+	</div>
+	
+	<div class="cart-btns1-cnt">
+		<? echo CHtml::link('Продолжать покупки', '/', array('title' => 'Продолжать покупки', 'class'=>'db fLeft c_fff bold cart-btn cart-btn-continue')); ?>
+		<? echo CHtml::link('Оформить заказ', $this->createUrl('/cart/checkout'), array('title' => 'Оформить заказ', 'class'=>'db fLeft c_fff bold cart-btn cart-btn-checkout')); ?>
+	</div>
+
+
 </div>

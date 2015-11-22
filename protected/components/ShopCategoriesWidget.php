@@ -29,6 +29,7 @@ class ShopCategoriesWidget extends CWidget {
 				//echo'<pre>';var_dump($engines_info);echo'</pre>';//die;
 				
 					
+				$selected_auto = UrlHelper::getSelectedAuto($app);
 
 				if(count($engines_info) > 0) {
 					$engine_id = $app->request->getParam('engine', array());
@@ -38,10 +39,17 @@ class ShopCategoriesWidget extends CWidget {
 						if($engine_id == $engine['id']) $active = true;
 							else $active = false;
 
+						$selected_auto_ = $selected_auto;
+						$selected_auto_['engine'] = $engine['id'];
+
+						$url_params = UrlHelper::buildUrlParams($selected_auto_, $id2);
+						//echo'<pre>';print_r($url_params);echo'</pre>';//die;
+						
 						$item = array();
 						$item['label'] = CHtml::encode($engine['name']);
 						$item['parent_id'] = $id2;
-						$item['url'] = array('/shopcategories/show/', 'id'=>$id2, 'engine'=>$engine['id']);
+						//$item['url'] = array('/shopcategories/show/', 'id'=>$id2, 'engine'=>$engine['id']);
+						$item['url'] = $url_params;
 						$item['active'] = $active;
 						$item['itemOptions'] = array('class'=>'eng-'.$engine['id']);
 						$items_[$engine['id']] = $item;
@@ -56,10 +64,17 @@ class ShopCategoriesWidget extends CWidget {
 					foreach($descendants as $c){
 						//echo'<pre>';print_r($c->name);echo'</pre>';//die;
 						
+						$selected_auto_ = $selected_auto;
+						$selected_auto_['bodyset'] = $c->id;
+
+						$url_params = UrlHelper::buildUrlParams($selected_auto_, $id2);
+						
+						
 						$item = array(
 							'label' => CHtml::encode($c->name),
 							'parent_id' => $id2,
-							'url' => array('/shopcategories/show/', 'id'=>$id2, 'bodyset'=>$c->id),
+							//'url' => array('/shopcategories/show/', 'id'=>$id2, 'bodyset'=>$c->id),
+							'url' => $url_params,
 							'active' => $active,
 							'itemOptions' => array('class'=>'eng-'.$c->id),
 						);

@@ -43,10 +43,10 @@
 
 							foreach($data->AdditionalImages as $img)	{
 								//echo'<pre>';print_r($img);echo'</pre>';
-								//$thumb_image_url = Yii::app()->params->product_images_liveUrl . 'thumb_'.$img['image_file'];
-								$thumb_image_url = Yii::app()->params->product_images_liveUrl . 'thumb_'.$img;
-								//$image_url = Yii::app()->params->product_images_liveUrl . 'full_'.$img['image_file'];
-								$image_url = Yii::app()->params->product_images_liveUrl . 'full_'.$img;
+								$thumb_image_url = Yii::app()->params->product_images_liveUrl . 'thumb_'.$img['image_file'];
+								//$thumb_image_url = Yii::app()->params->product_images_liveUrl . 'thumb_'.$img;
+								$image_url = Yii::app()->params->product_images_liveUrl . 'full_'.$img['image_file'];
+								//$image_url = Yii::app()->params->product_images_liveUrl . 'full_'.$img;
 								echo CHtml::OpenTag('li', array('class'=>'additional-images-list-item'));
 								echo CHtml::image('#', '', array('data-thmbsrc'=>$thumb_image_url, 'data-fullsrc'=>$image_url, 'class'=>'popup-thmb-img'));
 								echo CHtml::CloseTag('li');

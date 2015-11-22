@@ -29,8 +29,9 @@ $clientScript->registerCoreScript('fancybox');
 						<?/*<p>Цены ниже<br>среднерыночных</p>*/?>
 						<p>Мы предлагаем самые<br>конкурентные цены</p>
 						<img src="/img/advantages-1.png" alt="Лучшие цены" class="advantages-item-img advantages-item-img-1">
-						<a href="#adv-item-1" class="advantages-item-detail fancybox1">Подробнее</a>
+						
 					</div>
+					<a href="#adv-item-1" class="advantages-item-detail fancybox1"><span>Подробнее</span></a>
 				</div>
 				<div id="adv-item-1" class="advantages-item-popup" style="display:none; width:600px;">					
 					<p class="advantages-item-popup-title">Лучшие цены</p>
@@ -54,8 +55,9 @@ $clientScript->registerCoreScript('fancybox');
 							- самовывоз<br>
 						</p>
 						<img src="/img/advantages-2.png" alt="Доставка по всей Беларуси" class="advantages-item-img advantages-item-img-2">
-						<a href="<?= $this->createUrl('pages/delivery')?>" class="advantages-item-detail modal-url fancybox1 fancybox.ajax">Подробнее</a>
+						
 					</div>
+					<a href="<?= $this->createUrl('pages/delivery')?>" class="advantages-item-detail modal-url fancybox1 fancybox.ajax"><span>Подробнее</span></a>
 				</div>
 			</div>
 		</div>
@@ -72,8 +74,9 @@ $clientScript->registerCoreScript('fancybox');
 							- безналичный расчет (для юридических лиц)<br>
 						</p>
 						<img src="/img/advantages-3.png" alt="Удобная оплата" class="advantages-item-img advantages-item-img-3">
-						<a href="<?= $this->createUrl('pages/payment')?>" class="advantages-item-detail modal-url fancybox1 fancybox.ajax">Подробнее</a>
+						
 					</div>
+					<a href="<?= $this->createUrl('pages/payment')?>" class="advantages-item-detail modal-url fancybox1 fancybox.ajax"><span>Подробнее</span></a>
 				</div>
 			</div>
 		</div>
@@ -88,8 +91,9 @@ $clientScript->registerCoreScript('fancybox');
 							- обмен / возврат в течении 14 дней<br>
 						</p>
 						<img src="/img/advantages-4.png" alt="Гарантия и возврат" class="advantages-item-img advantages-item-img-4">
-						<a href="<?= $this->createUrl('pages/guarantee')?>" class="advantages-item-detail modal-url fancybox1 fancybox.ajax">Подробнее</a>
+						
 					</div>
+					<a href="<?= $this->createUrl('pages/guarantee')?>" class="advantages-item-detail modal-url fancybox1 fancybox.ajax"><span>Подробнее</span></a>
 				</div>
 			</div>
 		</div>

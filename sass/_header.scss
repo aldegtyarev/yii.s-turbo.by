@@ -273,55 +273,59 @@
 
 /* consultant-block */
 .consultant-block {
-	padding: 5px 0 0 88px;
+	padding: 3px 0 0 25px;
 	margin: 15px 0 0 0;
 	
-	@extend %for_sprite;
+//	@extend %for_sprite;
 	@extend %c_fff;	
+	@extend %font_14;
+	@extend .c_e1e1e3;
 	
-	&:before {
-		top: 0;
-		left: 12px;
-		
-		@extend .ico-consultant;
-
-	}
+//	&:before {
+//		top: 0;
+//		left: 12px;
+//		
+//		@extend .ico-consultant;
+//
+//	}
 	
-	.status {
-		position: relative;
-		display: inline-block;
-		padding: 2px 11px 2px 21px;
-		margin: 0 0 5px 0;
-		border: 1px solid #8d8f90;
-		
-		@include border-radius(7px);
-		
-		@extend %pos_rel;
-		@extend %font_13;
-		
-		&:before {
-			content: ' ';
-			width: 9px;
-			height: 9px;
-			top: 4px;
-			left: 8px;
-			@include border-radius(7px);
-			@extend %pos_abs;
-		}
-	}
-		
-
-	.online:before {
-		background: #70b328;			
-	}
+//	.status {
+//		position: relative;
+//		display: inline-block;
+//		padding: 2px 11px 2px 21px;
+//		margin: 0 0 5px 0;
+//		border: 1px solid #8d8f90;
+//		
+//		@include border-radius(7px);
+//		
+//		@extend %pos_rel;
+//		@extend %font_13;
+//		
+//		&:before {
+//			content: ' ';
+//			width: 9px;
+//			height: 9px;
+//			top: 4px;
+//			left: 8px;
+//			@include border-radius(7px);
+//			@extend %pos_abs;
+//		}
+//	}
+//		
+//
+//	.online:before {
+//		background: #70b328;			
+//	}
 		
 	.title {
-		margin: 0 0 2px 0;
+		//margin: 0 0 2px 0;
+		@extend .pb-10;
 	}
 	
 	.consultant-call {
-		color: inherit;
+		color: #1AE7FC;
 		
 		@extend %font_13;
+		@extend %underline_y_n;
 	}
 }

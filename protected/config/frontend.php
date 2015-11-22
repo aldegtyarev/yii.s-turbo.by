@@ -42,15 +42,17 @@ return CMap::mergeArray(
 					'product/<product>'=>'shopproducts/detail',
 					
 					'category<id:.+>/marka<marka:.+>/model<model:.+>/year<year:.+>/type<type:.+>'=>'shopcategories/show',
+					'category<id:.+>/marka<marka:.+>/model<model:.+>/year<year:.+>/engine<engine:.+>'=>'shopcategories/show',
+					'category<id:.+>/marka<marka:.+>/model<model:.+>/year<year:.+>/bodyset<bodyset:.+>'=>'shopcategories/show',
 					'category<id:.+>/marka<marka:.+>/model<model:.+>/year<year:.+>'=>'shopcategories/show',
 					
 					'category/index'=>'shopcategories/index',
 					
-					'category<id:.+>/bodyset<bodyset:.+>'=>'shopcategories/show',
+					//'category<id:.+>/bodyset<bodyset:.+>'=>'shopcategories/show',
 					//'category<id:.+>/body<body:.+>'=>'shopcategories/show',
 					//'category<id:.+>/firm<firm:.+>'=>'shopcategories/show',
-					'category<id:.+>/type<type:.+>'=>'shopcategories/show',
-					'category<id:.+>/engine<engine:.+>'=>'shopcategories/show',
+					//'category<id:.+>/type<type:.+>'=>'shopcategories/show',
+					//'category<id:.+>/engine<engine:.+>'=>'shopcategories/show',
 					'category<id:.+>'=>'shopcategories/show',
 					'<controller:\w+>/<id:\d+>'=>'<controller>/view',
 					'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',

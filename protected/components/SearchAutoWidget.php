@@ -30,14 +30,17 @@ class SearchAutoWidget extends CWidget {
 			$select_model = $app->request->getParam('select-model', null);
 			$select_year = $app->request->getParam('select-year', null);
 			
+			if(!is_null($select_marka) && !is_null($select_model) && !is_null($select_year)) $autoChanged = true;
+				else $autoChanged = false;
+			
 			$url_params = UrlHelper::getUrlParams($app);
 			//echo'<pre>';print_r($url_params);echo'</pre>';
 			
 			$return_url = $app->request->getParam('return', '');
+			//echo'<pre>';print_r($return_url);echo'</pre>';
 			if($return_url != '')	$return_url = base64_decode($return_url);
 			
 			if($select_marka != null) {
-				$do_redirect = true;
 				$app->session['autofilter.marka'] = $select_marka;
 				unset($app->session['autofilter.modelinfo']);
 			} elseif(isset($app->session['autofilter.marka'])) {
@@ -48,7 +51,6 @@ class SearchAutoWidget extends CWidget {
 			}
 
 			if($select_model != null) {
-				$do_redirect = true;
 				$app->session['autofilter.model'] = $select_model;
 				unset($app->session['autofilter.modelinfo']);
 			} elseif(isset($app->session['autofilter.model'])) {
@@ -60,7 +62,6 @@ class SearchAutoWidget extends CWidget {
 
 
 			if($select_year != null) {
-				$do_redirect = true;
 				$app->session['autofilter.year'] = $select_year;
 				unset($app->session['autofilter.modelinfo']);
 			} elseif(isset($app->session['autofilter.year'])) {
@@ -69,10 +70,39 @@ class SearchAutoWidget extends CWidget {
 				$select_year = $url_params['year'];
 				$app->session['autofilter.year'] = $select_year;
 			}
+			
+			
+			if($autoChanged === true) {
+				$do_redirect = true;
+				
+				if(!is_null($url_params['id'])) {
+
+					$selected_auto = array(
+						'marka' => $select_marka,
+						'model' => $select_model,
+						'year' => $select_year,
+						'engine' => $app->request->getParam('engine', -1),
+						'type' => $app->request->getParam('type', -1),
+					);
+
+					//echo'<pre>';print_r($url_params);echo'</pre>';//die;
+					$url_params = UrlHelper::buildUrlParams($selected_auto, $url_params['id']);
+					//echo'<pre>';print_r($url_params);echo'</pre>';die;
+					$url = $url_params[0];
+					unset($url_params[0]);
+					$return_url = $this->owner->createUrl($url, $url_params);
+					//echo'<pre>$return_url ';print_r($return_url);echo'</pre>';
+				}	else	{
+					$return_url = $this->owner->createUrl('shopcategories/index');
+				}
+			}
+			
+			
 		}
 		
 		if($do_redirect) {
-			if($return_url != '' && $return_url != '/')
+			//if($return_url != '' && $return_url != '/')
+			if($return_url != '')
 				$this->owner->redirect($return_url);
 			
 			if($clear_search_auto) $this->owner->redirect('/');

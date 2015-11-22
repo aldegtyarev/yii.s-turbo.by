@@ -15,8 +15,9 @@
 	$cs->coreScriptPosition = CClientScript::POS_END;
 	$cs->registerCoreScript('jquery');
 	$cs->registerCoreScript('scripts');
-	//$cs->registerCoreScript('fancybox');
+	$cs->registerCoreScript('fancybox');
 	$cs->registerCoreScript('formstyler');
+	$cs->registerCoreScript('phone-input');	
 
 	//$cs->registerCoreScript('fancybox');
 	//$cs->registerCoreScript('selectbox');

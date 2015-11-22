@@ -65,10 +65,28 @@ function showFilterItems($list, $total = 0, $url_parameter, $main_url, $request_
 	
 }
 
-$main_url = '/'.Yii::app()->getRequest()->getPathInfo();
+//$main_url = '/'.Yii::app()->getRequest()->getPathInfo();
 
 $url_params = UrlHelper::getUrlParams(Yii::app());
+//echo'<pre>';print_r($url_params);echo'</pre>';
+$all_url_params = array();
+$cat_id = $url_params['id'];
 
+
+foreach($url_params as $k=>$v) {
+	if(!is_null($v) && $v > -1)
+		$all_url_params[$k] = $v;
+}
+
+
+unset($all_url_params['current_action']);
+unset($all_url_params['current_controller']);
+unset($all_url_params['type']);
+
+
+//echo'<pre>';print_r($all_url_params);echo'</pre>';
+
+$main_url = $this->createUrl('shopcategories/show', $all_url_params);
 ?>
 
 <? //if(count($producttypes) || count($firms))	{	?>

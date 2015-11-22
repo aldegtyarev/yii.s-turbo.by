@@ -6,8 +6,8 @@
 		<p class="last-viewed-status status status-available"><?=$data->in_stock?></p>
 
 		<div class="last-viewed-item-prices">
-			<p class="price-byr"><?=PriceHelper::formatPrice($data->product_price, 3)?></p>
-			<p class="price"><?=PriceHelper::formatPrice($data->product_price)?></p>
+			<p class="price-byr"><?=PriceHelper::formatPrice($data->product_price, $data->currency_id, 3)?></p>
+			<?/*<p class="price"><?=PriceHelper::formatPrice($data->product_price)?></p>*/?>
 		</div>
 	</div>
 </div>

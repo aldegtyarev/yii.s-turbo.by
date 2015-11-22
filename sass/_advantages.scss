@@ -79,6 +79,44 @@
 	}
 }
 
+.advantages-item-sdesc-cnt {
+	@extend .pos-rel;
+	
+	.advantages-item-detail {
+		@extend %pos_abs;
+		@extend %font_10;
+		@extend %uppercase;
+		@extend %bold;
+		@extend %underline_n_n;
+		
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
+		
+		
+		span {
+			@extend %pos_abs;
+			
+			font-family: Arial;
+			padding: 0 3px;
+
+			right: 0;
+			bottom: 0;
+
+			background-color: #efefef;
+
+			&:hover {
+				background-color: #cfcfcf;
+			}
+			
+			
+		}
+		
+	}
+	
+}
+
 .advantages-item-sdesc {
 	@extend %font_15;
 	@extend %pos_rel;
@@ -94,26 +132,6 @@
 		font-size: 14px;
 	}
 	
-	.advantages-item-detail {
-		@extend %pos_abs;
-		@extend %font_10;
-		@extend %uppercase;
-		@extend %bold;
-		@extend %underline_n_n;
-		
-		font-family: Arial;
-		padding: 0 3px;
-		
-		right: 0;
-		bottom: 0;
-		
-		background-color: #efefef;
-		
-		&:hover {
-			background-color: #cfcfcf;
-		}
-		
-	}
 }
 
 .advantages-item-img {

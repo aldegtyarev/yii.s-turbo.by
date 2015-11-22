@@ -35,6 +35,7 @@ class LastViewedProductsWidget extends CWidget {
 			'dataProvider' => $dataProvider,
 		);
 		
+		//echo'<pre>';print_r($dataProvider->data);echo'</pre>';
 		
 		$this->render('LastViewedProductsWidget', $data);
     }

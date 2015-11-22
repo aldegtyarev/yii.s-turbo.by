@@ -60,7 +60,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 }
 
 /* необходимо для @filter-gradient */
-.ico-sprite, .ico-adress, .footer .adress:before, .ico-arrow-down, .ico-arrow-left-act, .jcarousel-control-prev:hover:before, .products-on-auto .jcarousel-control-prev:before, .products-on-auto .jcarousel-control-prev:hover:before, .ico-arrow-left-red, .ico-arrow-left, .jcarousel-control-prev:before, .products-on-auto .jcarousel-control-prev:active:before, .ico-arrow-right-act, .jcarousel-control-next:hover:before, .products-on-auto .jcarousel-control-next:before, .products-on-auto .jcarousel-control-next:hover:before, .ico-arrow-right-red, .how-it-work-list .wr:before, .ico-arrow-right, .jcarousel-control-next:before, .products-on-auto .jcarousel-control-next:active:before, .ico-cart-n, .add-tocart-btn, .ico-cart, .to-cart, .ico-clear-filter-black, .filter-block .clear-filter:before, .ico-clear-filter, .ico-consultant, .consultant-block:before, .ico-delivery-question, .ico-email, .ico-email1, .top-contacts .email:before, .ico-mts, .top-contacts .mts:before, .ico-no-avatar, .ico-on-product-page, .product-detail-tile, .ico-payment-question, .ico-phone, .ico-product-list-view1-act, .select-view-block .view-row:hover, .select-view-block .view-row-active, .ico-product-list-view1, .select-view-block .view-row, .ico-product-list-view2-act, .select-view-block .view-tile:hover, .select-view-block .view-tile-active, .ico-product-list-view2, .select-view-block .view-tile, .ico-question, .productview-ask-question:before, .ico-search-btn-white, .search-auto-button:before, .ico-search-btn, .search-block .search-btn, .ico-search-reset, .clear-search-auto:before, .ico-select-arrow, .search-auto-form .jq-selectbox__trigger-arrow, .ico-select-arrowhover, .search-auto-form .jq-selectbox__select:hover .jq-selectbox__trigger-arrow, .ico-top-menu-active-left, .main-menu li.active a:before, .main-menu li:hover a:before, .ico-top-menu-active-right, .main-menu li.active a:after, .main-menu li:hover a:after, .ico-top-menu-separator, .main-menu li:after, .ico-velcom, .top-contacts .velcom:before, .ico-we-work1, .how-it-work-list .step1:before, .ico-we-work2, .how-it-work-list .step2:before, .ico-we-work3, .how-it-work-list .step3:before, .ico-we-work4, .how-it-work-list .step4:before {
+.ico-sprite, .ico-adress, .footer .adress:before, .ico-arrow-down, .ico-arrow-left-act, .jcarousel-control-prev:hover:before, .products-on-auto .jcarousel-control-prev:before, .products-on-auto .jcarousel-control-prev:hover:before, .ico-arrow-left-red, .ico-arrow-left, .jcarousel-control-prev:before, .products-on-auto .jcarousel-control-prev:active:before, .ico-arrow-right-act, .jcarousel-control-next:hover:before, .products-on-auto .jcarousel-control-next:before, .products-on-auto .jcarousel-control-next:hover:before, .ico-arrow-right-red, .how-it-work-list .wr:before, .ico-arrow-right, .jcarousel-control-next:before, .products-on-auto .jcarousel-control-next:active:before, .ico-cart-n, .add-tocart-btn, .ico-cart, .to-cart, .ico-clear-filter-black, .filter-block .clear-filter:before, .ico-clear-filter, .ico-consultant, .ico-delivery-question, .ico-email, .ico-email1, .top-contacts .email:before, .ico-mts, .top-contacts .mts:before, .ico-no-avatar, .ico-on-product-page, .product-detail-tile, .ico-payment-question, .ico-phone, .ico-product-list-view1-act, .select-view-block .view-row:hover, .select-view-block .view-row-active, .ico-product-list-view1, .select-view-block .view-row, .ico-product-list-view2-act, .select-view-block .view-tile:hover, .select-view-block .view-tile-active, .ico-product-list-view2, .select-view-block .view-tile, .ico-question, .productview-ask-question:before, .ico-search-btn-white, .search-auto-button:before, .ico-search-btn, .search-block .search-btn, .ico-search-reset, .clear-search-auto:before, .ico-select-arrow, .search-auto-form .jq-selectbox__trigger-arrow, .ico-select-arrowhover, .search-auto-form .jq-selectbox__select:hover .jq-selectbox__trigger-arrow, .ico-top-menu-active-left, .main-menu li.active a:before, .main-menu li:hover a:before, .ico-top-menu-active-right, .main-menu li.active a:after, .main-menu li:hover a:after, .ico-top-menu-separator, .main-menu li:after, .ico-velcom, .top-contacts .velcom:before, .ico-we-work1, .how-it-work-list .step1:before, .ico-we-work2, .how-it-work-list .step2:before, .ico-we-work3, .how-it-work-list .step3:before, .ico-we-work4, .how-it-work-list .step4:before {
   background-image: url('../img/ico-s2298154919.png');
   background-repeat: no-repeat;
 }
@@ -137,7 +137,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   width: 11px;
 }
 
-.ico-consultant, .consultant-block:before {
+.ico-consultant {
   background-position: 0 -191px;
   height: 63px;
   width: 63px;
@@ -303,11 +303,11 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 }
 
 .jcarousel-control-prev,
-.jcarousel-control-next, .sprite, .main-menu li.active a, .main-menu li:hover a, .consultant-block, .clear-search-auto, .search-auto-button, .categories-menu > li > a, .how-it-work-list li, .how-it-work-list .wr, .productview-ask-question, .filter-block .clear-filter {
+.jcarousel-control-next, .sprite, .main-menu li.active a, .main-menu li:hover a, .clear-search-auto, .search-auto-button, .categories-menu > li > a, .how-it-work-list li, .how-it-work-list .wr, .productview-ask-question, .filter-block .clear-filter {
   position: relative;
 }
 .jcarousel-control-prev:before,
-.jcarousel-control-next:before, .sprite:before, .main-menu li.active a:before, .main-menu li:hover a:before, .consultant-block:before, .clear-search-auto:before, .search-auto-button:before, .categories-menu > li > a:before, .how-it-work-list li:before, .how-it-work-list .wr:before, .productview-ask-question:before, .filter-block .clear-filter:before {
+.jcarousel-control-next:before, .sprite:before, .main-menu li.active a:before, .main-menu li:hover a:before, .clear-search-auto:before, .search-auto-button:before, .categories-menu > li > a:before, .how-it-work-list li:before, .how-it-work-list .wr:before, .productview-ask-question:before, .filter-block .clear-filter:before {
   content: ' ';
   position: absolute;
 }
@@ -319,7 +319,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   color: #fff;
 }
 
-.c_e1e1e3 {
+.c_e1e1e3, .consultant-block {
   color: #e1e1e3;
 }
 
@@ -375,21 +375,21 @@ h2, h3, .c_000, .menu-cat li a, .menu-cat .active.parent > a, .news-block-item .
   font-size: 9px;
 }
 
-.breadcrumbs, .font-10, .product-list-item .small, .productview-ask-question a, .filter-block .clear-filter, .advantages-item-sdesc .advantages-item-detail, .page-item-created {
+.breadcrumbs, .font-10, .product-list-item .small, .productview-ask-question a, .filter-block .clear-filter, .advantages-item-sdesc-cnt .advantages-item-detail, .page-item-created {
   font-size: 10px;
 }
 
 .button,
 .button-red,
-.button-green, .font-11, .clear-search-auto, .news-block .all-items, .product-list-item .status, .how-it-work-list .wr, .last-viewed-block .all-items, .productdetails-client-info .title {
+.button-green, .font-11, .clear-search-auto, .news-block .all-items, .product-list-item .status, .how-it-work-list .wr, .last-viewed-block .all-items, .last-viewed-title, .productdetails-client-info .title {
   font-size: 11px;
 }
 
-.font-12, .search-auto-form .jq-selectbox__select-text, .search-auto-form .jq-selectbox__dropdown li, .menu-cat li a, .news-block-item .item-title, .last-viewed-title, .productdetails-view-main-info-part .label, .productdetails-price-row .price-byr, .productdetails-view-tab .tabs sup, .filter-block-all-items {
+.font-12, .search-auto-form .jq-selectbox__select-text, .search-auto-form .jq-selectbox__dropdown li, .menu-cat li a, .news-block-item .item-title, .productdetails-view-main-info-part .label, .productdetails-price-row .price-byr, .productdetails-view-tab .tabs sup, .filter-block-all-items {
   font-size: 12px;
 }
 
-.errorMessage, .font-13, .logo-top, .search-block .searchbox, .consultant-block .status, .consultant-block .consultant-call, .search-auto-form .step-num, .news-block .created-by,
+.errorMessage, .font-13, .logo-top, .search-block .searchbox, .consultant-block .consultant-call, .search-auto-form .step-num, .news-block .created-by,
 .news-block .created-by a,
 .news-block .created, .product-list-item .product-label, .last-viewed-item-prices .price-byr, .productdetails-client-info .guarantie a,
 .productdetails-client-info .payment a,
@@ -401,7 +401,7 @@ h2, h3, .c_000, .menu-cat li a, .menu-cat .active.parent > a, .news-block-item .
 .sorting-block-conteiner .currency-select, .sorting-block-conteiner .sorting-block a,
 .sorting-block-conteiner .currency-select a, .flash-warning,
 .flash-error,
-.flash-success, .font-14, .top-contacts > p, .search-auto-block-title, .more-products, .last-viewed-status, .footer .email, .productdetails-view-main-info-part .value, .productdetails-price-row .label, .productdetails-view .addtocart-button, .productdetails-view-tab .tabs a, .productdetails-view-tab .tabs .active, .filter-block-header, .advantages-item-popup p, .advantages-item-popup li, .page-cnt h4, .nav-tabs li a {
+.flash-success, .font-14, .top-contacts > p, .consultant-block, .search-auto-block-title, .more-products, .last-viewed-status, .footer .email, .productdetails-view-main-info-part .value, .productdetails-price-row .label, .productdetails-view .addtocart-button, .productdetails-view-tab .tabs a, .productdetails-view-tab .tabs .active, .filter-block-header, .cart-btn-continue, .cart-btn-checkout, .advantages-item-popup p, .advantages-item-popup li, .page-cnt h4, .nav-tabs li a, .backcall-form-descr {
   font-size: 14px;
 }
 
@@ -449,7 +449,7 @@ h1, h2, h3, b, strong, .button,
 .productdetails-view-main-info-part .value, .productdetails-price-row .price, .productdetails-price-row .price-byr, .productdetails-view .addtocart-button, .productview-ask-question a, .productdetails-client-info .title, .productdetails-view-tab .tabs a, .buy-in-one-click a, .filter-block .clear-filter, .filter-block-header, .product-types-list-item a.active span, .filter-block-all-items.active, .product-types-index-all a,
 .product-types-index-all p,
 .product-types-index a,
-.product-types-index p, .cart-remove, .cartBlockEmpty > span, .advantages-item-title, .advantages-item-sdesc .advantages-item-detail, .advantages-title, .page-text-intro {
+.product-types-index p, .cart-remove, .cartBlockEmpty > span, .advantages-item-title, .advantages-item-sdesc-cnt .advantages-item-detail, .advantages-title, .page-text-intro {
   font-weight: bold;
 }
 
@@ -457,16 +457,16 @@ i, em, .errorMessage, .italic, .logo-top, .search-auto-block-title {
   font-style: italic;
 }
 
-h2, h3, .logo-top, .search-auto-block-title, .categories-menu > li > a, .news-block .header-wr h3, .last-viewed-block h3, .engine-h1, .footer-hdr, .advantages-item-popup .advantages-item-popup-title, .advantages-item-sdesc .advantages-item-detail, .advantages-title, .pages-contacts h4, .contact-form-cnt .button-red {
+h2, h3, .logo-top, .search-auto-block-title, .categories-menu > li > a, .news-block .header-wr h3, .last-viewed-block h3, .engine-h1, .footer-hdr, .advantages-item-popup .advantages-item-popup-title, .advantages-item-sdesc-cnt .advantages-item-detail, .advantages-title, .pages-contacts h4, .contact-form-cnt .button-red {
   text-transform: uppercase;
 }
 
 .breadcrumbs a, .sorting-block-conteiner .sorting-block a,
-.sorting-block-conteiner .currency-select a, .underline_y_n, .clear-search-auto, .news-block .all-items, .products-on-auto-item-more, .last-viewed-block .all-items, .copyright-note, .productview-ask-question a, .buy-in-one-click a, .product-types-list-item a .name, .page-cnt a, .pages-list .page-readmode {
+.sorting-block-conteiner .currency-select a, .underline_y_n, .consultant-block .consultant-call, .clear-search-auto, .news-block .all-items, .products-on-auto-item-more, .last-viewed-block .all-items, .copyright-note, .productview-ask-question a, .buy-in-one-click a, .product-types-list-item a .name, .page-cnt a, .pages-list .page-readmode {
   text-decoration: underline;
 }
 .breadcrumbs a:hover, .sorting-block-conteiner .sorting-block a:hover,
-.sorting-block-conteiner .currency-select a:hover, .underline_y_n:hover, .clear-search-auto:hover, .news-block .all-items:hover, .products-on-auto-item-more:hover, .last-viewed-block .all-items:hover, .copyright-note:hover, .productview-ask-question a:hover, .buy-in-one-click a:hover, .product-types-list-item a .name:hover, .page-cnt a:hover, .pages-list .page-readmode:hover {
+.sorting-block-conteiner .currency-select a:hover, .underline_y_n:hover, .consultant-block .consultant-call:hover, .clear-search-auto:hover, .news-block .all-items:hover, .products-on-auto-item-more:hover, .last-viewed-block .all-items:hover, .copyright-note:hover, .productview-ask-question a:hover, .buy-in-one-click a:hover, .product-types-list-item a .name:hover, .page-cnt a:hover, .pages-list .page-readmode:hover {
   text-decoration: none;
 }
 
@@ -482,7 +482,7 @@ a:hover, .underline_n_y:hover, .product-types-list-item a.active .name:hover {
 .button-green, .jcarousel-control-prev,
 .jcarousel-control-next, .underline_n_n, .main-menu li a, .logo-top, .menu-cat li a, .productdetails-client-info .guarantie a,
 .productdetails-client-info .payment a,
-.productdetails-client-info .delivery a, .productdetails-view-tab .tabs a, .product-types-list-item a, .filter-block-all-items, .cart-remove, .cart-btn, .advantages-item-sdesc .advantages-item-detail, .nav-tabs li a {
+.productdetails-client-info .delivery a, .productdetails-view-tab .tabs a, .product-types-list-item a, .filter-block-all-items, .cart-remove, .cart-btn, .advantages-item-sdesc-cnt .advantages-item-detail, .nav-tabs li a {
   text-decoration: none;
 }
 .button:hover,
@@ -490,7 +490,7 @@ a:hover, .underline_n_y:hover, .product-types-list-item a.active .name:hover {
 .button-green:hover, .jcarousel-control-prev:hover,
 .jcarousel-control-next:hover, .underline_n_n:hover, .main-menu li a:hover, .logo-top:hover, .menu-cat li a:hover, .productdetails-client-info .guarantie a:hover,
 .productdetails-client-info .payment a:hover,
-.productdetails-client-info .delivery a:hover, .productdetails-view-tab .tabs a:hover, .product-types-list-item a:hover, .filter-block-all-items:hover, .cart-remove:hover, .cart-btn:hover, .advantages-item-sdesc .advantages-item-detail:hover, .nav-tabs li a:hover {
+.productdetails-client-info .delivery a:hover, .productdetails-view-tab .tabs a:hover, .product-types-list-item a:hover, .filter-block-all-items:hover, .cart-remove:hover, .cart-btn:hover, .advantages-item-sdesc-cnt .advantages-item-detail:hover, .nav-tabs li a:hover {
   text-decoration: none;
 }
 
@@ -541,7 +541,7 @@ a:hover, .underline_n_y:hover, .product-types-list-item a.active .name:hover {
   display: none;
 }
 
-.sorting-block-conteiner, .pos-rel, .productdetails-prepayment-ico, .main-menu li, .consultant-block .status, .search-auto-form, .menu-cat .cat-4635,
+.sorting-block-conteiner, .pos-rel, .productdetails-prepayment-ico, .advantages-item-sdesc-cnt, .main-menu li, .search-auto-form, .menu-cat .cat-4635,
 .menu-cat .cat-4594,
 .menu-cat .cat-4593,
 .menu-cat .cat-4622,
@@ -550,12 +550,12 @@ a:hover, .underline_n_y:hover, .product-types-list-item a.active .name:hover {
 }
 
 .jcarousel-control-prev,
-.jcarousel-control-next, .sorting-block-conteiner .currency-select, .pos-abs, .cartBlockEmpty > span, .consultant-block .status:before, .search-auto-form .step-num, .clear-search-auto, .menu-cat .cat-4635:after,
+.jcarousel-control-next, .sorting-block-conteiner .currency-select, .pos-abs, .cartBlockEmpty > span, .search-auto-form .step-num, .clear-search-auto, .menu-cat .cat-4635:after,
 .menu-cat .cat-4594:after,
 .menu-cat .cat-4593:after,
 .menu-cat .cat-4622:after,
 .menu-cat .cat-4613:after, .product-list-item .product-label, .product-list-item-row-info-block:before, .last-viewed-item-pattern, .last-viewed-item-prices, .category-view .category-item-wr a span, .product-image-featured:after, .productdetails-view-main-info-part .label,
-.productdetails-view-main-info-part .value, .productview-ask-question, .productview-ask-question a, .productdetails-view-tab .tabs sup, .cart-summary td:before, .cart-summary td:after, .advantages-item-sdesc .advantages-item-detail, .advantages-item-img, .pages-list .page-readmode, #reload_captcha_button {
+.productdetails-view-main-info-part .value, .productview-ask-question, .productview-ask-question a, .productdetails-view-tab .tabs sup, .cart-summary td:before, .cart-summary td:after, .advantages-item-sdesc-cnt .advantages-item-detail, .advantages-item-sdesc-cnt .advantages-item-detail span, .advantages-item-img, .pages-list .page-readmode, #reload_captcha_button {
   position: absolute;
 }
 
@@ -570,7 +570,7 @@ a:hover, .underline_n_y:hover, .product-types-list-item a.active .name:hover {
   text-align: center;
 }
 
-.text_r, .last-viewed-item-prices .price, .last-viewed-item-prices .price-byr {
+.text_r, .last-viewed-item-prices .price, .last-viewed-item-prices .price-byr, .back-call-frm .buttons {
   text-align: right;
 }
 
@@ -1016,7 +1016,7 @@ span sup {
 
 .mb-10, .flash-warning,
 .flash-error,
-.flash-success {
+.flash-success, .cart-list .cart-total {
   margin-bottom: 10px;
 }
 
@@ -1024,7 +1024,7 @@ span sup {
   margin-bottom: 15px;
 }
 
-.mb-20, .pages-list .product-title, .contact-form-cnt {
+.mb-20, .pages-list .product-title, .contact-form-cnt, .backcall-form-descr {
   margin-bottom: 20px;
 }
 
@@ -1122,7 +1122,7 @@ span sup {
   padding-bottom: 5px;
 }
 
-.pb-10 {
+.pb-10, .consultant-block .title {
   padding-bottom: 10px;
 }
 
@@ -1369,41 +1369,11 @@ span sup {
 
 /* consultant-block */
 .consultant-block {
-  padding: 5px 0 0 88px;
+  padding: 3px 0 0 25px;
   margin: 15px 0 0 0;
 }
-.consultant-block:before {
-  top: 0;
-  left: 12px;
-}
-.consultant-block .status {
-  position: relative;
-  display: inline-block;
-  padding: 2px 11px 2px 21px;
-  margin: 0 0 5px 0;
-  border: 1px solid #8d8f90;
-  -moz-border-radius: 7px;
-  -webkit-border-radius: 7px;
-  border-radius: 7px;
-}
-.consultant-block .status:before {
-  content: ' ';
-  width: 9px;
-  height: 9px;
-  top: 4px;
-  left: 8px;
-  -moz-border-radius: 7px;
-  -webkit-border-radius: 7px;
-  border-radius: 7px;
-}
-.consultant-block .online:before {
-  background: #70b328;
-}
-.consultant-block .title {
-  margin: 0 0 2px 0;
-}
 .consultant-block .consultant-call {
-  color: inherit;
+  color: #1AE7FC;
 }
 
 /* ╨Я╨╛╨╕╤Б╨║ ╨┐╨╛ ╨░╨▓╤В╨╛╨╝╨╛╨▒╨╕╨╗╤О */
@@ -2097,8 +2067,8 @@ span sup {
 }
 
 .last-viewed-item-wr {
-  padding: 20px 10px 10px 10px;
-  height: 81px;
+  padding: 10px 10px 10px 10px;
+  height: 91px;
   background-size: cover;
   background-repeat: no-repeat;
   overflow: hidden;
@@ -2109,7 +2079,7 @@ span sup {
 
 .last-viewed-item-pattern {
   background-color: black;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.4);
   width: 100%;
   height: 100%;
   left: 0;
@@ -2580,6 +2550,9 @@ span sup {
   -webkit-box-shadow: #dbdbdb 2px 2px 5px;
   box-shadow: #dbdbdb 2px 2px 5px;
 }
+.cart-list .cart-total {
+  margin-left: 204px;
+}
 
 .cart-summary td {
   padding: 20px 10px;
@@ -2721,19 +2694,20 @@ span sup {
 }
 
 .cart-btn-continue {
-  -moz-border-radius: 3px 0 0 3px;
+  -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
-  border-radius: 3px 0 0 3px;
-  border-left: 1px solid #fff;
+  border-radius: 3px;
+  margin-right: 10px;
 }
 .cart-btn-continue:hover {
   background-color: #b7b7b7;
 }
 
 .cart-btn-checkout {
-  -moz-border-radius: 0 3px 3px 0;
-  -webkit-border-radius: 0;
-  border-radius: 0 3px 3px 0;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  margin-left: 10px;
 }
 .cart-btn-checkout:hover {
   background-color: #be0000;
@@ -2749,6 +2723,10 @@ span sup {
 .cartBlockEmpty > span {
   top: 10px;
   left: 50px;
+}
+
+.cart-btns1-cnt {
+  margin-right: 29px;
 }
 
 .advantages {
@@ -2802,6 +2780,23 @@ span sup {
   padding-left: 5px;
 }
 
+.advantages-item-sdesc-cnt .advantages-item-detail {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+.advantages-item-sdesc-cnt .advantages-item-detail span {
+  font-family: Arial;
+  padding: 0 3px;
+  right: 0;
+  bottom: 0;
+  background-color: #efefef;
+}
+.advantages-item-sdesc-cnt .advantages-item-detail span:hover {
+  background-color: #cfcfcf;
+}
+
 .advantages-item-sdesc {
   padding-left: 10px;
   padding-right: 10px;
@@ -2811,16 +2806,6 @@ span sup {
 .advantages-item-sdesc .small {
   font-family: Arial Narrow, sans-serif;
   font-size: 14px;
-}
-.advantages-item-sdesc .advantages-item-detail {
-  font-family: Arial;
-  padding: 0 3px;
-  right: 0;
-  bottom: 0;
-  background-color: #efefef;
-}
-.advantages-item-sdesc .advantages-item-detail:hover {
-  background-color: #cfcfcf;
 }
 
 .advantages-item-img-1 {
@@ -3044,4 +3029,25 @@ span sup {
 
 #reload_captcha {
   margin-top: -10px;
+}
+
+.backcall-form-cnt {
+  margin-top: 0;
+}
+.backcall-form-cnt h3 {
+  margin-bottom: 25px;
+}
+
+.back-call-frm {
+  width: 340px;
+}
+.back-call-frm .row > input[type=text] {
+  width: 100%;
+  box-sizing: border-box;
+}
+.back-call-frm .row .errorMessage {
+  padding-left: 0;
+}
+.back-call-frm .button-red {
+  margin: 0;
 }

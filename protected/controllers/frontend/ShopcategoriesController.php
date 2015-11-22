@@ -83,13 +83,22 @@ class ShopCategoriesController extends Controller
 		$app = Yii::app();
 		$connection = $app->db;
 		
+		$url_params = UrlHelper::getUrlParams($app);
+		$selected_auto = UrlHelper::getSelectedAuto($app);
 		//если мы в выхлопной системе кликнули на кузов то устанавливаем 
 		//это значение в сессию и редиректим на просмотр глушителей
-		$bodyset = (int) $app->request->getParam('bodyset', -1);
+		$bodyset = (int) $app->request->getParam('bodyset', -1);		
 		if($bodyset > -1) {
-			$app->session['autofilter.year'] = $bodyset;			
-			$category = (int) $app->request->getParam('id', -1);
-			$this->redirect($this->createUrl('shopcategories/show', array('id'=>$category)));
+			$app->session['autofilter.year'] = $bodyset;
+			
+			
+			
+			$url_params_ = UrlHelper::buildUrlParams($selected_auto, $url_params['id']);
+			
+			//echo'<pre>';print_r($url_params);echo'</pre>';die;
+			$url = $url_params_[0];
+			unset($url_params_[0]);
+			$this->redirect($this->createUrl($url, $url_params_));
 		}
 		
 		
@@ -141,18 +150,23 @@ class ShopCategoriesController extends Controller
 		if(isset($app->session['autofilter.modelinfo']))	{
 			$modelinfo = json_decode($app->session['autofilter.modelinfo'], 1);
 		}	else	{
-				$url_params = UrlHelper::getUrlParams($app);
-			
-				$select_marka = $url_params['marka'];
-				$select_model = $url_params['model'];
-				$select_year = $url_params['year'];
-				
+
+			$select_marka = $url_params['marka'] ? $url_params['marka'] : -1;
+			$select_model = $url_params['model'] ? $url_params['model'] : -1;
+			$select_year = $url_params['year'] ? $url_params['year'] : -1;
+
+			//echo'$id = <pre>';var_dump($url_params);echo'</pre>';die;
+
 //				$select_marka = isset($app->session['autofilter.marka']) ? $app->session['autofilter.marka'] : -1;
 //				$select_model = isset($app->session['autofilter.model']) ? $app->session['autofilter.model'] : -1;
 //				$select_year = isset($app->session['autofilter.year']) ? $app->session['autofilter.year'] : -1;
-//				
-				$modelinfo = ShopModelsAuto::model()->getModelInfo($connection, $select_marka, $select_model, $select_year);
-			}
+	
+			if($select_marka != -1 && $select_model != -1 && $select_year != -1)
+					$modelinfo = ShopModelsAuto::model()->getModelInfo($connection, $select_marka, $select_model, $select_year);
+				else $modelinfo = array();
+					
+			//echo'<pre>';print_r($modelinfo);echo'</pre>';die;
+		}
 		
 		if(count($modelinfo)) {
 			if($category->name1 != '') $category->name = $category->name1;
@@ -293,6 +307,15 @@ class ShopCategoriesController extends Controller
 			if($type_request != 0)	{
 				$this->redirect($this->createUrl('shopcategories/index'));
 			}
+			
+			$url_params_ = UrlHelper::buildUrlParams($selected_auto, $url_params['id']);
+			
+			//echo'<pre>';print_r($url_params);echo'</pre>';die;
+			$url = $url_params_[0];
+			unset($url_params_[0]);
+			$this->redirect($this->createUrl($url, $url_params_));
+			
+			//$this->redirect($this->createUrl('shopcategories/index', ));
 			
 			$ProductsImages = array();
 			

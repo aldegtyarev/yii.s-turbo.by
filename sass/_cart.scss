@@ -1,6 +1,12 @@
 .cart-list {
 	margin-top: -3px;
 	@include box-shadow(#dbdbdb 2px 2px 5px);
+	
+	.cart-total {
+		@extend .mb-10;
+		
+		margin-left: 204px;
+	}
 }
 
 .cart-summary {
@@ -172,10 +178,12 @@
 
 .cart-btn-continue {
 	@extend .bg-c4c4c4;
+	@extend %font_14;
 	
-	@include border-radius(3px 0 0 3px);
+	@include border-radius(3px);
 	
-	border-left: 1px solid #fff;
+	margin-right: 10px;
+	//border-left: 1px solid #fff;
 	
 	&:hover {
 		background-color: darken(#c4c4c4, 5%)
@@ -184,8 +192,11 @@
 
 .cart-btn-checkout {
 	@extend .bg-d70000;
+	@extend %font_14;
 	
-	@include border-radius(0 3px 3px 0);
+	@include border-radius(3px);
+	
+	margin-left: 10px;
 	
 	&:hover {
 		background-color: darken(#d70000, 5%)
@@ -209,4 +220,8 @@
 		left: 50px;
 		
 	}
+}
+
+.cart-btns1-cnt {
+	margin-right: 29px;
 }

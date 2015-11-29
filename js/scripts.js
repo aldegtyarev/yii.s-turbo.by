@@ -210,16 +210,16 @@ $(document).ready(function () {
 	
 	$('.cart-qty-dec').on('click', function () {
 		cart_form = $(this).parent();
-		cart_qty = parseInt($(this).parent().children('.inputbox-qty').val());
+		cart_qty = parseInt($(this).parent().find('.inputbox-qty').val());
 		if (cart_qty > 1) {
 			cart_qty--;
-			$(this).parent().children('.inputbox-qty').val(cart_qty);
+			$(this).parent().find('.inputbox-qty').val(cart_qty);
 			$.post(
 				cart_form.attr('action'),
 				cart_form.serialize(),
 				function (data) {
-					$('#total-cost-usd').html(data.cost_usd);
-					$('#total-cost-byr').html(data.cost_byr);
+					$('#total-cost-usd').html(data.cost_byr);
+					//$('#total-cost-byr').html(data.cost_byr);
 				},
 				'json'
 			);
@@ -231,15 +231,15 @@ $(document).ready(function () {
 
 	$('.cart-qty-inc').on('click', function () {
 		cart_form = $(this).parent();
-		cart_qty = parseInt($(this).parent().children('.inputbox-qty').val());
+		cart_qty = parseInt($(this).parent().find('.inputbox-qty').val());
 		cart_qty++;
-		$(this).parent().children('.inputbox-qty').val(cart_qty);
+		$(this).parent().find('.inputbox-qty').val(cart_qty);
         $.post(
             cart_form.attr('action'),
             cart_form.serialize(),
             function (data) {
-				$('#total-cost-usd').html(data.cost_usd);
-				$('#total-cost-byr').html(data.cost_byr);
+				$('#total-cost-usd').html(data.cost_byr);
+				//$('#total-cost-byr').html(data.cost_byr);
             },
 			'json'
         );
@@ -362,6 +362,39 @@ $(document).ready(function () {
 			$('body').find('.fancybox-inner').find('.time-to-call-input').mask(time_to_call_input);
 		}		
 	});
+	
+    $('#checkoutType input').on('change', function () {
+		$('#checkout-form .checkout-cnt').hide();
+		$('#' + $(this).val()).show();
+    });
+	
+    $('.na_osnovanii_radio').on('click', function () {
+		var selected = parseInt($(this).val());
+		
+		switch (selected) {
+			case 2:
+				$('#doverennost_text_cnt').show();
+				$('#svidetelstvo_text_cnt').hide();
+				$('#svidetelstvo_text_cnt').val('');
+				break;
+			case 3:
+				$('#svidetelstvo_text_cnt').show();
+				$('#doverennost_text_cnt').hide();
+				$('#doverennost_text_cnt').val('');
+				break;
+			default:
+				$('#doverennost_text_cnt').hide();
+				$('#doverennost_text_cnt').val('');
+				$('#svidetelstvo_text_cnt').hide();
+				$('#svidetelstvo_text_cnt').val('');
+				
+				
+		}
+		//$('#checkout-form .checkout-cnt').hide();
+		//$('#' + $(this).val()).show();
+		
+    });
+	
 	
 	
 });

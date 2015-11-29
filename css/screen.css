@@ -326,7 +326,8 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 .errorMessage,
 span.required, .breadcrumbs a, .sorting-block-conteiner .sorting-block a:hover,
 .sorting-block-conteiner .currency-select a:hover, .sorting-block-conteiner .sorting-block .active,
-.sorting-block-conteiner .currency-select .active, .c_d70000, .menu-cat h3, .menu-cat li a:hover, .menu-cat .active > a, .news-block .all-items, .product-list-item-row-info-block .short-description li:before, .last-viewed-block .all-items, .last-viewed-item-prices .price, .productdetails-price-row .price, .productview-ask-question a, .productdetails-view-tab .tabs a:hover, .productdetails-view-tab .tabs sup, .productdetails-view-tab .tabs .active, .product-types-list-item .product-count, .filter-block-all-items .product-count, .product-types-index-all .product-count,
+.sorting-block-conteiner .currency-select .active, .c_d70000, .cart-qty-dec:hover,
+.cart-qty-inc:hover, .cart-price, .menu-cat h3, .menu-cat li a:hover, .menu-cat .active > a, .news-block .all-items, .product-list-item-row-info-block .short-description li:before, .last-viewed-block .all-items, .last-viewed-item-prices .price, .productdetails-price-row .price, .productview-ask-question a, .productdetails-view-tab .tabs a:hover, .productdetails-view-tab .tabs sup, .productdetails-view-tab .tabs .active, .product-types-list-item .product-count, .filter-block-all-items .product-count, .product-types-index-all .product-count,
 .product-types-index .product-count, .page-cnt a {
   color: #d70000;
 }
@@ -375,7 +376,7 @@ h2, h3, .c_000, .menu-cat li a, .menu-cat .active.parent > a, .news-block-item .
   font-size: 9px;
 }
 
-.breadcrumbs, .font-10, .product-list-item .small, .productview-ask-question a, .filter-block .clear-filter, .advantages-item-sdesc-cnt .advantages-item-detail, .page-item-created {
+.breadcrumbs, .font-10, .product-list-item .small, .productview-ask-question a, .filter-block .clear-filter, .cart-model-info, .advantages-item-sdesc-cnt .advantages-item-detail, .page-item-created {
   font-size: 10px;
 }
 
@@ -409,7 +410,7 @@ h2, h3, .c_000, .menu-cat li a, .menu-cat .active.parent > a, .news-block-item .
   font-size: 15px;
 }
 
-h3, .font-16, .product-list-item-row-info-block .short-description li:before, .productdetails-price-row .price, .advantages-item-popup p, .advantages-title {
+h3, .font-16, .product-list-item-row-info-block .short-description li:before, .productdetails-price-row .price, .cart-price, #checkoutType label, .advantages-item-popup p, .advantages-title {
   font-size: 16px;
 }
 
@@ -422,7 +423,8 @@ h3, .font-16, .product-list-item-row-info-block .short-description li:before, .p
   font-size: 18px;
 }
 
-.font-20, .last-viewed-item-prices .price, .advantages-item-popup .advantages-item-popup-title, .page-cnt h1 {
+.font-20, .last-viewed-item-prices .price, .cart-qty-dec,
+.cart-qty-inc, .advantages-item-popup .advantages-item-popup-title, .page-cnt h1 {
   font-size: 20px;
 }
 
@@ -449,7 +451,7 @@ h1, h2, h3, b, strong, .button,
 .productdetails-view-main-info-part .value, .productdetails-price-row .price, .productdetails-price-row .price-byr, .productdetails-view .addtocart-button, .productview-ask-question a, .productdetails-client-info .title, .productdetails-view-tab .tabs a, .buy-in-one-click a, .filter-block .clear-filter, .filter-block-header, .product-types-list-item a.active span, .filter-block-all-items.active, .product-types-index-all a,
 .product-types-index-all p,
 .product-types-index a,
-.product-types-index p, .cart-remove, .cartBlockEmpty > span, .advantages-item-title, .advantages-item-sdesc-cnt .advantages-item-detail, .advantages-title, .page-text-intro {
+.product-types-index p, .inputbox-qty-cnt .inputbox-qty, .cart-remove, .cartBlockEmpty > span, .cart-price, #checkoutType label, .advantages-item-title, .advantages-item-sdesc-cnt .advantages-item-detail, .advantages-title, .page-text-intro {
   font-weight: bold;
 }
 
@@ -457,7 +459,7 @@ i, em, .errorMessage, .italic, .logo-top, .search-auto-block-title {
   font-style: italic;
 }
 
-h2, h3, .logo-top, .search-auto-block-title, .categories-menu > li > a, .news-block .header-wr h3, .last-viewed-block h3, .engine-h1, .footer-hdr, .advantages-item-popup .advantages-item-popup-title, .advantages-item-sdesc-cnt .advantages-item-detail, .advantages-title, .pages-contacts h4, .contact-form-cnt .button-red {
+h2, h3, .logo-top, .search-auto-block-title, .categories-menu > li > a, .news-block .header-wr h3, .last-viewed-block h3, .engine-h1, .footer-hdr, #checkoutType label, .advantages-item-popup .advantages-item-popup-title, .advantages-item-sdesc-cnt .advantages-item-detail, .advantages-title, .pages-contacts h4, .contact-form-cnt .button-red {
   text-transform: uppercase;
 }
 
@@ -497,7 +499,7 @@ a:hover, .underline_n_y:hover, .product-types-list-item a.active .name:hover {
 .sideLeft, .container, .select-view-block a, .fLeft, .floatLeft, .main-menu li, .search-auto-block-title, .search-auto-form, .search-auto-form .step-wr, .news-block-item, .product-list-item-row-image-block .additional-images-list-item, .additional-images-wr ul, .additional-images-wr li, .products-on-auto-item, .how-it-work-list li, .category-view .category-item, .footer .contacts, .footer .ur-data, .productdetails-view-image-part, .productdetails-slider-images li, .productdetails-client-info .guarantie,
 .productdetails-client-info .payment,
 .productdetails-client-info .delivery, .productdetails-view-tab .tabs li, .product-types-list-item, .product-types-block .filter-block-list, .product-types-index-all > li,
-.product-types-index > li, .advantages-item, .nav-tabs li, .contact-form-cnt .row > label, .contact-form-cnt .row > input[type=text], .contact-form-cnt .row > textarea {
+.product-types-index > li, .checkout-cnt .row > label, .checkout-cnt #CheckoutUrForm_na_osnovanii, .checkout-cnt .inputbox, .advantages-item, .nav-tabs li, .contact-form-cnt .row > label, .contact-form-cnt .row > input[type=text], .contact-form-cnt .row > textarea {
   float: left;
 }
 
@@ -513,7 +515,8 @@ a:hover, .underline_n_y:hover, .product-types-list-item a.active .name:hover {
 .menu-cat .cat-4613:after, .news-block-item .item-title, .product-list-item-row-image-block .additional-images-list-item a, .popup-full-img, .preloaderBig, .products-on-auto-item-img, .category-view .category-item-wr a, .category-view .category-item-wr a span, .productdetails-slider-images a, .productdetails-view-main-info-part .label,
 .productdetails-view-main-info-part .value, .productdetails-client-info .guarantie a,
 .productdetails-client-info .payment a,
-.productdetails-client-info .delivery a, .filter-block .clear-filter, .product-types-list-item a, .nav-tabs li a img, .page-cnt-main-image, .contact-form-cnt .row > label, .contact-form-cnt .row > input[type=text], .contact-form-cnt .row > textarea {
+.productdetails-client-info .delivery a, .filter-block .clear-filter, .product-types-list-item a, .cart-qty-dec,
+.cart-qty-inc, .nav-tabs li a img, .page-cnt-main-image, .contact-form-cnt .row > label, .contact-form-cnt .row > input[type=text], .contact-form-cnt .row > textarea {
   display: block;
 }
 
@@ -545,7 +548,7 @@ a:hover, .underline_n_y:hover, .product-types-list-item a.active .name:hover {
 .menu-cat .cat-4594,
 .menu-cat .cat-4593,
 .menu-cat .cat-4622,
-.menu-cat .cat-4613, .categories-menu > li > a, .news-block-item-wr, .news-block .all-items, .product-list-item-row-info-block, .preloaderBig, .additional-images-wr ul, .additional-images-wr li, .how-it-work-list li, .last-viewed-title, .last-viewed-status, .last-viewed-item-wr, .category-view .category-item-wr a, .product-image-featured, .productdetails-view-main-info-part, .productdetails-view-main-info-part .row, .productdetails-view-tab .tabs li, .cart-summary td, .advantages-item-sdesc, .pages-list .product-detail, .pages-list .page-row-info {
+.menu-cat .cat-4613, .categories-menu > li > a, .news-block-item-wr, .news-block .all-items, .product-list-item-row-info-block, .preloaderBig, .additional-images-wr ul, .additional-images-wr li, .how-it-work-list li, .last-viewed-title, .last-viewed-status, .last-viewed-item-wr, .category-view .category-item-wr a, .product-image-featured, .productdetails-view-main-info-part, .productdetails-view-main-info-part .row, .productdetails-view-tab .tabs li, .cart-summary td, .inputbox-qty-cnt, .cart-qty-block, .advantages-item-sdesc, .pages-list .product-detail, .pages-list .page-row-info {
   position: relative;
 }
 
@@ -555,7 +558,8 @@ a:hover, .underline_n_y:hover, .product-types-list-item a.active .name:hover {
 .menu-cat .cat-4593:after,
 .menu-cat .cat-4622:after,
 .menu-cat .cat-4613:after, .product-list-item .product-label, .product-list-item-row-info-block:before, .last-viewed-item-pattern, .last-viewed-item-prices, .category-view .category-item-wr a span, .product-image-featured:after, .productdetails-view-main-info-part .label,
-.productdetails-view-main-info-part .value, .productview-ask-question, .productview-ask-question a, .productdetails-view-tab .tabs sup, .cart-summary td:before, .cart-summary td:after, .advantages-item-sdesc-cnt .advantages-item-detail, .advantages-item-sdesc-cnt .advantages-item-detail span, .advantages-item-img, .pages-list .page-readmode, #reload_captcha_button {
+.productdetails-view-main-info-part .value, .productview-ask-question, .productview-ask-question a, .productdetails-view-tab .tabs sup, .cart-summary td:before, .cart-summary td:after, .cart-qty-dec,
+.cart-qty-inc, .advantages-item-sdesc-cnt .advantages-item-detail, .advantages-item-sdesc-cnt .advantages-item-detail span, .advantages-item-img, .pages-list .page-readmode, #reload_captcha_button {
   position: absolute;
 }
 
@@ -566,7 +570,7 @@ a:hover, .underline_n_y:hover, .product-types-list-item a.active .name:hover {
 .jcarousel-control-prev,
 .jcarousel-control-next, .text_c, .logo-top, .search-auto-form .step-num, .product-list-item .status, .category-view .category-item-wr a, .category-view .category-item-wr a span, .productdetails-client-info .guarantie a,
 .productdetails-client-info .payment a,
-.productdetails-client-info .delivery a, .cart-step-num, .cart-remove, .advantages-title {
+.productdetails-client-info .delivery a, .inputbox-qty-cnt .inputbox-qty, .cart-step-num, .cart-remove, .advantages-title {
   text-align: center;
 }
 
@@ -576,7 +580,8 @@ a:hover, .underline_n_y:hover, .product-types-list-item a.active .name:hover {
 
 .button,
 .button-red,
-.button-green, .pointer, .search-block .search-btn, .search-auto-button, .cart-qty, #reload_captcha_button {
+.button-green, .pointer, .search-block .search-btn, .search-auto-button, .cart-qty-dec,
+.cart-qty-inc, #reload_captcha_button {
   cursor: pointer;
 }
 
@@ -766,11 +771,11 @@ span sup {
 }
 
 .clearfix, .productdetails-view-tab .tabs, .product-types-index-all > li,
-.product-types-index > li, .advantages-row, .contact-form-cnt .row {
+.product-types-index > li, .checkout-cnt .row, .advantages-row, .contact-form-cnt .row {
   *zoom: 1;
 }
 .clearfix:after, .productdetails-view-tab .tabs:after, .product-types-index-all > li:after,
-.product-types-index > li:after, .advantages-row:after, .contact-form-cnt .row:after {
+.product-types-index > li:after, .checkout-cnt .row:after, .advantages-row:after, .contact-form-cnt .row:after {
   content: "";
   display: table;
   clear: both;
@@ -840,7 +845,7 @@ span sup {
   border-radius: 4px;
 }
 
-.bg-fff, .cart-summary td:before, .cart-summary td:after, .cart-step-active, .cart-qty {
+.bg-fff, .cart-summary td:before, .cart-summary td:after, .cart-step-active {
   background-color: #fff;
 }
 
@@ -848,7 +853,7 @@ span sup {
   background-color: #d70000;
 }
 
-.bg-c4c4c4, .cart-btn-continue {
+.bg-c4c4c4 {
   background-color: #c4c4c4;
 }
 
@@ -1024,7 +1029,7 @@ span sup {
   margin-bottom: 15px;
 }
 
-.mb-20, .pages-list .product-title, .contact-form-cnt, .backcall-form-descr {
+.mb-20, .checkout-cnt .row, .pages-list .product-title, .contact-form-cnt, .backcall-form-descr {
   margin-bottom: 20px;
 }
 
@@ -1110,12 +1115,16 @@ span sup {
   padding: 10px 0;
 }
 
-.pt-5, .contact-form-cnt .row > label {
+.pt-5, .cart-model-info, .contact-form-cnt .row > label {
   padding-top: 5px;
 }
 
 .pt-10 {
   padding-top: 10px;
+}
+
+.pt-20 {
+  padding-top: 20px;
 }
 
 .pb-5 {
@@ -1188,7 +1197,7 @@ span sup {
   vertical-align: middle;
 }
 
-.bg-fff, .cart-summary td:before, .cart-summary td:after, .cart-step-active, .cart-qty {
+.bg-fff, .cart-summary td:before, .cart-summary td:after, .cart-step-active {
   background-color: #fff;
 }
 
@@ -2546,18 +2555,21 @@ span sup {
 
 .cart-list {
   margin-top: -3px;
-  -moz-box-shadow: #dbdbdb 2px 2px 5px;
-  -webkit-box-shadow: #dbdbdb 2px 2px 5px;
-  box-shadow: #dbdbdb 2px 2px 5px;
+  -moz-box-shadow: #dbdbdb 3px 3px 5px;
+  -webkit-box-shadow: #dbdbdb 3px 3px 5px;
+  box-shadow: #dbdbdb 3px 3px 5px;
 }
 .cart-list .cart-total {
-  margin-left: 204px;
+  margin-left: 208px;
 }
 
+.cart-summary th,
+.cart-summary td {
+  border-bottom: 1px solid #f5f5f5;
+}
 .cart-summary td {
   padding: 20px 10px;
   border-right: 1px solid #f5f5f5;
-  border-bottom: 1px solid #f5f5f5;
 }
 .cart-summary td:before, .cart-summary td:after {
   content: '';
@@ -2571,13 +2583,63 @@ span sup {
 .cart-summary td:after {
   bottom: 0;
 }
-.cart-summary .inputbox-qty {
-  padding-right: 65px;
+.cart-summary tr td:last-of-type {
+  border-right: none;
+}
+.cart-summary tr td:last-of-type:after, .cart-summary tr td:last-of-type:before {
+  display: none;
+}
+.cart-summary th {
+  padding: 10px 10px 15px 10px;
+}
+
+.inputbox-qty-cnt {
+  width: 48px;
+  height: 28px;
+  margin-left: 30px;
+  margin-top: 3px;
+  padding: 0;
+  border: 1px solid #bebebe;
+  background: #fff;
+  box-shadow: 0px 1px 2px #eee inset;
+}
+
+.inputbox-qty-cnt .inputbox-qty {
+  color: #252525;
+  height: 29px;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  border-bottom: none;
+  padding: 0;
+  background-color: transparent;
+  -moz-border-radius: 0;
+  -webkit-border-radius: 0;
+  border-radius: 0;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
 }
 
 .cart-prod-img-cell,
 .cart-image {
   width: 115px;
+}
+
+.cart-image {
+  -moz-transition-property: box-shadow;
+  -o-transition-property: box-shadow;
+  -webkit-transition-property: box-shadow;
+  transition-property: box-shadow;
+  -moz-transition-duration: 200ms;
+  -o-transition-duration: 200ms;
+  -webkit-transition-duration: 200ms;
+  transition-duration: 200ms;
+}
+.cart-image:hover {
+  -moz-box-shadow: 0 0 6px 3px #ccc;
+  -webkit-box-shadow: 0 0 6px 3px #ccc;
+  box-shadow: 0 0 6px 3px #ccc;
 }
 
 .cart-step-num {
@@ -2603,54 +2665,47 @@ span sup {
   box-shadow: #dbdbdb 1px 0px 3px;
 }
 
-.cart-qty {
+.cart-qty-dec,
+.cart-qty-inc {
+  -moz-transition-property: background-color;
+  -o-transition-property: background-color;
+  -webkit-transition-property: background-color;
+  transition-property: background-color;
+  -moz-transition-duration: 200ms;
+  -o-transition-duration: 200ms;
+  -webkit-transition-duration: 200ms;
+  transition-duration: 200ms;
   border: none;
-  width: 39px;
-  height: 35px;
-  border-right: 1px solid #d1d1d1;
-  border-bottom: 1px solid #d1d1d1;
-  top: 1px;
+  top: 0;
+  width: 30px;
+  height: 30px;
+  z-index: 1;
+}
+.cart-qty-dec:hover,
+.cart-qty-inc:hover {
+  background-color: #bebebe;
 }
 
 .cart-qty-inc {
-  -moz-border-radius: 0 4px 4px 0;
-  -webkit-border-radius: 0;
-  border-radius: 0 4px 4px 0;
   right: 0;
-}
-.cart-qty-inc:before, .cart-qty-inc:after {
-  content: '';
-  position: absolute;
-  left: 16px;
-  bottom: 6px;
-  border: 10px solid transparent;
-  border-left: 10px solid  #d1d1d1;
-}
-.cart-qty-inc:after {
-  border-left: 10px solid #fff;
-  left: 14px;
-}
-.cart-qty-inc:hover:before {
-  border-left: 10px solid #e81e1e;
 }
 
 .cart-qty-dec {
-  right: 39px;
+  left: 0;
+  overflow: hidden;
+  text-indent: 777px;
 }
-.cart-qty-dec:before, .cart-qty-dec:after {
+.cart-qty-dec:before {
   content: '';
   position: absolute;
-  left: 3px;
-  bottom: 6px;
-  border: 10px solid transparent;
-  border-right: 10px solid  #d1d1d1;
-}
-.cart-qty-dec:after {
-  border-right: 10px solid #fff;
-  left: 5px;
+  width: 11px;
+  height: 2px;
+  background: #000;
+  left: 10px;
+  top: 14px;
 }
 .cart-qty-dec:hover:before {
-  border-right: 10px solid #e81e1e;
+  background: #d70000;
 }
 
 .cart-remove {
@@ -2659,7 +2714,7 @@ span sup {
   border-radius: 100%;
   width: 22px;
   height: 22px;
-  line-height: 22px;
+  line-height: 20px;
   background-color: #c4c4c4;
   margin: 0 auto;
 }
@@ -2669,11 +2724,12 @@ span sup {
 
 .cart-prod-qty-cell,
 .cart-qty-block {
-  width: 130px;
+  width: 109px;
 }
 
 .cart-prod-name-cell {
   width: 250px;
+  vertical-align: top;
 }
 
 .cart-btn {
@@ -2697,10 +2753,11 @@ span sup {
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   border-radius: 3px;
+  background-color: #b7b7b7;
   margin-right: 10px;
 }
 .cart-btn-continue:hover {
-  background-color: #b7b7b7;
+  background-color: #aaaaaa;
 }
 
 .cart-btn-checkout {
@@ -2726,7 +2783,68 @@ span sup {
 }
 
 .cart-btns1-cnt {
-  margin-right: 29px;
+  margin-right: 57px;
+}
+
+.checkout-cnt .row > label {
+  width: 200px;
+  line-height: 25px;
+}
+.checkout-cnt .inputbox {
+  background-color: #fff;
+  border-color: #d7d4d1;
+  padding: 4px 7px;
+  width: 250px;
+}
+
+.na_osnovanii_textbox {
+  margin-left: 200px;
+}
+
+#checkoutType input[type="radio"] {
+  width: 15px;
+  height: 15px;
+  margin-top: -5px;
+}
+#checkoutType label {
+  line-height: 20px;
+  padding-right: 20px;
+}
+
+#checkout-form .info_text,
+#checkout-form .small,
+#checkout-form .errorMessage {
+  clear: both;
+  margin-left: 200px;
+}
+#checkout-form .na_osnovanii_textbox .errorMessage {
+  margin-left: 0;
+}
+#checkout-form .na_osnovanii_textbox textarea {
+  max-width: 250px;
+}
+#checkout-form h3 {
+  color: #1a8bfc;
+  margin-bottom: 25px;
+}
+#checkout-form .row_email_ur {
+  margin-bottom: 40px;
+}
+#checkout-form .small {
+  color: #787878;
+}
+#checkout-form .info_text {
+  color: #1a8bfc;
+  padding-top: 10px;
+}
+
+textarea#CheckoutUrForm_comment,
+textarea#CheckoutFizForm_comment {
+  width: 450px;
+}
+
+.checkout-btns {
+  margin-left: 200px;
 }
 
 .advantages {

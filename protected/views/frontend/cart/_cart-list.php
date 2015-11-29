@@ -1,16 +1,20 @@
+<h3 class="c_d70000 pl-20">Список товаров</h3>
+
 <table class="cart-summary width100">
-	<? /*
+
 	<thead>
 		<tr>
-			<th align="center" colspan="2">Название</th>
-			<th align="center" width="150px">Количество</th>
-			<th align="center" width="150px">Стоимость</th>
-			<th align="center" width="150">Удаление</th>
+			<th></th>
+			<th>Описание товара</th>
+			<th class="text_c">Количество</th>
+			<th class="text_c">Цена</th>
+			<th class="text_c">Удалить</th>
 		</tr>
 	</thead>
-	*/ ?>
+
 	<tbody>
 		<?	foreach($positions as $product) {	?>
+			<? 				//echo'$modelinfo<pre>';print_r($product);echo'</pre>';die;?>
 			<? $product_url = $this->createUrl('shopproducts/detail', array('product'=> $product->product_id)); ?>
 			<tr>
 				<td class="cart-prod-img-cell">
@@ -24,22 +28,25 @@
 				</td>
 				<td class="cart-prod-name-cell">
 					<? echo CHtml::link($product->product_name, $product_url, array('title' => $product->product_name, 'class'=>'bold')); ?>
+					<p class="cart-model-info"><?php echo $product->cart_model_info ?></p>
 				</td>
 
 				<td class="cart-prod-qty-cell">
-					<div class="cart-qty-block pos-rel">
+					<div class="cart-qty-block">
 						<?php echo CHtml::beginForm($this->createUrl('cart/updatecart')); ?>
+							<button class="cart-qty cart-qty-dec">-</button>
 							<?php echo CHtml::hiddenField('product_id', $product->product_id); ?>
-							<?php echo CHtml::textField('quantity', $product->getQuantity(), array( 'name'=>"quantity", 'maxlength'=>"4", 'size'=>"3", 'class'=>"inputbox inputbox-qty", 'id'=>"quantity-".$product->product_id, 'title'=>"Обновить количество в корзине")); ?>						
-							<button class="cart-qty cart-qty-dec db pos-abs">-</button>
-							<button class="cart-qty cart-qty-inc db pos-abs">+</button>
+							<div class="inputbox-qty-cnt">
+								<?php echo CHtml::textField('quantity', $product->getQuantity(), array( 'name'=>"quantity", 'maxlength'=>"4", 'size'=>"3", 'class'=>"inputbox11 inputbox-qty", 'id'=>"quantity-".$product->product_id, 'title'=>"Обновить количество в корзине")); ?>
+							</div>
+							<button class="cart-qty cart-qty-inc">+</button>
 						<?php echo CHtml::endForm(); ?>
 					</div>
 				</td>
 
 				<td align="center">
 					<? $product_price = $product->getSumPrice(); ?>
-					<p class="c_d70000 bold font-20 text_c"><?=PriceHelper::formatPrice($product->product_price, $product->currency_id, 3)?></p>
+					<p class="cart-price"><?=PriceHelper::formatPrice($product->product_price, $product->currency_id, 3)?></p>
 				</td>
 
 				<td align="center" class="remove-td">
@@ -58,13 +65,14 @@
 	<div class="cart-total">
 		<p class="bold mb-10">Итого</p>
 		<? $product_price = $app->shoppingCart->getCost(); ?>
-		<p id="total-cost-usd" class="c_d70000 bold font-20"><?=PriceHelper::formatPrice($product_price, $product->currency_id, 3)?></p>
+		<p id="total-cost-usd" class="cart-price"><?=PriceHelper::formatPrice($product_price, $product->currency_id, 3)?></p>
 	</div>
-	
-	<div class="cart-btns1-cnt">
-		<? echo CHtml::link('Продолжать покупки', '/', array('title' => 'Продолжать покупки', 'class'=>'db fLeft c_fff bold cart-btn cart-btn-continue')); ?>
+	<?/*
+	<div class="cart-btns1-cnt clearfix">
+		<? echo CHtml::link('Вернуться к товарам', '/category/index.html', array('title' => 'Вернуться к товарам', 'class'=>'db fLeft c_fff bold cart-btn cart-btn-continue')); ?>
 		<? echo CHtml::link('Оформить заказ', $this->createUrl('/cart/checkout'), array('title' => 'Оформить заказ', 'class'=>'db fLeft c_fff bold cart-btn cart-btn-checkout')); ?>
 	</div>
+	*/?>
 
 
 </div>

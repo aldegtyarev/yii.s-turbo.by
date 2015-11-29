@@ -1,20 +1,25 @@
 .cart-list {
 	margin-top: -3px;
-	@include box-shadow(#dbdbdb 2px 2px 5px);
+	@include box-shadow(#dbdbdb 3px 3px 5px);
 	
 	.cart-total {
 		@extend .mb-10;
 		
-		margin-left: 204px;
+		margin-left: 208px;
 	}
 }
 
 .cart-summary {
+	th,
+	td {
+		border-bottom: 1px solid #f5f5f5;
+	}
+	
 	td {
 		padding: 20px 10px;
 		
 		border-right: 1px solid #f5f5f5;
-		border-bottom: 1px solid #f5f5f5;
+		
 		
 		@extend %pos_rel;
 	
@@ -39,14 +44,67 @@
 		
 	}
 	
-	.inputbox-qty {
-		padding-right: 65px;
+	tr td:last-of-type {
+		border-right: none;
+		
+		&:after,
+		&:before {
+			display: none;
+		}
 	}
+	
+	th {
+		padding: 10px 10px 15px 10px;
+	}
+	
+	
 }
+
+
+.inputbox-qty-cnt {
+	@extend %pos_rel;
+	
+	width: 48px;
+	height: 28px;
+	margin-left: 30px;
+	margin-top: 3px;
+	padding: 0;
+	border: 1px solid #bebebe;
+	background: #fff;
+	box-shadow: 0px 1px 2px #eee inset;
+}
+
+.inputbox-qty-cnt .inputbox-qty {
+	@extend %text_c;
+	@extend %bold;
+	
+	color: #252525;
+	height: 29px;
+	border-left: none;
+	border-right: none;
+	border-top: none;
+	border-bottom: none;
+	padding: 0;
+	background-color: transparent;
+	@include border-radius(0);
+	@include box-shadow(none);
+	
+	
+}
+
 
 .cart-prod-img-cell,
 .cart-image {
 	width: 115px;
+}
+
+.cart-image {
+	@include transition-property(box-shadow);
+	@include transition-duration(200ms);
+	
+	&:hover {
+		@include box-shadow(0 0 6px 3px #ccc);
+	}
 }
 
 .cart-step-num {
@@ -72,68 +130,68 @@
 	@include box-shadow(#dbdbdb 1px 0px 3px);
 }
 
-.cart-qty {
-	@extend .bg-fff;
+//.cart-qty {
+//	@extend .bg-fff;
+//	@extend %pointer;
+//	
+//	border: none;
+//	width: 39px;
+//	height: 35px;
+//	border-right: 1px solid #d1d1d1;
+//	border-bottom: 1px solid #d1d1d1;
+//	top: 1px;
+//}
+
+.cart-qty-dec,
+.cart-qty-inc {
+	@extend %pos_abs;
+	@extend %db;
 	@extend %pointer;
+	@extend %font_20; 
+	
+	@include transition-property(background-color);
+	@include transition-duration(200ms);
+	
 	
 	border: none;
-	width: 39px;
-	height: 35px;
-	border-right: 1px solid #d1d1d1;
-	border-bottom: 1px solid #d1d1d1;
-	top: 1px;
-}
-
-.cart-qty-inc {
-	@include border-radius(0 4px 4px 0);
-	
-	right: 0;
-	
-	&:before, 
-	&:after {
-		content: ''; 
-		position: absolute;
-		left: 16px; 
-		bottom: 6px;
-		border: 10px solid transparent;
-		border-left: 10px solid  #d1d1d1;
-	}
-
-	&:after {
-		border-left: 10px solid #fff;
-		left: 14px; 
-	}
+	top: 0;
+	width: 30px;
+	height: 30px;
+	//background: url('/img/busket__counter.png') #ededed;	
+	z-index: 1;
 	
 	&:hover {
-		&:before {
-			border-left: 10px solid #e81e1e;
-		}
+		@extend .c_d70000;		
+		background-color: #bebebe;
+
 	}	
 }
 
-.cart-qty-dec {
-	right: 39px;
+.cart-qty-inc {
+	right: 0;
+	//background-position: -2px -31px;
 	
-	&:before, 
-	&:after {
-		content: ''; 
-		position: absolute;
-		left: 3px; 
-		bottom: 6px;
-		border: 10px solid transparent;
-		border-right: 10px solid  #d1d1d1;
-	}
+}
 
-	&:after {
-		border-right: 10px solid #fff;
-		left: 5px; 
+.cart-qty-dec {
+	left: 0;
+	//background-position: 0 0;
+	overflow: hidden;
+	text-indent: 777px;
+	&:before {
+		content: '';
+		position: absolute;
+		width: 11px;
+		height: 2px;
+		background: #000;
+		left: 10px;
+		top: 14px;
 	}
 	
-	&:hover {
-		&:before {
-			border-right: 10px solid #e81e1e;
-		}
+	&:hover:before {
+		background: #d70000;
 	}
+	
 }
 
 .cart-remove {
@@ -146,7 +204,7 @@
 	
 	width: 22px;
 	height: 22px;
-	line-height: 22px;
+	line-height: 20px;
 	background-color: #c4c4c4;
 	margin: 0 auto;
 	
@@ -157,11 +215,16 @@
 
 .cart-prod-qty-cell,
 .cart-qty-block {
-	width: 130px;
+	width: 109px;
+}
+
+.cart-qty-block {
+	@extend %pos_rel;
 }
 
 .cart-prod-name-cell {
 	width: 250px;
+	vertical-align: top;
 }
 
 .cart-btn {
@@ -177,16 +240,18 @@
 }
 
 .cart-btn-continue {
-	@extend .bg-c4c4c4;
-	@extend %font_14;
+	//@extend .bg-c4c4c4;
+	@extend %font_14;	
 	
 	@include border-radius(3px);
+	
+	background-color: #b7b7b7;
 	
 	margin-right: 10px;
 	//border-left: 1px solid #fff;
 	
 	&:hover {
-		background-color: darken(#c4c4c4, 5%)
+		background-color: darken(#b7b7b7, 5%)
 	}
 }
 
@@ -223,5 +288,114 @@
 }
 
 .cart-btns1-cnt {
-	margin-right: 29px;
+	margin-right: 57px;
+}
+
+.cart-model-info {
+	@extend .pt-5;
+	@extend %font_10;
+}
+
+.cart-price {
+	@extend .c_d70000;
+	@extend %bold;
+	@extend %font_16;
+	//@extend %text_c;
+}
+
+.checkout-cnt {
+	.row {
+		@extend .clearfix;
+		@extend .mb-20;
+	}
+	
+	
+	.row > label {
+		@extend %fl;
+		
+		width: 200px;
+		line-height: 25px;
+	}
+	
+	#CheckoutUrForm_na_osnovanii {
+		@extend %fl;
+	}
+	
+	.inputbox {
+		@extend %fl;
+		
+		background-color: #fff;
+		border-color: #d7d4d1;
+		padding: 4px 7px;
+		width: 250px;
+	}
+}
+
+.na_osnovanii_textbox {
+	margin-left: 200px;
+}
+
+#checkoutType {
+	input[type="radio"] {
+		width: 15px;
+		height: 15px;
+		margin-top: -5px;
+	}
+	
+	label {
+		@extend %bold;
+		@extend %font_16;
+		@extend %uppercase;
+		
+		line-height: 20px;
+		padding-right: 20px;
+	}
+}
+
+#checkout-form {
+	
+	.info_text,
+	.small,
+	.errorMessage {
+		clear: both;
+		margin-left: 200px;
+	}
+	
+	.na_osnovanii_textbox {
+		.errorMessage {
+			margin-left: 0;
+		}
+		
+		textarea {
+			max-width: 250px;
+		}
+	}
+	
+	h3 {
+		color: #1a8bfc;
+		margin-bottom: 25px;
+	}
+	
+	.row_email_ur {
+		margin-bottom: 40px; 
+	}
+	
+	.small {
+		color: #787878;
+	}
+	
+	.info_text {
+		color: #1a8bfc;
+		padding-top: 10px;
+	}
+}
+
+textarea#CheckoutUrForm_comment,
+textarea#CheckoutFizForm_comment {
+	width: 450px;
+}
+
+
+.checkout-btns {
+	margin-left: 200px;
 }

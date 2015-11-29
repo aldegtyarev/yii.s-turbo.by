@@ -111,6 +111,8 @@ class ShopProducts extends CActiveRecord implements IECartPosition
     public $_modelsListFull = '';
 	
 	public $SelectedEngine;
+	
+	public $cart_model_info = '';
     
     
 	
@@ -1373,6 +1375,22 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		}
 		return $product_ids;
 		
+	}
+	
+	//получает ID товаров из выбранных категорий
+	public function isUniversalProduct()
+	{
+		$connection = Yii::app()->db;
+
+		$sql = "SELECT `product_id` FROM {{shop_products_models_auto}} WHERE `model_id` = ".Yii::app()->params['universal_products'] . " AND `product_id` = ".$this->product_id;
+		$command = $connection->createCommand($sql);
+		$row = $command->queryScalar();
+		//echo'<pre>';var_dump($row);echo'</pre>';
+
+		if($row === false) $res = false;
+			else $res = true;
+		
+		return $res;
 	}
 	
 }

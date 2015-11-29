@@ -155,7 +155,9 @@ class ShopCategoriesController extends Controller
 			$select_model = $url_params['model'] ? $url_params['model'] : -1;
 			$select_year = $url_params['year'] ? $url_params['year'] : -1;
 
-			//echo'$id = <pre>';var_dump($url_params);echo'</pre>';die;
+//			echo'$id = <pre>';var_dump($select_marka);echo'</pre>';//die;
+//			echo'$id = <pre>';var_dump($select_model);echo'</pre>';//die;
+//			echo'$id = <pre>';var_dump($select_year);echo'</pre>';die;
 
 //				$select_marka = isset($app->session['autofilter.marka']) ? $app->session['autofilter.marka'] : -1;
 //				$select_model = isset($app->session['autofilter.model']) ? $app->session['autofilter.model'] : -1;

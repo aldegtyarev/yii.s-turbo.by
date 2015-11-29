@@ -546,6 +546,8 @@ class ShopModelsAuto extends CActiveRecord
 			Yii::app()->session['autofilter.modelinfo'] = json_encode($rows);
 		}
 		
+		Yii::app()->session['autofilter.modelinfo_cart'] = json_encode($rows);
+		
 		return $rows;
 	}
 	

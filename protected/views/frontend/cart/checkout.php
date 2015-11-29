@@ -6,10 +6,22 @@ $this->breadcrumbs = array(
 
 $clientScript = $app->clientScript;
 
-
 $this->pageTitle = "Оформление заказа | ".$app->name;
 $clientScript->registerMetaTag("Оформление заказа,".$app->name, 'keywords');
 $clientScript->registerMetaTag("Оформление заказа на ".$app->name, 'description');
+
+switch($checkoutType) {
+	case 'checkout-fiz':
+		$style_fiz = 'style="display:block"';
+		$style_ur = 'style="display:none"';
+		break;
+
+	case 'checkout-ur':
+		$style_fiz = 'style="display:none"';
+		$style_ur = 'style="display:block"';
+		break;
+
+}
 
 ?>
 <div class="cart-view item-page">
@@ -34,89 +46,20 @@ $clientScript->registerMetaTag("Оформление заказа на ".$app->n
 			'id'=>'checkout-form',
 			'enableAjaxValidation'=>false,
 		)); ?>
+		
+		<?php echo CHtml::radioButtonList('checkoutType', $checkoutType, array('checkout-fiz'=>'Физическое лицо','checkout-ur'=>'Юридическое лицо'),array('separator'=>' ')); ?>
+		
+		<br>
+		<br>
+		<br>
+		<? $this->renderPartial('_checkout-fiz', array('model'=>$modelFiz, 'form'=>$form, 'style_fiz'=>$style_fiz)) ?>
+		
+		<? $this->renderPartial('_checkout-ur', array('model'=>$modelUr, 'form'=>$form, 'style_ur'=>$style_ur)) ?>
 			
-			<p class="font-20 bold mb-30">Контактные данные <span class="c-777 italic font-14">Поля, отмеченные <span class="required">*</span>, обязательны для заполнения </span></p>
 
-			<?php //echo $form->errorSummary($model); ?>
 
-			<div class="row1 border-box clearfix">
-				<div class="width50 fLeft border-box pr-10 pl-10">
-					<div class="p-10">
-						<div class="row dtr">
-							<div class="dtc pb-10 pr-10"><?php echo $form->labelEx($model,'region', array('class'=>'bold nowrap')); ?></div>
-							<div class="dtc pb-10">
-								<?php echo $form->textField($model,'region',array('size'=>24,'maxlength'=>255)); ?>
-								<?php echo $form->error($model,'region'); ?>
-							</div>
-						</div>
-						<div class="row dtr">
-							<div class="dtc pb-10 pr-10"><?php echo $form->labelEx($model,'town', array('class'=>'bold nowrap')); ?></div>
-							<div class="dtc pb-10">
-								<?php echo $form->textField($model,'town',array('size'=>24,'maxlength'=>255)); ?>
-								<?php echo $form->error($model,'town'); ?>
-							</div>
-						</div>
-						<div class="row dtr">
-							<div class="dtc pb-10 pr-10"><?php echo $form->labelEx($model,'post_index', array('class'=>'bold nowrap')); ?></div>
-							<div class="dtc pb-10">
-								<?php echo $form->textField($model,'post_index',array('size'=>24,'maxlength'=>255)); ?>
-								<?php echo $form->error($model,'post_index'); ?>
-							</div>
-						</div>
-						<div class="row dtr">
-							<div class="dtc pb-10 pr-10"><?php echo $form->labelEx($model,'address', array('class'=>'bold nowrap')); ?></div>
-							<div class="dtc pb-10">
-								<?php echo $form->textField($model,'address',array('size'=>24,'maxlength'=>255)); ?>
-								<?php echo $form->error($model,'address'); ?>
-							</div>
-						</div>
-						<div class="row dtr">
-							<div class="dtc pb-10 pr-10"><?php echo $form->labelEx($model,'fio', array('class'=>'bold nowrap')); ?></div>
-							<div class="dtc pb-10">
-								<?php echo $form->textField($model,'fio',array('size'=>24,'maxlength'=>255)); ?>
-								<?php echo $form->error($model,'fio'); ?>
-								<br><br><span class="font-12 c-777"><span class="c_d70000">ВНИМАНИЕ!</span> Полностью и правильно указывайте ФАМИЛИЮ, ИМЯ и ОТЧЕСТВО получателя заказа, поскольку выдача почтовых или курьерских отправлений может производиться только после предъявления документов, удостоверяющих личность.</span>
-							</div>
-						</div>
-					</div>
-
-				</div>
-
-				<div class="width50 fLeft border-box pr-10 pl-10">
-					<div class="p-10">
-					
-						<div class="row dtr">
-							<div class="dtc pb-10 pr-10"><?php echo $form->labelEx($model,'phone', array('class'=>'bold nowrap')); ?></div>
-							<div class="dtc pb-10">
-								<?php echo $form->textField($model,'phone',array('size'=>24,'maxlength'=>255)); ?>
-								<?php echo $form->error($model,'phone'); ?>
-								<br><br><span class="font-12 c-777">Телефон для оперативной связ с Вами, для подтверждения заказа.</span>
-							</div>
-						</div>
-					
-						<div class="row dtr">
-							<div class="dtc pb-10 pr-10"><?php echo $form->labelEx($model,'email', array('class'=>'bold nowrap')); ?></div>
-							<div class="dtc pb-10">
-								<?php echo $form->textField($model,'email',array('size'=>24,'maxlength'=>255)); ?>
-								<?php echo $form->error($model,'email'); ?>
-								<br><br><span class="font-12 c-777">На него будут высланы уведомления о состоянии заказа и счет на оплату.</span>
-							</div>
-						</div>
-					
-						<div class="row dtr">
-							<div class="dtc pb-10 pr-10 v-middle"><?php echo $form->labelEx($model,'comment', array('class'=>'bold')); ?></div>
-							<div class="dtc pb-10">
-								<?php echo $form->textArea($model,'comment',array('rows'=>6, 'cols'=>26)); ?>
-								<?php echo $form->error($model,'comment'); ?>
-							</div>
-						</div>
-					</div>
-
-				</div>
-			</div>
-
-			<div class="row">
-				<? echo CHtml::link('Продолжать покупки', '/', array('title' => 'Продолжать покупки', 'class'=>'db fLeft c_fff bold cart-btn cart-btn-continue')); ?>
+			<div class="row checkout-btns">
+				<? echo CHtml::link('Вернуться к товарам', '/showcart.html', array('title' => 'Продолжать покупки', 'class'=>'db fLeft c_fff bold cart-btn cart-btn-continue')); ?>
 				<? echo CHtml::submitButton('Оформить', array('title' => 'Оформить заказ', 'class'=>'db fLeft c_fff bold cart-btn cart-btn-checkout pointer')); ?>			
 				<? //echo CHtml::link('Оформить', $this->createUrl('/cart/checkout'), array('title' => 'Оформить заказ', 'class'=>'db fLeft c_fff bold cart-btn cart-btn-checkout')); ?>
 			</div>			

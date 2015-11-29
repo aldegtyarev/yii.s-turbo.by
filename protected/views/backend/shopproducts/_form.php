@@ -52,13 +52,14 @@ $cs->registerScript('loading', "
 //echo'<pre>';print_r($model->SelectedModels,0);echo'</pre>';
 // скрываем блок исключения из моделей если товар не из "универсальных";
 
-$style = 'style="display:none;"';
-foreach($model->SelectedModels as $key=>$mod) {
-	if($key == Yii::app()->params['universal_products']) {
-		$style = '';
-		break;
-	}
-}
+$style = '';
+//$style = 'style="display:none;"';
+//foreach($model->SelectedModels as $key=>$mod) {
+//	if($key == Yii::app()->params['universal_products']) {
+//		$style = '';
+//		break;
+//	}
+//}
 ?>
 <style>
 	#cke_ShopProducts_product_s_desc #cke_1_top,
@@ -116,7 +117,7 @@ foreach($model->SelectedModels as $key=>$mod) {
 				</div>               
 				
 				<div class="col-lg-6">
-					<div class="chosen-row" <?= $style?> ></di>>
+					<div class="chosen-row" <?= $style?> >
 						<?php echo $form->labelEx($model,'model_ids_dis'); ?>
 						<?php echo $form->dropDownList($model, 'model_ids_dis', $model->DropDownListModelsDisabled, array('multiple' => true, 'class'=>'chosen_select', 'data-placeholder'=>'выберите модель', 'style'=>'width:100%;', 'options' => $model->SelectedModelsDisabled));?>
 						<?php echo $form->error($model,'model_ids_dis'); ?>

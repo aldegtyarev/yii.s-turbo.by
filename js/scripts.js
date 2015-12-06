@@ -1,9 +1,10 @@
 var modal = null,
-	phone_mask = '+375 (99) 999-99-99';
+	phone_mask = '+375 (99) 999-99-99',
 	time_to_call_input = 'Звоните: с 99:99 по 99:99';
 
 function switch_tabs(obj) {
 	'use strict';
+	
 	$('.tab-pane').hide();
 	$('.nav-tabs li').removeClass("selected");
 	var id = obj.attr("href");
@@ -36,7 +37,11 @@ $(document).ready(function () {
 		parent_el = null,
 		hovered_img = null,
 		popupBlockHeight = 580,
-		timeOut = null;
+		timeOut = null,
+		to_cart_product_id = '',
+		cartBlock = $("#cartBlock-cnt"),
+		product_image = null,
+		product_id;
 	
 	function showFullImg(imgElem) {
 		popup_img.attr('src', imgElem.data('fullsrc'));
@@ -113,22 +118,40 @@ $(document).ready(function () {
 		cart_msg = to_cart_form.find('.cart-msg');
 		to_cart_process = to_cart_form.find('.to-cart-process');
 		
+		to_cart_product_id = to_cart_form.find('.product_id').val();
+		
 		$.ajax({
 			type: 'post',
 			url: to_cart_form.attr('action'),
-			data: {product_id : to_cart_form.find('.product_id').val(),	quantity : to_cart_form.find('.quantity').val()},
+			data: {product_id : to_cart_product_id,	quantity : to_cart_form.find('.quantity').val()},
 			dataType: 'json',
 			beforeSend: function () {
-				to_cart_process.slideDown();
+				//to_cart_process.slideDown();
 			},
 			success: function (msg) {
 				if (msg.res === 'ok') {
 					to_cart_process.hide();
-					cart_msg.html(msg.message);
-					cart_msg.show();
+					//cart_msg.html(msg.message);
+					//cart_msg.show();
 					
 					$('#products-count').html(msg.total);
 					$('#cart-total').html(msg.summ);
+					$('#cartBlock-cnt').html(msg.html);
+					
+					product_image = $('#product-image-' + to_cart_product_id);
+					
+					product_image.clone().appendTo('#product-image-cnt-' + to_cart_product_id)
+						.css({'position' : 'absolute', 'z-index' : '10000', 'left' : product_image.offset()['left'], 'top':product_image.offset()['top']})
+						.animate({	opacity: 0.05,
+									left: cartBlock.offset()['left'],
+									top: cartBlock.offset()['top'],
+									position: 'absolute',
+									width: 20
+								 }, 1000, 	function() {
+							$(this).remove();
+						}
+					);
+					
 				}
 			}
 		});
@@ -214,10 +237,12 @@ $(document).ready(function () {
 		if (cart_qty > 1) {
 			cart_qty--;
 			$(this).parent().find('.inputbox-qty').val(cart_qty);
+			product_id = cart_form.find('input[name="product_id"]').val();
 			$.post(
 				cart_form.attr('action'),
 				cart_form.serialize(),
 				function (data) {
+					$('#cart-price-' + product_id).html(data.product_summ);
 					$('#total-cost-usd').html(data.cost_byr);
 					//$('#total-cost-byr').html(data.cost_byr);
 				},
@@ -234,10 +259,12 @@ $(document).ready(function () {
 		cart_qty = parseInt($(this).parent().find('.inputbox-qty').val());
 		cart_qty++;
 		$(this).parent().find('.inputbox-qty').val(cart_qty);
+		product_id = cart_form.find('input[name="product_id"]').val();
         $.post(
             cart_form.attr('action'),
             cart_form.serialize(),
             function (data) {
+				$('#cart-price-' + product_id).html(data.product_summ);
 				$('#total-cost-usd').html(data.cost_byr);
 				//$('#total-cost-byr').html(data.cost_byr);
             },
@@ -394,6 +421,8 @@ $(document).ready(function () {
 		//$('#' + $(this).val()).show();
 		
     });
+	
+	
 	
 	
 	

@@ -94,11 +94,14 @@ class ShopProductsController extends Controller
 		
 		$app->session['shopProducts.ids'] = $shopProductsIds;
 		
+		$currency_info = Currencies::model()->loadCurrenciesList();
+		
 		$this->render('view',array(
 			'model'=>$model,
 			'rows'=>$related_rows,
 			'RelatedDataProvider'=>$RelatedDataProvider,
 			'breadcrumbs' => $breadcrumbs,
+			'currency_info' => $currency_info,
 		));
 		
 	}

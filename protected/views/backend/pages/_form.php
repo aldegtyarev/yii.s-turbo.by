@@ -45,12 +45,12 @@ $form=$this->beginWidget('bootstrap.widgets.BsActiveForm', array(
 	
 	<?php if($model->foto != '')	{	?>
 		<img src="<?= Yii::app()->params->pages_images_liveUrl . 'full_'.$model->foto ?>" alt="">
-		
+		<p><a href="<?= $this->createUrl('pages/removefoto', array('id'=>$model->id))?>">Удалить фото</a></p>
 	<?php	}	?>
 	<fieldset>
 		<legend>Добавить фото</legend>
 		<input type="checkbox" value="1" name="no_watermark" id="no_watermark" /> <label for="no_watermark">Без водяного знака</label>
-		<?php echo BsHtml::activeFileField($model, 'uploading_foto'); ?>				
+		<?php echo BsHtml::activeFileField($model, 'uploading_foto'); ?>			
 	</fieldset>
 	
 

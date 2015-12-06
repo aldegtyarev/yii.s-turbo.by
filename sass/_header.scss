@@ -95,8 +95,11 @@
 
 /* cart */
 .cartBlock {
+	@extend %pos_rel;
+	@extend %fr;
+	
 	border-right: 1px solid #f3f3f3;
-	width: 280px;
+	width: 215px;
 	height: 43px;
 
 	
@@ -116,24 +119,80 @@
 	
 }
 
+.cartBlockEmpty {
+	width: 155px;
+	
+	a > span {
+		@extend .pos-abs;
+		@extend %bold;
+		@extend %font_13;
+		
+		top: 10px;
+		left: 50px;
+		
+	}
+	.to-cart {
+		width: 145px;
+	}
+}
+
+
 .to-cart {
+	@extend %for_sprite;
+	@extend %pos_abs;
+	@extend %underline_n_n;
+	@extend %db;
+	
 	left: 0;
-	top: 2px;
-	@extend .ico-cart;
+	top: 0;
+	width: 205px;
+	height: 40px;
+	padding: 3px 5px 0 5px;
+	
+	@include transition-property(background-color);
+	@include transition-duration(300ms);	
+	
+	
+	&:hover {
+		background-color: darken(#f1f1f1, 5%);		
+	}	
+	
+	&:before {
+		@extend .ico-cart;
+	}
 }
 
 .cart-row {
-	right: 15px;
+	@extend %db;
+	@extend %pos_abs;
+	
+	right: 0;
 
 
-	.cart-row-left {
-		width: 120px;
-
-	}
-	.cart-row-right {
-		width: 120px;
-	}
 }
+
+.cart-row-left {
+	//@extend .pr-5;
+	@extend %db;
+	//@extend %text_r;
+	@extend %fl;
+	@extend %font_12;
+	@extend %c_777;
+
+	width: 60px;
+
+}
+
+.cart-row-right {
+	@extend .pl-5;
+	@extend %fl;
+	@extend %font_12;
+	@extend .c_d70000;
+	
+	width: 100px;
+}
+
+
 
 .cart-row-1 {
 	top: 7px;

@@ -9,7 +9,11 @@
 		'ajaxUpdate'=>false,
 		'template'=>"{items}",
 		'itemsCssClass' => 'last-viewed-list clearfix',
-		'id'=>'last-viewed-list-view'
+		'id'=>'last-viewed-list-view',
+		'viewData'=>array(
+			'currency_info' => $currency_info,
+		),
+	
 	)); ?>
 	
 	<a href="<?=$this->controller->createUrl('shopproducts/lastviewed')?>" class="all-items" rel="nofollow">Что еще смотрели?</a>

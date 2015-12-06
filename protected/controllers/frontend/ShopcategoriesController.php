@@ -83,15 +83,34 @@ class ShopCategoriesController extends Controller
 		$app = Yii::app();
 		$connection = $app->db;
 		
-		$url_params = UrlHelper::getUrlParams($app);
-		$selected_auto = UrlHelper::getSelectedAuto($app);
+		$url_params = UrlHelper::getUrlParams($app);	// это забирается из GET параметров
+		$selected_auto = UrlHelper::getSelectedAuto($app);	//это то что храниться в сессии
+		
+		//echo'<pre>';print_r($url_params);echo'</pre>';//die;
+		//echo'<pre>';print_r($selected_auto);echo'</pre>';die;
+		
+		if($url_params['marka'] != $selected_auto['marka'] || $url_params['model'] != $selected_auto['model'] || $url_params['year'] != $selected_auto['year']) {
+			$app->session['autofilter.marka'] = $selected_auto['marka'] = $url_params['marka'];
+			$app->session['autofilter.model'] = $selected_auto['model'] = $url_params['model'];
+			$app->session['autofilter.year'] = $selected_auto['year'] = $url_params['year'];
+			unset($app->session['autofilter.modelinfo']);
+			
+			//$url_params_ = UrlHelper::buildUrlParams($selected_auto, $url_params['id']);
+			
+			//echo'<pre>';print_r($url_params_);echo'</pre>';die;
+			//$url = $url_params_[0];
+			//unset($url_params_[0]);
+			//$this->redirect($this->createUrl($url, $url_params_));
+			
+		}
+		
+		
+		
 		//если мы в выхлопной системе кликнули на кузов то устанавливаем 
 		//это значение в сессию и редиректим на просмотр глушителей
 		$bodyset = (int) $app->request->getParam('bodyset', -1);		
 		if($bodyset > -1) {
 			$app->session['autofilter.year'] = $bodyset;
-			
-			
 			
 			$url_params_ = UrlHelper::buildUrlParams($selected_auto, $url_params['id']);
 			
@@ -129,6 +148,8 @@ class ShopCategoriesController extends Controller
 			if($body_request != 0) $url_params['body'] = $body_request;
 			if($type_request != 0) $url_params['type'] = $type_request;
 			if($firm_request != 0) $url_params['firm'] = $firm_request;
+			
+			//echo'<pre>';print_r($url_params);echo'</pre>';die;
 			
 			//$this->redirect(array('show', $url_params));
 			$this->redirect($this->createUrl('show', $url_params));
@@ -177,12 +198,13 @@ class ShopCategoriesController extends Controller
 		}
 		
 		//если фильруем по какой-то модели - то получаем ИД этих моделей
-		$model_ids = ShopModelsAuto::model()->getModelIds($app);
-		//echo'$model_ids<pre>';print_r($model_ids,0);echo'</pre>';
+		$model_ids = ShopModelsAuto::model()->getModelIds($app, $selected_auto);
+		//echo'$engine_id<pre>';print_r($engine_id,0);echo'</pre>';//die;
+		//echo'$model_ids<pre>';print_r($model_ids,0);echo'</pre>';die;
 		
-		//если моделей нет а есть еще и фильтрация по дригателю то редиректим на дефолтную каталога
-		if(count($model_ids) == 0 && $engine_id != 0)
-			$this->redirect($this->createUrl('shopcategories/index'));
+		//если моделей нет а есть еще и фильтрация по двигателю то редиректим на дефолтную каталога
+//		if(count($model_ids) == 0 && $engine_id != 0)
+//			$this->redirect($this->createUrl('shopcategories/index'));
 		
 		
 		$criteria = new CDbCriteria();
@@ -306,21 +328,29 @@ class ShopCategoriesController extends Controller
 				}
 			}
 		}	else	{
-			if($type_request != 0)	{
+			//echo'<pre>';print_r($type_request);echo'</pre>';die;
+			if($type_request != 0)
 				$this->redirect($this->createUrl('shopcategories/index'));
+			
+			
+			if(isset($url_params['marka']) || isset($url_params['model']) || isset($url_params['year']) || isset($url_params['type']) || isset($url_params['engine'])) {
+				/*
+				$url_params_ = UrlHelper::buildUrlParams($selected_auto, $url_params['id']);
+
+
+				$url = $url_params_[0];
+				unset($url_params_[0]);
+
+				//echo'<pre>';print_r($url);echo'</pre>';//die;
+				//echo'<pre>';print_r($url_params);echo'</pre>';//die;
+				//echo'<pre>';print_r($url_params_);echo'</pre>';die;
+
+				$this->redirect($this->createUrl($url, $url_params_));
+				*/
+				$this->redirect($this->createUrl('shopcategories/index'));				
 			}
 			
-			$url_params_ = UrlHelper::buildUrlParams($selected_auto, $url_params['id']);
-			
-			//echo'<pre>';print_r($url_params);echo'</pre>';die;
-			$url = $url_params_[0];
-			unset($url_params_[0]);
-			$this->redirect($this->createUrl($url, $url_params_));
-			
-			//$this->redirect($this->createUrl('shopcategories/index', ));
-			
 			$ProductsImages = array();
-			
 		}
 		
 		//echo'$model_ids<pre>';print_r(($model_ids));echo'</pre>';
@@ -361,11 +391,14 @@ class ShopCategoriesController extends Controller
 		if($select_marka != -1 && $select_model != -1 && $select_year != -1) $show_search_notice = false;
 			else $show_search_notice = true;
 		
+		$currency_info = Currencies::model()->loadCurrenciesList();
+		
         if ($app->request->isAjaxRequest){
             $this->renderPartial('_loopAjax', array(
 				//'app'=> $app,
                 'dataProvider'=>$dataProvider,
                 'itemView'=>$itemView,
+				'currency_info' => $currency_info,
             ));
             $app->end();
         } else {
@@ -390,6 +423,7 @@ class ShopCategoriesController extends Controller
 				'engineImage' => $engineImage,
 				'engineTitle' => $engineTitle,
 				'show_search_notice' => $show_search_notice,
+				'currency_info' => $currency_info,
 			);
 
 			$this->render('show', $data);

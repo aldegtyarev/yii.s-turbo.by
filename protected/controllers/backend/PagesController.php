@@ -36,7 +36,7 @@ class PagesController extends Controller
 				'users'=>array('superman'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
+				'actions'=>array('admin','delete', 'removefoto'),
 				'users'=>array('superman'),
 			),
 			array('deny',  // deny all users
@@ -100,9 +100,11 @@ class PagesController extends Controller
 
 		if(isset($_POST['Pages']))
 		{
-			if($_FILES['Pages']["name"]["uploading_foto"]) {
+			if($_FILES['Pages']["name"]["uploading_foto"]) {				
 				$model->scenario = Pages::SCENARIO_UPLOADING_FOTO;
+				$model->removeFoto();
 				$model->uploading_foto = CUploadedFile::getInstance($model,'uploading_foto');
+				
 			}			
 			
 			$model->attributes=$_POST['Pages'];
@@ -115,6 +117,14 @@ class PagesController extends Controller
 		$this->render('update',array(
 			'model'=>$model,
 		));
+	}
+	
+	public function actionRemovefoto($id)
+	{
+		$model = $this->loadModel($id);
+		$model->removeFoto();
+		$model->save();
+		$this->redirect(array('update','id'=>$model->id));
 	}
 
 	/**

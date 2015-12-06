@@ -7,7 +7,7 @@
 // CWebApplication properties can be configured here.
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'S-rurbo.by',
+	'name'=>'S-TURBO.BY',
 	'sourceLanguage' => 'en',
 	'language' => 'ru',
 	'charset'=>'utf-8',
@@ -45,7 +45,7 @@ return array(
 			'class'=>'system.gii.GiiModule',
 			'password'=>'alexey27',
 			// If removed, Gii defaults to localhost only. Edit carefully to taste.
-			'ipFilters'=>array('127.0.0.1','::1', '178.121.169.21'),
+			'ipFilters'=>array('127.0.0.1','::1', '178.121.170.107'),
 		),
 		
 		'user'=>array(
@@ -197,6 +197,27 @@ return array(
 				),
             ),
         ),	
+		
+		'dpsMailer' => array(
+				'class' => 'ext.dpsmailer.components.dpsMailer',
+				'sViewPath' => './protected/views/email', // путь к шаблонам
+				'aFrom' => array( 'info@s-turbo.by' => 'S-TURBO.BY' ), // от кого будут отправляться письма по умолчанию
+				'aBehaviors' => array(
+					'swift' => array(
+						'class' => 'ext.dpsmailer.behaviors.dpsSwiftMailerBehavior',
+						'sLibPath'=> './protected/extensions/swiftmailer/lib', // путь к папке, c библиотекой swift http://swiftmailer.org/
+						'sTransport' => 'Swift_SmtpTransport',
+						'aOptions' => array(// настройки swift
+							'Host'            => 'smtp.yandex.ru',
+							'Port'            => 465,
+							'Encryption'        => 'ssl',
+							'Username'        => 'info@s-turbo.by',
+							'Password'        => 'gJLYYxAGIo1',
+						),
+					),
+				),
+		),		
+		
 	),
 
 	'behaviors'=>array(
@@ -208,8 +229,8 @@ return array(
 	// application-level parameters that can be accessed
 	// using Yii::app()->params['paramName']
 	'params'=>array(
-		// this is used in contact page
 		'adminEmail'=>'aldegtyarev@yandex.ru',
+		'siteSlogan' => 'магазин автомобильных запчастей',
 		'pagination' => array('per_page' => 30, 'products_per_page' => 32),		//параметры для пагинации
 		'images_live_url' => 'http://s-turbo.by/',
 		'products_list_order' => 't.`product_price`', //t.`product_id` // порядок сортировки списка товаров

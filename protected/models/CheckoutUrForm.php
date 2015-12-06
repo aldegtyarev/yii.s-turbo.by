@@ -18,10 +18,10 @@ class CheckoutUrForm extends CFormModel
 	public $svidetelstvo_text;
 	public $phone1_ur;
 	public $phone2_ur;
-	public $email_ur;
+	//public $email_ur;
 	
 	
-	public $name;
+	public $fio;
 	public $phone1;
 	public $phone2;	
 	public $email;
@@ -31,14 +31,14 @@ class CheckoutUrForm extends CFormModel
 	public function rules()
 	{
 		return array(
-			array('name_ur, address_ur, unp, r_schet, bank_name, bank_address, bank_code, fio_director, na_osnovanii, phone1_ur, name, phone1, email', 'required', 'message'=>'Укажите "{attribute}"'),
+			array('name_ur, address_ur, unp, r_schet, bank_name, bank_address, bank_code, fio_director, na_osnovanii, phone1_ur, fio, phone1, email', 'required', 'message'=>'Укажите "{attribute}"'),
 			
 			array('doverennost_text', 'required', 'on'=>'na_osnovanii_doverennosti', 'message'=>'Укажите "{attribute}"'),
 			array('svidetelstvo_text', 'required', 'on'=>'na_osnovanii_svidetelstva', 'message'=>'Укажите "{attribute}"'),
 			
-			array('name_ur, address_ur, unp, okpo, r_schet, bank_name, bank_code, fio_director, na_osnovanii, doverennost_text, svidetelstvo_text, phone1_ur, phone2_ur, email_ur, name, phone1, phone2', 'length', 'max'=>255),
+			array('name_ur, address_ur, unp, okpo, r_schet, bank_name, bank_code, fio_director, na_osnovanii, doverennost_text, svidetelstvo_text, phone1_ur, phone2_ur, fio, phone1, phone2', 'length', 'max'=>255),
 			
-			array('email_ur, email', 'email'),
+			array('email', 'email'),
 			
 			array('comment', 'length', 'max'=>1024),
 
@@ -65,8 +65,8 @@ class CheckoutUrForm extends CFormModel
 			'svidetelstvo_text'=>'когда и кем выдано',
 			'phone1_ur'=>'Телефон / факс',
 			'phone2_ur'=>'Доп. телефон',
-			'email_ur'=>'E-mail',
-			'name'=>'Имя',
+			//'email_ur'=>'E-mail',
+			'fio'=>'Имя',
 			'phone1'=>'Моб. телефон',
 			'phone2'=>'Доп. телефон',
 			'email'=>'E-mail',

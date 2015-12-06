@@ -1,20 +1,26 @@
+<?php
+
+
+?>
+
+
 <?php if($count_products)	{	?>
-	<div class="cartBlock pos-rel floatRight pr-15">
-		<a href="<?=$this->controller->createUrl('/cart/showcart')?>" class="to-cart db hide-text underline_n_n pos-abs">В корзину</a>
-		<p class="cart-row cart-row-1 pos-abs">
-			<span class="cart-row-left db text_r floatLeft font-12 c_777">Количество товара:</span>
-			<span class="cart-row-right db text_r floatLeft font-12 c_d70000"><span id="products-count"><?=$count_products?></span>шт.</span>
-
-		</p>
-		<p class="cart-row cart-row-2 pos-abs">
-			<span class="cart-row-left db text_r floatLeft font-12 c_777">Сумма товара:</span>
-			<span class="cart-row-right db text_r floatLeft font-12 c_d70000"><span id="cart-total"><?=Yii::app()->NumberFormatter->formatDecimal($total_summ); ?></span> у.е.</span>
-
-		</p>
+	<div id="cartBlock" class="cartBlock">
+		<a href="<?= $show_cart_url ?>" class="to-cart">
+			<span class="cart-row cart-row-1">
+				<span class="cart-row-left">В корзине</span>
+				<span class="cart-row-right"><span id="products-count"><?=$count_products .' '. Yii::t('app', 'товар|товара|товаров', $count_products)?></span></span>
+			</span>
+			<span class="cart-row cart-row-2">
+				<span class="cart-row-left">На сумму</span>
+				<span class="cart-row-right"><span id="cart-total"><?=PriceHelper::formatPrice($total_summ, 1, 3)?></span></span>
+			</span>
+		</a>		
 	</div>
 <?php	}	else	{	?>
-	<div class="cartBlock cartBlockEmpty pos-rel floatRight pr-15">
-		<a href="<?=$this->controller->createUrl('/cart/showcart')?>" class="to-cart db hide-text underline_n_n pos-abs">В корзину</a>
-		<span>Корзина пуста</span>
+	<div id="cartBlock" class="cartBlock cartBlockEmpty">
+		<a href="<?= $show_cart_url ?>" class="to-cart">
+			<span>Корзина пуста</span>
+		</a>
 	</div>
 <?php	}	?>

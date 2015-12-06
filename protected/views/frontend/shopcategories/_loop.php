@@ -11,6 +11,9 @@
 		)
 	),
 	'itemsCssClass' => 'products-list clearfix',
+	'viewData'=>array(
+		'currency_info' => $currency_info,
+	),
 )); ?>
 
 

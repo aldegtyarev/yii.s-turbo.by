@@ -1,0 +1,1 @@
+<?php include(Yii::getPathOfAlias('application') . '/components/views/CartWidget.php');?>

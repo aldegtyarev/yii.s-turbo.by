@@ -7,8 +7,8 @@
 			<th></th>
 			<th>Описание товара</th>
 			<th class="text_c">Количество</th>
-			<th class="text_c">Цена</th>
-			<th class="text_c">Удалить</th>
+			<th class="text_c">Сумма</th>
+			<th class="text_c" style="width:60px;">Удалить</th>
 		</tr>
 	</thead>
 
@@ -35,7 +35,7 @@
 					<div class="cart-qty-block">
 						<?php echo CHtml::beginForm($this->createUrl('cart/updatecart')); ?>
 							<button class="cart-qty cart-qty-dec">-</button>
-							<?php echo CHtml::hiddenField('product_id', $product->product_id); ?>
+							<?php echo CHtml::hiddenField('product_id', $product->product_id, array('id'=>false)); ?>
 							<div class="inputbox-qty-cnt">
 								<?php echo CHtml::textField('quantity', $product->getQuantity(), array( 'name'=>"quantity", 'maxlength'=>"4", 'size'=>"3", 'class'=>"inputbox11 inputbox-qty", 'id'=>"quantity-".$product->product_id, 'title'=>"Обновить количество в корзине")); ?>
 							</div>
@@ -46,7 +46,7 @@
 
 				<td align="center">
 					<? $product_price = $product->getSumPrice(); ?>
-					<p class="cart-price"><?=PriceHelper::formatPrice($product->product_price, $product->currency_id, 3)?></p>
+					<p id="cart-price-<?= $product->product_id ?>" class="cart-price"><?=PriceHelper::formatPrice($product_price, $product->currency_id, 3, $currency_info, true)?></p>
 				</td>
 
 				<td align="center" class="remove-td">
@@ -55,24 +55,15 @@
 			</tr>
 
 		<?	}	?>
+		<tr class="cart-total-row">
+			<td colspan="3"></td>
+			<td class="cart-total">
+				<p class="bold mb-10">Итого</p>
+				<? $product_price = $app->shoppingCart->getCost(); ?>
+				<p id="total-cost-usd" class="cart-price"><?=PriceHelper::formatPrice($product_price, $product->currency_id, 3, $currency_info, true)?></p>				
+			</td>
+			<td></td>
+		</tr>
 
 	</tbody>
 </table>
-
-
-<div class="p-10 fRight">
-
-	<div class="cart-total">
-		<p class="bold mb-10">Итого</p>
-		<? $product_price = $app->shoppingCart->getCost(); ?>
-		<p id="total-cost-usd" class="cart-price"><?=PriceHelper::formatPrice($product_price, $product->currency_id, 3)?></p>
-	</div>
-	<?/*
-	<div class="cart-btns1-cnt clearfix">
-		<? echo CHtml::link('Вернуться к товарам', '/category/index.html', array('title' => 'Вернуться к товарам', 'class'=>'db fLeft c_fff bold cart-btn cart-btn-continue')); ?>
-		<? echo CHtml::link('Оформить заказ', $this->createUrl('/cart/checkout'), array('title' => 'Оформить заказ', 'class'=>'db fLeft c_fff bold cart-btn cart-btn-checkout')); ?>
-	</div>
-	*/?>
-
-
-</div>

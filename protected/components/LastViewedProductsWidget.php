@@ -30,9 +30,11 @@ class LastViewedProductsWidget extends CWidget {
 			$model->file_url_thumb = $model->product_image ? ($app->params['product_images_liveUrl'].'thumb_'.$model->product_image) : ($app->params->images_live_url.'noimage.jpg') ;
 		}
 		
+		$currency_info = Currencies::model()->loadCurrenciesList();
 		
 		$data = array(
 			'dataProvider' => $dataProvider,
+			'currency_info' => $currency_info,
 		);
 		
 		//echo'<pre>';print_r($dataProvider->data);echo'</pre>';

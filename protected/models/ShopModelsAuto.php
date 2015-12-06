@@ -453,21 +453,27 @@ class ShopModelsAuto extends CActiveRecord
 		return $result;
 	}
 	
-	public function getModelIds(&$app)
+	public function getModelIds(&$app, $selected_auto = array())
 	{	
 		$model_ids = array();
 		
 		$model_id = 0;
 		$find_descendants = true;
-		if(isset($app->session['autofilter.marka'])) {
+		if(isset($selected_auto['marka'])) {
+			$model_id = $selected_auto['marka'];
+		}	elseif(isset($app->session['autofilter.marka'])) {
 			$model_id = $app->session['autofilter.marka'];
 		}
 
-		if(isset($app->session['autofilter.model'])) {
+		if(isset($selected_auto['model'])) {
+			$model_id = $selected_auto['model'];
+		}	elseif(isset($app->session['autofilter.model'])) {
 			$model_id = $app->session['autofilter.model'];
 		}
 
-		if(isset($app->session['autofilter.year'])) {
+		if(isset($selected_auto['year'])) {
+			$model_id = $selected_auto['year'];
+		}	elseif(isset($app->session['autofilter.year'])) {
 			$model_id = $app->session['autofilter.year'];
 			$find_descendants = false;
 		}

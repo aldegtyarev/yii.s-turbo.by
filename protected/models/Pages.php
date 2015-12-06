@@ -168,6 +168,19 @@ class Pages extends CActiveRecord
 		return CHtml::listData($rows, 'id','name');
 	}
 	
+	public function removeFoto()
+	{
+		$app = Yii::app();
+		$pages_imagePath = Yii::getPathOfAlias($app->params->pages_imagePath);
+		
+		$file_path = $pages_imagePath . DIRECTORY_SEPARATOR . 'full_'.$filename;
+		if(file_exists($file_path)) unlink($file_path);
+		
+		$file_path = $pages_imagePath . DIRECTORY_SEPARATOR . 'thumb_'.$filename;
+		if(file_exists($file_path)) unlink($file_path);
+		$this->foto = '';
+	}
+	
 	
 	//загрузка фото
 	public function uploadFoto($no_watermark = 0)

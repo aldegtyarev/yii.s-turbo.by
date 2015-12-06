@@ -8,8 +8,8 @@
 				}
 								 
 			?>
-			<div class="product-list-item-row-image-block fLeft">
-				<div class="product-image<?php if($data->featured == 1) echo ' product-image-featured' ?>" style="background-image: url(<?=$data->product_image ?>)"></div>
+			<div id="product-image-cnt-<?= $data->product_id ?>" class="product-list-item-row-image-block fLeft">
+				<div id="product-image-<?= $data->product_id ?>" class="product-image<?php if($data->featured == 1) echo ' product-image-featured' ?>" style="background-image: url(<?=$data->product_image ?>)"></div>
 				<?php/* 
 					if(count($data->AdditionalImages))	{
 						echo CHtml::OpenTag('ul', array('class'=>'additional-images-list'));
@@ -105,8 +105,8 @@
 				</ul>
 			</div>
 			<div class="product-list-item-row-price-block fLeft pl-20 text_c mt-5">
-				<p class="c_d70000 bold font-16 text_c nowrap"><?=PriceHelper::formatPrice($data->product_price, $data->currency_id, 3)?></p>
-				<p class="c_000 bold font-12 mt-10 text_c"><?=PriceHelper::formatPrice($data->product_price, $data->currency_id)?></p>
+				<p class="c_d70000 bold font-16 text_c nowrap"><?=PriceHelper::formatPrice($data->product_price, $data->currency_id, 3, $currency_info, true)?></p>
+				<p class="c_000 bold font-12 mt-10 text_c"><?=PriceHelper::formatPrice($data->product_price, $data->currency_id, 0, $currency_info)?></p>
 				
 				<? if($data->product_availability > 0)	{	?>
 					<?
@@ -130,7 +130,7 @@
 					
 				?>
 					<p class="to-cart-process pt-5 hidden">
-						<span class="ajax-loading font-10"><img class="v-middle" src="/img/loading.gif" /> Обработка...</span>
+						<span class="ajax-loading font-10"><img class="v-middle" src="/img/loading.gif" alt="Обработка" /> Обработка...</span>
 					</p>
 					<p class="cart-msg hidden font-10"></p>
 				<?php echo CHtml::endForm(); ?>

@@ -14,9 +14,15 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'address', array('class'=>'bold nowrap')); ?>
-		<?php echo $form->textField($model,'address',array('size'=>24,'maxlength'=>255, 'class'=>'inputbox')); ?>
-		<?php echo $form->error($model,'address'); ?>
+		<?php echo $form->labelEx($model,'address1', array('class'=>'bold nowrap')); ?>
+		<?php echo $form->textField($model,'address1',array('size'=>24,'maxlength'=>255, 'class'=>'inputbox')); ?>
+		<?php echo $form->error($model,'address1'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'address2', array('class'=>'bold nowrap')); ?>
+		<?php echo $form->textField($model,'address2',array('size'=>24,'maxlength'=>255, 'class'=>'inputbox')); ?>
+		<?php echo $form->error($model,'address2'); ?>
 	</div>
 
 	<div class="row">

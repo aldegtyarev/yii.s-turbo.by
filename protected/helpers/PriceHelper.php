@@ -1,7 +1,7 @@
 <?php
 class PriceHelper
 {
-    public static function formatPrice($price = 0, $price_currency = 0, $currency_id = 0, $currency_info = null, $ceil_price = false)
+    public static function formatPrice($price = 0, $price_currency = 0, $currency_id = 0, $currency_info = null, $ceil_price = false, $unformatted = false)
     { 
         if(is_null($currency_info)) $currency_info = Currencies::model()->loadCurrenciesList();
 		
@@ -15,6 +15,8 @@ class PriceHelper
 		
 		$price = $price * $currency_info[$currency_id]['currency_value'];
 		
+		if($unformatted == true) return $price;
+		
 		if( $currency_id == 3 && $ceil_price == true) $price = self::ceilPrice($price);	//если выводим в BYR - округляем
 		
 		$price = number_format(($price), $currency_info[$currency_id]['precision'], '.', ' ');
@@ -23,8 +25,8 @@ class PriceHelper
 		
 		return $price;
     }
-	
-    public static function ceilPrice($price, $ceil_value = 10000)
+		
+    public static function ceilPrice($price, $ceil_value = 5000)
     { 
 		return (ceil($price / $ceil_value)) * $ceil_value;
     }

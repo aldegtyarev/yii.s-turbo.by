@@ -198,6 +198,7 @@ $params = $app->params;
 				'app'=>$app,
 				'dataProvider'=>$dataProvider,
 				'itemView'=>$itemView,
+				'currency_info' => $currency_info,
 			));						 
 		?>		
 	</div>		

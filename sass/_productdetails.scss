@@ -9,7 +9,7 @@
 	margin: 0 0 4px 0;
 	
 	img {
-		width: 100%;		
+		max-width: 100%;		
 	}
 
 }
@@ -156,7 +156,8 @@
 .productdetails-view .addtocart-button {
 	padding-left: 25px;
 	padding-right: 25px;
-	margin-right: 12px;
+//	margin-right: 12px;
+	margin-left: 157px;
 	
 //	@include border-radius(3px);
 //	@include transition-property(background-color);
@@ -375,7 +376,7 @@
 }
 
 .productdetails-prepayment-ico {
-	@extend .pos-rel;
+	@extend %pos_abs;
 	top: -4px;
 }
 

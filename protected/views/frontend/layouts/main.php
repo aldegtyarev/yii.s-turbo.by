@@ -1,5 +1,7 @@
 <?php /* @var $this Controller */ ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?/*<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">*/?>
+<!DOCTYPE html>
+
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru">
 <head>
 <?php
@@ -43,10 +45,10 @@
 	*/
 	?>
 	<!--[if lt IE 8]>
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/ie.css" media="screen, projection" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $app->request->baseUrl; ?>/css/ie.css" media="screen, projection" />
 	<![endif]-->
 
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/screen.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $app->request->baseUrl; ?>/css/screen.css" />
 	<?	/*<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/form.css" />*/	?>
 	
 	<? /*<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js" type="text/javascript"></script>	*/?>
@@ -67,7 +69,7 @@
 						<?php $this->widget('zii.widgets.CMenu',array(
 							'items'=>array(
 
-								array('label'=>'Главная', 'url'=>(Yii::app()->homeUrl), 'itemOptions'=> $isMainPage ? array('class'=>'active') : array()),
+								array('label'=>'Главная', 'url'=>($app->homeUrl), 'itemOptions'=> $isMainPage ? array('class'=>'active') : array()),
 								//array('label'=>'тест', 'url'=>array('/pages/view', 'id'=> 1)),
 								array('label'=>'Доставка', 'url'=>array('/pages/delivery')),
 								array('label'=>'Оплата', 'url'=>array('/pages/payment')),
@@ -80,8 +82,7 @@
 					</div>
 					<? /* <a href="http://turbo/admin.php">Адм</a> */ ?>
 				
-					<?php //$this->widget('application.components.MsiLogin'); ?>
-					<?php $this->widget('application.components.CartWidget'); ?>
+					<div id="cartBlock-cnt" class="pos-rel floatRight"><?php $this->widget('application.components.CartWidget'); ?></div>
 				</div>
 			</div>
 			
@@ -89,7 +90,7 @@
 				<div class="block1 floatLeft">
 					<a href="/" class="logo-top white-color uppercase font-size-13">
 						<img src="/img/logo-top.png" alt="магазин автомобильных запчастей" />
-						магазин автомобильных запчастей
+						<?= $app->params['siteSlogan'] ?>
 					</a>
 					<?php $this->widget('application.components.SearchWidget'); ?>
 				</div>
@@ -177,7 +178,7 @@
 			
 			
  		</div>
- 		<div class="db-stat" style="display:none;"><? print_r(Yii::app()->db->getStats()); ?></div>
+ 		<div class="db-stat" style="display:none;"><? print_r($app->db->getStats()); ?></div>
 	</footer>
 	
 	<div id="popup-gallery" class="popup-gallery pos-abs hidden"></div>

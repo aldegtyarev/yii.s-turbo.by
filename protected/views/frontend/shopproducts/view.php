@@ -15,8 +15,9 @@ $baseUrl = $app->getBaseUrl(true).'/';
 
 $clientScript = $app->clientScript;
 
-$clientScript->registerCoreScript('fancybox');
 $clientScript->registerCoreScript('phone-input');
+$clientScript->registerCoreScript('fancybox');
+
 
 
 
@@ -53,9 +54,9 @@ $model_images = $model->Images;
 	<h1><?php echo $model->product_name; ?></h1>
 	<div class="head clearfix">
 		<div class="productdetails-view-image-part">
-			<div class="productdetails-main-image">
+			<div id="product-image-cnt-<?= $model->product_id ?>" class="productdetails-main-image">
 				<? if ($model->product_image) {?>
-					<?	echo CHtml::link(CHtml::image($params->product_images_liveUrl . 'full_'.$model->product_image, "", array('class' => "medium-image")), $params->product_images_liveUrl . 'full_'.$model->product_image, array('class' => "fancybox", "data-fancybox-group" => "gallery"));	?>
+					<?	echo CHtml::link(CHtml::image($params->product_images_liveUrl . 'full_'.$model->product_image, "", array('class' => "medium-image", 'id'=>'product-image-'.$model->product_id)), $params->product_images_liveUrl . 'full_'.$model->product_image, array('class' => "fancybox", "data-fancybox-group" => "gallery"));	?>
 				<?	}	else	{	?>
 				<?	echo CHtml::image($params->product_images_liveUrl . 'noimage.jpg', "", array('class' => "medium-image"));	?>
 				<?	}	?>
@@ -89,8 +90,8 @@ $model_images = $model->Images;
 						<div class="row productdetails-price-row clearfix">
 							<span class="label"><? echo $model->getAttributeLabel('product_price');?>:</span>
 							<div class="value" id="productPrice<?=$model->product_id?>">
-								<p class="price-byr"><?=PriceHelper::formatPrice($model->product_price, $model->currency_id)?></p>
-								<p class="price"><?=PriceHelper::formatPrice($model->product_price, $model->currency_id, 3)?></p>
+								<p class="price-byr"><?=PriceHelper::formatPrice($model->product_price, $model->currency_id, 0, $currency_info)?></p>
+								<p class="price"><?=PriceHelper::formatPrice($model->product_price, $model->currency_id, 3, $currency_info, true)?></p>
 								
 							</div>
 						</div>
@@ -147,20 +148,17 @@ $model_images = $model->Images;
 						<?	}	?>						
 					</div>
 					<?php echo CHtml::beginForm($this->createUrl('/cart/addtocart')); ?>
+						<?php echo Chtml::hiddenField('quantity', '1', array('class'=>'quantity', 'id'=>false)); ?>
+						<?php echo Chtml::hiddenField('product_id', $model->product_id, array('class'=>'product_id', 'id'=>false)); ?>
+						
 						<p class="to-cart-process pt-5 hidden">
 							<span class="ajax-loading font-10"><img class="v-middle" src="/img/loading.gif" /> Обработка...</span>
 						</p>
+						
 						<p class="cart-msg hidden pb-5 font-10"></p>
 					
-					<p class="text_r">
-					<?php 
-						echo Chtml::hiddenField('quantity', '1', array('class'=>'quantity', 'id'=>false));
-						echo Chtml::hiddenField('product_id', $model->product_id, array('class'=>'product_id', 'id'=>false));
-						echo CHtml::submitButton('В корзину', array('name'=>'addtocart','id'=>false,'class'=>'addtocart addtocart-button add button-green','title'=>'Добавить этот товар в корзину'));
-						
-					?>
-					</p>
-					<?php	echo CHtml::endForm(); ?>
+						<?php echo CHtml::submitButton('В корзину', array('name'=>'addtocart', 'class'=>'addtocart addtocart-button add button-green','title'=>'Добавить этот товар в корзину'));?>
+					<?php echo CHtml::endForm(); ?>
 										
 					<?/*<div class="productview-ask-question"><a href="#">Задать вопрос</a></div>*/?>
 

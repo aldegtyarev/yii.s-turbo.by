@@ -217,12 +217,12 @@ class PagesController extends Controller
 	
 	
 	/**
-	 * гарантия
+	 * о нас
 	 */
 	public function actionAbout()
 	{
 		$id = 2;
-		$id = 1;
+		//$id = 1;
 		$this->renderPage($id);
 	}
 	

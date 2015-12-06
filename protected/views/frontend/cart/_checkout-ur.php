@@ -83,19 +83,13 @@
 		<?php echo $form->textField($model,'phone2_ur',array('size'=>24,'maxlength'=>255, 'class'=>'inputbox')); ?>
 		<?php echo $form->error($model,'phone2_ur'); ?>
 	</div>
-
-	<div class="row row_email_ur">
-		<?php echo $form->labelEx($model,'email_ur', array('class'=>'bold nowrap')); ?>
-		<?php echo $form->textField($model,'email_ur',array('size'=>24,'maxlength'=>255, 'class'=>'inputbox')); ?>
-		<?php echo $form->error($model,'email_ur'); ?>
-	</div>
-	
+	<br>	
 	<h3>Контактное лицо</h3>
 	
 	<div class="row">
-		<?php echo $form->labelEx($model,'name', array('class'=>'bold nowrap')); ?>
-		<?php echo $form->textField($model,'name',array('size'=>24,'maxlength'=>255, 'class'=>'inputbox')); ?>
-		<?php echo $form->error($model,'name'); ?>
+		<?php echo $form->labelEx($model,'fio', array('class'=>'bold nowrap')); ?>
+		<?php echo $form->textField($model,'fio',array('size'=>24,'maxlength'=>255, 'class'=>'inputbox')); ?>
+		<?php echo $form->error($model,'fio'); ?>
 	</div>
 
 	<div class="row">

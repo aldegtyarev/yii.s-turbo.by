@@ -1,4 +1,5 @@
 <?php
+header('Content-Type: text/html; charset=utf-8');
 
 class CartController extends Controller
 {
@@ -55,11 +56,22 @@ class CartController extends Controller
 			//echo'<pre>';print_r($model->cart_model_info);echo'</pre>';//die;
 			
 			$app->shoppingCart->put($model, $quantity);
+			$total = $app->shoppingCart->getCount();
+			$summ = PriceHelper::formatPrice($app->shoppingCart->getCost(), 1, 3);
+			
+			$html = '';
+			$html = $this->renderPartial( 'add-to-cart', array(
+				'count_products' => $total,
+				'total_summ' => $total,
+				'show_cart_url' => $this->createUrl('/cart/showcart'),
+			),true);
+			
 			$msg = array(
 				'res'		=>	'ok',
-				'total'		=>	$app->shoppingCart->getCount(),
-				'summ'		=>	PriceHelper::formatPrice($app->shoppingCart->getCost(), 1, 3),
+				'total'		=>	$total . ' ' . Yii::t('app', 'товар|товара|товаров', $total),
+				'summ'		=>	$summ,
 				'message'	=>	$message,
+				'html'	=>	$html,
 			);
 		}	else	{
 			$msg = array('res' => 'err');
@@ -80,6 +92,8 @@ class CartController extends Controller
 		$modelUr = new CheckoutUrForm;
 		
 		$checkoutType = $app->request->getParam('checkoutType', 'checkout-fiz');
+		
+		$currency_info = Currencies::model()->loadCurrenciesList();
 		
 		//echo'<pre>';print_r($modelFiz);echo'</pre>';die;
 		if(isset($_POST['checkoutType'])) {
@@ -102,6 +116,7 @@ class CartController extends Controller
 			'modelFiz' => $modelFiz,
 			'modelUr' => $modelUr,
 			'checkoutType' => $checkoutType,
+			'currency_info' => $currency_info,
 		);
 		
 		$this->render('showcart', $data);
@@ -123,6 +138,16 @@ class CartController extends Controller
 		$positions = $app->shoppingCart->getPositions();
 		$params = $app->params;
 		
+		$product_price = 0;
+		$product_currency = 1;
+			
+		foreach($positions as $product)
+			if($product->product_id == $product_id) {
+				$product_price = $product->getSumPrice();
+				$product_currency = $product->currency_id;
+				break;
+			}
+		
 		$data = array(
 			'app' => $app,
 			'positions' => $positions,
@@ -133,6 +158,7 @@ class CartController extends Controller
 		$data = array(
 			'cost_usd' => PriceHelper::formatPrice($total_cost, 1),
 			'cost_byr' => PriceHelper::formatPrice($total_cost, 1, 3),
+			'product_summ' => PriceHelper::formatPrice($product_price, $product_currency, 3),
 		);
 		//$this->renderPartial('_cart-list', $data);
 		echo json_encode($data);
@@ -177,7 +203,6 @@ class CartController extends Controller
 		
 		$checkoutType = $app->request->getParam('checkoutType', 'checkout-fiz');
 		
-		//echo'<pre>';print_r($modelFiz);echo'</pre>';die;
 		if(isset($_POST['checkoutType'])) {
 			switch($checkoutType) {
 				case 'checkout-fiz':
@@ -190,8 +215,6 @@ class CartController extends Controller
 					
 			}
 		}
-		
-
 		
 		$data = array(
 			'app' => $app,
@@ -211,13 +234,19 @@ class CartController extends Controller
 		$app = Yii::app();
 		$params = $app->params;
 		
-		$app->shoppingCart->clear();
+		$order = $app->request->getParam('order', 0);
+		
+		$model = Orders::model()->findByPk($order);
+		
+		//echo'<pre>';print_r($_POST);echo'</pre>';die;
+		
+		//$app->shoppingCart->clear();
 		
 		$data = array(
 			'app' => $app,
 			'params' => $params,
 			//'positions' => $positions,
-			//'model' => $model,
+			'model' => $model,
 		);
 		
 		$this->render('orderdone', $data);
@@ -226,13 +255,53 @@ class CartController extends Controller
 	public function checkoutFiz($post, $model)
 	{
 		if(isset($_POST['CheckoutFizForm'])) {
-			$model->attributes=$_POST['CheckoutFizForm'];
+			$model->attributes = $_POST['CheckoutFizForm'];
 
-			if($model->validate())
-				$this->redirect(array('orderdone'));
+			if($model->validate()) {
+				$app = Yii::app();
+				$positions = $app->shoppingCart->getPositions();
+				
+				$total = $this->calculateTotalSumm($positions);
+				
+				$customer = array('type' => Orders::CUSTOMER_TYPE_FIZ);
+				
+				foreach($model->attributes as $attr=>$val) $customer[$attr] = $val;
+				
+				$order = $this->addOrder($positions, $total, $customer);
+				//echo'<pre>';print_r($order);echo'</pre>';die;
+				$currency_info = Currencies::model()->loadCurrenciesList();
+				
+				$data = array(
+					'positions' => $positions,
+					'model' => $model,
+					'app' => $app,
+					'order' => $order,
+					'total_summ' => $total['byr'],
+					'customer_type' => Orders::CUSTOMER_TYPE_FIZ,
+					'customer' => $customer,
+					'currency_info' => $currency_info,
+					
+				);
+				
+				$to = array(Yii::app()->params['adminEmail']);
+				
+				if($model->email != '') $to[] = $model->email;
+				
+				Yii::app()->dpsMailer->sendByView(
+					$to, // определяем кому отправляется письмо
+					//array('aldegtyarev1980@mail.ru'), // определяем кому отправляется письмо
+					'emailOrder', // view шаблона письма
+					$data
+				);
+				
+				//echo'<pre>';print_r($positions);echo'</pre>';//die;
+				
+				$this->redirect(array('orderdone', 'order'=>$order->id));
+			}
 		}
 		
 	}
+	
 	
 	public function checkoutUr($post, $model)
 	{
@@ -247,13 +316,102 @@ class CartController extends Controller
 					$model->scenario = 'na_osnovanii_svidetelstva';
 					break;
 				default:
-
-
 			}
+			
+			if($model->validate()) {
+				$app = Yii::app();
+				$positions = $app->shoppingCart->getPositions();
+				
+				$total = $this->calculateTotalSumm($positions);
+				
+				$customer = array('type' => Orders::CUSTOMER_TYPE_UR);
+				
+				foreach($model->attributes as $attr=>$val) {
+					if($attr == 'na_osnovanii') {
+						$CheckoutUrForm = new CheckoutUrForm();
+						$variants = $CheckoutUrForm->getNaOsnovaniiRadioList();
+						$customer[$attr] = $variants[$val];
+					}	else	{
+						$customer[$attr] = $val;
+					}
+				}
+				
+				$order = $this->addOrder($positions, $total, $customer);
+				
+				$currency_info = Currencies::model()->loadCurrenciesList();
+				
+				$data = array(
+					'positions' => $positions,
+					'model' => $model,
+					'app' => $app,
+					'order' => $order,
+					'total_summ' => $total['byr'],
+					'customer_type' => Orders::CUSTOMER_TYPE_UR,
+					'customer' => $customer,
+					'currency_info' => $currency_info,
+				);
+				
+				$to = array(Yii::app()->params['adminEmail']);
+				
+				if($model->email != '') $to[] = $model->email;
+				
+				Yii::app()->dpsMailer->sendByView(
+					$to, // определяем кому отправляется письмо
+					//array('aldegtyarev1980@mail.ru'), // определяем кому отправляется письмо
+					'emailOrder', // view шаблона письма
+					$data
+				);
+				//echo'<pre>';print_r($positions);echo'</pre>';//die;				
+				
+				$this->redirect(array('orderdone', 'order'=>$order->id));
+			}
+		}
+	}
+	
+	/**
+	 * считает полную сумму заказа в usd, byr
+	 * @return array
+	 */
+	public function calculateTotalSumm($positions)
+	{
+		$currency_info = Currencies::model()->loadCurrenciesList();
 
-			if($model->validate())
-				$this->redirect(array('orderdone'));
+		$summ_usd = 0;
+		$summ_byr = 0;
+
+		foreach($positions as $product) {
+			$summ_usd += PriceHelper::formatPrice(($product->product_price * $product->getQuantity()), $product->currency_id, 1, $currency_info, false, true);
+			$summ_byr += PriceHelper::formatPrice(($product->product_price * $product->getQuantity()), $product->currency_id, 3, $currency_info, false, true);
 		}
 		
+		return array(
+			'usd' => $summ_usd,
+			'byr' => $summ_byr,
+		);
+		
 	}
+		
+	/**
+	 * добавляет в базу новый заказ
+	 * @return model
+	 */
+	public function addOrder($positions, $total, $customer)
+	{
+		$order = new Orders();
+		$order->created = time();
+		$order->summ_usd = $total['usd'];
+		$order->summ_byr = $total['byr'];
+		$order->customer = json_encode($customer);
+		$order->save();
+
+		foreach($positions as $product) {
+			$order_product = new OrdersProducts();
+			$order_product->order_id = $order->id;
+			$order_product->product_id = $product->product_id;
+			$order_product->save();
+		}
+		
+		return $order;
+	}
+		
 }

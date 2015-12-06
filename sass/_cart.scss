@@ -3,9 +3,6 @@
 	@include box-shadow(#dbdbdb 3px 3px 5px);
 	
 	.cart-total {
-		@extend .mb-10;
-		
-		margin-left: 208px;
 	}
 }
 
@@ -57,8 +54,14 @@
 		padding: 10px 10px 15px 10px;
 	}
 	
-	
+	.cart-total-row {
+		td {
+			border-right: none;
+		}
+	}
 }
+
+
 
 
 .inputbox-qty-cnt {
@@ -273,19 +276,6 @@
 }
 
 
-.cartBlockEmpty {
-	width: 145px;
-	
-	& > span {
-		@extend .pos-abs;
-		@extend %bold;
-		@extend %font_13;
-		
-		top: 10px;
-		left: 50px;
-		
-	}
-}
 
 .cart-btns1-cnt {
 	margin-right: 57px;
@@ -398,4 +388,71 @@ textarea#CheckoutFizForm_comment {
 
 .checkout-btns {
 	margin-left: 200px;
+}
+
+.order-done-popup {
+	background-color: #fff;
+	
+	width: 550px;
+}
+
+.order-done-hdr {
+	@extend %pos_rel;
+	@extend %text_c;
+	
+	background-color: $red_color_1;
+	padding: 25px 0 20px 0;
+	
+	
+	img {
+		
+	}
+	
+	a {
+		@extend %pos_abs;
+		@extend %underline_y_n;
+		@extend %c_fff;
+		
+		top: 5px;
+		right: 20px;
+	}
+}
+
+.order-done-info {
+	@extend .p-30;
+	
+	& > p {
+		@extend %text_c;
+		@extend %bold;
+	}
+		
+	.r1 {
+		@extend %c_000;
+		@extend %font_14;
+		@extend .pb-10;
+		
+		span {
+			color: $red_color_1;
+		}
+		
+	}
+	
+	.r2 {
+		@extend %c_000;
+		@extend %uppercase;
+		@extend %font_16;
+		@extend .pb-20;
+	}
+	
+	.r3 {
+		@extend %font_14;
+		@extend .pb-10;
+		
+		color: #777;
+	}
+	
+	.r4 {
+		@extend %font_16;
+		color: $red_color_1;
+	}
 }

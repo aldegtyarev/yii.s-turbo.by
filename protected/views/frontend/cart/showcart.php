@@ -46,7 +46,7 @@ switch($checkoutType) {
 	
 		
 	<div id="cart-list" class="cart-list pos-rel bg-fff clearfix pt-20">
-		<? $this->renderPartial('_cart-list', array('app'=>$app, 'params'=>$params, 'positions'=>$positions)) ?>
+		<? $this->renderPartial('_cart-list', array('app'=>$app, 'params'=>$params, 'positions'=>$positions, 'currency_info' => $currency_info)) ?>
 	</div>
 	
 	
@@ -65,7 +65,7 @@ switch($checkoutType) {
 	<div class="cart-view item-page">
 		<div id="cart-checkout-list" class="cart-list pos-rel bg-fff clearfix p-20">
 
-			<h3 class="c_d70000">Оформить заказ</h3>
+			<h3 class="c_d70000">Контактные данные</h3>
 
 			<?php $form=$this->beginWidget('CActiveForm', array(
 				'id'=>'checkout-form',
@@ -85,7 +85,7 @@ switch($checkoutType) {
 
 				<div class="row checkout-btns">
 					<? echo CHtml::link('Вернуться к товарам', $this->createUrl('shopcategories/index'), array('title' => 'Продолжать покупки', 'class'=>'db fLeft c_fff bold cart-btn cart-btn-continue')); ?>
-					<? echo CHtml::submitButton('Оформить заказ', array('title' => 'Оформить заказ', 'class'=>'db fLeft c_fff bold cart-btn cart-btn-checkout pointer')); ?>			
+					<? echo CHtml::submitButton('Отправить заказ', array('title' => 'Оформить заказ', 'class'=>'db fLeft c_fff bold cart-btn cart-btn-checkout pointer')); ?>			
 					<? //echo CHtml::link('Оформить', $this->createUrl('/cart/checkout'), array('title' => 'Оформить заказ', 'class'=>'db fLeft c_fff bold cart-btn cart-btn-checkout')); ?>
 				</div>			
 

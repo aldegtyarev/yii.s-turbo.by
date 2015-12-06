@@ -2,7 +2,6 @@
 class SearchAutoWidget extends CWidget {
 	
     public function run() {
-		
 		$app = Yii::app();
 		
 		$connection = $app->db;
@@ -101,6 +100,7 @@ class SearchAutoWidget extends CWidget {
 		}
 		
 		if($do_redirect) {
+			//echo'<pre>';var_dump($return_url);echo'</pre>';die;
 			//if($return_url != '' && $return_url != '/')
 			if($return_url != '')
 				$this->owner->redirect($return_url);

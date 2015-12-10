@@ -52,6 +52,9 @@ $model_images = $model->Images;
 
 <div class="productdetails-view">
 	<h1><?php echo $model->product_name; ?></h1>
+	<?php if($modelinfoTxt != '')	{	?>
+		<p class="productdetails-modelinfo"><?= $modelinfoTxt ?></p>
+	<?php	}	?>
 	<div class="head clearfix">
 		<div class="productdetails-view-image-part">
 			<div id="product-image-cnt-<?= $model->product_id ?>" class="productdetails-main-image">
@@ -87,12 +90,11 @@ $model_images = $model->Images;
 		<div class="productdetails-view-main-info-part-wr">
 			<div class="productdetails-view-main-info-part">
 					<div class="fields">
-						<div class="row productdetails-price-row clearfix">
+						<div class="productdetails-price-row clearfix">
 							<span class="label"><? echo $model->getAttributeLabel('product_price');?>:</span>
 							<div class="value" id="productPrice<?=$model->product_id?>">
-								<p class="price-byr"><?=PriceHelper::formatPrice($model->product_price, $model->currency_id, 0, $currency_info)?></p>
-								<p class="price"><?=PriceHelper::formatPrice($model->product_price, $model->currency_id, 3, $currency_info, true)?></p>
-								
+								<p class="price-byr"><?=PriceHelper::formatPrice($model->product_price, $model->currency_id, 3, $currency_info, true)?></p>
+								<p class="price"><?=PriceHelper::formatPrice($model->product_price, $model->currency_id, 0, $currency_info)?></p>
 							</div>
 						</div>
 						
@@ -174,7 +176,7 @@ $model_images = $model->Images;
 						</div>
 					</div>
 					<? echo CHtml::link('Сообщение корзины', '#cart-popup', array('id'=>'cart-message', 'class'=>'fancybox cart-message hidden')); ?>
-					
+					<?/*
 					<div class="buy-in-one-click">
 						<a href="#" id="buy-in-one-click-btn" class="buy-in-one-click-btn">Купить в 1 клик</a>
 						<input type="text" id="buy-in-one-click-input" class="inputbox phone-input" placeholder="+375 (XX) XXX-XX-XX"/>
@@ -182,15 +184,15 @@ $model_images = $model->Images;
 						<p id="buy-in-one-click-err" class="buy-in-one-click-err">Укажите номер своего телефона</p>
 						<p id="buy-in-one-click-ok" class="buy-in-one-click-ok">Ваша заявка отправлена.</p>
 					</div>
+					*/?>
 
 			</div>
 			<div class="productdetails-client-info">
 				<p class="title">Информация для клиента</p>
 				<div class="productdetails-client-info-wr clearfix">
-					<p class="delivery"><a href="#" title="Доставка"><img src="/img/dostavka.png" alt="Доставка">Доставка</a></p>
-					<p class="payment"><a href="#" title="Оплата"><img src="/img/oplata.png" alt="Оплата">Оплата</a></p>
-					<p class="guarantie"><a href="#" title="Гарантия"><img src="/img/garanties.png" alt="Гарантия">Гарантия</a></p>
-					
+					<p class="delivery"><a href="<?= $this->createUrl('pages/delivery')?>" class="modal-url fancybox1 fancybox.ajax" title="Доставка по всей Беларуси"><img src="/img/dostavka.png" alt="Доставка"><br>Доставка</a></p>
+					<p class="payment"><a href="<?= $this->createUrl('pages/payment')?>" class="advantages-item-detail modal-url fancybox1 fancybox.ajax" title="Удобная оплата"><img src="/img/oplata.png" alt="Оплата"><br>Оплата</a></p>
+					<p class="guarantie"><a href="<?= $this->createUrl('pages/guarantee')?>" class="advantages-item-detail modal-url fancybox1 fancybox.ajax" title="Гарантия и возврат"><img src="/img/garanties.png" alt="Гарантия"><br>Гарантия / возврат</a></p>
 				</div>
 			</div>
 		</div>		
@@ -228,13 +230,14 @@ $model_images = $model->Images;
 	
 	$this->endWidget();				
 
-	$this->beginWidget('system.web.widgets.CClipWidget', array('id'=>"Отзывы покупателей<sup>5</sup>"));
-	echo "Отзывы покупателей";
-	$this->endWidget();
-
-	$this->beginWidget('system.web.widgets.CClipWidget', array('id'=>"Установка"));
-	echo $model->installation;
-	$this->endWidget();
+//	$this->beginWidget('system.web.widgets.CClipWidget', array('id'=>"Отзывы покупателей<sup>5</sup>"));
+//	echo "Отзывы покупателей";
+//	$this->endWidget();
+	if($model->installation != '') {
+		$this->beginWidget('system.web.widgets.CClipWidget', array('id'=>"Установка"));
+		echo $model->installation;
+		$this->endWidget();
+	}
 
 	$tabParameters = array();
 

@@ -327,7 +327,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
 span.required, .breadcrumbs a, .sorting-block-conteiner .sorting-block a:hover,
 .sorting-block-conteiner .currency-select a:hover, .sorting-block-conteiner .sorting-block .active,
 .sorting-block-conteiner .currency-select .active, .c_d70000, .cart-row-right, .cart-qty-dec:hover,
-.cart-qty-inc:hover, .cart-price, .menu-cat h3, .menu-cat li a:hover, .menu-cat .active > a, .news-block .all-items, .product-list-item-row-info-block .short-description li:before, .last-viewed-block .all-items, .last-viewed-item-prices .price, .productdetails-price-row .price, .productview-ask-question a, .productdetails-view-tab .tabs a:hover, .productdetails-view-tab .tabs sup, .productdetails-view-tab .tabs .active, .product-types-list-item .product-count, .filter-block-all-items .product-count, .product-types-index-all .product-count,
+.cart-qty-inc:hover, .cart-price, .menu-cat h3, .menu-cat li a:hover, .menu-cat .active > a, .news-block .all-items, .product-list-item-row-info-block .short-description li:before, .last-viewed-block .all-items, .last-viewed-item-prices .price, .productdetails-price-row .price-byr, .productview-ask-question a, .productdetails-view-tab .tabs a:hover, .productdetails-view-tab .tabs sup, .productdetails-view-tab .tabs .active, .product-types-list-item .product-count, .filter-block-all-items .product-count, .product-types-index-all .product-count,
 .product-types-index .product-count, .page-cnt a {
   color: #d70000;
 }
@@ -353,7 +353,7 @@ span.required, .breadcrumbs a, .sorting-block-conteiner .sorting-block a:hover,
 }
 
 h2, h3, .c_000, .menu-cat li a, .menu-cat .active.parent > a, .news-block-item .item-title, .product-list-item .small span, .products-on-auto-item-ttl, .products-on-auto-item-intro, .search-notice-1 p,
-.search-notice p, .productdetails-view-main-info-part .value, .productdetails-price-row .label, .productdetails-price-row .price-byr, .order-done-info .r1, .order-done-info .r2, .advantages-item-popup p, .advantages-item-popup .advantages-item-popup-title {
+.search-notice p, .productdetails-view-main-info-part .value, .productdetails-price-row .label, .order-done-info .r1, .order-done-info .r2, .advantages-item-popup p, .advantages-item-popup .advantages-item-popup-title {
   color: #000;
 }
 
@@ -386,7 +386,7 @@ h2, h3, .c_000, .menu-cat li a, .menu-cat .active.parent > a, .news-block-item .
   font-size: 11px;
 }
 
-.font-12, .cart-row-left, .cart-row-right, .search-auto-form .jq-selectbox__select-text, .search-auto-form .jq-selectbox__dropdown li, .menu-cat li a, .news-block-item .item-title, .productdetails-view-main-info-part .label, .productdetails-price-row .price-byr, .productdetails-view-tab .tabs sup, .filter-block-all-items {
+.font-12, .cart-row-left, .cart-row-right, .search-auto-form .jq-selectbox__select-text, .search-auto-form .jq-selectbox__dropdown li, .menu-cat li a, .news-block-item .item-title, .productdetails-view-main-info-part .label, .productdetails-price-row .price, .productdetails-view-tab .tabs sup, .filter-block-all-items {
   font-size: 12px;
 }
 
@@ -402,7 +402,7 @@ h2, h3, .c_000, .menu-cat li a, .menu-cat .active.parent > a, .news-block-item .
 .sorting-block-conteiner .currency-select, .sorting-block-conteiner .sorting-block a,
 .sorting-block-conteiner .currency-select a, .flash-warning,
 .flash-error,
-.flash-success, .font-14, .top-contacts > p, .consultant-block, .search-auto-block-title, .more-products, .last-viewed-status, .footer .email, .productdetails-view-main-info-part .value, .productdetails-price-row .label, .productdetails-view .addtocart-button, .productdetails-view-tab .tabs a, .productdetails-view-tab .tabs .active, .filter-block-header, .cart-btn-continue, .cart-btn-checkout, .order-done-info .r1, .order-done-info .r3, .advantages-item-popup p, .advantages-item-popup li, .page-cnt h4, .nav-tabs li a, .backcall-form-descr {
+.flash-success, .font-14, .top-contacts > p, .consultant-block, .search-auto-block-title, .more-products, .last-viewed-status, .footer .email, .productdetails-view-main-info-part .value, .productdetails-view .addtocart-button, .productdetails-view-tab .tabs a, .productdetails-view-tab .tabs .active, .filter-block-header, .cart-btn-continue, .cart-btn-checkout, .order-done-info .r1, .order-done-info .r3, .advantages-item-popup p, .advantages-item-popup li, .page-cnt h4, .nav-tabs li a, .backcall-form-descr {
   font-size: 14px;
 }
 
@@ -410,7 +410,7 @@ h2, h3, .c_000, .menu-cat li a, .menu-cat .active.parent > a, .news-block-item .
   font-size: 15px;
 }
 
-h3, .font-16, .product-list-item-row-info-block .short-description li:before, .productdetails-price-row .price, .cart-price, #checkoutType label, .order-done-info .r2, .order-done-info .r4, .advantages-item-popup p, .advantages-title {
+h3, .font-16, .product-list-item-row-info-block .short-description li:before, .productdetails-price-row .label, .productdetails-price-row .price-byr, .cart-price, #checkoutType label, .order-done-info .r2, .order-done-info .r4, .advantages-item-popup p, .advantages-title {
   font-size: 16px;
 }
 
@@ -436,7 +436,7 @@ h3, .font-16, .product-list-item-row-info-block .short-description li:before, .p
   font-size: 24px;
 }
 
-.normal, .filter-block-all-items {
+.normal, .productdetails-price-row .price, .filter-block-all-items {
   font-weight: normal;
 }
 
@@ -448,7 +448,7 @@ h1, h2, h3, b, strong, .button,
 .news-block .created-by a,
 .news-block .created, .product-list-item .product-label, .product-list-item .status, .product-list-item-row-info-block .short-description li:before, .products-on-auto-item-ttl, .how-it-work-list .wr, .last-viewed-title, .last-viewed-status, .last-viewed-item-prices .price, .last-viewed-item-prices .price-byr, .category-view .category-item-wr a, .search-notice-1 p,
 .search-notice p, .footer-hdr, .productdetails-view-main-info-part .label,
-.productdetails-view-main-info-part .value, .productdetails-price-row .price, .productdetails-price-row .price-byr, .productdetails-view .addtocart-button, .productview-ask-question a, .productdetails-client-info .title, .productdetails-view-tab .tabs a, .buy-in-one-click a, .filter-block .clear-filter, .filter-block-header, .product-types-list-item a.active span, .filter-block-all-items.active, .product-types-index-all a,
+.productdetails-view-main-info-part .value, .productdetails-price-row .label, .productdetails-price-row .price-byr, .productdetails-view .addtocart-button, .productview-ask-question a, .productdetails-client-info .title, .productdetails-view-tab .tabs a, .buy-in-one-click a, .filter-block .clear-filter, .filter-block-header, .product-types-list-item a.active span, .filter-block-all-items.active, .product-types-index-all a,
 .product-types-index-all p,
 .product-types-index a,
 .product-types-index p, .inputbox-qty-cnt .inputbox-qty, .cart-remove, .cart-price, #checkoutType label, .order-done-info > p, .advantages-item-title, .advantages-item-sdesc-cnt .advantages-item-detail, .advantages-title, .page-text-intro {
@@ -496,7 +496,7 @@ a:hover, .underline_n_y:hover, .product-types-list-item a.active .name:hover {
   text-decoration: none;
 }
 
-.sideLeft, .container, .select-view-block a, .fLeft, .floatLeft, .main-menu li, .cart-row-left, .cart-row-right, .search-auto-block-title, .search-auto-form, .search-auto-form .step-wr, .news-block-item, .product-list-item-row-image-block .additional-images-list-item, .additional-images-wr ul, .additional-images-wr li, .products-on-auto-item, .how-it-work-list li, .category-view .category-item, .footer .contacts, .footer .ur-data, .productdetails-view-image-part, .productdetails-slider-images li, .productdetails-client-info .guarantie,
+.sideLeft, .container, .select-view-block a, .fLeft, .floatLeft, .main-menu li, .cart-row-left, .cart-row-right, .search-auto-block-title, .search-auto-form, .search-auto-form .step-wr, .news-block-item, .product-list-item-row-image-block .additional-images-list-item, .additional-images-wr ul, .additional-images-wr li, .products-on-auto-item, .how-it-work-list li, .category-view .category-item, .category-description-image, .footer .contacts, .footer .ur-data, .productdetails-view-image-part, .productdetails-slider-images li, .productdetails-client-info .guarantie,
 .productdetails-client-info .payment,
 .productdetails-client-info .delivery, .productdetails-view-tab .tabs li, .product-types-list-item, .product-types-block .filter-block-list, .product-types-index-all > li,
 .product-types-index > li, .checkout-cnt .row > label, .checkout-cnt #CheckoutUrForm_na_osnovanii, .checkout-cnt .inputbox, .advantages-item, .nav-tabs li, .contact-form-cnt .row > label, .contact-form-cnt .row > input[type=text], .contact-form-cnt .row > textarea {
@@ -548,7 +548,7 @@ a:hover, .underline_n_y:hover, .product-types-list-item a.active .name:hover {
 .menu-cat .cat-4594,
 .menu-cat .cat-4593,
 .menu-cat .cat-4622,
-.menu-cat .cat-4613, .categories-menu > li > a, .news-block-item-wr, .news-block .all-items, .product-list-item-row-info-block, .preloaderBig, .additional-images-wr ul, .additional-images-wr li, .product-list-item-bottom-cnt, .how-it-work-list li, .last-viewed-title, .last-viewed-status, .last-viewed-item-wr, .category-view .category-item-wr a, .product-image-featured, .productdetails-view-main-info-part, .productdetails-view-main-info-part .row, .productdetails-view-tab .tabs li, .cart-summary td, .inputbox-qty-cnt, .cart-qty-block, .order-done-hdr, .advantages-item-sdesc, .pages-list .product-detail, .pages-list .page-row-info {
+.menu-cat .cat-4613, .categories-menu > li > a, .news-block-item-wr, .news-block .all-items, .product-list-item-row-info-block, .preloaderBig, .additional-images-wr ul, .additional-images-wr li, .product-list-item-bottom-cnt, .how-it-work-list li, .last-viewed-title, .last-viewed-status, .last-viewed-item-wr, .category-view .category-item-wr a, .product-image-featured, .productdetails-view-main-info-part, .productdetails-view-main-info-part .row, .productdetails-price-row, .productdetails-view-tab .tabs li, .cart-summary td, .inputbox-qty-cnt, .cart-qty-block, .order-done-hdr, .advantages-item-sdesc, .pages-list .product-detail, .pages-list .page-row-info {
   position: relative;
 }
 
@@ -604,7 +604,8 @@ a:hover, .underline_n_y:hover, .product-types-list-item a.active .name:hover {
   width: 100%;
 }
 
-.border-box, .product-types-list-item, .advantages-item {
+.border-box, .productdetails-view-main-info-part .label,
+.productdetails-view-main-info-part .value, .product-types-list-item, .advantages-item {
   box-sizing: border-box;
 }
 
@@ -1021,7 +1022,7 @@ span sup {
 
 .mb-10, .flash-warning,
 .flash-error,
-.flash-success {
+.flash-success, .child-categories .cat-title {
   margin-bottom: 10px;
 }
 
@@ -1970,6 +1971,16 @@ span sup {
   height: 100px;
 }
 
+.child-categories .product-item {
+  height: auto;
+}
+.child-categories .cat-image {
+  background-size: cover;
+}
+.child-categories .cat-title {
+  height: auto;
+}
+
 .products-on-auto .jcarousel-control-prev,
 .products-on-auto .jcarousel-control-next {
   top: -36px;
@@ -2212,6 +2223,10 @@ span sup {
   background-size: contain;
 }
 
+.category-description-image {
+  margin: 0 10px 0 0;
+}
+
 /* ╨д╤Г╤В╨╡╤А */
 .footer {
   height: 220px;
@@ -2277,13 +2292,16 @@ span sup {
 
 /* end ╨д╤Г╤В╨╡╤А */
 .productdetails-view-image-part {
-  width: 450px;
+  width: 380px;
 }
 
 .productdetails-main-image {
   margin: 0 0 4px 0;
 }
 .productdetails-main-image img {
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
   max-width: 100%;
 }
 
@@ -2299,16 +2317,18 @@ span sup {
 }
 .productdetails-slider-images li,
 .productdetails-slider-images img {
-  width: 107px;
-  height: 81px;
+  width: 90px;
+  height: 67px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
 }
 
 .productdetails-view-main-info-part-wr {
-  width: 305px;
+  width: 375px;
 }
 
 .productdetails-view-main-info-part {
-  width: 285px;
   border: 1px solid #efefef;
   border-bottom: 1px solid #d4d4d4;
   background: #fff;
@@ -2321,13 +2341,29 @@ span sup {
   -webkit-box-shadow: #d4d4d4 2px 2px 5px;
   box-shadow: #d4d4d4 2px 2px 5px;
 }
+.productdetails-view-main-info-part .fields {
+  padding-bottom: 30px;
+}
 .productdetails-view-main-info-part .row {
-  margin: 0 0 15px 0;
+  border-bottom: 1px solid #d1d1d3;
+}
+.productdetails-view-main-info-part .row:last-of-type {
+  border-bottom: none;
+}
+.productdetails-view-main-info-part .row .label {
+  border-right: 1px solid #d1d1d3;
+  font-weight: normal;
+}
+.productdetails-view-main-info-part .row .label,
+.productdetails-view-main-info-part .row .value {
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 .productdetails-view-main-info-part .row,
 .productdetails-view-main-info-part .label,
 .productdetails-view-main-info-part .value {
-  height: 20px;
+  height: 30px;
+  line-height: 20px;
 }
 .productdetails-view-main-info-part .label,
 .productdetails-view-main-info-part .value {
@@ -2336,33 +2372,34 @@ span sup {
 .productdetails-view-main-info-part .label {
   left: 0;
   top: 0;
-  width: 55%;
-  font-weight: normal;
+  width: 50%;
 }
 .productdetails-view-main-info-part .value {
   right: 0;
   top: 0;
-  width: 45%;
-}
-.productdetails-view-main-info-part .productdetails-price-row {
-  height: 40px;
+  width: 50%;
+  padding-left: 5px;
 }
 
+.productdetails-price-row {
+  height: 40px;
+  margin-bottom: 25px;
+}
 .productdetails-price-row .label {
-  line-height: 40px;
   height: auto;
 }
 .productdetails-price-row .value {
   height: auto;
 }
 .productdetails-price-row .price {
-  margin: 0 0 5px 0;
+  color: #999;
 }
 
 .productdetails-view .addtocart-button {
   padding-left: 25px;
   padding-right: 25px;
-  margin-left: 157px;
+  margin-left: 180px;
+  width: 175px;
 }
 
 .productview-ask-question {
@@ -2398,17 +2435,22 @@ span sup {
 .productdetails-client-info .guarantie a,
 .productdetails-client-info .payment a,
 .productdetails-client-info .delivery a {
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
   padding-top: 3px;
   box-sizing: border-box;
   height: 60px;
   line-height: 1;
   color: #777;
   background-color: #f3f3f3;
+  border: 2px solid #fdfdfd;
 }
 .productdetails-client-info .guarantie a:hover,
 .productdetails-client-info .payment a:hover,
 .productdetails-client-info .delivery a:hover {
   background-color: #f0f0f0;
+  border-color: #f0f0f0;
 }
 .productdetails-client-info .guarantie img {
   margin: 0 15px 3px 15px;
@@ -2469,7 +2511,7 @@ span sup {
 }
 
 .productdetails-prepayment-ico {
-  top: -4px;
+  top: 4px;
 }
 
 .buy-in-one-click img,
@@ -2493,6 +2535,10 @@ span sup {
 
 .buy-in-one-click-ok {
   color: green;
+}
+
+.productdetails-modelinfo {
+  margin: -20px 0 20px 0;
 }
 
 .filter-block {
@@ -3215,4 +3261,8 @@ textarea#CheckoutFizForm_comment {
 }
 .back-call-frm .button-red {
   margin: 0;
+}
+
+.page-modal {
+  max-width: 760px !important;
 }

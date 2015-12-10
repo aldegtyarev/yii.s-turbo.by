@@ -125,10 +125,6 @@ class ShopCategoriesController extends Controller
 		
 		//echo'<pre>';print_r($_GET);echo'</pre>';//die;
 		
-		// http://yii.s-turbo.by/category4630.html
-		// http://yii.s-turbo.by/admin.php?r=shopproducts/update&id=829
-		// http://yii.s-turbo.by/admin.php?r=shopproducts/update&id=694
-		
 		$selected_view = $app->request->getParam('select-view', -1);
 		
 		$type_request = (int)$app->request->getParam('type', 0);

@@ -348,3 +348,7 @@
 	@extend .mb-20;
 	@extend %font_14;
 }
+
+.page-modal {
+	max-width:760px !important;
+}

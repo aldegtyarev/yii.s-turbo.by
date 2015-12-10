@@ -13,7 +13,7 @@
 			</span>
 			<span class="cart-row cart-row-2">
 				<span class="cart-row-left">На сумму</span>
-				<span class="cart-row-right"><span id="cart-total"><?=PriceHelper::formatPrice($total_summ, 1, 3)?></span></span>
+				<span class="cart-row-right"><span id="cart-total"><?=PriceHelper::formatPrice($total_summ, 3, 3, $currency_info, true)?></span></span>
 			</span>
 		</a>		
 	</div>

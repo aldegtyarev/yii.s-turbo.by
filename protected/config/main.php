@@ -11,7 +11,7 @@ return array(
 	'sourceLanguage' => 'en',
 	'language' => 'ru',
 	'charset'=>'utf-8',
-	'homeUrl'=>'http://yii.s-turbo.by/',
+	'homeUrl'=>'http://new.s-turbo.by/',
 	
 
 	// preloading 'log' component
@@ -236,6 +236,8 @@ return array(
 		'products_list_order' => 't.`product_price`', //t.`product_id` // порядок сортировки списка товаров
 		'product_imagePath' => 'webroot.images.shop.products',
 		'product_images_liveUrl' => '/images/shop/products/',
+		'category_imagePath' => 'webroot.images.shop.categories',
+		'category_images_liveUrl' => '/images/shop/categories/',
 		'universal_products' => '1247',	// id универсальных товаров в модельном ряде
 		'count_last_viewed_in_widget' => '2',	// кол-во последних просмотренных в виджете слева
 		'count_last_viewed_in_page' => '20',	// кол-во последних просмотренных в отдельной странице

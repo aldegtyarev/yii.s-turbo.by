@@ -28,7 +28,7 @@ $this->pageTitle = $title.' | '.$app->name;
 //$clientScript = $app->clientScript;
 //$clientScript->registerCssFile('/css/shop.css', 'screen');
 //echo'<pre>';print_r(count($descendants));echo'</pre>';
-//echo'<pre>';print_r($descendants);echo'</pre>';
+//echo'<pre>';print_r($descendants[0]);echo'</pre>';
 //echo'<pre>';print_r($body_request);echo'</pre>';
 
 //$products = $products_and_pages['rows'];
@@ -38,7 +38,7 @@ $images_live_url = substr($app->params->images_live_url, 0, -1);	// на так�
 
 $params = $app->params;
 
-
+$cat_imgPath = Yii::getPathOfAlias($app->params->category_imagePath);
 ?>
 
 <div class="category-view">
@@ -50,72 +50,28 @@ $params = $app->params;
 	<?php }	?>
 	
 	<h1<?= $show_search_notice ? ' class="h1-small"' : ''; if($engineImage != null) echo ' class="engine-h1"' ?>><?=$title?></h1>
-<?php if(count($descendants) && $descendants[0]->category_image == null)	{
-			$child_col0 = array();
-			$child_col1 = array();
-			$child_col2 = array();
-			$child_col3 = array();		
 
-			foreach ( $descendants as $category ) {
-				//echo $category->cat_column.'<br />';
-				switch($category->cat_column){
-					case 0:
-						$child_col0[] = $category;
-						break;
-					case 1:
-						$child_col1[] = $category;
-						break;
-					case 2:
-						$child_col2[] = $category;
-						break;
-					case 3:
-						$child_col3[] = $category;
-						break;
-					default:
-						break;
-				}
-			}
-
-			?>
-			<div class="item-page">
-				<table class="child-categories">
-					<tr>
-						<td>
-							<ul>
-								<?php
-									foreach($child_col1 as $category){
-										$caturl = $this->createUrl('/shopcategories/show/', array('id'=>$category->id));
-										echo'<li><a href="'.$caturl.'">'.$category->name.'</a></li>';
-									}
-									foreach($child_col0 as $category){
-										$caturl = $this->createUrl('/shopcategories/show/', array('id'=>$category->id));
-										echo'<li><a href="'.$caturl.'">'.$category->name.'</a></li>';
-									}
-								?>
-							</ul>
-						</td>
-						<td>
-							<ul>
-								<?php
-									foreach($child_col2 as $category){
-										$caturl = $this->createUrl('/shopcategories/show/', array('id'=>$category->id));
-										echo'<li><a href="'.$caturl.'">'.$category->name.'</a></li>';
-									}
-								?>
-							</ul>
-						</td>
-						<td>
-							<ul>
-								<?php
-									foreach($child_col3 as $category){
-										$caturl = $this->createUrl('/shopcategories/show/', array('id'=>$category->id));
-										echo'<li><a href="'.$caturl.'">'.$category->name.'</a></li>';
-									}
-								?>
-							</ul>
-						</td>
-					</tr>
-				</table>
+<?php if(count($descendants))	{	?>
+			<div class="category-products-list child-categories products-list clearfix">
+				<?php
+					foreach($descendants as $cat)	{
+						$caturl = $this->createUrl('/shopcategories/show/', array('id'=>$cat->id));
+						
+						if($cat->foto == '') {
+							$cat_image = '/img/no_photo.png';
+						}	elseif(file_exists($cat_imgPath . DIRECTORY_SEPARATOR . 'thumb_'.$cat->foto))	{
+							$cat_image = $app->params->category_images_liveUrl . 'thumb_'.$cat->foto;
+						}	else	{
+							$cat_image = '/img/no_photo.png';
+						}
+						?>
+						<div class="product-item product-list-item fLeft">
+							<a href="<?= $caturl ?>" class="product-item-wr">
+								<div class="product-image mb-10 cat-image" style="background-image: url(<?= $cat_image ?>)"></div>
+								<span class="product-title cat-title db bold text_c font-12"><?= $cat->name ?></span>
+							</a>
+						</div>							
+				<?	}	?>
 			</div>
 
 <?
@@ -127,16 +83,16 @@ $params = $app->params;
 		
 		<ul class="categories-list claerfix">
 		
-		<?php	foreach($descendants as $category)	{
-			$caturl = $this->createUrl('/shopcategories/show/', array('id'=>$category->id));
+		<?php	foreach($descendants as $cat)	{
+			$caturl = $this->createUrl('/shopcategories/show/', array('id'=>$cat->id));
 			?>
 			<li class="category-item">
 				<div class="category-item-wr">
-					<a href="<?php echo $caturl ?>" title="<?php echo $category->name ?>">
-					<?php if ($category->category_image){
-						echo CHtml::image($images_live_url . DIRECTORY_SEPARATOR . $category->category_image).'<br />';
+					<a href="<?php echo $caturl ?>" title="<?php echo $cat->name ?>">
+					<?php if ($cat->category_image){
+						echo CHtml::image($images_live_url . DIRECTORY_SEPARATOR . $cat->category_image).'<br />';
 					} ?>
-						<span><?php echo $category->name ?></span>
+						<span><?php echo $cat->name ?></span>
 					</a>
 				</div>
 			</li>
@@ -207,6 +163,9 @@ $params = $app->params;
 
 
 <?php if($category->category_description) { ?>
-	<div class="category-description"><?=$category->category_description?></div>
+	<div class="category-description clearfix">
+		<?php //if($category->foto != '') echo CHtml::image($app->params->category_images_liveUrl . 'thumb_'.$category->foto, $category->name, array('class'=>'category-description-image'))?>
+		<?=$category->category_description?>
+	</div>
 <?php } ?>
 

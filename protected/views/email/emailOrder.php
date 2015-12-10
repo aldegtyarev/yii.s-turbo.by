@@ -4,6 +4,10 @@ $this->setSubject( $app->name . ' заказ №'.$order->id. ' принят в 
 //$this->attach( $sFilePath ); // приложим файлик
 $params = $app->params;
 
+$total_in_cart = PriceHelper::calculateTotalInCart($positions, $currency_info);
+$total_summ = $total_in_cart['summ'];
+
+
 //$total_summ = 0;
 //foreach($positions as $product)
 //	$total_summ += PriceHelper::formatPrice($product->product_price, $product->currency_id, 3, null, false, true);
@@ -94,8 +98,8 @@ $td_style = 'style="padding:10px;"';
 					</td>
 
 					<td <?=$td_style?> >
-						<? $product_price = $product->getSumPrice(); ?>
-						<p style="font-size:16px;font-weight:bold;color:#d70000;font-family:Tahoma, Verdana, sans-serif;white-space:nowrap;"><?=PriceHelper::formatPrice($product->product_price, $product->currency_id, 3, $currency_info, true)?></p>
+						<? //$product_price = $product->getSumPrice(); ?>
+						<p style="font-size:16px;font-weight:bold;color:#d70000;font-family:Tahoma, Verdana, sans-serif;white-space:nowrap;"><?= PriceHelper::formatPrice((PriceHelper::calculateSummOfPosition($product, $currency_info)), 3, 3, $currency_info, true)?></p>
 					</td>
 				</tr>
 

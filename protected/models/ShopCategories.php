@@ -20,6 +20,9 @@
  */
 class ShopCategories extends CActiveRecord
 {
+	const SCENARIO_UPLOADING_FOTO = 'uploading_foto';
+	
+	public $uploading_foto;
 
 	public $dropDownListTree;
 	public $DropDownlistData;
@@ -68,6 +71,7 @@ class ShopCategories extends CActiveRecord
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('parentId, id, root, lft, rgt, level, name, title, keywords, description, alias, ordering, category_companies, cat_column, category_description', 'safe', 'on'=>'search'),
+			array('uploading_foto', 'file', 'types'=>'GIF,JPG,JPEG,PNG', 'minSize' => 1024,'maxSize' => 1048576, 'wrongType'=>'Не формат. Только {extensions}', 'tooLarge' => 'Допустимый вес 1Мб', 'tooSmall' => 'Не формат', 'on'=>self::SCENARIO_UPLOADING_FOTO),
 		);
 	}
 
@@ -239,7 +243,92 @@ class ShopCategories extends CActiveRecord
 		}
 		
 		return true;
-	}	
+	}
+	
+	public function afterSave()
+	{
+		$app = Yii::app();
+		//если нужно - загружаем и обрабатываем фото
+		$no_watermark = $app->request->getParam('no_watermark', 0);
+		//echo'<pre>';print_r($no_watermark);echo'</pre>';die;
+		$this->uploadFoto($no_watermark);
+		parent::afterSave();
+	}
+	
+	public function removeFoto()
+	{
+		FilesHelper::removeFoto(Yii::app()->params->category_imagePath);
+		$this->foto = '';
+	}
+
+	//загрузка фото
+	public function uploadFoto($no_watermark = 0)
+	{
+		
+		if($this->uploading_foto != null)	{
+			$app = Yii::app();
+			
+			$pages_imagePath = Yii::getPathOfAlias($app->params->category_imagePath);
+
+			$file_extention = FilesHelper::getExtentionFromFileName($this->uploading_foto->name);
+			
+			$filename = md5(strtotime('now')).$file_extention;
+			
+			$file_path = $pages_imagePath . DIRECTORY_SEPARATOR . 'full_'.$filename;
+						
+			$this->uploading_foto->saveAs($file_path);
+
+			
+			$img_width_config = $app->params->category_tmb_params['width'];
+			$img_height_config = $app->params->category_tmb_params['height'];
+			
+			if($no_watermark == 0)	{
+				if($file_extention == '.jpg' || $file_extention == '.jpeg'){
+					$img = imagecreatefromjpeg($file_path);
+				} elseif($file_extention == '.png'){
+					$img = imagecreatefrompng($file_path);
+				} elseif($file_extention == '.gif') {
+					$img = imagecreatefromgif($file_path);
+				}
+
+				$water = imagecreatefrompng(Yii::getPathOfAlias('webroot.img'). DIRECTORY_SEPARATOR ."watermark.png");
+				$im = FilesHelper::create_watermark($img, $water);
+				imagejpeg($im, $file_path);
+			}
+			
+			$Image = $app->image->load($file_path);
+			
+			if(($Image->width/$Image->height) >= ($img_width_config/$img_height_config)){
+				$Image -> resize($img_width_config, $img_height_config, Image::HEIGHT);
+			}	else	{
+				$Image -> resize($img_width_config, $img_height_config, Image::WIDTH);
+			}
+			//$Image->crop($img_width_config, $img_height_config, 'top', 'center')->quality(75);
+			$Image->resize($img_width_config, $img_height_config)->quality(75);
+			//echo'<pre>';print_r($filename);echo'</pre>';//die;
+			//echo'<pre>';print_r($this->id);echo'</pre>';die;
+			$Image->save($pages_imagePath . DIRECTORY_SEPARATOR . 'thumb_'.$filename);
+			
+			//удалям большое фото. оно нам не нужно.
+			unlink($pages_imagePath . DIRECTORY_SEPARATOR . 'full_'.$filename);
+			
+			$connection = $app->db;
+			FilesHelper::setFoto($connection, $filename, $this->id, $this->tableName());
+		}
+	}
+	
+	
+	//сохранение имени файла фото для страницы
+//	public function setFoto(&$connection, $filename, $id)
+//	{
+//		$sql = "UPDATE ".$this->tableName()." SET `foto` = :foto WHERE `id` = :id";
+//		$command = $connection->createCommand($sql);
+//		$command->bindParam(":id", $id);
+//		$command->bindParam(":foto", $filename);
+//		$res = $command->execute();		
+//	}
+	
+	
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -378,7 +467,8 @@ class ShopCategories extends CActiveRecord
 		}
 	}
 	
-	function mapTree($dataset) {
+	function mapTree($dataset) 
+	{
 		$tree = array();
 		foreach ($dataset as $id=>&$node) {
 			if (!$node['parent_id']) {

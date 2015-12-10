@@ -1,3 +1,9 @@
+<?php
+
+$total_in_cart = PriceHelper::calculateTotalInCart($positions, $currency_info);
+$total_summ = $total_in_cart['summ'];
+
+?>
 <h3 class="c_d70000 pl-20">Список товаров</h3>
 
 <table class="cart-summary width100">
@@ -46,7 +52,7 @@
 
 				<td align="center">
 					<? $product_price = $product->getSumPrice(); ?>
-					<p id="cart-price-<?= $product->product_id ?>" class="cart-price"><?=PriceHelper::formatPrice($product_price, $product->currency_id, 3, $currency_info, true)?></p>
+					<p id="cart-price-<?= $product->product_id ?>" class="cart-price"><?= PriceHelper::formatPrice((PriceHelper::calculateSummOfPosition($product, $currency_info)), 3, 3, $currency_info, true)?></p>
 				</td>
 
 				<td align="center" class="remove-td">
@@ -59,8 +65,8 @@
 			<td colspan="3"></td>
 			<td class="cart-total">
 				<p class="bold mb-10">Итого</p>
-				<? $product_price = $app->shoppingCart->getCost(); ?>
-				<p id="total-cost-usd" class="cart-price"><?=PriceHelper::formatPrice($product_price, $product->currency_id, 3, $currency_info, true)?></p>				
+				<? //$product_price = $app->shoppingCart->getCost(); ?>
+				<p id="total-cost-usd" class="cart-price"><?=PriceHelper::formatPrice($total_summ, 3, 3, $currency_info, true)?></p>				
 			</td>
 			<td></td>
 		</tr>

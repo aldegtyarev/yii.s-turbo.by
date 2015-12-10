@@ -538,9 +538,9 @@ class ShopModelsAuto extends CActiveRecord
 		$command = $connection->createCommand($sql);
 		
 		$rows = $command->queryAll();
-		//echo'<pre>';print_r($rows);echo'</pre>';//die;
+		//echo'<pre>';print_r($rows);echo'</pre>';die;
 		
-		if(isset($rows[2]) && $rows[2]['level'] > 3) {
+		if(isset($rows[2]) && $rows[2]['level'] >= 3) {
 			$sql = "SELECT `name` FROM ".$this->tableName()." WHERE `id` = ".$rows[2]['parent_id'];
 			$command = $connection->createCommand($sql);
 			$parent_name = $command->queryScalar();

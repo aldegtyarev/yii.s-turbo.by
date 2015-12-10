@@ -1,6 +1,4 @@
-
-<?
-// http://yii.s-turbo.by/category/3470.html
+<?php
 
 //echo'<pre>';print_r($firms);echo'</pre>';
 

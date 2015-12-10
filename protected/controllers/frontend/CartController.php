@@ -57,12 +57,23 @@ class CartController extends Controller
 			
 			$app->shoppingCart->put($model, $quantity);
 			$total = $app->shoppingCart->getCount();
-			$summ = PriceHelper::formatPrice($app->shoppingCart->getCost(), 1, 3);
+			
+			$positions = $app->shoppingCart->getPositions();
+			//$summ = 0;
+			$currency_info = Currencies::model()->loadCurrenciesList();
+			
+			$total_in_cart = PriceHelper::calculateTotalInCart($positions, $currency_info);
+			$summ = $total_in_cart['summ'];
+			$total = $total_in_cart['qtyTotal'];
+			
+			
+			//$summ = PriceHelper::formatPrice($summ, 3, 3, $currency_info, true);
+			//echo'<pre>';print_r($summ);echo'</pre>';//die;
 			
 			$html = '';
 			$html = $this->renderPartial( 'add-to-cart', array(
 				'count_products' => $total,
-				'total_summ' => $total,
+				'total_summ' => $summ,
 				'show_cart_url' => $this->createUrl('/cart/showcart'),
 			),true);
 			
@@ -143,22 +154,36 @@ class CartController extends Controller
 			
 		foreach($positions as $product)
 			if($product->product_id == $product_id) {
-				$product_price = $product->getSumPrice();
-				$product_currency = $product->currency_id;
+				$product_summ = PriceHelper::calculateSummOfPosition($product, $currency_info);
 				break;
 			}
 		
-		$data = array(
-			'app' => $app,
-			'positions' => $positions,
-			'params' => $params,
-		);
+//		$data = array(
+//			'app' => $app,
+//			'positions' => $positions,
+//			'params' => $params,
+//		);
 		
-		$total_cost = $app->shoppingCart->getCost();
+		//$total_cost = $app->shoppingCart->getCost();
+		
+		$currency_info = Currencies::model()->loadCurrenciesList();
+
+		$total_in_cart = PriceHelper::calculateTotalInCart($positions, $currency_info);
+		
+		$total_cost = $total_in_cart['summ'];
+		$total = $total_in_cart['qtyTotal'];
+
+		$html = $this->renderPartial( 'add-to-cart', array(
+			'count_products' => $total,
+			'total_summ' => $total_cost,
+			'show_cart_url' => $this->createUrl('/cart/showcart'),
+		),true);
+		
 		$data = array(
-			'cost_usd' => PriceHelper::formatPrice($total_cost, 1),
-			'cost_byr' => PriceHelper::formatPrice($total_cost, 1, 3),
-			'product_summ' => PriceHelper::formatPrice($product_price, $product_currency, 3),
+			'cost_usd' => PriceHelper::formatPrice($total_cost, 3, 1, $currency_info),
+			'cost_byr' => PriceHelper::formatPrice($total_cost, 3, 3, $currency_info, true),
+			'product_summ' => PriceHelper::formatPrice($product_summ, 3, 3, $currency_info, true),
+			'html' => $html,
 		);
 		//$this->renderPartial('_cart-list', $data);
 		echo json_encode($data);
@@ -260,8 +285,10 @@ class CartController extends Controller
 			if($model->validate()) {
 				$app = Yii::app();
 				$positions = $app->shoppingCart->getPositions();
+				$currency_info = Currencies::model()->loadCurrenciesList();
 				
-				$total = $this->calculateTotalSumm($positions);
+				$total = $this->calculateTotalSumm($positions, $currency_info);
+				//echo'<pre>';print_r($total);echo'</pre>';die;
 				
 				$customer = array('type' => Orders::CUSTOMER_TYPE_FIZ);
 				
@@ -269,7 +296,7 @@ class CartController extends Controller
 				
 				$order = $this->addOrder($positions, $total, $customer);
 				//echo'<pre>';print_r($order);echo'</pre>';die;
-				$currency_info = Currencies::model()->loadCurrenciesList();
+				
 				
 				$data = array(
 					'positions' => $positions,
@@ -321,8 +348,10 @@ class CartController extends Controller
 			if($model->validate()) {
 				$app = Yii::app();
 				$positions = $app->shoppingCart->getPositions();
+				$currency_info = Currencies::model()->loadCurrenciesList();
 				
-				$total = $this->calculateTotalSumm($positions);
+				$total = $this->calculateTotalSumm($positions, $currency_info);
+				//echo'<pre>';print_r($total);echo'</pre>';die;				
 				
 				$customer = array('type' => Orders::CUSTOMER_TYPE_UR);
 				
@@ -337,8 +366,6 @@ class CartController extends Controller
 				}
 				
 				$order = $this->addOrder($positions, $total, $customer);
-				
-				$currency_info = Currencies::model()->loadCurrenciesList();
 				
 				$data = array(
 					'positions' => $positions,
@@ -372,7 +399,7 @@ class CartController extends Controller
 	 * считает полную сумму заказа в usd, byr
 	 * @return array
 	 */
-	public function calculateTotalSumm($positions)
+	public function calculateTotalSumm($positions, $currency_info)
 	{
 		$currency_info = Currencies::model()->loadCurrenciesList();
 
@@ -380,8 +407,8 @@ class CartController extends Controller
 		$summ_byr = 0;
 
 		foreach($positions as $product) {
-			$summ_usd += PriceHelper::formatPrice(($product->product_price * $product->getQuantity()), $product->currency_id, 1, $currency_info, false, true);
-			$summ_byr += PriceHelper::formatPrice(($product->product_price * $product->getQuantity()), $product->currency_id, 3, $currency_info, false, true);
+			$summ_usd += PriceHelper::calculateSummOfPosition($product, $currency_info, 1);
+			$summ_byr += PriceHelper::calculateSummOfPosition($product, $currency_info, 3);
 		}
 		
 		return array(
@@ -402,7 +429,27 @@ class CartController extends Controller
 		$order->summ_usd = $total['usd'];
 		$order->summ_byr = $total['byr'];
 		$order->customer = json_encode($customer);
-		$order->save();
+		//$order->customer = '';
+		
+		if($order->validate()) {
+			$order->save();
+		}	else	{
+			$errors = $order->getErrors();
+			$webroot = Yii::getPathOfAlias('webroot');
+			
+			$fp = fopen($webroot . "/order-err.log", "a"); // Открываем файл в режиме записи 
+			$mytext = date('d-m-Y H:i:s')."\r\n"; // Исходная строка
+			
+			foreach($errors as $err)
+				$mytext .= $err[0] ."\r\n";
+			
+			$mytext .= "\r\n";
+			
+			$test = fwrite($fp, iconv('UTF-8', 'windows-1251', $mytext)); // Запись в файл
+			
+			fclose($fp); //Закрытие файла
+		}
+		
 
 		foreach($positions as $product) {
 			$order_product = new OrdersProducts();

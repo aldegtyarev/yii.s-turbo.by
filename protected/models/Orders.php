@@ -35,7 +35,7 @@ class Orders extends CActiveRecord
 			array('created, summ_usd, summ_byr, customer', 'required'),
 			array('created', 'numerical', 'integerOnly'=>true),
 			array('summ_usd, summ_byr', 'length', 'max'=>10),
-			array('customer', 'length', 'max'=>2048),
+			array('customer', 'length', 'max'=>10000),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, created, summ, customer', 'safe', 'on'=>'search'),

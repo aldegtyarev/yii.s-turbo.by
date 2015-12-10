@@ -243,6 +243,7 @@ $(document).ready(function () {
 				cart_form.serialize(),
 				function (data) {
 					$('#cart-price-' + product_id).html(data.product_summ);
+					cartBlock.html(data.html);
 					$('#total-cost-usd').html(data.cost_byr);
 					//$('#total-cost-byr').html(data.cost_byr);
 				},
@@ -265,6 +266,7 @@ $(document).ready(function () {
             cart_form.serialize(),
             function (data) {
 				$('#cart-price-' + product_id).html(data.product_summ);
+				cartBlock.html(data.html);
 				$('#total-cost-usd').html(data.cost_byr);
 				//$('#total-cost-byr').html(data.cost_byr);
             },

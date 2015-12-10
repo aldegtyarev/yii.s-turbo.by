@@ -131,3 +131,8 @@
 		background-size: contain;
 	}
 }
+
+.category-description-image {
+	@extend %fl;
+	margin: 0 10px 0 0;
+}

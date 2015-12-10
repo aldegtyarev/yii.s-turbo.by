@@ -330,3 +330,18 @@
 	
 	height: 100px;
 }
+
+.child-categories {
+	.product-item {
+		height: auto;
+	}
+	
+	.cat-image {
+		background-size: cover;
+	}
+	
+	.cat-title {
+		@extend .mb-10;
+		height: auto;
+	}
+}

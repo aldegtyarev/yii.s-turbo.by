@@ -70,6 +70,7 @@ class ShopCategoriesController extends Controller
 					'updateshowinmenu',
 					'moveup',
 					'movedown',
+					'removefoto',
 				),
 				'users'=>array('superman'),
 			),
@@ -164,11 +165,23 @@ class ShopCategoriesController extends Controller
 
 		if(isset($_POST['ShopCategories']))
 		{
+			if($_FILES['ShopCategories']["name"]["uploading_foto"]) {				
+				$model->scenario = Pages::SCENARIO_UPLOADING_FOTO;
+				$model->removeFoto();
+				$model->uploading_foto = CUploadedFile::getInstance($model,'uploading_foto');
+			}			
+			
 			$model->attributes=$_POST['ShopCategories'];
 			$model->new_parentId = $_POST['ShopCategories']['parentId'];
 			$model->parent_id = $_POST['ShopCategories']['parentId'];
-			if($model->save())
-				$this->redirect(array('admin'));
+			if($model->save()) {
+				if(isset($_POST['save']))	{
+					$this->redirect(array('admin'));
+				}	else	{
+					$this->redirect(array('update','id'=>$model->id));
+				}
+			}
+				
 		}
 
 		$this->render('update',array(
@@ -190,6 +203,15 @@ class ShopCategoriesController extends Controller
 		if(!isset($_GET['ajax']))
 			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
 	}
+	
+	public function actionRemovefoto($id)
+	{
+		$model = $this->loadModel($id);
+		$model->removeFoto();
+		$model->save();
+		$this->redirect(array('update','id'=>$model->id));
+	}
+	
 
 	/**
 	 * Lists all models.

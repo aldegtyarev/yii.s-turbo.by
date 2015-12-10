@@ -14,6 +14,10 @@
 	// There is a call to performAjaxValidation() commented in generated controller code.
 	// See class documentation of CActiveForm for details on this.
 	'enableAjaxValidation'=>false,
+	'htmlOptions' =>	array(
+		'enctype'=>'multipart/form-data',
+	),
+	 
 )); ?>
 
 	<p class="note">Поля, отмеченные <span class="required">*</span>, обязательны для заполнения.</p>
@@ -56,6 +60,17 @@
 					<?php echo $form->error($model,'currency_id'); ?>					
 				</div>
 			</div>
+			
+			<?php if($model->foto != '')	{	?>
+				<img src="<?= Yii::app()->params->category_images_liveUrl . 'thumb_'.$model->foto ?>" alt="">
+				<p><a href="<?= $this->createUrl('removefoto', array('id'=>$model->id))?>">Удалить фото</a></p>
+			<?php	}	?>
+			<fieldset>
+				<legend>Добавить фото</legend>
+				<input type="checkbox" value="1" name="no_watermark" id="no_watermark" /> <label for="no_watermark">Без водяного знака</label>
+				<?php echo BsHtml::activeFileField($model, 'uploading_foto'); ?>			
+			</fieldset>
+			
 			
 <?
 /*
@@ -104,7 +119,8 @@
 	</div>
 	
 	<div class="row buttons">
-		<?php echo BsHtml::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить', array('color' => BsHtml::BUTTON_COLOR_SUCCESS)); ?>
+		<?php echo BsHtml::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить', array('color' => BsHtml::BUTTON_COLOR_PRIMARY, 'name'=>'save')); ?>
+		<?php echo BsHtml::submitButton('Применить', array('color' => BsHtml::BUTTON_COLOR_SUCCESS, 'name'=>'apply')); ?>
 	</div>
 	
 

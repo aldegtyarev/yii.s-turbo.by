@@ -96,12 +96,38 @@ class ShopProductsController extends Controller
 		
 		$currency_info = Currencies::model()->loadCurrenciesList();
 		
+		if(isset($app->session['autofilter.modelinfo']))	{
+			$modelinfo = json_decode($app->session['autofilter.modelinfo'], 1);
+		}	else	{
+
+			$select_marka = $url_params['marka'] ? $url_params['marka'] : -1;
+			$select_model = $url_params['model'] ? $url_params['model'] : -1;
+			$select_year = $url_params['year'] ? $url_params['year'] : -1;
+
+			if($select_marka != -1 && $select_model != -1 && $select_year != -1)
+				$modelinfo = ShopModelsAuto::model()->getModelInfo($connection, $select_marka, $select_model, $select_year);
+					else $modelinfo = array();
+		}
+		
+		$modelinfoTxt = '';
+		
+		//echo'<pre>';print_r($app->session['autofilter.modelinfo']);echo'</pre>';
+		//echo'<pre>';print_r($modelinfo);echo'</pre>';
+		
+		if(count($modelinfo)) {
+			$modelinfoTxt .= ' для';
+			foreach($modelinfo as $i) $modelinfoTxt .= ' ' . $i['name'];
+		}
+		
+		
+		
 		$this->render('view',array(
 			'model'=>$model,
 			'rows'=>$related_rows,
 			'RelatedDataProvider'=>$RelatedDataProvider,
 			'breadcrumbs' => $breadcrumbs,
 			'currency_info' => $currency_info,
+			'modelinfoTxt' => $modelinfoTxt,
 		));
 		
 	}

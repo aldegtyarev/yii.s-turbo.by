@@ -8,6 +8,7 @@ class CheckoutFizForm extends CFormModel
 	public $town;
 	public $address1;
 	public $address2;
+	public $address3;
 	public $phone1;
 	public $phone2;
 	public $email;
@@ -18,7 +19,7 @@ class CheckoutFizForm extends CFormModel
 	{
 		return array(
 			array('fio, town, address1, address2, phone1', 'required', 'message'=>'Укажите "{attribute}"'),
-			array('fio, town, address1, address2, phone1, phone2', 'length', 'max'=>255),
+			array('fio, town, address1, address2, address3, phone1, phone2', 'length', 'max'=>255),
 			array('email', 'email'),
 			array('comment', 'length', 'max'=>1024),
 
@@ -34,7 +35,8 @@ class CheckoutFizForm extends CFormModel
 			'fio'=>'Фамилия, Имя',
 			'town'=>'Город / населенный пункт',
 			'address1'=>'Улица',
-			'address2'=>'Дом / квартира',
+			'address2'=>'Дом',
+			'address3'=>'Квартира',
 			'phone1'=>'Моб. телефон',
 			'phone2'=>'Доп. телефон',
 			'email'=>'E-mail',

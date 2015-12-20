@@ -63,12 +63,12 @@
 	</div>
 	
 	<div id="doverennost_text_cnt" class="row na_osnovanii_textbox" <?php if($model->na_osnovanii != 2) echo 'style="display:none;"' ?> >
-		<?php echo $form->textArea($model,'doverennost_text', array('rows'=>1, 'cols'=>35, 'placeholder'=>$model->getAttributeLabel('doverennost_text'), 'class'=>'inputbox')); ?>
+		<?php echo $form->textArea($model,'doverennost_text', array('rows'=>1, 'cols'=>45, 'placeholder'=>$model->getAttributeLabel('doverennost_text'), 'class'=>'inputbox')); ?>
 		<?php echo $form->error($model,'doverennost_text'); ?>
 	</div>
 	
 	<div id="svidetelstvo_text_cnt" class="row na_osnovanii_textbox" <?php if($model->na_osnovanii != 3) echo 'style="display:none;"' ?> >
-		<?php echo $form->textArea($model,'svidetelstvo_text', array('rows'=>1, 'cols'=>35, 'placeholder'=>$model->getAttributeLabel('svidetelstvo_text'), 'class'=>'inputbox')); ?>
+		<?php echo $form->textArea($model,'svidetelstvo_text', array('rows'=>1, 'cols'=>45, 'placeholder'=>$model->getAttributeLabel('svidetelstvo_text'), 'class'=>'inputbox')); ?>
 		<?php echo $form->error($model,'svidetelstvo_text'); ?>
 	</div>
 	
@@ -78,12 +78,8 @@
 		<?php echo $form->error($model,'phone1_ur'); ?>
 	</div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'phone2_ur', array('class'=>'bold nowrap')); ?>
-		<?php echo $form->textField($model,'phone2_ur',array('size'=>24,'maxlength'=>255, 'class'=>'inputbox')); ?>
-		<?php echo $form->error($model,'phone2_ur'); ?>
-	</div>
-	<br>	
+	<br>
+	
 	<h3>Контактное лицо</h3>
 	
 	<div class="row">
@@ -100,7 +96,7 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'phone2', array('class'=>'bold nowrap')); ?>
-		<?php echo $form->textField($model,'phone2',array('size'=>24,'maxlength'=>255, 'class'=>'inputbox')); ?>
+		<?php echo $form->textField($model,'phone2',array('size'=>24,'maxlength'=>255, 'class'=>'inputbox phone-input')); ?>
 		<?php echo $form->error($model,'phone2'); ?>
 	</div>
 	

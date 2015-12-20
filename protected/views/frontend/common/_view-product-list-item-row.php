@@ -8,7 +8,7 @@
 				}
 								 
 			?>
-			<div id="product-image-cnt-<?= $data->product_id ?>" class="product-list-item-row-image-block fLeft">
+			<div id="product-image-cnt-<?= $data->product_id ?>" class="product-list-item-row-image-block">
 				<div id="product-image-<?= $data->product_id ?>" class="product-image<?php if($data->featured == 1) echo ' product-image-featured' ?>" style="background-image: url(<?=$data->product_image ?>)"></div>
 				<?php/* 
 					if(count($data->AdditionalImages))	{
@@ -27,7 +27,7 @@
 					}*/
 				?>
 				
-				<div class="popup-prod-img hidden">
+				<div class="popup-prod-img">
 					<?php 
 						$full_image_url = str_replace('thumb_', 'full_', $data->product_image);
 						echo CHtml::image('#', '', array('data-fullsrc'=>$full_image_url, 'class'=>'popup-full-img db'));
@@ -59,7 +59,7 @@
 				</div>
 				
 			</div>
-			<div class="product-list-item-row-info-block fLeft">
+			<div class="product-list-item-row-info-block">
 				<a href="<?=$data->product_url?>" class="product-title  db bold text_c font-12 mt-15"><?=$data->product_name?></a>
 
 				<ul class="prod-list-char-list prod-list-char-list-p1">
@@ -104,9 +104,9 @@
 					
 				</ul>
 			</div>
-			<div class="product-list-item-row-price-block fLeft pl-20 text_c mt-5">
-				<p class="c_d70000 bold font-16 text_c nowrap"><?=PriceHelper::formatPrice($data->product_price, $data->currency_id, 3, $currency_info, true)?></p>
-				<p class="c_000 bold font-12 mt-10 text_c"><?=PriceHelper::formatPrice($data->product_price, $data->currency_id, 0, $currency_info)?></p>
+			<div class="product-list-item-row-price-block">
+				<p class="product-list-item-row-price-byr"><?=PriceHelper::formatPrice($data->product_price, $data->currency_id, 3, $currency_info, true)?></p>
+				<p class="product-list-item-row-price-usd"><?=PriceHelper::formatPrice($data->product_price, $data->currency_id, 0, $currency_info)?></p>
 				
 				<? if($data->product_availability > 0)	{	?>
 					<?
@@ -126,7 +126,7 @@
 					echo CHtml::beginForm($this->createUrl('/cart/addtocart'));
 					echo Chtml::hiddenField('quantity', '1', array('class'=>'quantity', 'id'=>false));
 					echo Chtml::hiddenField('product_id', $data->product_id, array('class'=>'product_id', 'id'=>false));
-					echo CHtml::submitButton('В корзину', array('name'=>'addtocart','class'=>'addtocart addtocart-button prod-list-addtocart-button add button-green mt-5 pointer','title'=>'Добавить этот товар в корзину'));
+					echo CHtml::submitButton('В корзину', array('name'=>'addtocart','class'=>'addtocart addtocart-button prod-list-addtocart-button add button-green','title'=>'Добавить этот товар в корзину'));
 					
 				?>
 					<p class="to-cart-process pt-5 hidden">
@@ -135,7 +135,7 @@
 					<p class="cart-msg hidden font-10"></p>
 				<?php echo CHtml::endForm(); ?>
 				
-				<a href="<?=$data->product_url?>" class="button-red product-detail mt-10 mb-5">Подробнее</a>				
+				<a href="<?=$data->product_url?>" class="button-red product-detail">Подробнее</a>				
 				
 			</div>
 			

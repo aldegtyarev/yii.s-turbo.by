@@ -190,9 +190,9 @@ $model_images = $model->Images;
 			<div class="productdetails-client-info">
 				<p class="title">Информация для клиента</p>
 				<div class="productdetails-client-info-wr clearfix">
-					<p class="delivery"><a href="<?= $this->createUrl('pages/delivery')?>" class="modal-url fancybox1 fancybox.ajax" title="Доставка по всей Беларуси"><img src="/img/dostavka.png" alt="Доставка"><br>Доставка</a></p>
-					<p class="payment"><a href="<?= $this->createUrl('pages/payment')?>" class="advantages-item-detail modal-url fancybox1 fancybox.ajax" title="Удобная оплата"><img src="/img/oplata.png" alt="Оплата"><br>Оплата</a></p>
-					<p class="guarantie"><a href="<?= $this->createUrl('pages/guarantee')?>" class="advantages-item-detail modal-url fancybox1 fancybox.ajax" title="Гарантия и возврат"><img src="/img/garanties.png" alt="Гарантия"><br>Гарантия / возврат</a></p>
+					<p class="delivery"><a href="<?= $this->createUrl('pages/delivery')?>" class="modal-url fancybox1 fancybox.ajax" title="Доставка по всей Беларуси"><img src="/img/advantages-2.png" alt="Доставка"><br>Доставка</a></p>
+					<p class="payment"><a href="<?= $this->createUrl('pages/payment')?>" class="advantages-item-detail modal-url fancybox1 fancybox.ajax" title="Удобная оплата"><img src="/img/advantages-3.png" alt="Оплата"><br>Оплата</a></p>
+					<p class="guarantie"><a href="<?= $this->createUrl('pages/guarantee')?>" class="advantages-item-detail modal-url fancybox1 fancybox.ajax" title="Гарантия и возврат"><img src="/img/advantages-4.png" alt="Гарантия"><br>Гарантия / возврат</a></p>
 				</div>
 			</div>
 		</div>		

@@ -66,7 +66,7 @@ $total_summ = $total_in_cart['summ'];
 			<td class="cart-total">
 				<p class="bold mb-10">Итого</p>
 				<? //$product_price = $app->shoppingCart->getCost(); ?>
-				<p id="total-cost-usd" class="cart-price"><?=PriceHelper::formatPrice($total_summ, 3, 3, $currency_info, true)?></p>				
+				<p id="total-cost-byr" class="cart-price"><?=PriceHelper::formatPrice($total_summ, 3, 3, $currency_info, true)?></p>				
 			</td>
 			<td></td>
 		</tr>

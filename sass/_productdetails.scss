@@ -263,11 +263,11 @@
 			
 			padding-top: 3px;
 			box-sizing: border-box;
-			height: 60px;
+			height: 77px;
 			line-height: 1;
 			color: #777;
 
-			background-color: #f3f3f3;
+			background-color: #fbfbfb;
 			border: 2px solid #fdfdfd;
 			
 			&:hover {
@@ -280,15 +280,21 @@
 		
 	}
 	
+	.payment img,
 	.guarantie img {
-		margin: 0 15px 3px 15px;
+		height: 50px;
+	}
+	.guarantie img {
+		margin: 0;
 	}
 	
 	.payment img {
-		margin: 0 10px;
+//		margin: 0 10px;
 	}
 	.delivery img {
-		margin: 5px 0 5px 0;
+		height: 55px;
+		margin-top: -5px;
+//		margin: 5px 0 5px 0; 
 	}
 	
 //	.payment {

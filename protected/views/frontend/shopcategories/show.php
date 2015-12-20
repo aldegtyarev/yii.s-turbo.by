@@ -54,7 +54,13 @@ $cat_imgPath = Yii::getPathOfAlias($app->params->category_imagePath);
 <?php if(count($descendants))	{	?>
 			<div class="category-products-list child-categories products-list clearfix">
 				<?php
+					$i = 1;
 					foreach($descendants as $cat)	{
+						if(($i-1)%4 == 0) $clr = ' clear';
+							else $clr = '';
+
+						$i++;
+						
 						$caturl = $this->createUrl('/shopcategories/show/', array('id'=>$cat->id));
 						
 						if($cat->foto == '') {
@@ -65,12 +71,12 @@ $cat_imgPath = Yii::getPathOfAlias($app->params->category_imagePath);
 							$cat_image = '/img/no_photo.png';
 						}
 						?>
-						<div class="product-item product-list-item fLeft">
+						<div class="product-item product-list-item fLeft<?= $clr ?>">
 							<a href="<?= $caturl ?>" class="product-item-wr">
 								<div class="product-image mb-10 cat-image" style="background-image: url(<?= $cat_image ?>)"></div>
 								<span class="product-title cat-title db bold text_c font-12"><?= $cat->name ?></span>
 							</a>
-						</div>							
+						</div>
 				<?	}	?>
 			</div>
 

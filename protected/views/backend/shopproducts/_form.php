@@ -107,6 +107,13 @@ $style = '';
 				<?php echo $form->error($model,'product_name'); ?>
 			</div>
 			
+			<div class="row">
+				<?php echo $form->labelEx($model,'cargo_type'); ?>
+				<?php echo $form->dropDownList($model, 'cargo_type', Delivery::model()->cargoTypesList, array('options' => $model->cargo_type, 'empty'=>'Выберите'));?>
+				<?php echo $form->error($model,'cargo_type'); ?>
+			</div>
+			
+			
             <div class="row">
 				<div class="col-lg-6">
 					<div class="chosen-row">
@@ -173,6 +180,8 @@ $style = '';
 				<?php echo $form->checkBoxControlGroup($model, 'protect_copy'); ?>
 				<?php echo $form->error($model,'protect_copy'); ?>
 			</div>
+					
+					
 						
 			<?/*
 			<div class="row">

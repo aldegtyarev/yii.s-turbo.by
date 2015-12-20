@@ -89,7 +89,7 @@
 	
 	.cat-4641  > a {
 		background: url('../img/accesories.png') no-repeat 5px 0;
-		padding-left: 40px; 
+		padding-left: 35px; 
 		padding-bottom: 15px; 
 		//font-family: Cambria, Tahoma;
 	}
@@ -128,6 +128,12 @@
 		@extend %bold;
 		@extend %for_sprite;
 		@extend %pos_rel;
+		
+		cursor: default;
+		
+		&:hover {
+			@extend %c_242424;
+		}
 		
 /* 		&:before {
 			right: 10px;

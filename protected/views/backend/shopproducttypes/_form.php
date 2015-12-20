@@ -20,19 +20,34 @@
 	<?php echo $form->errorSummary($model); ?>
 	
 	<div class="row">
-		<?php echo $form->labelEx($model,'dropDownListTree'); ?>
-		<?php echo $form->dropDownList($model, 'parentId', $model->DropDownlistData); ?>
-		<?php echo $form->error($model,'dropDownListTree'); ?>		
+		<div class="col-lg-12">
+			<?php echo $form->labelEx($model,'dropDownListTree'); ?>
+			<?php echo $form->dropDownList($model, 'parentId', $model->DropDownlistData); ?>
+			<?php echo $form->error($model,'dropDownListTree'); ?>		
+		</div>
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'name'); ?>
-		<?php echo $form->textField($model,'name',array('size'=>60,'maxlength'=>255)); ?>
-		<?php echo $form->error($model,'name'); ?>
+		<div class="col-lg-12">
+			<?php echo $form->labelEx($model,'name'); ?>
+			<?php echo $form->textField($model,'name',array('size'=>60,'maxlength'=>255)); ?>
+			<?php echo $form->error($model,'name'); ?>
+		</div>
 	</div>
+	
+	<div class="row">
+		<div class="col-lg-12">
+			<?php echo $form->labelEx($model,'cargo_type'); ?>
+			<?php echo $form->dropDownList($model, 'cargo_type', Delivery::model()->cargoTypesList, array('options' => $model->cargo_type, 'empty'=>'Выберите'));?>
+			<?php echo $form->error($model,'cargo_type'); ?>
+		</div>
+	</div>
+	
 
 	<div class="row buttons">
-		<?php echo BsHtml::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить', array('color' => BsHtml::BUTTON_COLOR_SUCCESS)); ?>
+		<div class="col-lg-12">
+			<?php echo BsHtml::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить', array('color' => BsHtml::BUTTON_COLOR_SUCCESS)); ?>
+		</div>
 	</div>
 
 <?php $this->endWidget(); ?>

@@ -31,6 +31,7 @@ class ShopCategories extends CActiveRecord
 	public $category_image;
 	
 	public $SelectedCategory;
+	public $cargo_type;
 	
 	
 	/**
@@ -64,7 +65,7 @@ class ShopCategories extends CActiveRecord
 		return array(
 			//array('root, lft, rgt, level, name, title, keywords, description, alias, ordering, category_companies, cat_column', 'required'),
 			array('name', 'required'),
-			array('root, lft, rgt, level, ordering, cat_column, currency_id', 'numerical', 'integerOnly'=>true),
+			array('root, lft, rgt, level, ordering, cat_column, currency_id, cargo_type', 'numerical', 'integerOnly'=>true),
 			array('name, name1, title, alias, category_companies', 'length', 'max'=>255),
 			array('category_description, keywords, description', 'length', 'max'=>7000),
 			array('alias','ext.LocoTranslitFilter','translitAttribute'=>'name'), 
@@ -110,6 +111,7 @@ class ShopCategories extends CActiveRecord
 			'dropDownListTree' => 'Родительская категория',
 			'category_description' => 'Описание категории',
 			'currency_id' => 'Валюта по умолчанию',
+			'cargo_type' => 'Тип груза',
 		);
 	}
 
@@ -437,32 +439,17 @@ class ShopCategories extends CActiveRecord
 				$select_marka = isset($app->session['autofilter.marka']) ? $app->session['autofilter.marka'] : -1;
 				$select_model = isset($app->session['autofilter.model']) ? $app->session['autofilter.model'] : -1;
 				$select_year = isset($app->session['autofilter.year']) ? $app->session['autofilter.year'] : -1;
-				
 
 				if($add_category) {
-//					$url_params = array(
-//						'/shopcategories/show/',
-//						'id'=>$category->id,						
-//					);
-					
-//					if($select_marka > -1) $url_params['marka'] = $select_marka;
-//					if($select_model > -1) $url_params['model'] = $select_model;
-//					if($select_year > -1) $url_params['year'] = $select_year;
-					
 					$url_params = UrlHelper::buildUrlParams($selected_auto, $category->id);
-					//echo'<pre>';print_r($url_params);echo'</pre>';
-					
 					$cat_arr[$category->id]['label'] = CHtml::encode($category->name);
 					$cat_arr[$category->id]['parent_id'] = CHtml::encode($category->parent_id);
-					//$cat_arr[$category->id]['url'] = array('/shopcategories/show/', 'id'=>$category->id);
 					$cat_arr[$category->id]['url'] = $url_params;
 					$cat_arr[$category->id]['active'] = $active;
 					$cat_arr[$category->id]['itemOptions'] = array('class'=>'cat-'.$category->id);
 				}
 			}
-			//echo'<pre>';print_r($cat_arr);echo'</pre>';
 			$cat_arr = $this->mapTree($cat_arr);
-			
 			return isset($cat_arr[1]['items']) ? $cat_arr[1]['items'] : array();
 		}
 	}
@@ -607,6 +594,29 @@ class ShopCategories extends CActiveRecord
 		$command->bindParam(":id", $id);
 		//$rows = $command->queryAll();
 		return $command->queryScalar();
+	}	
+	
+	public function updateCargoType()
+	{
+		$app = Yii::app();
+		$connection = $app->db;
+		
+		$descendants = $this->children()->findAll();
+		$categories = array($this->id);
+		
+		foreach($descendants as $descendant) $categories[] = $descendant->id;
+		
+		$product_ids = ShopProductsCategories::model()->getProductIdsInCategories((implode(',', $categories)));
+		
+		$res = false;
+		
+		if($product_ids != '-1')	{
+			$sql = 'UPDATE {{shop_products}} SET `cargo_type` = '.$this->cargo_type. ' WHERE `product_id` IN ('.$product_ids.')' ;
+			$command = $connection->createCommand($sql);
+			$res = $command->execute();
+		}
+		
+		return $res;
 	}	
 	
 }

@@ -34,16 +34,6 @@ class CartController extends Controller
 			
 			if($model->isUniversalProduct()) $model->cart_model_info = 'УНИВЕРСАЛЬНЫЕ ТОВАРЫ';
 			
-			//echo'<pre>';print_r($app->session);echo'</pre>';//die;
-			//echo'<pre>';var_dump($model->ProductsModelsAutos);echo'</pre>';//die;
-//			foreach($model->ProductsModelsAutos as $cat) {
-//				if($cat->model_id == (int) $app->params['universal_products']) {
-//					//$model->cart_model_info = $cat->model->name;
-//					$model->cart_model_info = 'Universal';
-//					//break;
-//				}
-//			}
-//			//echo'$model->cart_model_info = <pre>';var_dump($model->cart_model_info);echo'</pre>';
 			if($model->cart_model_info == '') {
 				$modelinfo = json_decode($app->session['autofilter.modelinfo_cart'], 1);
 				//echo'$modelinfo<pre>';print_r($modelinfo);echo'</pre>';die;
@@ -53,13 +43,10 @@ class CartController extends Controller
 				
 			}
 			
-			//echo'<pre>';print_r($model->cart_model_info);echo'</pre>';//die;
-			
 			$app->shoppingCart->put($model, $quantity);
 			$total = $app->shoppingCart->getCount();
 			
 			$positions = $app->shoppingCart->getPositions();
-			//$summ = 0;
 			$currency_info = Currencies::model()->loadCurrenciesList();
 			
 			$total_in_cart = PriceHelper::calculateTotalInCart($positions, $currency_info);
@@ -97,6 +84,8 @@ class CartController extends Controller
 		$app = Yii::app();
 		$positions = $app->shoppingCart->getPositions();
 		
+		//echo'<pre>';print_r($_POST);echo'</pre>';die;
+		
 		$params = $app->params;
 		
 		$modelFiz = new CheckoutFizForm;
@@ -106,7 +95,10 @@ class CartController extends Controller
 		
 		$currency_info = Currencies::model()->loadCurrenciesList();
 		
-		//echo'<pre>';print_r($modelFiz);echo'</pre>';die;
+		$delivery_list = Delivery::model()->loadCalculatedDeliveryList($positions, $currency_info);
+		
+		$payment_list = Payment::model()->loadPaymentList();
+		
 		if(isset($_POST['checkoutType'])) {
 			switch($checkoutType) {
 				case 'checkout-fiz':
@@ -116,9 +108,15 @@ class CartController extends Controller
 				case 'checkout-ur':
 					$this->checkoutUr($_POST, $modelUr);
 					break;
-					
 			}
 		}
+		
+		$delivery_id = $app->request->getParam('delivery_id', 0);
+		$delivery_quick = $app->request->getParam('deliveryQuick', 0);
+		
+		//print_r($delivery_quick);die;
+		
+		$payment_id = $app->request->getParam('payment_id', 0);
 		
 		$data = array(
 			'app' => $app,
@@ -128,6 +126,12 @@ class CartController extends Controller
 			'modelUr' => $modelUr,
 			'checkoutType' => $checkoutType,
 			'currency_info' => $currency_info,
+			'delivery_list' => $delivery_list,
+			'delivery_id' => $delivery_id,
+			'delivery_quick' => $delivery_quick,
+			'payment_list' => $payment_list,
+			'payment_id' => $payment_id,
+			
 		);
 		
 		$this->render('showcart', $data);
@@ -151,27 +155,19 @@ class CartController extends Controller
 		
 		$product_price = 0;
 		$product_currency = 1;
+		
+		$currency_info = Currencies::model()->loadCurrenciesList();		
 			
 		foreach($positions as $product)
 			if($product->product_id == $product_id) {
 				$product_summ = PriceHelper::calculateSummOfPosition($product, $currency_info);
 				break;
 			}
-		
-//		$data = array(
-//			'app' => $app,
-//			'positions' => $positions,
-//			'params' => $params,
-//		);
-		
-		//$total_cost = $app->shoppingCart->getCost();
-		
-		$currency_info = Currencies::model()->loadCurrenciesList();
 
 		$total_in_cart = PriceHelper::calculateTotalInCart($positions, $currency_info);
 		
 		$total_cost = $total_in_cart['summ'];
-		$total = $total_in_cart['qtyTotal'];
+		$total = $app->shoppingCart->getCount();
 
 		$html = $this->renderPartial( 'add-to-cart', array(
 			'count_products' => $total,
@@ -179,11 +175,84 @@ class CartController extends Controller
 			'show_cart_url' => $this->createUrl('/cart/showcart'),
 		),true);
 		
+		$payment_list = Payment::model()->loadPaymentList();
+		
+		$htmlPayment = $this->renderPartial( '_payment-list', array(
+			'rows' => $payment_list,
+			'delivery_id' => 0,
+		),true);
+		
+		
+		$delivery_list = Delivery::model()->loadCalculatedDeliveryList($positions, $currency_info);
+		
+		$htmlDelivery = $this->renderPartial( '_delivery-list', array(
+			'rows' => $delivery_list,
+			'currency_info' => $currency_info,
+		),true);
+		
 		$data = array(
-			'cost_usd' => PriceHelper::formatPrice($total_cost, 3, 1, $currency_info),
+			//'cost_usd' => PriceHelper::formatPrice($total_cost, 3, 1, $currency_info),
 			'cost_byr' => PriceHelper::formatPrice($total_cost, 3, 3, $currency_info, true),
 			'product_summ' => PriceHelper::formatPrice($product_summ, 3, 3, $currency_info, true),
 			'html' => $html,
+			'delivery' => $htmlDelivery,
+			'payment' => $htmlPayment,
+		);
+		//$this->renderPartial('_cart-list', $data);
+		echo json_encode($data);
+		$app->end();
+	}
+	
+	
+	public function actionSetcostdelivery()
+	{
+		$app = Yii::app();
+		//$positions = Yii::app()->shoppingCart->getPositions();
+
+		$delivery_id = $app->request->getParam('delivery_id', -1);
+		$delivery_quick = $app->request->getParam('delivery_quick', -1);
+		
+		if($delivery_id == -1 || $delivery_quick == -1) $app->end();
+		//echo'<pre>';print_r($product_id);echo'</pre>';
+		//echo'<pre>';print_r($quantity);echo'</pre>';
+		
+		$modelDelivery = Delivery::model()->loadDelivery($delivery_id);
+		
+		$positions = $app->shoppingCart->getPositions();
+		$params = $app->params;
+		
+		$product_price = 0;
+		$product_currency = 1;
+			
+		$currency_info = Currencies::model()->loadCurrenciesList();
+
+		$total_in_cart = PriceHelper::calculateTotalInCart($positions, $currency_info);
+		
+		$total_cost = $total_in_cart['summ'];
+//		$total = $app->shoppingCart->getCount();
+		//echo'<pre>';print_r($total_cost);echo'</pre>';
+		
+		$modelDelivery = Delivery::model()->calculateDelivery($modelDelivery, $positions, $currency_info, $total_cost);
+		
+		$payment_list = Payment::model()->loadPaymentList();
+		
+		$payment_html = $this->renderPartial( '_payment-list', array(
+			'rows' => $payment_list,
+			'delivery_id' => $delivery_id,
+		),true);
+		
+		//подставляем стоимость доставки к цене
+		if($modelDelivery->delivery_free != true) {
+			if($delivery_quick == 0) $total_cost += $modelDelivery->delivery_normal;
+				else $total_cost += $modelDelivery->delivery_quick;
+		}
+			
+		
+		$data = array(
+			//'cost_usd' => PriceHelper::formatPrice($total_cost, 3, 1, $currency_info),
+			'cost_byr' => PriceHelper::formatPrice($total_cost, 3, 3, $currency_info, true),
+//			'product_summ' => PriceHelper::formatPrice($product_summ, 3, 3, $currency_info, true),
+			'payment_html' => $payment_html,
 		);
 		//$this->renderPartial('_cart-list', $data);
 		echo json_encode($data);
@@ -294,7 +363,14 @@ class CartController extends Controller
 				
 				foreach($model->attributes as $attr=>$val) $customer[$attr] = $val;
 				
-				$order = $this->addOrder($positions, $total, $customer);
+				$delivery_id = $app->request->getParam('delivery_id', 1);
+				$delivery_quick = $app->request->getParam('delivery_quick', 0);
+				$payment_id = $app->request->getParam('delivery_id', 1);
+				
+				$deliveryName = Delivery::model()->getDeliveryNameForEmail($delivery_id, $delivery_quick);
+				$paymentName = Payment::model()->getPaymentNameForEmail($payment_id);
+				
+				$order = $this->addOrder($positions, $total, $customer, $delivery_id, $payment_id);
 				//echo'<pre>';print_r($order);echo'</pre>';die;
 				
 				
@@ -307,6 +383,8 @@ class CartController extends Controller
 					'customer_type' => Orders::CUSTOMER_TYPE_FIZ,
 					'customer' => $customer,
 					'currency_info' => $currency_info,
+					'delivery_name' => $deliveryName,
+					'payment_name' => $paymentName,
 					
 				);
 				
@@ -365,7 +443,14 @@ class CartController extends Controller
 					}
 				}
 				
-				$order = $this->addOrder($positions, $total, $customer);
+				$delivery_id = $app->request->getParam('delivery_id', 1);
+				$delivery_quick = $app->request->getParam('delivery_quick', 0);
+				$payment_id = $app->request->getParam('delivery_id', 1);
+				
+				$deliveryName = Delivery::model()->getDeliveryNameForEmail($delivery_id, $delivery_quick);
+				$paymentName = Payment::model()->getPaymentNameForEmail($payment_id);				
+				
+				$order = $this->addOrder($positions, $total, $customer, $delivery_id, $payment_id);
 				
 				$data = array(
 					'positions' => $positions,
@@ -376,6 +461,8 @@ class CartController extends Controller
 					'customer_type' => Orders::CUSTOMER_TYPE_UR,
 					'customer' => $customer,
 					'currency_info' => $currency_info,
+					'delivery_name' => $deliveryName,
+					'payment_name' => $paymentName,
 				);
 				
 				$to = array(Yii::app()->params['adminEmail']);
@@ -422,12 +509,14 @@ class CartController extends Controller
 	 * добавляет в базу новый заказ
 	 * @return model
 	 */
-	public function addOrder($positions, $total, $customer)
+	public function addOrder($positions, $total, $customer, $delivery_id, $payment_id)
 	{
 		$order = new Orders();
 		$order->created = time();
 		$order->summ_usd = $total['usd'];
 		$order->summ_byr = $total['byr'];
+		$order->delivery_id = $delivery_id;
+		$order->payment_id = $payment_id;
 		$order->customer = json_encode($customer);
 		//$order->customer = '';
 		

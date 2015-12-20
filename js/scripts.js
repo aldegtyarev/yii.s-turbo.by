@@ -18,13 +18,13 @@ function switch_tabs(obj) {
 $(document).ready(function () {
 	'use strict';
 	
-	var menu_cat_li_a = $(".menu-cat li a"),
+	var menu_cat_li_a = $("#categories-menu li ul li a"),
+		menu_cat_main = $("#categories-menu > li > a"),
 		addtocart = $(".addtocart"),
 		max_height = 0,
 		products_on_auto_item_a = $('.products-on-auto-item a'),
-		cart_qty = 0,
-		cart_form = null,
 		to_cart_process = null,
+		cartBlock = $("#cartBlock-cnt"),
 		cart_msg = null,
 		to_cart_form = null,
 		popup_gallery = $('#popup-gallery'),
@@ -39,9 +39,8 @@ $(document).ready(function () {
 		popupBlockHeight = 580,
 		timeOut = null,
 		to_cart_product_id = '',
-		cartBlock = $("#cartBlock-cnt"),
 		product_image = null,
-		product_id;
+		product_id = 0;
 	
 	function showFullImg(imgElem) {
 		popup_img.attr('src', imgElem.data('fullsrc'));
@@ -93,23 +92,16 @@ $(document).ready(function () {
 	
 	//console.log(window_height);
 	
-	//выравниваем высоту блоков новостей
-	if ($('.news-block-item-small').html() !== undefined) {
-		max_height = 0;
-		$('.news-block-item .text-block').each(function () {
-			if ($(this).height() > max_height) {
-				max_height = $(this).height();
-			}
-		});
-		$('.news-block-item-small .text-block').css('height', max_height);
-	}
-	
 	menu_cat_li_a.on('click', function () {		//кликнули на пункт бокового меню
 		var elem = $(this).parent('li').find('ul');
 		if (elem.length) {
 			$(this).next('ul').slideToggle();
 			return false;
 		}
+	});
+	
+	menu_cat_main.on('click', function () {		//кликнули на главный пункт бокового меню
+		return false;
 	});
 	
 	
@@ -175,12 +167,6 @@ $(document).ready(function () {
 		}
 	);
 	
-//	$('.advantages-item-cnt').on('click', function () {
-//		$(this).children().children().find('.advantages-item-detail').click();
-//		//console.log($(this).children().children().find('.advantages-item-detail'));
-//		//return false;
-//	});
-
 	$('.nav-tabs a').on('click', function () {
 		switch_tabs($(this));
 		return false;
@@ -231,49 +217,6 @@ $(document).ready(function () {
 		
     });
 	
-	$('.cart-qty-dec').on('click', function () {
-		cart_form = $(this).parent();
-		cart_qty = parseInt($(this).parent().find('.inputbox-qty').val());
-		if (cart_qty > 1) {
-			cart_qty--;
-			$(this).parent().find('.inputbox-qty').val(cart_qty);
-			product_id = cart_form.find('input[name="product_id"]').val();
-			$.post(
-				cart_form.attr('action'),
-				cart_form.serialize(),
-				function (data) {
-					$('#cart-price-' + product_id).html(data.product_summ);
-					cartBlock.html(data.html);
-					$('#total-cost-usd').html(data.cost_byr);
-					//$('#total-cost-byr').html(data.cost_byr);
-				},
-				'json'
-			);
-		}
-		
-		return false;
-	});
-	
-
-	$('.cart-qty-inc').on('click', function () {
-		cart_form = $(this).parent();
-		cart_qty = parseInt($(this).parent().find('.inputbox-qty').val());
-		cart_qty++;
-		$(this).parent().find('.inputbox-qty').val(cart_qty);
-		product_id = cart_form.find('input[name="product_id"]').val();
-        $.post(
-            cart_form.attr('action'),
-            cart_form.serialize(),
-            function (data) {
-				$('#cart-price-' + product_id).html(data.product_summ);
-				cartBlock.html(data.html);
-				$('#total-cost-usd').html(data.cost_byr);
-				//$('#total-cost-byr').html(data.cost_byr);
-            },
-			'json'
-        );
-		return false;
-	});
 	
 	$('#buy-in-one-click-btn').on('click', function () {
 		$('#buy-in-one-click-err').hide();
@@ -427,6 +370,30 @@ $(document).ready(function () {
 	
 	
 	
+	
+});
+
+$(window).load(function () {
+	var child_categories_title = $('.child-categories .product-title'),
+		max_height = 0;
+	
+	child_categories_title.each(function () {
+		if ($(this).height() > max_height) {
+			max_height = $(this).height();
+		}
+	});
+	child_categories_title.css('height', max_height);
+	
+	//выравниваем высоту блоков новостей
+	if ($('.news-block-item-small').html() !== undefined) {
+		max_height = 0;
+		$('.news-block-item .text-block').each(function () {
+			if ($(this).height() > max_height) {
+				max_height = $(this).height();
+			}
+		});
+		$('.news-block-item-small .text-block').css('height', max_height);
+	}	
 	
 });
 

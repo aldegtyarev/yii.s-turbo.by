@@ -133,8 +133,8 @@ class ShopProducts extends CActiveRecord implements IECartPosition
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('product_name, product_sku, currency_id', 'required'),
-            array('published, hide_s_desc, firm_id, type_id, protect_copy, product_availability, product_ordered, manufacturer_id, override, side, currency_id, featured', 'numerical', 'integerOnly'=>true),
+            array('product_name, product_sku, currency_id, cargo_type', 'required'),
+            array('published, hide_s_desc, firm_id, type_id, protect_copy, product_availability, product_ordered, manufacturer_id, override, side, currency_id, featured, cargo_type', 'numerical', 'integerOnly'=>true),
             array('metatitle, manuf, material, code, in_stock, delivery, prepayment, lamps, adjustment, product_s_desc', 'length', 'max'=>255),
             array('product_desc, installation, metadesc', 'length', 'max'=>17000),
             array('product_name', 'length', 'max'=>180),
@@ -223,6 +223,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
             'modelsListFull' => 'Модельный ряд',
             'hide_s_desc' => 'Не вводить краткое описание в карточке  товара',
             'featured' => 'Рекомендуем',
+            'cargo_type' => 'Тип груза',
         );
     }
     
@@ -1148,6 +1149,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 			'override' => $this->override,
 			'product_override_price' => $this->product_override_price,
 			'currency_id' => $this->currency_id,
+			'cargo_type' => $this->cargo_type,
 			
 		));
 		$new_product_id = $app->db->getLastInsertId();

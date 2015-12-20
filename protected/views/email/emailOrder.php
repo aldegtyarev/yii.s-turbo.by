@@ -23,7 +23,7 @@ $td_style = 'style="padding:10px;"';
 		<span style="display:block;text-align:center;font-style:italic;font-weight:bold;font-family:Tahoma;font-size:14px;color:#747474;"><?= $app->params['siteSlogan'] ?></span>
 	</div>
 
-	<p style="font-family:Arial, sans-serif;">Здравствуйте, <?= $model->fio ?> </p>
+	<p style="font-family:Arial, sans-serif;">Здравствуйте, <?= $model->fio ?>.</p>
 	<p style="font-family:Arial, sans-serif">Ваш заказ № <span style="color:#d70000"><?= $order->id ?></span> от <?= $app->dateFormatter->format('d MMMM yyyy', $order->created);?> на сумму <span style="color:#d70000"><?=PriceHelper::formatPrice($total_summ, 3, 3, $currency_info, true)?></span> получен и поступил в обработку.</p>
 	<p style="font-family:Arial, sans-serif">В ближайшее время с Вами свяжется наш менеджер.</p>
 
@@ -45,11 +45,11 @@ $td_style = 'style="padding:10px;"';
 					<?php if($val != '' && $attr != 'type') {	?>
 						<tr>
 							<td style="vertical-align:top;padding:5px 10px 5px 0;font-family:Arial, sans-serif;"><?= $model->getAttributeLabel($attr) ?></td>
-							<td style="vertical-align:top;padding:5px 10px;font-family:Arial, sans-serif;font-weight:bold"><?= $val ?></td>
+							<td style="vertical-align:top;padding:5px 10px;font-family:Arial, sans-serif;font-weight:bold"><?= nl2br($val) ?></td>
 						</tr>
 
 					<?php }	?>
-					<?php if($attr == 'phone2_ur') {	?>
+					<?php if($attr == 'phone1_ur') {	?>
 						<tr>
 							<td style="vertical-align:top;padding:5px 10px 5px 0;font-family:Arial, sans-serif;color:#000;font-size:14px;font-weight:bold;" colspan="2"><br>КОНТАКТНОЕ ЛИЦО</td>
 						</tr>
@@ -112,6 +112,18 @@ $td_style = 'style="padding:10px;"';
 				</td>
 			</tr>
 
+		</tbody>
+	</table>
+	<table style="width:100%;">	
+		<tbody>
+			<tr>
+				<td style="padding:10px 10px 10px 0;" >Способ доставки</td>
+				<td style="padding:10px 10px 10px 0;font-weight:bold;"><?= $delivery_name ?></td>
+			</tr>
+			<tr>
+				<td style="padding:10px 10px 10px 0;" >Способ оплаты</td>
+				<td style="padding:10px 10px 10px 0;font-weight:bold;"><?= $payment_name ?></td>
+			</tr>
 		</tbody>
 	</table>
 

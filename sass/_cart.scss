@@ -356,14 +356,10 @@
 			margin-left: 0;
 		}
 		
-		textarea {
-			max-width: 250px;
+		textarea.inputbox {
+			max-width: 295px;
+			width: 295px;
 		}
-	}
-	
-	h3 {
-		color: #1a8bfc;
-		margin-bottom: 25px;
 	}
 	
 	.row_email_ur {
@@ -377,6 +373,11 @@
 	.info_text {
 		color: #1a8bfc;
 		padding-top: 10px;
+		
+		a {
+			@extend %underline_y_n;
+			color: #1a8bfc;
+		}
 	}
 }
 
@@ -455,4 +456,90 @@ textarea#CheckoutFizForm_comment {
 		@extend %font_16;
 		color: $red_color_1;
 	}
+}
+
+.delivery-list {
+	@extend %border_box;
+	@extend .clearfix;
+	
+	margin-left: -5px;
+	margin-right: -5px;
+}
+
+.cart-block-border {
+	@extend %fl;
+	@extend %border_box;
+	
+	padding: 0 5px;
+}
+
+.delivery-item {
+	width: 25%;
+	
+	.delivery-quick {
+		@extend .mt-20;
+	}
+	
+}
+
+.payment-item {
+	width: 20%;
+}
+
+.cart-block-border-cnt {
+	@extend .p-10;
+	@extend %pointer;
+	@include border_radius(4px);
+		
+	border: 1px solid #c0c0c0; 
+	
+	@include transition-property(box-shadow);
+	@include transition-duration(200ms);
+	
+	
+	img {
+		@extend %db;
+		
+		margin: 0 auto;
+	}
+	
+}
+
+.cart-block-border-cnt-disabled {
+	background-color: #eee;
+}
+.cart-block-border-cnt-enabled {
+	&:hover {
+		@include box-shadow(0 0 6px 3px #ccc);
+	}
+}
+
+
+
+.cart-block-border-ttl {
+	@extend %text_c;
+	@extend .mb-20;
+	color: #1a8bfc;
+}
+
+.cart-block-border-cnt-selected {
+	@include transition-property(box-shadow);
+	@include transition-duration(200ms);
+	@include box-shadow(0 0 6px 3px #ccc);
+}
+
+.delivery-list-cnt,
+.payment-list-cnt {
+	@extend %pos_rel;
+}
+
+.delivery-error,
+.payment-error {
+	@extend %pos_abs;
+	@extend %italic;
+	
+	color: red;
+	right: 20px;
+	top: 22px;
+	display: none;
 }

@@ -130,6 +130,8 @@ echo Yii::app()->theme->baseUrl . '/assets/js/respond.min.js';
 					),
 			
 					array('label'=>'Заказы', 'url'=>array('orders/admin'), 'visible'=>!Yii::app()->user->isGuest),		
+					array('label'=>'Доставка', 'url'=>array('delivery/admin'), 'visible'=>!Yii::app()->user->isGuest),		
+					array('label'=>'Оплата', 'url'=>array('payment/admin'), 'visible'=>!Yii::app()->user->isGuest),		
 			
 					array('label'=>'Валюта', 'url'=>array('currencies/admin'), 'visible'=>!Yii::app()->user->isGuest),			
 

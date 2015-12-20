@@ -17,6 +17,8 @@ class ShopProductTypes extends CActiveRecord
 	public $DropDownlistData;
 	public $parentId;
 	public $new_parentId;
+	public $cargo_type;
+
 	
 	/**
 	 * @return string the associated database table name
@@ -48,7 +50,8 @@ class ShopProductTypes extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name', 'required'),
+			array('name, cargo_type', 'required'),
+			array('cargo_type', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
@@ -75,6 +78,7 @@ class ShopProductTypes extends CActiveRecord
 		return array(
 			'type_id' => 'id',
 			'name' => 'Название',
+			'cargo_type' => 'Тип груза',
 		);
 	}
 
@@ -221,37 +225,17 @@ class ShopProductTypes extends CActiveRecord
 	function setparentid()
 	{
 		$criteria = new CDbCriteria;
-		if($id != 0) {
-			$criteria->condition = "`root` = $id";
-		}
+		if($id != 0) $criteria->condition = "`root` = $id";
 		$criteria->order = 't.root, t.lft'; // или 't.root, t.lft' для множественных деревьев
 		$categories = $this->findAll($criteria);
-		
-		foreach($categories as $n=>$category)	{
-			//$category
-			//$category=Category::model()->findByPk(9);
-			//$parent = $category->parent()->find();
-			//$category->parent_id = $parent->id;
-			//$category->save(false);
-			//echo'<pre>';print_r($parent->id);echo'</pre>';
-		}
 		return true;
 	}
-	
 	
 	//получаем типы товаров для списка товаров категории
 	public function getProductTypesForProductList(&$connection, $product_ids = array(), $get_null = false )
 	{
-		
-/*
-SELECT pr.`type_id` AS id, pt.`name` AS name, count(pr.`product_id`)  AS count
-
-FROM `3hnspc_shop_products` AS pr INNER JOIN `3hnspc_shop_product_types` AS pt USING(`type_id`)
-
-where pr.`product_id` IN (25,26,27,28,29,30)
-group by pr.`type_id`
-*/
 		if(count($product_ids))	{
+			
 			$sql = "
 SELECT pr.`type_id` AS id, pt.`name` AS name, pt.`parent_id`, count(pr.`product_id`)  AS count
 FROM {{shop_products}} AS pr INNER JOIN {{shop_product_types}} AS pt USING(`type_id`)
@@ -259,128 +243,23 @@ WHERE pr.`product_id` IN (".implode(',', $product_ids).") ".($get_null ? " AND p
 GROUP BY pr.`type_id` ORDER BY pt.root, pt.lft
 			";
 			
-			//ORDER BY pt.root, pt.lft
 			$command = $connection->createCommand($sql);
-			//$command->bindParam(":product_id", $product_ids_str);
 			$rows = $command->queryAll();
-			
-			
-			/*
-			$sql = "SELECT `type_id` AS id,`root`,`level`,`parent_id`,`name`, '0' AS count FROM {{shop_product_types}} WHERE `type_id` <> 0 ORDER BY root, lft";
-			$command = $connection->createCommand($sql);
-			$all_prod_types = $command->queryAll();
-			//echo'<pre>';print_r($all_prod_types);echo'</pre>';
-			//echo'<pre>';print_r(count($product_ids));echo'</pre>';
-			
-			
-			$presented_ids = array();
-			
-			$parent_id = 0;
-			$parent_level = -1;
-			
-			
-			foreach($rows as $row_key=>$row) {
-				foreach($all_prod_types as $prod_key=>&$prod_type) {
-					if($prod_type['id'] == $row['id']) {
-						$presented_ids[] = $prod_type['id'];
-						$presented_ids[] = $prod_type['parent_id'];
-						$parent_id = $prod_type['parent_id'];
-						//$parent_level = $prod_type['level'];
-						break;
-					}
-				}
-
-				foreach($all_prod_types as $prod_key=>&$prod_type) {
-					if($prod_type['id'] == $parent_id) {
-						$presented_ids[] = $prod_type['id'];
-						$parent_id = $prod_type['parent_id'];
-						break;
-					}
-				}
-				
-				foreach($all_prod_types as $prod_key=>&$prod_type) {
-					if($prod_type['id'] == $parent_id) {
-						$presented_ids[] = $prod_type['id'];
-						$parent_id = $prod_type['parent_id'];
-						break;
-					}
-				}
-				
-				foreach($all_prod_types as $prod_key=>&$prod_type) {
-					if($prod_type['id'] == $parent_id) {
-						$presented_ids[] = $prod_type['id'];
-						$parent_id = $prod_type['parent_id'];
-						break;
-					}
-				}
-			}
-			
-			$presented_ids = array_unique($presented_ids);
-			//echo'<pre>';print_r($presented_ids);echo'</pre>';
-			
-			
-			foreach($all_prod_types as $prod_key=>&$prod_type) {
-				$is_present = false;
-				
-				foreach($presented_ids as $id) {
-					if($prod_type['id'] == $id) {
-						$is_present = true;
-						break;
-					}
-				}
-				if($is_present === false) {
-					unset($all_prod_types[$prod_key]);
-				}	else	{
-					//echo'<pre>';print_r($prod_type['name'].' '.$prod_type['id']);echo'</pre>';
-					foreach($rows as $row_key=>$row) {
-						if($prod_type['id'] == $row['id']) {
-							$prod_type['count'] = $row['count'];
-							break;
-						}
-					}
-				}
-			}
-			$rows = $all_prod_types;
-			//echo'<pre>';print_r(($all_prod_types));echo'</pre>';
-			*/
-			/*
-			$level=0;
-			
-			foreach($all_prod_types as $n=>$category)
-			{
-				if($category['level']==$level)
-					echo CHtml::closeTag('li')."\n";
-				else if($category['level'] >$level)
-					echo CHtml::openTag('ul')."\n";
-				else
-				{
-					echo CHtml::closeTag('li')."\n";
-
-					for($i=$level-$category['level'];$i;$i--)
-					{
-						echo CHtml::closeTag('ul')."\n";
-						echo CHtml::closeTag('li')."\n";
-					}
-				}
-
-				echo CHtml::openTag('li');
-				echo CHtml::encode($category['name'].'|'.$category['count']);
-				$level=$category['level'];
-			}
-
-			for($i=$level;$i;$i--)
-			{
-				echo CHtml::closeTag('li')."\n";
-				echo CHtml::closeTag('ul')."\n";
-			}			
-			*/
 		}	else	{
 			$rows = array();
 		}
-		//echo'<pre>';print_r($rows);echo'</pre>';
-		
-		
 		return $rows;
 	}
 	
+	public function updateCargoType()
+	{
+		$app = Yii::app();
+		$connection = $app->db;
+		
+		$sql = 'UPDATE {{shop_products}} SET `cargo_type` = '.$this->cargo_type. ' WHERE `type_id` = '.$this->type_id;
+		$command = $connection->createCommand($sql);
+		$res = $command->execute();
+		
+		return $res;
+	}	
 }

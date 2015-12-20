@@ -100,6 +100,9 @@ class ShopProductTypesController extends Controller
 			$model->attributes=$_POST['ShopProductTypes'];
 			$model->new_parentId = $_POST['ShopProductTypes']['parentId'];
 			$model->parent_id = $_POST['ShopProductTypes']['parentId'];
+			
+			if($model->cargo_type != '') $model->updateCargoType();
+			
 			if($model->save())
 				$this->redirect(array('admin'));
 		}

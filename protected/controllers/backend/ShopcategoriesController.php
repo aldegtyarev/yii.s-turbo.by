@@ -87,7 +87,6 @@ class ShopCategoriesController extends Controller
 	 */
 	public function actionView($id)
 	{
-		//echo'11111111111111111111111111111111';
 		$this->render('view',array(
 			'model'=>$this->loadModel($id),
 		));
@@ -98,27 +97,17 @@ class ShopCategoriesController extends Controller
 	{
 		$category = ShopCategories::model()->findByPath($path);
 		$descendants = $category->children()->findAll(array('order'=>'ordering'));
-		//echo'descendants = <pre>';print_r($descendants);echo'</pre>';
 		$products_and_pages = ShopProducts::model()->findProductsInCat($category->id);
-		//echo'products_and_pages = <pre>';print_r($products_and_pages);echo'</pre>';
-		if(count($descendants))	{
-			ShopCategories::model()->getCategoriesMedias($descendants);
-		}
+		
+		if(count($descendants)) ShopCategories::model()->getCategoriesMedias($descendants);		
 		
 		$data = array	(
-							'category'=> $category,
-							'descendants'=> $descendants,
-							'products_and_pages'=> $products_and_pages,
-						);
+			'category'=> $category,
+			'descendants'=> $descendants,
+			'products_and_pages'=> $products_and_pages,
+		);
 						
 		$this->render('show', $data);
-		
-		/*
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-		));
-		*/
-		
 	}
 
 	/**
@@ -138,10 +127,8 @@ class ShopCategoriesController extends Controller
 			$model->attributes = $_POST['ShopCategories'];
 			$model->parentId = $_POST['ShopCategories']['parentId'];
 			$model->parent_id = $_POST['ShopCategories']['parentId'];
-			//$model->name = $_POST['ShopCategories']['name'];
 			
 			if($model->save())
-				//$this->redirect(array('view','id'=>$model->id));
 				$this->redirect(array('admin','id'=>$model->id));
 		}
 
@@ -165,7 +152,7 @@ class ShopCategoriesController extends Controller
 
 		if(isset($_POST['ShopCategories']))
 		{
-			if($_FILES['ShopCategories']["name"]["uploading_foto"]) {				
+			if($_FILES['ShopCategories']["name"]["uploading_foto"]) {
 				$model->scenario = Pages::SCENARIO_UPLOADING_FOTO;
 				$model->removeFoto();
 				$model->uploading_foto = CUploadedFile::getInstance($model,'uploading_foto');
@@ -174,6 +161,9 @@ class ShopCategoriesController extends Controller
 			$model->attributes=$_POST['ShopCategories'];
 			$model->new_parentId = $_POST['ShopCategories']['parentId'];
 			$model->parent_id = $_POST['ShopCategories']['parentId'];
+			
+			if($model->cargo_type != '') $model->updateCargoType();
+			
 			if($model->save()) {
 				if(isset($_POST['save']))	{
 					$this->redirect(array('admin'));

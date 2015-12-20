@@ -17,7 +17,7 @@ if (count($yearDropDown))
 
 
 ?>
-<div class="search-auto-block clearfix">
+<div id="search-auto-block" class="search-auto-block clearfix">
 	<form id="searchautoform" method="post">
 		<a href="/" class="search-auto-block-title" title="Поиск по автомобилю">
 			<img src="/img/search-auto-ttl.png" alt="Поиск по автомобилю">

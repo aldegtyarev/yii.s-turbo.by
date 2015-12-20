@@ -186,13 +186,25 @@ class ShopCategoriesController extends Controller
 					
 			//echo'<pre>';print_r($modelinfo);echo'</pre>';die;
 		}
-		
+
 		if(count($modelinfo)) {
 			if($category->name1 != '') $category->name = $category->name1;
 			if(count($modelinfo))	$category->name .= ' для';
-			foreach($modelinfo as $i) $category->name .= ' ' . $i['name'];
+			foreach($modelinfo as $k=>$i) {
+				if(isset($modelinfo[$k+1])) {
+					//бывает что часть названия попадает в двух частях, поэтому отлавливаем этот момент
+					$findme = $i['name'];
+					$mystring = $modelinfo[$k+1]['name'];
+					$pos = strpos($mystring, $findme);
+					if ($pos === false) {
+						$category->name .= ' ' . $i['name'];
+					}
+				}	else	{
+					$category->name .= ' ' . $i['name'];
+				}
+			}
 		}
-		
+				
 		//если фильруем по какой-то модели - то получаем ИД этих моделей
 		$model_ids = ShopModelsAuto::model()->getModelIds($app, $selected_auto);
 		//echo'$engine_id<pre>';print_r($engine_id,0);echo'</pre>';//die;
@@ -573,11 +585,23 @@ class ShopCategoriesController extends Controller
 		}
 		
 		//echo'<pre>';print_r(count($finded_product_ids));echo'</pre>';
-		
+		//echo'<pre>';print_r($model_info);echo'</pre>';die;
 		$title = 'Список товаров';
 		if(count($model_info))	$title .= ' для';
-		foreach($model_info as $i) $title .= ' ' . $i['name'];
-		
+		foreach($model_info as $k=>$i) {
+			if(isset($model_info[$k+1])) {
+				//бывает что часть названия попадает в двух частях, поэтому отлавливаем этот момент
+				$findme = $i['name'];
+				$mystring = $model_info[$k+1]['name'];
+				$pos = strpos($mystring, $findme);
+				if ($pos === false) {
+					$title .= ' ' . $i['name'];
+				}
+			}	else	{
+				$title .= ' ' . $i['name'];
+			}
+		}
+			
 		$breadcrumbs = array(
 			$title,
 		);
@@ -643,10 +667,6 @@ class ShopCategoriesController extends Controller
 			'model'=>$model,
 		));
 	}
-	
-	
-	
-	
 	
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.

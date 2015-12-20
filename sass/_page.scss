@@ -26,13 +26,21 @@
 		margin-bottom: 15px;
 	}
 	
-	ul {
+	ol, ul {
 		padding-left: 30px;
 	}
 	
 	li {
 		padding-bottom: 5px;
+		
+	}
+	
+	ul > li {
 		list-style: disc outside;
+	}
+	
+	ol > li {
+		list-style: decimal outside;
 	}
 	
 	table {
@@ -68,7 +76,7 @@
 		padding-left: 0;
 	}
 	
-	li {
+	ul > li {
 		@extend %fl;
 		padding-right: 20px;
 		list-style: none;

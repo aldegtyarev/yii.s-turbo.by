@@ -26,6 +26,12 @@
 	</div>
 
 	<div class="row">
+		<?php echo $form->labelEx($model,'address3', array('class'=>'bold nowrap')); ?>
+		<?php echo $form->textField($model,'address3',array('size'=>24,'maxlength'=>255, 'class'=>'inputbox')); ?>
+		<?php echo $form->error($model,'address3'); ?>
+	</div>
+
+	<div class="row">
 		<?php echo $form->labelEx($model,'phone1', array('class'=>'bold nowrap')); ?>
 		<?php echo $form->textField($model,'phone1',array('size'=>24,'maxlength'=>255, 'class'=>'inputbox phone-input')); ?>
 		<?php echo $form->error($model,'phone1'); ?>
@@ -33,7 +39,7 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'phone2', array('class'=>'bold nowrap')); ?>
-		<?php echo $form->textField($model,'phone2',array('size'=>24,'maxlength'=>255, 'class'=>'inputbox')); ?>
+		<?php echo $form->textField($model,'phone2',array('size'=>24,'maxlength'=>255, 'class'=>'inputbox phone-input')); ?>
 		<?php echo $form->error($model,'phone2'); ?>
 	</div>
 
@@ -51,7 +57,7 @@
 	</div>
 	
 	<div class="row info_text">
-		Удобный способ оплаты и доставки с Вами обсудит наш менеджер по телефону
+		Удобный способ <a href="<?= $this->createUrl('pages/payment')?>" class="advantages-item-detail modal-url fancybox1 fancybox.ajax" title="Удобная оплата">оплаты</a> и <a href="<?= $this->createUrl('pages/delivery')?>" class="modal-url fancybox1 fancybox.ajax" title="Доставка по всей Беларуси">доставки</a>   с Вами обсудит наш менеджер по телефону
 	</div>
 	
 

@@ -17,8 +17,6 @@ class CheckoutUrForm extends CFormModel
 	public $doverennost_text;
 	public $svidetelstvo_text;
 	public $phone1_ur;
-	public $phone2_ur;
-	//public $email_ur;
 	
 	
 	public $fio;
@@ -36,7 +34,7 @@ class CheckoutUrForm extends CFormModel
 			array('doverennost_text', 'required', 'on'=>'na_osnovanii_doverennosti', 'message'=>'Укажите "{attribute}"'),
 			array('svidetelstvo_text', 'required', 'on'=>'na_osnovanii_svidetelstva', 'message'=>'Укажите "{attribute}"'),
 			
-			array('name_ur, address_ur, unp, okpo, r_schet, bank_name, bank_code, fio_director, na_osnovanii, doverennost_text, svidetelstvo_text, phone1_ur, phone2_ur, fio, phone1, phone2', 'length', 'max'=>255),
+			array('name_ur, address_ur, unp, okpo, r_schet, bank_name, bank_code, fio_director, na_osnovanii, doverennost_text, svidetelstvo_text, phone1_ur, fio, phone1, phone2', 'length', 'max'=>255),
 			
 			array('email', 'email'),
 			
@@ -64,8 +62,6 @@ class CheckoutUrForm extends CFormModel
 			'doverennost_text'=>'№, от даты, кому выдана и пр.',
 			'svidetelstvo_text'=>'когда и кем выдано',
 			'phone1_ur'=>'Телефон / факс',
-			'phone2_ur'=>'Доп. телефон',
-			//'email_ur'=>'E-mail',
 			'fio'=>'Имя',
 			'phone1'=>'Моб. телефон',
 			'phone2'=>'Доп. телефон',

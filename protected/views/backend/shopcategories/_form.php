@@ -59,6 +59,11 @@
 					<?php echo $form->dropDownList($model, 'currency_id', Currencies::model()->dropDownCurrenciesList, array('options' => $model->currency_id));?>
 					<?php echo $form->error($model,'currency_id'); ?>					
 				</div>
+				<div class="col-lg-6">
+					<?php echo $form->labelEx($model,'cargo_type'); ?>
+					<?php echo $form->dropDownList($model, 'cargo_type', Delivery::model()->cargoTypesList, array('options' => $model->cargo_type, 'empty'=>'Выберите'));?>
+					<?php echo $form->error($model,'cargo_type'); ?>
+				</div>
 			</div>
 			
 			<?php if($model->foto != '')	{	?>

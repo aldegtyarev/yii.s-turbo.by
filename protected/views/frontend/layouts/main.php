@@ -19,7 +19,7 @@
 	$cs->registerCoreScript('scripts');
 	$cs->registerCoreScript('fancybox');
 	$cs->registerCoreScript('formstyler');
-	$cs->registerCoreScript('phone-input');	
+	$cs->registerCoreScript('phone-input');
 
 	//$cs->registerCoreScript('fancybox');
 	//$cs->registerCoreScript('selectbox');
@@ -31,6 +31,16 @@
 //		//$cs->registerCoreScript('jcarousel-new-positions');
 //		$cs->registerCoreScript('jcarousel-products-on-auto');
 //	}
+	if($isMainPage == false) {
+		$js = "
+		var scroll_el = $('#search-auto-block');
+		if ($(scroll_el).length != 0) {
+			$('html, body').animate({ scrollTop: scroll_el.offset().top }, 900);
+		}";
+		$app->clientScript->registerScript('scroll_to', $js, CClientScript::POS_READY);
+		
+	}
+	
 
 ?>
 
@@ -92,7 +102,7 @@
 						<img src="/img/logo-top.png" alt="магазин автомобильных запчастей" />
 						<?= $app->params['siteSlogan'] ?>
 					</a>
-					<?php $this->widget('application.components.SearchWidget'); ?>
+					<?php //$this->widget('application.components.SearchWidget'); ?>
 				</div>
 				<div class="block2 floatRight">
 					<?php $this->widget('application.components.ContactsWidget'); ?>
@@ -138,7 +148,7 @@
 				
 				<p class="phones phones-mts"><img src="/img/ico-mts.jpg" alt=""> +375 29 530 22 99</p>
 				<p class="phones phones-vel"><img src="/img/ico-velcom.png" alt="">+375 44 530 22 99</p>
-				<p class="email"><img src="/img/ico-email.png" alt="">info@s-turbo.by</p>
+				<p class="email"><img src="/img/ico-email.png" alt=""><a href="mailto:info@s-turbo.by">info@s-turbo.by</a></p>
 			</div>
 
 			<div class="contacts">

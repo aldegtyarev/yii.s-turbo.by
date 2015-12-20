@@ -83,20 +83,17 @@ class SiteController extends Controller
 		if(isset($_POST['BackCallForm']))
 		{
 			$model->attributes=$_POST['BackCallForm'];
-			if($model->validate())
-			{
-				$name='=?UTF-8?B?'.base64_encode($model->name).'?=';
-				$subject='=?UTF-8?B?'.base64_encode('Заказ обратного звонка').'?=';
+			if($model->validate())	{
+				$data = array('model' => $model);
 				
-				$headers="From: $name <noreply@s-turbo.by>\r\n".
-					"Reply-To: noreply@s-turbo.by\r\n".
-					"MIME-Version: 1.0\r\n".
-					"Content-Type: text/plain; charset=UTF-8";
-
-				$body = 'Имя: '.$model->name."\r\n";
-				$body .= 'Телефон: '.$model->phone."\r\n";
-				$body .= 'Время звонка: '.$model->time."\r\n";
-				mail(Yii::app()->params['adminEmail'],$subject,$body,$headers);
+				$to = array(Yii::app()->params['adminEmail']);
+				
+				Yii::app()->dpsMailer->sendByView(
+					$to, // определяем кому отправляется письмо
+					'emailBackCall', // view шаблона письма
+					$data
+				);
+				
 				Yii::app()->user->setFlash('contact','Мы получили вашу заявку. Мы свяжемся с вами в указанное вами время.');
 				$this->refresh();
 			}

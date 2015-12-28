@@ -22,6 +22,8 @@ class ShopCategories extends CActiveRecord
 {
 	const SCENARIO_UPLOADING_FOTO = 'uploading_foto';
 	
+	const CACHE_getTreeCategories_model_ids = 'ShopCategories_getTreeCategories_model_ids';
+	
 	public $uploading_foto;
 
 	public $dropDownListTree;
@@ -355,9 +357,17 @@ class ShopCategories extends CActiveRecord
 			$filtering = false;
 		}
 		
+		/*
+		$model_ids = $app->cache->get(self::CACHE_getTreeCategories_model_ids);
+		
+		if($model_ids === false)	{
+			$model_ids = ShopModelsAuto::model()->getModelIds($app);
+			$app->cache->set(self::CACHE_getTreeCategories_model_ids, $model_ids, $app->params['cache_duration']);
+		}
+		*/
 		$model_ids = ShopModelsAuto::model()->getModelIds($app);
 		
-		//echo'<pre>';print_r($model_ids);echo'</pre>';
+		//echo'<pre>';print_r($model_ids);echo'</pre>';die;
 
 		$criteria = new CDbCriteria;
 		if($id != 0) {
@@ -375,6 +385,10 @@ class ShopCategories extends CActiveRecord
 		}
 		
 		$criteria->order = 't.root, t.lft'; // или 't.root, t.lft' для множественных деревьев
+		
+		//$dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM '.$this->tableName());
+		//$categories = $this->cache($app->params['cache_duration'])->findAll($criteria);
+		
 		$categories = $this->findAll($criteria);
 		
 		if(count($categories) == 0 && $filtering )	{

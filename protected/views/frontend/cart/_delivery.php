@@ -2,7 +2,7 @@
 //echo'<pre>';print_r($_POST);echo'</pre>';//die;
 ?>
 
-<div id="delivery-list-cnt" class="delivery-list-cnt cart-view item-page mb-40 p-20 bg-fff">
+<div id="delivery-list-cnt" class="delivery-list-cnt cart-view item-page mb-10 p-20 bg-fff">
 	<h3 class="c_d70000">Выберите способ доставки вашего заказа</h3>
 	
 	<p id="delivery-error" class="delivery-error">Выберите способ доставки</p>

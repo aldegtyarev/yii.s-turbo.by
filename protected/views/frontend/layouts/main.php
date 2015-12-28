@@ -20,6 +20,7 @@
 	$cs->registerCoreScript('fancybox');
 	$cs->registerCoreScript('formstyler');
 	$cs->registerCoreScript('phone-input');
+	$cs->registerCoreScript('jquery-history');
 
 	//$cs->registerCoreScript('fancybox');
 	//$cs->registerCoreScript('selectbox');
@@ -31,6 +32,8 @@
 //		//$cs->registerCoreScript('jcarousel-new-positions');
 //		$cs->registerCoreScript('jcarousel-products-on-auto');
 //	}
+	
+	
 	if($isMainPage == false) {
 		$js = "
 		var scroll_el = $('#search-auto-block');
@@ -40,6 +43,7 @@
 		$app->clientScript->registerScript('scroll_to', $js, CClientScript::POS_READY);
 		
 	}
+	
 	
 
 ?>
@@ -195,5 +199,7 @@
 
 </div>
 
+	<script type="text/javascript" src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js" charset="utf-8"></script>
+	<script type="text/javascript" src="//yastatic.net/share2/share.js" charset="utf-8"></script>
 </body>
 </html>

@@ -27,6 +27,10 @@ class Delivery extends CActiveRecord
 	public $delivery_free;
 	public $delivery_no;
 	
+	public $delivery_normal_lbl;
+	public $delivery_quick_lbl;
+	
+	
 	/**
 	 * @return string the associated database table name
 	 */
@@ -151,12 +155,18 @@ class Delivery extends CActiveRecord
 	/**
 	 * получает список видов доставки и рассчитывает стоимости в зависимости от товаров в корзине
 	 */
-	public function loadCalculatedDeliveryList($positions, $currency_info)
+	public function loadCalculatedDeliveryList($positions, $currency_info, $for_product = false)
 	{
 		$rows = $this->loadDeliveryList();
 		
-		$total_in_cart = PriceHelper::calculateTotalInCart($positions, $currency_info);
-		$total_summ = $total_in_cart['summ'];
+		if($for_product === true) {
+			$total_summ = $positions[0]->product_price;
+			$price = PriceHelper::getPricePosition($position);
+			$total_summ = PriceHelper::formatPrice($price, $positions[0]->currency_id, 3, $currency_info, true, true);
+		}	else	{
+			$total_in_cart = PriceHelper::calculateTotalInCart($positions, $currency_info);
+			$total_summ = $total_in_cart['summ'];
+		}
 		
 		foreach($rows as &$row) 
 			$row = $this->calculateDelivery($row, $positions, $currency_info, $total_summ);
@@ -216,6 +226,8 @@ class Delivery extends CActiveRecord
 
 		$row->delivery_normal = $max_delivery_price;
 		$row->delivery_quick = $max_delivery_price_q;
+		$row->delivery_normal_lbl = $row->params['delivery_normal_lbl'];
+		$row->delivery_quick_lbl = $row->params['delivery_quick_lbl'];
 
 //			echo'<pre>';print_r($row->delivery_normal);echo'</pre>';//die;
 //			echo'<pre>';print_r($row->delivery_quick);echo'</pre>';//die;

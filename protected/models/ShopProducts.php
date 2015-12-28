@@ -134,7 +134,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
         // will receive user inputs.
         return array(
             array('product_name, product_sku, currency_id, cargo_type', 'required'),
-            array('published, hide_s_desc, firm_id, type_id, protect_copy, product_availability, product_ordered, manufacturer_id, override, side, currency_id, featured, cargo_type', 'numerical', 'integerOnly'=>true),
+            array('published, hide_s_desc, firm_id, type_id, protect_copy, product_availability, product_ordered, manufacturer_id, override, side, currency_id, featured, cargo_type, free_delivery', 'numerical', 'integerOnly'=>true),
             array('metatitle, manuf, material, code, in_stock, delivery, prepayment, lamps, adjustment, product_s_desc', 'length', 'max'=>255),
             array('product_desc, installation, metadesc', 'length', 'max'=>17000),
             array('product_name', 'length', 'max'=>180),
@@ -172,8 +172,6 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 			'ProductsAdminCategories' => array(self::HAS_MANY, 'ShopProductsAdminCategories', 'product_id'),			
 			'ProductsEngines' => array(self::HAS_MANY, 'ProductsEngines', 'product_id'),
 		);
-		
-		
     }
 
     /**
@@ -224,6 +222,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
             'hide_s_desc' => 'Не вводить краткое описание в карточке  товара',
             'featured' => 'Рекомендуем',
             'cargo_type' => 'Тип груза',
+            'free_delivery' => 'Бесплатная доставка',
         );
     }
     

@@ -69,7 +69,7 @@ class ShopModelsAuto extends CActiveRecord
 		return array(
 			//array('root, lft, rgt, level, parent_id, name, title, keywords, description, alias, path, ordering, category_companies, cat_column, category_description', 'required'),
 			array('name', 'required'),
-			array('root, lft, rgt, level, parent_id', 'numerical', 'integerOnly'=>true),
+			array('root, lft, rgt, level, parent_id, disabled_in_dropdown, hide_ndash', 'numerical', 'integerOnly'=>true),
 			array('name, title, alias, fullname', 'length', 'max'=>255),
 			array('keywords, description', 'length', 'max'=>7000),
 			array('alias','ext.LocoTranslitFilter','translitAttribute'=>'name'), 
@@ -116,6 +116,8 @@ class ShopModelsAuto extends CActiveRecord
 			'show_in_menu' => 'Show In Menu',
 			'category_description' => 'Описание',
 			'dropDownListTree' => 'Родитель',
+			'disabled_in_dropdown' => 'Исключить возможность выбора в выпадающем списке',
+			'hide_ndash' => 'Не выводить дефис перед названием',
 		);
 	}
 

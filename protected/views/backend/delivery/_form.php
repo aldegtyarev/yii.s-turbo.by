@@ -41,6 +41,15 @@
 		<div class="col-lg-12">
 			<fielset>
 				<legend>Обычная доставка</legend>
+				
+				<div class="row">
+					<div class="col-lg-12">
+						<?php echo $form->labelEx($model,'delivery_normal_lbl'); ?>
+						<?php echo $form->textField($model,'delivery_normal_lbl'); ?>
+						<?php echo $form->error($model,'delivery_normal_lbl'); ?>
+					</div>
+				</div>
+				
 
 				<?php echo $form->labelEx($model,'units_qty12'); ?>
 				<?php foreach(Delivery::model()->cargoTypesList as $cargo_id=>$cargo_type)	{	?>
@@ -67,6 +76,14 @@
 		<div class="col-lg-12">
 			<fielset>
 				<legend>Ускоренная доставка</legend>
+				
+				<div class="row">
+					<div class="col-lg-12">
+						<?php echo $form->labelEx($model,'delivery_quick_lbl'); ?>
+						<?php echo $form->textField($model,'delivery_quick_lbl'); ?>
+						<?php echo $form->error($model,'delivery_quick_lbl'); ?>
+					</div>
+				</div>
 
 				<?php echo $form->labelEx($model,'units_qty12_q'); ?>
 				<?php foreach(Delivery::model()->cargoTypesList as $cargo_id=>$cargo_type)	{	?>

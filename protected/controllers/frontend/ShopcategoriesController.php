@@ -17,12 +17,6 @@ class ShopCategoriesController extends Controller
 	
     public function actions() {
         return array (
-            //'create'=>'ext.QTreeGridView.actions.Create',
-            //'update'=>'ext.QTreeGridView.actions.Update',
-            //'delete'=>'ext.QTreeGridView.actions.Delete',
-            //'moveNode'=>'ext.QTreeGridView.actions.MoveNode',
-            //'makeRoot'=>'ext.QTreeGridView.actions.MakeRoot',
-			//'rights',
         );
     }	
 
@@ -64,20 +58,6 @@ class ShopCategoriesController extends Controller
 		);
 	}
 
-	/**
-	 * Displays a particular model.
-	 * @param integer $id the ID of the model to be displayed
-	 */
-	/*
-	public function actionView($id)
-	{
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-		));
-	}
-	*/
-	
-	
 	public function actionShow($id)
 	{
 		$app = Yii::app();
@@ -86,37 +66,26 @@ class ShopCategoriesController extends Controller
 		$url_params = UrlHelper::getUrlParams($app);	// это забирается из GET параметров
 		$selected_auto = UrlHelper::getSelectedAuto($app);	//это то что храниться в сессии
 		
-		//echo'<pre>';print_r($url_params);echo'</pre>';//die;
-		//echo'<pre>';print_r($selected_auto);echo'</pre>';die;
-		
 		if($url_params['marka'] != $selected_auto['marka'] || $url_params['model'] != $selected_auto['model'] || $url_params['year'] != $selected_auto['year']) {
 			$app->session['autofilter.marka'] = $selected_auto['marka'] = $url_params['marka'];
 			$app->session['autofilter.model'] = $selected_auto['model'] = $url_params['model'];
 			$app->session['autofilter.year'] = $selected_auto['year'] = $url_params['year'];
 			unset($app->session['autofilter.modelinfo']);
-			
-			//$url_params_ = UrlHelper::buildUrlParams($selected_auto, $url_params['id']);
-			
-			//echo'<pre>';print_r($url_params_);echo'</pre>';die;
-			//$url = $url_params_[0];
-			//unset($url_params_[0]);
-			//$this->redirect($this->createUrl($url, $url_params_));
-			
 		}
-		
-		
 		
 		//если мы в выхлопной системе кликнули на кузов то устанавливаем 
 		//это значение в сессию и редиректим на просмотр глушителей
-		$bodyset = (int) $app->request->getParam('bodyset', -1);		
+		$bodyset = (int) $app->request->getParam('bodyset', -1);
+		//echo'<pre>';print_r($bodyset);echo'</pre>';die;
 		if($bodyset > -1) {
 			$app->session['autofilter.year'] = $bodyset;
-			
+			$selected_auto['year'] = $bodyset;
+			//echo'<pre>';print_r($selected_auto);echo'</pre>';die;			
 			$url_params_ = UrlHelper::buildUrlParams($selected_auto, $url_params['id']);
-			
-			//echo'<pre>';print_r($url_params);echo'</pre>';die;
 			$url = $url_params_[0];
 			unset($url_params_[0]);
+			
+			//echo'<pre>';print_r($url_params_);echo'</pre>';die;
 			$this->redirect($this->createUrl($url, $url_params_));
 		}
 		
@@ -135,19 +104,12 @@ class ShopCategoriesController extends Controller
 		$engineImage = null;
 		$engineTitle = null;
 		
-		//echo'<pre>';print_r($_POST);echo'</pre>';die;
-		
-		
 		if($selected_view != -1)	{
 			$app->session['Shopcategories.selected_view'] = $selected_view;
 			$url_params = array('id'=>$id);
 			if($body_request != 0) $url_params['body'] = $body_request;
 			if($type_request != 0) $url_params['type'] = $type_request;
 			if($firm_request != 0) $url_params['firm'] = $firm_request;
-			
-			//echo'<pre>';print_r($url_params);echo'</pre>';die;
-			
-			//$this->redirect(array('show', $url_params));
 			$this->redirect($this->createUrl('show', $url_params));
 		}	else	{
 			if(isset($app->session['Shopcategories.selected_view']))	{
@@ -156,10 +118,6 @@ class ShopCategoriesController extends Controller
 				$selected_view = 'row';
 			}
 		}
-		
-		
-		//echo'$selected_view = <pre>';print_r($selected_view);echo'</pre>';
-		//echo'$id = <pre>';print_r($id);echo'</pre>';
 		
 		$category = ShopCategories::model()->findByPk($id);
 		$descendants = $category->children()->findAll(array('order'=>'ordering'));
@@ -172,19 +130,9 @@ class ShopCategoriesController extends Controller
 			$select_model = $url_params['model'] ? $url_params['model'] : -1;
 			$select_year = $url_params['year'] ? $url_params['year'] : -1;
 
-//			echo'$id = <pre>';var_dump($select_marka);echo'</pre>';//die;
-//			echo'$id = <pre>';var_dump($select_model);echo'</pre>';//die;
-//			echo'$id = <pre>';var_dump($select_year);echo'</pre>';die;
-
-//				$select_marka = isset($app->session['autofilter.marka']) ? $app->session['autofilter.marka'] : -1;
-//				$select_model = isset($app->session['autofilter.model']) ? $app->session['autofilter.model'] : -1;
-//				$select_year = isset($app->session['autofilter.year']) ? $app->session['autofilter.year'] : -1;
-	
 			if($select_marka != -1 && $select_model != -1 && $select_year != -1)
 					$modelinfo = ShopModelsAuto::model()->getModelInfo($connection, $select_marka, $select_model, $select_year);
 				else $modelinfo = array();
-					
-			//echo'<pre>';print_r($modelinfo);echo'</pre>';die;
 		}
 
 		if(count($modelinfo)) {
@@ -207,13 +155,8 @@ class ShopCategoriesController extends Controller
 				
 		//если фильруем по какой-то модели - то получаем ИД этих моделей
 		$model_ids = ShopModelsAuto::model()->getModelIds($app, $selected_auto);
-		//echo'$engine_id<pre>';print_r($engine_id,0);echo'</pre>';//die;
-		//echo'$model_ids<pre>';print_r($model_ids,0);echo'</pre>';die;
 		
-		//если моделей нет а есть еще и фильтрация по двигателю то редиректим на дефолтную каталога
-//		if(count($model_ids) == 0 && $engine_id != 0)
-//			$this->redirect($this->createUrl('shopcategories/index'));
-		
+		$currency_info = Currencies::model()->loadCurrenciesList();
 		
 		$criteria = new CDbCriteria();
 		$criteria->select = "t.product_id";
@@ -223,21 +166,16 @@ class ShopCategoriesController extends Controller
 		$condition_arr[] = "pc.`category_id` = ".$category->id;
 		
 		if(count($model_ids))	{
-			
 			if($engine_id != 0) $product_ids = ProductsEngines::model()->getProductIdFromEngines($connection, array($engine_id), $model_ids);
 				else $product_ids = ShopProductsModelsAuto::model()->getProductIdFromModels($connection, $model_ids);
 			
-			//echo'$product_ids<pre>';print_r($product_ids,0);echo'</pre>';
 			$product_ids = ProductsModelsDisabled::model()->checkForExcludedProducts($connection, $product_ids, $model_ids);
 				
-			if(count($product_ids))	{
-				
+			if(count($product_ids))
 				$condition_arr[] = "t.`product_id` IN (".implode(', ', $product_ids).")";
-			}
 		}
 		
 		$criteria->condition = implode(' AND ', $condition_arr);
-		//$criteria->order = "pc.`ordering`, t.`product_id`";
 		$criteria->order = $app->params->products_list_order;
 		
 		//получаем сначала все позиции для получения их id без учета пагинации
@@ -261,8 +199,6 @@ class ShopCategoriesController extends Controller
 				
 		$criteria->select = "t.*";
 		
-		//echo'<pre>';print_r($engine_id,0);echo'</pre>';
-		
 		if($engine_id != 0) {
 			$criteria->join .= ' INNER JOIN {{shop_products_engines}} as eng ON t.product_id = eng.product_id';
 			$criteria->distinct = true;
@@ -270,13 +206,9 @@ class ShopCategoriesController extends Controller
 			$criteria->order = 'eng.ordering ASC, eng.product_id ASC'; // устанавливаем сортировку по умолчанию
 			$criteria->addCondition("eng.model_id IN (".implode(',', $model_ids).") AND eng.engine_id = $engine_id");
 			
-			//$engineInfo = Engines::model()->findByPk($engine_id);
 			$engineImage = Engines::model()->getEngineImage($connection, $engine_id);
 			$engineTitle = EnginesModels::model()->getEngineTitle($connection, $engine_id, $model_ids);
-			//echo'<pre>';print_r($engineImage,0);echo'</pre>';
 		}
-		
-		//echo'<pre>';print_r($criteria,0);echo'</pre>';
 		
         $dataProvider = new CActiveDataProvider('ShopProducts', array(
             'criteria'=>$criteria,
@@ -304,8 +236,6 @@ class ShopCategoriesController extends Controller
 			$bodies = array();
 		}
 		
-		//echo'<pre>';print_r($finded_product_ids);echo'</pre>';
-		//echo'<pre>';print_r($firms);echo'</pre>';
 		if(count($dataProvider->data))	{
 			$product_ids = array();
 			
@@ -319,7 +249,11 @@ class ShopCategoriesController extends Controller
 				$row->product_url = $this->createUrl('shopproducts/detail', array('product'=> $row->product_id));
 				$row->product_image = $app->params->product_images_liveUrl.($row->product_image ? 'thumb_'.$row->product_image : 'noimage.jpg');
 				$row->firm_name = $firms[$row->firm_id]['name'];
-				//$row->product_availability_str = $firms[$row->firm_id]['name'];
+				$row->model_ids = $modelIds;
+				
+				$product_price = PriceHelper::formatPrice($row->product_price, $row->currency_id, 3, $currency_info, true, true);
+				if($product_price >= $app->params['free_delivery_limit']) $row->free_delivery = 1;
+				
 				$row->model_ids = $modelIds;
 			}
 			
@@ -399,8 +333,8 @@ class ShopCategoriesController extends Controller
 		if($select_marka != -1 && $select_model != -1 && $select_year != -1) $show_search_notice = false;
 			else $show_search_notice = true;
 		
-		$currency_info = Currencies::model()->loadCurrenciesList();
 		
+		/*
         if ($app->request->isAjaxRequest){
             $this->renderPartial('_loopAjax', array(
 				//'app'=> $app,
@@ -435,7 +369,41 @@ class ShopCategoriesController extends Controller
 			);
 
 			$this->render('show', $data);
-        }		
+        }
+		*/
+		
+		$data = array(
+			'app'=> $app,
+			'dataProvider'=> $dataProvider,
+			'itemView'=>$itemView,				
+			'type_request'=> $type_request,
+			'firm_request'=> $firm_request,
+			'body_request'=> $body_request,
+			'category_id'=> $category_id,
+			'selected_view'=> $selected_view,
+			'category'=> $category,
+			'descendants'=> $descendants,
+			'ProductsImages'=> $ProductsImages,
+			'breadcrumbs' => $breadcrumbs,
+			'producttypes' => $producttypes,
+			'bodies' => $bodies,
+			'firms' => $firms,
+			'productsTotal' => count($finded_product_ids),
+			'firmsDropDown' => $firmsDropDown,
+			'engineImage' => $engineImage,
+			'engineTitle' => $engineTitle,
+			'show_search_notice' => $show_search_notice,
+			'currency_info' => $currency_info,
+		);
+		/*
+		if ($app->request->isAjaxRequest){
+			$this->renderPartial('show', $data);
+			$app->end();
+		}	else	{
+			$this->render('show', $data);
+		}
+		*/
+		$this->render('show', $data);
 		
 		
 	}

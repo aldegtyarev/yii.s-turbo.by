@@ -20,7 +20,7 @@ $(document).ready(function () {
 	
 	var menu_cat_li_a = $("#categories-menu li ul li a"),
 		menu_cat_main = $("#categories-menu > li > a"),
-		addtocart = $(".addtocart"),
+		
 		max_height = 0,
 		products_on_auto_item_a = $('.products-on-auto-item a'),
 		to_cart_process = null,
@@ -40,7 +40,11 @@ $(document).ready(function () {
 		timeOut = null,
 		to_cart_product_id = '',
 		product_image = null,
-		product_id = 0;
+		product_id = 0,
+		$categoryProducts = $('#content-wr'),
+		scroll_el = null,
+		scroll_el_pos = 0;
+		
 	
 	function showFullImg(imgElem) {
 		popup_img.attr('src', imgElem.data('fullsrc'));
@@ -86,26 +90,65 @@ $(document).ready(function () {
 		}
 	}
 			
+	function ya_share_init() {
+		var img = $('#og_image').val();
+		
+		var share = Ya.share2('my-share', {
+			content: {
+//				url: 'https://yandex.com',
+//				title: 'Yandex',
+//				description: 'Yandex is the best search engine in the universe!',
+				image: img
+			}
+			// здесь вы можете указать и другие параметры
+		});
+		
+		//console.log(img);
+	}
+	
 	$('.sidebar-banner a').click(function () {
 
 	});
 	
 	//console.log(window_height);
 	
-	menu_cat_li_a.on('click', function () {		//кликнули на пункт бокового меню
+	menu_cat_li_a.on('click', function (e) {		//кликнули на пункт бокового меню
 		var elem = $(this).parent('li').find('ul');
+		
+		e.preventDefault();
+		
 		if (elem.length) {
 			$(this).next('ul').slideToggle();
 			return false;
+		} else {
+			History.pushState(null, document.title, $(this).attr('href'));
+			scroll_el = $('#search-auto-block');
+			scroll_el_pos = scroll_el.offset().top;
+			menu_cat_li_a.each(function(){
+				$(this).parent().removeClass('active');
+			});
+			$(this).parent('li').addClass('active');
+
+			//loadPage($(this).attr('href'));
 		}
+		
+		
+		
 	});
 	
 	menu_cat_main.on('click', function () {		//кликнули на главный пункт бокового меню
 		return false;
 	});
 	
+	$("#content-wr").on('click', '.product-types-block a, .product-title, .product-detail', function (e) {
+		e.preventDefault();
+		History.pushState(null, document.title, $(this).attr('href'));
+		scroll_el = $("#content-wr");
+		scroll_el_pos = scroll_el.offset().top + 30;
+	});
 	
-	addtocart.on('click', function () {		//добавляем товар в корзину
+	$("#content-wr").on('click', '.addtocart', function (e) {		//добавляем товар в корзину
+		e.preventDefault();
 		to_cart_form = $(this).parent('form');
 		cart_msg = to_cart_form.find('.cart-msg');
 		to_cart_process = to_cart_form.find('.to-cart-process');
@@ -241,21 +284,11 @@ $(document).ready(function () {
 		return false;
 	});
 	
-	/*
-	$('.select-view-btn').on('click', function(e) {
-		e.preventDefault();
-		$('#select-view').val($(this).data('view'));
-		$('#change-view').val(1);
-		$('#select-view-form').submit();
-		return false;
-	});
-	*/
-	
 	$('#firm').on('change', function () {
 		$('#select-view-form').submit();
 	});
 	
-	$('.modal-url').on('click', function () {
+	$('#content-cnt').on('click', '.modal-url', function () {
 		$(this).attr('href', ($(this).attr('href') + '?modal=1'));
 	});
 	
@@ -367,8 +400,52 @@ $(document).ready(function () {
 		
     });
 	
+	History.Adapter.bind(window, 'statechange',function(e){
+		var State = History.getState();
+		loadPage(State.url);
+	});
 	
-	
+	function loadPage(url) {
+		document.onmousewheel=document.onwheel=function(){ 
+			return false;
+		};		
+		$categoryProducts.load(url + " #content-wr > *", function(){
+//			console.log(url + 'loaded');
+//			console.log(scroll_el);
+//			console.log(scroll_el.position().top);
+			
+			ya_share_init();
+			
+			$categoryProducts.find(".fancybox").fancybox({
+				padding : 0,
+				helpers: {
+					overlay: {
+						locked: false
+					}
+				}
+			});
+
+			$categoryProducts.find(".fancybox1").fancybox({
+				padding : 20,
+				helpers: {
+					overlay: {
+						locked: false
+					}
+				},
+			});
+			
+			
+			//var scroll_el = $('#search-auto-block');
+			if ($(scroll_el).length != 0) {
+				$('html, body').animate({ scrollTop: scroll_el_pos }, 900, function(){
+					document.onmousewheel=document.onwheel=function(){ 
+						return true;
+					};					
+				});
+				//$('html, body').animate({ scrollTop: scroll_el.offset().top }, 900);
+			}			
+		});
+	}	
 	
 	
 });

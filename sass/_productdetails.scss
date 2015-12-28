@@ -321,6 +321,8 @@
 }
 
 .productdetails-view-tab {
+	@extend %pos_rel;
+	
 	.tabs {
 		padding: 0 0 0 20px;
 		margin: 15px 0 15px 0;
@@ -366,7 +368,7 @@
 		border-bottom: 1px solid #d4d4d4;
 		background: #fff;
 		padding: 10px;
-		min-height: 350px;
+		min-height: 75px; 
 
 		@include border-radius(4px);
 		@include box-shadow(#d4d4d4 2px 2px 5px);
@@ -437,5 +439,39 @@
 }
 
 .productdetails-modelinfo {
+	@extend %font_16;
 	margin: -20px 0 20px 0;
+}
+
+.productdetails-free-delivery {
+	@extend .product-list-item-row-free-delivery;
+	@extend %text_r;
+	@extend .pb-5;
+	
+	padding-right: 22px;
+	font-size: 12px;
+}
+
+.productdetails-delivery-cost {
+	@extend %text_r;
+	@extend .pb-5;
+	
+	padding-right: 19px;
+	font-size: 12px;
+}
+
+.likes-block {
+	@extend .clearfix;
+	@extend .pt-20;
+	
+	margin-right: -4px;
+	
+	.ya-share2 {
+		@extend %fr;
+	}
+	
+	//bottom: 10px;
+	//right: 6px;
+	
+	
 }

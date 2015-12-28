@@ -126,6 +126,8 @@ class DeliveryController extends Controller
 		if(isset($options['units_qty12_q'])) $model->units_qty12_q = $options['units_qty12_q'];
 		if(isset($options['units_qty3_q'])) $model->units_qty3_q = $options['units_qty3_q'];
 		if(isset($options['free'])) $model->free = $options['free'];
+		if(isset($options['delivery_normal_lbl'])) $model->delivery_normal_lbl = $options['delivery_normal_lbl'];
+		if(isset($options['delivery_quick_lbl'])) $model->delivery_quick_lbl = $options['delivery_quick_lbl'];
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -137,6 +139,8 @@ class DeliveryController extends Controller
 			$model->units_qty3 = $_POST['DeliveryForm']['units_qty3'];
 			$model->units_qty12_q = $_POST['DeliveryForm']['units_qty12_q'];
 			$model->units_qty3_q = $_POST['DeliveryForm']['units_qty3_q'];
+			$model->delivery_normal_lbl = $_POST['DeliveryForm']['delivery_normal_lbl'];
+			$model->delivery_quick_lbl = $_POST['DeliveryForm']['delivery_quick_lbl'];
 			
 			$options = $_POST['DeliveryForm'];
 			unset($options['name']);

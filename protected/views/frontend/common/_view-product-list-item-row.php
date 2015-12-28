@@ -10,23 +10,7 @@
 			?>
 			<div id="product-image-cnt-<?= $data->product_id ?>" class="product-list-item-row-image-block">
 				<div id="product-image-<?= $data->product_id ?>" class="product-image<?php if($data->featured == 1) echo ' product-image-featured' ?>" style="background-image: url(<?=$data->product_image ?>)"></div>
-				<?php/* 
-					if(count($data->AdditionalImages))	{
-						echo CHtml::OpenTag('ul', array('class'=>'additional-images-list'));
-						$i = 0;
-						foreach($data->AdditionalImages as $img)	{
-							$thumb_image_url = Yii::app()->params->product_images_liveUrl . 'thumb_'.$img['image_file'];
-							$image_url = Yii::app()->params->product_images_liveUrl . 'full_'.$img['image_file'];
-							echo CHtml::OpenTag('li', array('class'=>'additional-images-list-item'));
-							echo CHtml::link(CHtml::image($thumb_image_url), $image_url, array('class' => "fancybox add-prod-img", "rel" => "group", 'data-fullsrc'=>$image_url));
-							echo CHtml::CloseTag('li');
-							$i++;
-							if($i > 2) break;
-						}
-						echo CHtml::CloseTag('ul');
-					}*/
-				?>
-				
+
 				<div class="popup-prod-img">
 					<?php 
 						$full_image_url = str_replace('thumb_', 'full_', $data->product_image);
@@ -107,6 +91,16 @@
 			<div class="product-list-item-row-price-block">
 				<p class="product-list-item-row-price-byr"><?=PriceHelper::formatPrice($data->product_price, $data->currency_id, 3, $currency_info, true)?></p>
 				<p class="product-list-item-row-price-usd"><?=PriceHelper::formatPrice($data->product_price, $data->currency_id, 0, $currency_info)?></p>
+				
+				<? if($data->free_delivery != 0)	{	?>
+					<p class="product-list-item-row-free-delivery">+ бесплатная доставка</p>
+				<?	}	else	{	?>
+					<p class="product-list-item-row-delivery-cost">
+						<a class="fancybox fancybox.ajax" href="<?= $this->createUrl('shopproducts/delivery', array('id'=>$data->product_id)) ?>">стоимость доставки</a>
+						<img src="/img/question_ico.gif" alt="стоимость доставки" class="product-list-item-row-delivery-cost-ico">
+						
+					</p>
+				<?	}	?>
 				
 				<? if($data->product_availability > 0)	{	?>
 					<?

@@ -3,6 +3,8 @@
 /* @var $model ShopProducts */
 /* @var $form CActiveForm */
 
+// 2094
+// 1179
 /*
 
 $cs->registerScriptFile('/js/bootstrap-tab.js', CClientScript::POS_END);
@@ -18,7 +20,9 @@ $cs->registerScript('loading', "
 	$('#ShopProducts_protect_copy').bootstrapSwitch();
 	$('#ShopProducts_published').bootstrapSwitch();
 	$('#ShopProducts_override').bootstrapSwitch();
+	$('#ShopProducts_override').bootstrapSwitch();
 	$('#ShopProducts_featured').bootstrapSwitch();
+	$('#ShopProducts_free_delivery').bootstrapSwitch();
 
 	$('.chosen_select').chosen();
 	
@@ -418,6 +422,13 @@ $style = '';
 				<div class="col-lg-12">
 					<?php echo $form->checkBoxControlGroup($model, 'featured'); ?>
 					<?php echo $form->error($model,'featured'); ?>
+				</div>
+			</div>
+						
+			<div class="row">
+				<div class="col-lg-12">
+					<?php echo $form->checkBoxControlGroup($model, 'free_delivery'); ?>
+					<?php echo $form->error($model,'free_delivery'); ?>
 				</div>
 			</div>
 						

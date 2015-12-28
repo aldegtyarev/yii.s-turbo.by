@@ -2,6 +2,7 @@
 
 class PagesController extends Controller
 {
+	
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
@@ -228,15 +229,23 @@ class PagesController extends Controller
 	
 	public function renderPage($id)
 	{
+		//$app = Yii::app();
 		$model = $this->loadModel($id);
-		
+//		$cacheId = 'pages_Controller_page_'.$id;
+//		$model = $app->cache->get($cacheId);
+//		if($model === false)	{
+//			$model = $this->loadModel($id);
+//			$app->cache->set($cacheId, $model, $app->params['cache_duration']);
+//		}
 		$this->renderPage1($model);
 	}
 
 	public function renderPage1(&$model, $category_id = 1)
 	{		
-		$app = Yii::app();		
-		$modal = (int) $app->request->getParam('modal', '0');
+		$app = Yii::app();	
+		if (Yii::app()->request->isAjaxRequest) $modal = 1;
+			else $modal = (int) $app->request->getParam('modal', '0');
+		
 		$current_action = $app->getController()->getAction()->getId();
 		$current_controller =  $app->getController()->getId();
 		

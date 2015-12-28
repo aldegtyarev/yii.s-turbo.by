@@ -9,6 +9,8 @@ $cs->registerCssFile('/css/chosen.css', 'screen');
 $cs->registerScriptFile('/js/chosen.jquery.min.js', CClientScript::POS_END);
 $cs->registerScript('shop-models-auto-form', "
 	$('.chosen_select').chosen();
+	$('#ShopModelsAuto_disabled_in_dropdown').bootstrapSwitch();
+	$('#ShopModelsAuto_hide_ndash').bootstrapSwitch();
 ");
 
 ?>
@@ -47,6 +49,16 @@ $cs->registerScript('shop-models-auto-form', "
 				<?php echo $form->textField($model,'name',array('size'=>60,'maxlength'=>255)); ?>
 				<?php echo $form->error($model,'name'); ?>
 			</div>
+			
+			<div class="row">
+				<?php echo $form->checkBoxControlGroup($model, 'disabled_in_dropdown'); ?>
+				<?php echo $form->error($model,'disabled_in_dropdown'); ?>
+			</div>			
+			
+			<div class="row">
+				<?php echo $form->checkBoxControlGroup($model, 'hide_ndash'); ?>
+				<?php echo $form->error($model,'hide_ndash'); ?>
+			</div>			
 			
 <?
 /*

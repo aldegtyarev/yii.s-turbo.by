@@ -1,6 +1,8 @@
 <?php
 class SearchAutoWidget extends CWidget {
 	
+	const CACHE_markaDropDown = 'SearchAutoWidget_markaDropDown'; 
+	
     public function run() {
 		$app = Yii::app();
 		
@@ -113,7 +115,13 @@ class SearchAutoWidget extends CWidget {
 		
 		//echo'<pre>';var_dump($select_year);echo'</pre>';
 		
-		$markaDropDown = ShopModelsAuto::model()->getModelsLevel1($connection, false);
+		//$markaDropDown = ShopModelsAuto::model()->getModelsLevel1($connection, false);
+
+		$markaDropDown = $app->cache->get(self::CACHE_markaDropDown);
+		if($markaDropDown === false)	{
+			$markaDropDown = ShopModelsAuto::model()->getModelsLevel1($connection, false);
+			$app->cache->set(self::CACHE_markaDropDown, $markaDropDown, $app->params['cache_duration']);
+		}
 		
 		if($select_model != null || $select_marka != null) {
 			$model = ShopModelsAuto::model()->findByPk($select_marka);
@@ -123,14 +131,28 @@ class SearchAutoWidget extends CWidget {
 			$modelDropDown = array();
 		}
 		
+		$yearOptions = array();
+		
 		if($select_year != null || $select_model != null) {
 			$model = ShopModelsAuto::model()->findByPk($select_model);
 			//$descendants = $model->children()->findAll();
 			$descendants = $model->descendants()->findAll();
+			$parent_id = 0;
 			foreach($descendants as $c){
 				$separator = '';
-				for ($x=3; $x++ < $c->level;) $separator .= '- ';
+				if($c->hide_ndash == 0) {
+					if($parent_id == $c->parent_id) {
+						for ($x=4; $x++ < $c->level;) $separator .= '- ';
+					}	else	{
+						for ($x=3; $x++ < $c->level;) $separator .= '- ';
+					}
+				}	else	{
+					$parent_id = $c->id;
+				}
 				$c->name = ' '.$separator.$c->name;
+				
+				if($c->disabled_in_dropdown == 1)
+					$yearOptions[$c->id] = array('disabled'=>true);
 			}
 			
 			$yearDropDown = CHtml::listData($descendants, 'id','name');
@@ -144,6 +166,7 @@ class SearchAutoWidget extends CWidget {
 			'markaDropDown' => $markaDropDown,
 			'modelDropDown' => $modelDropDown,
 			'yearDropDown' => $yearDropDown,
+			'yearOptions' => $yearOptions,
 			
 			'select_marka' => $select_marka,
 			'select_model' => $select_model,

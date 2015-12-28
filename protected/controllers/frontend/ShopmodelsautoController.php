@@ -46,104 +46,6 @@ class ShopModelsAutoController extends Controller
 	}
 
 	/**
-	 * Displays a particular model.
-	 * @param integer $id the ID of the model to be displayed
-	 */
-	public function actionView($id)
-	{
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-		));
-	}
-
-	/**
-	 * Creates a new model.
-	 * If creation is successful, the browser will be redirected to the 'view' page.
-	 */
-	public function actionCreate()
-	{
-		$model=new ShopModelsAuto;
-
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['ShopModelsAuto']))
-		{
-			$model->attributes=$_POST['ShopModelsAuto'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
-		}
-
-		$this->render('create',array(
-			'model'=>$model,
-		));
-	}
-
-	/**
-	 * Updates a particular model.
-	 * If update is successful, the browser will be redirected to the 'view' page.
-	 * @param integer $id the ID of the model to be updated
-	 */
-	public function actionUpdate($id)
-	{
-		$model=$this->loadModel($id);
-
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['ShopModelsAuto']))
-		{
-			$model->attributes=$_POST['ShopModelsAuto'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
-		}
-
-		$this->render('update',array(
-			'model'=>$model,
-		));
-	}
-
-	/**
-	 * Deletes a particular model.
-	 * If deletion is successful, the browser will be redirected to the 'admin' page.
-	 * @param integer $id the ID of the model to be deleted
-	 */
-	public function actionDelete($id)
-	{
-		$this->loadModel($id)->delete();
-
-		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		if(!isset($_GET['ajax']))
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-	}
-
-	/**
-	 * Lists all models.
-	 */
-	public function actionIndex()
-	{
-		$dataProvider=new CActiveDataProvider('ShopModelsAuto');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
-	}
-
-	/**
-	 * Manages all models.
-	 */
-	public function actionAdmin()
-	{
-		$model=new ShopModelsAuto('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['ShopModelsAuto']))
-			$model->attributes=$_GET['ShopModelsAuto'];
-
-		$this->render('admin',array(
-			'model'=>$model,
-		));
-	}
-
-	/**
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer $id the ID of the model to be loaded
@@ -179,16 +81,35 @@ class ShopModelsAutoController extends Controller
 		
 		$model = $this->loadModel($model_id);
 		
+		$options = array();
 		
 		if($level > 1)	{
 			$descendants = $model->descendants()->findAll();
-			foreach($descendants as $c){
+			$parent_id = 0;
+			foreach($descendants as $c) {
 				$separator = '';
-				for ($x=3; $x++ < $c->level;) $separator .= '- ';
-				$c->name = ' '.$separator.$c->name;
+				if($c->hide_ndash == 0) {
+					if($parent_id == $c->parent_id) {
+						for ($x=4; $x++ < $c->level;) $separator .= '- ';
+					}	else	{
+						for ($x=3; $x++ < $c->level;) $separator .= '- ';
+					}
+					
+				}	else	{
+					$parent_id = $c->id;
+				}
+				
+				
+				$c->name = ' ' . $separator . $c->name;
+				
+				
+				if($c->disabled_in_dropdown == 1)
+					$options[$c->id] = array('disabled'=>true);
+				//http://new.s-turbo.by/admin.php?r=shopmodelsauto/update&id=1894
+				//http://new.s-turbo.by/admin.php?r=shopmodelsauto/update&id=1893
 			}			
 		}	else	{
-			$descendants = $model->children()->findAll();
+			$descendants = $model->children()->findAll();		
 		}
 		
 		
@@ -212,9 +133,7 @@ class ShopModelsAutoController extends Controller
 				break;
 		}
 		
-		
-		
-		echo CHtml::dropDownList($name, $selected, $dropdownData, array('empty' => $empty, 'class'=>'search-auto-form__border_white'));
+		echo CHtml::dropDownList($name, $selected, $dropdownData, array('empty' => $empty, 'class'=>'search-auto-form__border_white', 'options'=>$options));
 		
 		Yii::app()->end();
 	}

@@ -46,14 +46,15 @@ $images_live_url = Yii::app()->params->images_live_url;
 </div>				
 <div class="container">
 	<div class="content column2l">
-		<div class="content-wr">
+		<div id="content-wr" class="content-wr">
 				<?php if(isset($this->breadcrumbs)):?>
 						<?php $this->widget('zii.widgets.CBreadcrumbs', array(
 							'links'=>$this->breadcrumbs,
 						)); ?>
 				<?php endif?>
-		
-			<?php echo $content; ?>
+			<div id="content-cnt">
+				<?php echo $content; ?>
+			</div>
 		</div>
 	</div>
 </div>

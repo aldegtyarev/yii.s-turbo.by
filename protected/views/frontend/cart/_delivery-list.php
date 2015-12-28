@@ -23,21 +23,34 @@
 
 					<label for="delivery-normal-<?= $row->id ?>"><?= PriceHelper::formatPrice($row->delivery_normal, 3, 3, $currency_info, true) ?></label>
 				</p>
-				<p>Доставка 2-3 дня</p>
+				<p><?= $row->delivery_normal_lbl ?></p>
 
 				<p class="c_d70000 delivery-quick">
 					<?/*<input type="radio" name="delivery_quick[<?= $row->id ?>]" id="delivery-quick-<?= $row->id ?>" class="delivery_type" value="1">*/?>
 					<?php echo CHtml::radioButton('delivery_quick['.$row->id.']', $deliveryQuick, array('id'=>'delivery-quick-'.$row->id, 'class'=>'delivery_type', 'value'=>1))?>
 					<label for="delivery-quick-<?= $row->id ?>"><?= PriceHelper::formatPrice($row->delivery_quick, 3, 3, $currency_info, true) ?></label>
 				</p>
-				<p>Доставка ускоренная</p>
+				<p><?= $row->delivery_quick_lbl ?></p>
 				
 			<?php	}	else	{	?>
-				<p class="c_d70000"><?= PriceHelper::formatPrice($row->delivery_normal, 3, 3, $currency_info, true) ?></p>
-				<p>Доставка 2-3 дня</p>
+				<?php
+					$deliveryNormal = false;
+					$deliveryQuick = false;
+					if($delivery_id == $row->id) {
+						$deliveryNormal = true;
+					} elseif($delivery_id == $row->id) {
+						$deliveryQuick = true;
+					}
+				?>
+			
+				<p class="c_d70000">
+					<?php echo CHtml::radioButton('delivery_quick['.$row->id.']', $deliveryNormal, array('id'=>'delivery-normal-'.$row->id, 'class'=>'delivery_type', 'value'=>0))?>
+					<?php echo PriceHelper::formatPrice($row->delivery_normal, 3, 3, $currency_info, true) ?>
+				</p>
+				<p><?= $row->delivery_normal_lbl ?></p>
 				<?php if($row->delivery_quick > 0)	{	?>
 					<p class="c_d70000 delivery-quick"><?= PriceHelper::formatPrice($row->delivery_quick, 3, 3, $currency_info, true) ?></p>
-					<p>Доставка ускоренная</p>
+					<p><?= $row->delivery_quick_lbl ?></p>
 				<?php	}	?>
 			<?php	}	?>
 		</div>

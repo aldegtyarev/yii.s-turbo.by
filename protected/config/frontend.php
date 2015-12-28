@@ -39,6 +39,7 @@ return CMap::mergeArray(
 					'<path:.+cart>'=>'cart/<path>',
 					//'<path:.+-detail>'=>'shopproducts/detail',
 					'product/buyoneclick'=>'shopproducts/buyoneclick',
+					'product/delivery/<id:.+>'=>'shopproducts/delivery',
 					'product/<product>'=>'shopproducts/detail',
 					
 					'category<id:.+>/marka<marka:.+>/model<model:.+>/year<year:.+>/type<type:.+>'=>'shopcategories/show',

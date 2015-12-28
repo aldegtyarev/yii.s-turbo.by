@@ -38,19 +38,27 @@ if ($model->metadesc)
 
 
 
+
 //echo'<pre>';print_r($baseUrl);echo'</pre>';
-//echo'<pre>';print_r($model->shopProductsMediases);echo'</pre>';
-//echo'<pre>';print_r($model->shopProductPrices);echo'</pre>';
 $params = $app->params;
+
+$clientScript->registerMetaTag('http://new.s-turbo.by'.$params->product_images_liveUrl . 'full_'.$model->product_image, 'og:image');
 
 $product_classes = '';
 
 //$model_images = $model->shopProductsMediases;
 $model_images = $model->Images;
+
+$product_price = PriceHelper::formatPrice($model->product_price, $model->currency_id, 3, $currency_info, true, true);
+if($product_price >= Yii::app()->params['free_delivery_limit']) $model->free_delivery = 1;
+
 ?>
 
 
 <div class="productdetails-view">
+	<input type="hidden" id="og_image" value="http://new.s-turbo.by<?	echo $params->product_images_liveUrl . 'full_'.$model->product_image	?>" />
+	<meta property="og:image" content="http://new.s-turbo.by<?	echo $params->product_images_liveUrl . 'full_'.$model->product_image	?>" />
+	
 	<h1><?php echo $model->product_name; ?></h1>
 	<?php if($modelinfoTxt != '')	{	?>
 		<p class="productdetails-modelinfo"><?= $modelinfoTxt ?></p>
@@ -152,7 +160,16 @@ $model_images = $model->Images;
 					<?php echo CHtml::beginForm($this->createUrl('/cart/addtocart')); ?>
 						<?php echo Chtml::hiddenField('quantity', '1', array('class'=>'quantity', 'id'=>false)); ?>
 						<?php echo Chtml::hiddenField('product_id', $model->product_id, array('class'=>'product_id', 'id'=>false)); ?>
-						
+						<?php if($model->free_delivery != 0)	{	?>
+							<p class="productdetails-free-delivery">+ бесплатная доставка</p>
+						<?	}	else	{	?>
+							<p class="productdetails-delivery-cost">
+								<a class="fancybox fancybox.ajax" href="<?= $this->createUrl('shopproducts/delivery', array('id'=>$model->product_id)) ?>">стоимость доставки</a>
+								<img src="/img/question_ico.gif" alt="стоимость доставки">
+							</p>
+						<?	}	?>
+
+						<?php  ?>
 						<p class="to-cart-process pt-5 hidden">
 							<span class="ajax-loading font-10"><img class="v-middle" src="/img/loading.gif" /> Обработка...</span>
 						</p>
@@ -225,6 +242,16 @@ $model_images = $model->Images;
     <? if($model->product_desc) { ?>
         <div class="product_description"><? echo $model->product_desc; ?></div>
     <? } ?>
+    
+	<div id="likes-block" class="likes-block">
+		<?/*
+		<script type="text/javascript" src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js" charset="utf-8"></script>
+		<script type="text/javascript" src="//yastatic.net/share2/share.js" charset="utf-8"></script>
+		*/?>
+		<div id="my-share" class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,moimir,gplus,twitter,lj"></div>
+		
+	</div>
+    
     <?
 
 	

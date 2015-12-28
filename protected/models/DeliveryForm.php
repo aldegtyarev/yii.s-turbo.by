@@ -16,6 +16,9 @@ class DeliveryForm extends CFormModel
 	public $units_qty12_q = array();
 	public $units_qty3_q = array();
 	
+	public $delivery_normal_lbl;
+	public $delivery_quick_lbl;
+	
 	public $cargo_types = array();
 	public $free;
 	public $name;
@@ -32,7 +35,7 @@ class DeliveryForm extends CFormModel
 		// will receive user inputs.
 		return array(
 			array('name', 'required'),
-			array('name, options, ico', 'length', 'max'=>2048),
+			array('name, options, ico, delivery_normal_lbl, delivery_quick_lbl', 'length', 'max'=>2048),
 			array('free', 'numerical', 'integerOnly'=>true),
 			array('id, name', 'safe', 'on'=>'search'),
 		);
@@ -53,6 +56,8 @@ class DeliveryForm extends CFormModel
 			'units_qty12_q' => '1-2 товара',
 			'units_qty3_q' => 'От 3 товаров и выше',
 			'free' => 'Бесплатная доставка свыше',
+			'delivery_normal_lbl' => 'Сроки доставки',
+			'delivery_quick_lbl' => 'Сроки доставки',
 		);
 	}
 }

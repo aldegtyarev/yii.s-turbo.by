@@ -12,8 +12,12 @@ if (count($modelDropDown))
 	$model_attribs['class'] = 'search-auto-form__border_white';
 
 $year_attribs = array('empty' => 'Выберите год');
-if (count($yearDropDown))
+if (count($yearDropDown)) {
 	$year_attribs['class'] = 'search-auto-form__border_white';
+	$year_attribs['options'] = $yearOptions;
+	
+}
+	
 
 
 ?>

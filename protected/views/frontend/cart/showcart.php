@@ -29,7 +29,7 @@ switch($checkoutType) {
 
 
 ?>
-<div class="cart-view item-page mb-40">
+<div class="cart-view item-page mb-10">
 	
 	<h1>Корзина</h1>
 	

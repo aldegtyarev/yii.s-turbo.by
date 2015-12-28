@@ -101,11 +101,11 @@ $clientScript->registerCoreScript('fancybox');
 		
 	</div>
 </div>
+<?php if($this->beginCache($id, array('duration'=>$app->params['cache_duration']))) { ?>
+	<?php $this->widget('application.components.NewsWidget', array('type' => 2)); ?>
 
-<?php $this->widget('application.components.NewsWidget', array('type' => 2)); ?>
-
-<?php $this->widget('application.components.NewsWidget', array('type' => 3)); ?>
-
+	<?php $this->widget('application.components.NewsWidget', array('type' => 3)); ?>
+<?php $this->endCache(); } ?>
 <?/*
 <div class="news-block clearfix">
 

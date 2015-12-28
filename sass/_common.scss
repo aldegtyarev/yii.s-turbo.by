@@ -539,3 +539,51 @@ span.required { @extend %c_d70000; }
 .flash-warning {
 	background-color: #dd973d;
 }
+
+
+.product-delivery {
+	@extend .p-20;
+	width: 765px;
+	
+	h1 {
+		@extend %c_000;
+		@extend %uppercase;
+	}
+}
+
+.product-delivery-product-cnt {
+	@extend .clearfix;
+	@extend .mb-20;
+}
+
+.product-delivery-product-img {
+	@extend %fl;
+	
+	width: 100px;
+	
+	img {
+		max-width: 100%;
+	}
+}
+
+.product-delivery-product-info {
+	margin-left: 120px;
+	
+	.name {
+		@extend %c_000;
+		@extend %font_16;
+		@extend %bold;
+		@extend .mb-10;
+	}
+	.name {
+		@extend %c_000;
+	}
+}
+
+.product-delivery-list-cnt {
+	@extend .clearfix;
+	
+	.cart-block-border-cnt {
+		background-color: #fafafa;
+	}
+}

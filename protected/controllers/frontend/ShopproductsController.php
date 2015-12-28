@@ -28,7 +28,7 @@ class ShopProductsController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view','detail','lastviewed','buyoneclick'),
+				'actions'=>array('index','view','detail','lastviewed','buyoneclick', 'delivery'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -96,30 +96,7 @@ class ShopProductsController extends Controller
 		
 		$currency_info = Currencies::model()->loadCurrenciesList();
 		
-		if(isset($app->session['autofilter.modelinfo']))	{
-			$modelinfo = json_decode($app->session['autofilter.modelinfo'], 1);
-		}	else	{
-
-			$select_marka = $url_params['marka'] ? $url_params['marka'] : -1;
-			$select_model = $url_params['model'] ? $url_params['model'] : -1;
-			$select_year = $url_params['year'] ? $url_params['year'] : -1;
-
-			if($select_marka != -1 && $select_model != -1 && $select_year != -1)
-				$modelinfo = ShopModelsAuto::model()->getModelInfo($connection, $select_marka, $select_model, $select_year);
-					else $modelinfo = array();
-		}
-		
-		$modelinfoTxt = '';
-		
-		//echo'<pre>';print_r($app->session['autofilter.modelinfo']);echo'</pre>';
-		//echo'<pre>';print_r($modelinfo);echo'</pre>';
-		
-		if(count($modelinfo)) {
-			$modelinfoTxt .= ' для';
-			foreach($modelinfo as $i) $modelinfoTxt .= ' ' . $i['name'];
-		}
-		
-		
+		$modelinfoTxt = $this->buildModelInfo($app, $connection, $url_params);
 		
 		$this->render('view',array(
 			'model'=>$model,
@@ -181,6 +158,31 @@ class ShopProductsController extends Controller
 	{
 		echo 'ok';
 	}
+	
+	public function actionDelivery($id)
+	{
+		$app = Yii::app();
+		$connection = $app->db;
+		//echo'<pre>';print_r($product);echo'</pre>';
+		$model = $this->loadModel($id);
+		
+		$currency_info = Currencies::model()->loadCurrenciesList();
+		
+		$delivery_list = Delivery::model()->loadCalculatedDeliveryList(array($model), $currency_info, true);
+		//echo'<pre>';print_r($delivery_list);echo'</pre>';
+		
+		$modelinfoTxt = $this->buildModelInfo($app, $connection, $url_params);
+		
+		$this->renderPartial('delivery',array(
+			'app'=>$app,
+			'model'=>$model,
+			'delivery_list'=>$delivery_list,
+			'modelinfoTxt' => $modelinfoTxt,
+			'currency_info' => $currency_info,
+		));
+		
+		
+	}
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
@@ -232,6 +234,39 @@ class ShopProductsController extends Controller
 		$breadcrumb[$category->name] = array('/shopcategories/show/', 'id'=>$category->id);;
 		$breadcrumb[] = $model->product_name;
 		return $breadcrumb;
-	}	
+	}
+	
+	/**
+	 * строит модельный ряд
+	 * @return string
+	 */
+	private function buildModelInfo(&$app, &$connection, $url_params)
+	{
+		if(isset($app->session['autofilter.modelinfo']))	{
+			$modelinfo = json_decode($app->session['autofilter.modelinfo'], 1);
+		}	else	{
+
+			$select_marka = $url_params['marka'] ? $url_params['marka'] : -1;
+			$select_model = $url_params['model'] ? $url_params['model'] : -1;
+			$select_year = $url_params['year'] ? $url_params['year'] : -1;
+
+			if($select_marka != -1 && $select_model != -1 && $select_year != -1)
+				$modelinfo = ShopModelsAuto::model()->getModelInfo($connection, $select_marka, $select_model, $select_year);
+					else $modelinfo = array();
+		}
+		
+		$modelinfoTxt = '';
+		
+		//echo'<pre>';print_r($app->session['autofilter.modelinfo']);echo'</pre>';
+		//echo'<pre>';print_r($modelinfo);echo'</pre>';
+		
+		if(count($modelinfo)) {
+			$modelinfoTxt .= ' для';
+			foreach($modelinfo as $i) $modelinfoTxt .= ' ' . $i['name'];
+		}
+		
+		return $modelinfoTxt;
+		
+	}
 	
 }

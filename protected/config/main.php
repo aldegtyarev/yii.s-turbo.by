@@ -117,6 +117,10 @@ return array(
 				/**/
 			),
 		),
+		
+		'cache'=>array(
+			'class'=>'system.caching.CFileCache'
+		),
 
 	
 		'clientScript'=>array(
@@ -190,6 +194,13 @@ return array(
 					'depends' => array('jquery'),
 				),
 				
+				'jquery-history' => array(
+					'baseUrl' => '/',
+					'js' => array('js/jquery.history.js'),
+					//'js' => array('js/jquery.history.init.js'),
+					'depends' => array('jquery'),
+				),
+				
 				'cart' => array(
 					'baseUrl' => '/',
 					'js' => array('js/cart.js'),
@@ -255,6 +266,8 @@ return array(
 			2=>'Новости магазина',
 			3=>'Наши работы',
 		),
+		'free_delivery_limit' => 4500000,	//порог для бесплатной доставки
+		'cache_duration' => (60 * 60),	//длительность кеширования
 
 	),
 );

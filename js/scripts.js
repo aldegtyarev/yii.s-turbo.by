@@ -41,9 +41,16 @@ $(document).ready(function () {
 		to_cart_product_id = '',
 		product_image = null,
 		product_id = 0,
-		$categoryProducts = $('#content-wr'),
+		//$categoryProducts = $('#central-cnt').find('#content-wr'),
+		$central_cnt = $('#central-cnt'),
+		block_to_load = null,
+		cnt_to_load = '',
+		categoryProducts_cnt = " #content-wr > *",
+		central_cnt = " #central-cnt > *",
 		scroll_el = null,
-		scroll_el_pos = 0;
+		scroll_el_pos = 0,
+		model_is_change = false,
+		scroll_to_block = false;
 		
 	
 	function showFullImg(imgElem) {
@@ -91,14 +98,19 @@ $(document).ready(function () {
 	}
 			
 	function ya_share_init() {
-		var img = $('#og_image').val();
+		var og_img = $('#og_image').val(),
+			og_type = $('#og_type').val(),
+			og_url = $('#og_url').val(),
+			og_title = $('#og_title').val(),
+			og_description = $('#og_description').val();
 		
 		var share = Ya.share2('my-share', {
 			content: {
-//				url: 'https://yandex.com',
-//				title: 'Yandex',
-//				description: 'Yandex is the best search engine in the universe!',
-				image: img
+				type: og_type,
+				url: og_url,
+				title: og_title,
+				description: og_description,
+				image: og_img
 			}
 			// здесь вы можете указать и другие параметры
 		});
@@ -112,7 +124,7 @@ $(document).ready(function () {
 	
 	//console.log(window_height);
 	
-	menu_cat_li_a.on('click', function (e) {		//кликнули на пункт бокового меню
+	$('#central-cnt').on('click', '#categories-menu li ul li a', function (e) {		//кликнули на пункт бокового меню
 		var elem = $(this).parent('li').find('ul');
 		
 		e.preventDefault();
@@ -124,27 +136,28 @@ $(document).ready(function () {
 			History.pushState(null, document.title, $(this).attr('href'));
 			scroll_el = $('#search-auto-block');
 			scroll_el_pos = scroll_el.offset().top;
-			menu_cat_li_a.each(function(){
+			$("#categories-menu li ul li a").each(function () {
 				$(this).parent().removeClass('active');
 			});
 			$(this).parent('li').addClass('active');
-
-			//loadPage($(this).attr('href'));
+			scroll_to_block = true;
+			$('#searchautoform').attr('action', $(this).attr('href'));
 		}
-		
-		
-		
-	});
-	
-	menu_cat_main.on('click', function () {		//кликнули на главный пункт бокового меню
 		return false;
 	});
 	
-	$("#content-wr").on('click', '.product-types-block a, .product-title, .product-detail', function (e) {
+	$('#central-cnt').on('click', "#categories-menu > li > a", function () {		//кликнули на главный пункт бокового меню
+		return false;
+	});
+	
+	$("#central-cnt").on('click', '.product-types-block a, .product-title, .product-detail', function (e) {
 		e.preventDefault();
 		History.pushState(null, document.title, $(this).attr('href'));
-		scroll_el = $("#content-wr");
-		scroll_el_pos = scroll_el.offset().top + 30;
+		//scroll_el = $("#content-wr");
+		scroll_el = $("#central-cnt");
+		//scroll_el_pos = scroll_el.offset().top + 30;
+		scroll_el_pos = scroll_el.offset().top;
+		scroll_to_block = true;
 	});
 	
 	$("#content-wr").on('click', '.addtocart', function (e) {		//добавляем товар в корзину
@@ -251,7 +264,22 @@ $(document).ready(function () {
 	
     $('#search-auto-form').on('change', '#select-year', function () {
 		$(this).parent().parent().parent().addClass('step-selected');
-		$('#searchautoform').submit();
+		//$('#searchautoform').submit();
+		
+		var form = $(this).closest('form');		
+
+		$.post(
+			form.attr('action'),
+			form.serialize(),
+			function (data) {
+				History.pushState(null, document.title, data);
+				scroll_el = $('#search-auto-block');
+				scroll_el_pos = scroll_el.offset().top;
+				scroll_to_block = true;
+				$('#searchautoform').attr('action', data);
+			}
+		);
+		model_is_change = true;
     });
 	
     $('#search-auto-form').on('click', '#clear-search-auto', function () {
@@ -259,7 +287,6 @@ $(document).ready(function () {
 		$('#searchautoform').submit();
 		
     });
-	
 	
 	$('#buy-in-one-click-btn').on('click', function () {
 		$('#buy-in-one-click-err').hide();
@@ -302,7 +329,7 @@ $(document).ready(function () {
 		}
 	}
 	
-	$("#listView").on('mouseover', '.product-list-item-row .product-image', function () {
+	$("#central-cnt").on('mouseover', '.product-list-item-row .product-image', function () {
 		if (!$(this).hasClass('page-image')) {
 			parent_el = $(this).parent();
 			hovered_img = $(this);
@@ -318,7 +345,7 @@ $(document).ready(function () {
 		}
 	});
 	
-	$("#listView").on('mouseover', ".add-prod-img", function () {
+	$("#central-cnt").on('mouseover', ".add-prod-img", function () {
 		parent_el = $(this).parent().parent().parent();
 		hovered_img = $(this);
 		hovered = true;
@@ -332,7 +359,7 @@ $(document).ready(function () {
 		}, 500);
 	});
 	
-	$("#listView").on('mouseout', '.product-list-item-row .product-image, .add-prod-img', function () {
+	$("#central-cnt").on('mouseout', '.product-list-item-row .product-image, .add-prod-img', function () {
 		hovered = false;
 		clearTimeout(timeOut);
 
@@ -408,15 +435,31 @@ $(document).ready(function () {
 	function loadPage(url) {
 		document.onmousewheel=document.onwheel=function(){ 
 			return false;
-		};		
-		$categoryProducts.load(url + " #content-wr > *", function(){
-//			console.log(url + 'loaded');
-//			console.log(scroll_el);
-//			console.log(scroll_el.position().top);
-			
+		};
+		
+		if(model_is_change === true) {
+			block_to_load = $central_cnt;
+			cnt_to_load = central_cnt;
+			$('#clear-search-auto').show();
+		} else {
+			block_to_load = $central_cnt.find('#content-wr');
+			cnt_to_load = categoryProducts_cnt;
+			//block_to_load = $central_cnt;
+			//cnt_to_load = central_cnt;
+		}
+		/*
+		console.log(url);
+		console.log(block_to_load);
+		console.log(cnt_to_load);
+		console.log(model_is_change);
+		console.log(scroll_to_block);
+		*/
+		
+		block_to_load.load(url + cnt_to_load, function(){
+			console.log('loaded');
 			ya_share_init();
 			
-			$categoryProducts.find(".fancybox").fancybox({
+			block_to_load.find(".fancybox").fancybox({
 				padding : 0,
 				helpers: {
 					overlay: {
@@ -425,25 +468,32 @@ $(document).ready(function () {
 				}
 			});
 
-			$categoryProducts.find(".fancybox1").fancybox({
+			block_to_load.find(".fancybox1").fancybox({
 				padding : 20,
 				helpers: {
 					overlay: {
 						locked: false
 					}
-				},
+				}
 			});
 			
 			
-			//var scroll_el = $('#search-auto-block');
 			if ($(scroll_el).length != 0) {
-				$('html, body').animate({ scrollTop: scroll_el_pos }, 900, function(){
+				if(scroll_to_block === true) {
+					$('html, body').animate({ scrollTop: scroll_el_pos }, 900, function(){
+						document.onmousewheel=document.onwheel=function(){ 
+							return true;
+						};					
+					});
+				} else {
 					document.onmousewheel=document.onwheel=function(){ 
 						return true;
 					};					
-				});
-				//$('html, body').animate({ scrollTop: scroll_el.offset().top }, 900);
-			}			
+				}
+				scroll_to_block = false;
+			}
+			
+			model_is_change = false;
 		});
 	}	
 	

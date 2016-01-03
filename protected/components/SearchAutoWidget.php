@@ -4,6 +4,7 @@ class SearchAutoWidget extends CWidget {
 	const CACHE_markaDropDown = 'SearchAutoWidget_markaDropDown'; 
 	
     public function run() {
+		//echo'<pre>';print_r('SearchAutoWidget');echo'</pre>';//die;
 		$app = Yii::app();
 		
 		$connection = $app->db;
@@ -86,13 +87,10 @@ class SearchAutoWidget extends CWidget {
 						'type' => $app->request->getParam('type', -1),
 					);
 
-					//echo'<pre>';print_r($url_params);echo'</pre>';//die;
 					$url_params = UrlHelper::buildUrlParams($selected_auto, $url_params['id']);
-					//echo'<pre>';print_r($url_params);echo'</pre>';die;
 					$url = $url_params[0];
 					unset($url_params[0]);
 					$return_url = $this->owner->createUrl($url, $url_params);
-					//echo'<pre>$return_url ';print_r($return_url);echo'</pre>';
 				}	else	{
 					$return_url = $this->owner->createUrl('shopcategories/index');
 				}
@@ -102,21 +100,13 @@ class SearchAutoWidget extends CWidget {
 		}
 		
 		if($do_redirect) {
-			//echo'<pre>';var_dump($return_url);echo'</pre>';die;
-			//if($return_url != '' && $return_url != '/')
 			if($return_url != '')
 				$this->owner->redirect($return_url);
 			
 			if($clear_search_auto) $this->owner->redirect('/');
-						
-			//$this->owner->redirect($this->controller->createUrl('shopcategories/index'));
 		}
 		
 		
-		//echo'<pre>';var_dump($select_year);echo'</pre>';
-		
-		//$markaDropDown = ShopModelsAuto::model()->getModelsLevel1($connection, false);
-
 		$markaDropDown = $app->cache->get(self::CACHE_markaDropDown);
 		if($markaDropDown === false)	{
 			$markaDropDown = ShopModelsAuto::model()->getModelsLevel1($connection, false);
@@ -135,7 +125,6 @@ class SearchAutoWidget extends CWidget {
 		
 		if($select_year != null || $select_model != null) {
 			$model = ShopModelsAuto::model()->findByPk($select_model);
-			//$descendants = $model->children()->findAll();
 			$descendants = $model->descendants()->findAll();
 			$parent_id = 0;
 			foreach($descendants as $c){

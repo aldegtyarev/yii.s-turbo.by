@@ -190,7 +190,10 @@ return array(
 				
 				'scripts' => array(
 					'baseUrl' => '/',
-					'js' => array('js/scripts.js'),
+					'js' => array(
+						'js/scripts.js',
+						'js/scroll_top.js',
+					),
 					'depends' => array('jquery'),
 				),
 				

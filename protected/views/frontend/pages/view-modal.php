@@ -1,3 +1,10 @@
+<?php
+$app = Yii::app();
+$tab_id = $app->request->getParam('tab', 1);
+
+?>
+
+
 <div class="page-cnt page-modal <?=$current_controller . '-' . $current_action?>">
 	<script>
 		$(document).ready(function () {
@@ -15,7 +22,8 @@
 				return false
 			});
 
-			switch_tabs($('.nav-tabs .defaultTab'));
+			switch_tabs($('.nav-tabs #tab-<?= $tab_id ?>'));
+
 		});
 	</script>
 	

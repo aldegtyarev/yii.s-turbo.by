@@ -1,7 +1,7 @@
 <?php
 
 $total_in_cart = PriceHelper::calculateTotalInCart($positions, $currency_info);
-$total_summ = $total_in_cart['summ'];
+$total_summ = $total_in_cart['summ'] + $delivery_cost;
 
 ?>
 <h3 class="c_d70000 pl-20">Список товаров</h3>
@@ -64,7 +64,7 @@ $total_summ = $total_in_cart['summ'];
 		<tr class="cart-total-row">
 			<td colspan="3"></td>
 			<td class="cart-total">
-				<p class="bold mb-10">Итого</p>
+				<p id="total-cost-txt" class="bold mb-10"><?= $delivery_cost ? 'Итого c доставкой' : 'Итого'?></p>
 				<? //$product_price = $app->shoppingCart->getCost(); ?>
 				<p id="total-cost-byr" class="cart-price"><?=PriceHelper::formatPrice($total_summ, 3, 3, $currency_info, true)?></p>				
 			</td>

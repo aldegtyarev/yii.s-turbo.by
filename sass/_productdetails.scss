@@ -30,11 +30,17 @@
 		margin: 2px;
 		border: 1px solid #f5f5f5;
 		
+		@include transition-property(box-shadow);
+		@include transition-duration(200ms);
+		
+		
 		
 		@extend %fl;
 		
 		&:hover {
-			border-color: #d70000;
+			//border-color: #d70000;
+			border-color: #ccc;
+			@include box-shadow(0 0 6px 3px #ccc);
 		}
 	}
 	
@@ -384,10 +390,8 @@
 	}
 }
 
-.product_description {
-	p {
+.product_description p {
 		margin-bottom: 12px;
-	}
 }
 
 .buy-in-one-click {
@@ -439,7 +443,7 @@
 }
 
 .productdetails-modelinfo {
-	@extend %font_16;
+	@extend %font_15;
 	margin: -20px 0 20px 0;
 }
 
@@ -462,9 +466,10 @@
 
 .likes-block {
 	@extend .clearfix;
-	@extend .pt-20;
+	
 	
 	margin-right: -4px;
+	margin-top: 105px;
 	
 	.ya-share2 {
 		@extend %fr;
@@ -474,4 +479,10 @@
 	//right: 6px;
 	
 	
+}
+
+.product-ttl-descr {
+	@extend %bold;
+	
+	margin-bottom: 28px;
 }

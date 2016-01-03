@@ -1,4 +1,5 @@
 <div class="block menu-cat">
+
 	<div class="head">
 		<h3>Каталог</h3>
 	</div>

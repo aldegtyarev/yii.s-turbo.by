@@ -16,9 +16,16 @@
 								 
 	?>
 	<div class="payment-item cart-block-border">
-		<div class="<?php  echo implode(' ', $classes); ?>" data-payment="<?= $row->id ?>">
+		<div class="<?php echo implode(' ', $classes); ?>" data-payment="<?= $row->id ?>">
 			<img alt="" src="<?= $row->ico ?>" style="height: 40px;">
-			<div class="cart-block-border-ttl"><?= $row->name ?></div>
+			<div class="cart-block-border-ttl">
+				<?php
+					$active = false;
+					if($payment_id == $row->id) $active = true;
+				?>
+					<?php echo CHtml::radioButton('payment-type', $active, array('id'=>'payment-'.$row->id, 'class'=>'payment_type', 'value'=>0))?>
+					<a href="<?= $this->createUrl('pages/payment', array('tab'=>$row->id)) ?>" class="fancybox1 fancybox.ajax" rel="nofollow"><?= $row->name ?></a>
+			</div>
 		</div>
 	</div>
 <?php 	}	?>

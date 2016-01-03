@@ -35,7 +35,7 @@ switch($checkoutType) {
 	
 	<? if(count($positions) != 0)	{	?>	
 		<div id="cart-list" class="cart-list pos-rel bg-fff clearfix pt-20">
-			<? $this->renderPartial('_cart-list', array('app'=>$app, 'params'=>$params, 'positions'=>$positions, 'currency_info' => $currency_info)) ?>
+			<? $this->renderPartial('_cart-list', array('app'=>$app, 'params'=>$params, 'positions'=>$positions, 'currency_info' => $currency_info, 'delivery_cost' => $delivery_cost)) ?>
 		</div>
 	<? } else {?>
 		<div class="cart-list bg-fff p-30">

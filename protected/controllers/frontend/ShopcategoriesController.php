@@ -60,10 +60,15 @@ class ShopCategoriesController extends Controller
 
 	public function actionShow($id)
 	{
+		//echo'<pre>';print_r('actionShow');echo'</pre>';//die;
 		$app = Yii::app();
 		$connection = $app->db;
-		
 		$url_params = UrlHelper::getUrlParams($app);	// это забирается из GET параметров
+		
+		//------------------------------------------------------
+		UrlHelper::checkChangeAuto($app);
+		//-----------------------------------------------------------------
+		
 		$selected_auto = UrlHelper::getSelectedAuto($app);	//это то что храниться в сессии
 		
 		if($url_params['marka'] != $selected_auto['marka'] || $url_params['model'] != $selected_auto['model'] || $url_params['year'] != $selected_auto['year']) {
@@ -418,6 +423,11 @@ class ShopCategoriesController extends Controller
 		
 		$this->processPageRequest('page');
 		
+		//------------------------------------------------------
+		UrlHelper::checkChangeAuto($app);
+		//-----------------------------------------------------------------
+		
+		
 		$selected_view = $app->request->getParam('select-view', -1);
 		$type_request = (int)$app->request->getParam('type', 0);
 		
@@ -597,7 +607,7 @@ class ShopCategoriesController extends Controller
 		if($select_marka != -1 && $select_model != -1 && $select_year != -1) $show_search_notice = true;
 			else $show_search_notice = false;
 		
-		
+		/*
         if ($app->request->isAjaxRequest){
             $this->renderPartial('_loopAjax', array(
                 'dataProvider'=>$dataProvider,
@@ -618,7 +628,22 @@ class ShopCategoriesController extends Controller
 			);
 
 			$this->render('index', $data);
-        }		
+        }
+		*/
+		$data = array(
+			'app'=> $app,
+			'dataProvider'=> $dataProvider,
+			'itemView'=>$itemView,				
+			'selected_view'=> $selected_view,
+			'breadcrumbs' => $breadcrumbs,
+			'title' => $title,
+			//'producttypes' => $producttypes,
+			'productsTotal' => count($finded_product_ids),
+			'show_search_notice' => $show_search_notice,
+		);
+
+		$this->render('index', $data);
+		
 	}
 
 	/**

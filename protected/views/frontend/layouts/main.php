@@ -33,7 +33,7 @@
 //		$cs->registerCoreScript('jcarousel-products-on-auto');
 //	}
 	
-	
+	/*
 	if($isMainPage == false) {
 		$js = "
 		var scroll_el = $('#search-auto-block');
@@ -43,7 +43,7 @@
 		$app->clientScript->registerScript('scroll_to', $js, CClientScript::POS_READY);
 		
 	}
-	
+	*/
 	
 
 ?>
@@ -122,7 +122,7 @@
 			<div class="width-wrap">
 			
 				<?php $this->widget('application.components.SearchAutoWidget'); ?>
-				<div class="central clearfix"><?php echo $content; ?></div>
+				<div id="central-cnt" class="central clearfix"><?php echo $content; ?></div>
 				<div class="content-down">
 
 				</div>
@@ -198,7 +198,7 @@
 	<div id="popup-gallery" class="popup-gallery pos-abs hidden"></div>
 
 </div>
-
+	<span id="gotop" class="scrollTop" onclick="top.goTop(); return false;" style="display:none;"></span>
 	<script type="text/javascript" src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js" charset="utf-8"></script>
 	<script type="text/javascript" src="//yastatic.net/share2/share.js" charset="utf-8"></script>
 </body>

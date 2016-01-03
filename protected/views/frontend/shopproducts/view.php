@@ -42,7 +42,35 @@ if ($model->metadesc)
 //echo'<pre>';print_r($baseUrl);echo'</pre>';
 $params = $app->params;
 
-$clientScript->registerMetaTag('http://new.s-turbo.by'.$params->product_images_liveUrl . 'full_'.$model->product_image, 'og:image');
+$image_url = $app->getBaseUrl(true) . $params->product_images_liveUrl . 'full_'.$model->product_image;
+$current_url = $app->getBaseUrl(true).$app->getRequest()->getUrl();
+
+$product_desc = '';
+if(!empty($model->side)) $product_desc .= $model->getAttributeLabel('side') . ': '.$model->ProductSideArray[$model->side]['name'].' ';
+if(!empty($model->lamps)) $product_desc .= $model->getAttributeLabel('lamps') . ': '.nl2br($model->lamps).' ';
+if(!empty($model->adjustment)) $product_desc .= $model->getAttributeLabel('adjustment') . ': '.$model->adjustment.' ';
+if(!empty($model->material)) $product_desc .= $model->getAttributeLabel('material') . ': '.$model->material.' ';
+if(!empty($model->product_s_desc)) $product_desc .= $model->getAttributeLabel('product_s_desc') . ': '.$model->product_s_desc.' ';
+$product_desc .= strip_tags($model->product_desc);
+
+
+if($product_desc != '') {
+	//$product_desc = str_replace(array("\r\n", "\r", "\n", "\t"), '', $product_desc);
+	mb_internal_encoding('UTF-8');
+	$product_desc = mb_substr($product_desc, 0, 297).'...';
+}	else	{
+	$product_desc = 'Описание товара';
+}
+
+if (!$app->request->isAjaxRequest) {
+	$clientScript->registerMetaTag($image_url, 'og:image');
+	$clientScript->registerMetaTag('article', 'og:type');
+	$clientScript->registerMetaTag($current_url, 'og:url');
+	$clientScript->registerMetaTag($this->pageTitle, 'og:title');
+	$clientScript->registerMetaTag($product_desc, 'og:description');
+}
+//var_dump($product_desc);
+//echo $app->getBaseUrl(true).$app->getRequest()->getUrl();
 
 $product_classes = '';
 
@@ -56,8 +84,26 @@ if($product_price >= Yii::app()->params['free_delivery_limit']) $model->free_del
 
 
 <div class="productdetails-view">
-	<input type="hidden" id="og_image" value="http://new.s-turbo.by<?	echo $params->product_images_liveUrl . 'full_'.$model->product_image	?>" />
-	<meta property="og:image" content="http://new.s-turbo.by<?	echo $params->product_images_liveUrl . 'full_'.$model->product_image	?>" />
+	<?/*<input type="hidden" id="og_image" value="http://new.s-turbo.by<?	echo $params->product_images_liveUrl . 'full_'.$model->product_image	?>" />*/?>
+	<?php 
+		if ($app->request->isAjaxRequest) {
+			
+			$tag = 'og_image';
+			echo CHtml::hiddenField($tag, $image_url, array ('id'=>$tag));
+			
+			$tag = 'og_type';
+			echo CHtml::hiddenField($tag, 'article', array ('id'=>$tag));
+			
+			$tag = 'og_url';
+			echo CHtml::hiddenField($tag, $current_url, array ('id'=>$tag));
+			
+			$tag = 'og_title';
+			echo CHtml::hiddenField($tag, $this->pageTitle, array ('id'=>$tag));
+			
+			$tag = 'og_description';
+			echo CHtml::hiddenField($tag, $product_desc, array ('id'=>$tag));
+		}
+	?>
 	
 	<h1><?php echo $model->product_name; ?></h1>
 	<?php if($modelinfoTxt != '')	{	?>
@@ -148,8 +194,11 @@ if($product_price >= Yii::app()->params['free_delivery_limit']) $model->free_del
 							<p class="row clearfix">
 								<span class="label"><? echo $model->getAttributeLabel('prepayment');?>:</span>
 								<span class="value">
-									<?=$model->prepayment?>
-									<img src="/img/question_ico.gif" alt="предоплата" class="productdetails-prepayment-ico">
+									
+									<?= $model->prepayment ?>
+									<?php if($model->prepayment != 'без предоплаты')	{	?>
+										<img src="/img/question_ico.gif" alt="предоплата" class="productdetails-prepayment-ico">
+									<?php	}	?>
 								</span>
 								
 							</p>
@@ -217,25 +266,26 @@ if($product_price >= Yii::app()->params['free_delivery_limit']) $model->free_del
 	
 <?  $this->beginWidget('system.web.widgets.CClipWidget', array('id'=>"Описание товара")); ?> 
     <? if($model->hide_s_desc == 0)	{	?>
+    	<p class="product-ttl-descr"><?php echo $model->product_name; ?><br></p>
 		<ul class="product_short_description small dt">
 			<? if(!empty($model->side))	{	?>
-				<li class="dtr"><span class="dtc pr-5 pb-5"><? echo $model->getAttributeLabel('side');?>: </span><span class="dtc pb-5"><?=$model->ProductSideArray[$model->side]['name']?></span></li>
+				<li class="dtr"><span class="dtc pr-5 pb-5"><? echo $model->getAttributeLabel('side');?>: </span><span class="dtc pb-5 bold"><?=$model->ProductSideArray[$model->side]['name']?></span></li>
 			<?	}	?>
 
 			<? if(!empty($model->lamps))	{	?>
-				<li class="dtr mb-5"><span class="dtc pr-5 pb-5"><? echo $model->getAttributeLabel('lamps');?>: </span><span class="dtc pb-5"><?=nl2br($model->lamps)?></span></li>
+				<li class="dtr mb-5"><span class="dtc pr-5 pb-5"><? echo $model->getAttributeLabel('lamps');?>: </span><span class="dtc pb-5 bold"><?=nl2br($model->lamps)?></span></li>
 			<?	}	?>
 
 			<? if(!empty($model->adjustment))	{	?>
-				<li class="dtr"><span class="dtc pr-5 pb-5"><? echo $model->getAttributeLabel('adjustment');?>: </span><span class="dtc pb-5"><?=$model->adjustment?></span></li>
+				<li class="dtr"><span class="dtc pr-5 pb-5"><? echo $model->getAttributeLabel('adjustment');?>: </span><span class="dtc pb-5 bold"><?=$model->adjustment?></span></li>
 			<?	}	?>
 
 			<? if(!empty($model->material))	{	?>
-				<li class="dtr"><span class="dtc pr-5 pb-5"><? echo $model->getAttributeLabel('material');?>: </span><span class="dtc pb-5"><?=$model->material?></span></li>
+				<li class="dtr"><span class="dtc pr-5 pb-5"><? echo $model->getAttributeLabel('material');?>: </span><span class="dtc pb-5 bold"><?=$model->material?></span></li>
 			<?	}	?>
 
 			<? if(!empty($model->product_s_desc))	{	?>
-				<li class="dtr"><span class="dtc pr-5 pb-5"><? echo $model->getAttributeLabel('product_s_desc');?>: </span><span class="dtc pb-5"><?=nl2br($model->product_s_desc)?></span></li>
+				<li class="dtr"><span class="dtc pr-5 pb-5"><? echo $model->getAttributeLabel('product_s_desc');?>: </span><span class="dtc pb-5 bold"><?=nl2br($model->product_s_desc)?></span></li>
 			<?	}	?>
 		</ul>
 	<?	}	?>    

@@ -24,11 +24,17 @@
 	border: 1px solid #fff;
 	
 	@include border-radius(4px);
-	@include box-shadow(#dbdbdb 2px 2px 5px);
+	///@include box-shadow(#dbdbdb 2px 2px 5px);
+	
+	@include transition-property(box-shadow);
+	@include transition-duration(200ms);
+	
 	
 	&:hover {
-		border-color: #d70000;
-		@include box-shadow(#ef959c 2px 2px 5px);
+		//border-color: #d70000;
+		border-color: #ccc;
+		//@include box-shadow(#ef959c 2px 2px 5px);
+		@include box-shadow(0 0 6px 3px #ccc);
 	}
 	
 	.product-title {
@@ -74,12 +80,13 @@
 	
 	
 	.status	{
-		width: 75px;
+//		width: 75px;
 		height: 20px;
 		line-height: 20px;
-		margin-top: 15px;
+//		margin-top: 15px;
+		padding: 5px 10px;
 		
-		@include border_radius(10px);
+		@include border_radius(3px);
 		@extend %font_11;
 		@extend %bold;
 		@extend %c_fff;
@@ -95,7 +102,8 @@
 	}
 
 	.status-on-request	{
-		background-color: #6c6c6c;
+		//background-color: #6c6c6c;
+		background-color: #B3B3B3;
 	}
 	
 	.product-bottom {
@@ -195,7 +203,7 @@
 	a.product-title {
 		margin-top: 0;
 		height: auto;
-		margin-bottom: 20px;
+		margin-bottom: 5px;
 		
 		@extend %text_l;
 	}
@@ -266,10 +274,12 @@
 .popup-gallery {
 	@extend .p-10;
 	@include border-radius(4px);
-	@include box-shadow(#ef959c 2px 2px 5px);
+	//@include box-shadow(#ef959c 2px 2px 5px);
+	//@include box-shadow(0 0 6px 3px #ccc);
 	
 	background: #fff;
 	border: 1px solid #d70000;
+	border: 1px solid #ccc;
 	z-index: 777;
 	width: 670px;
 }
@@ -335,6 +345,7 @@
 
 .prod-list-char-list-p1 {
 	@extend .mb-15;
+	@extend .mt-15;
 }
 
 .product-list-item-bottom-cnt {
@@ -366,13 +377,16 @@
 	@extend %c_d70000;
 	@extend %bold;
 	@extend %font_16;
-	@extend %text_c;
+	@extend %text_l;
+	@extend .pl-10;
 	@extend .nowrap;
 }
 
 .product-list-item-row-price-usd {
-	@extend %font_12;
+	@extend %font_11;
 	@extend .mb-10;
+	@extend .pl-10;
+	@extend %text_l;
 	
 	color: #999;
 }

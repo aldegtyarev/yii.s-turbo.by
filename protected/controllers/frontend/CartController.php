@@ -114,6 +114,20 @@ class CartController extends Controller
 		$delivery_id = $app->request->getParam('delivery_id', 0);
 		$delivery_quick = $app->request->getParam('deliveryQuick', 0);
 		
+		$delivery_cost = 0;
+		if($delivery_id > 0) {
+			$modelDelivery = Delivery::model()->loadDelivery($delivery_id);
+			$total_in_cart = PriceHelper::calculateTotalInCart($positions, $currency_info);
+			$total_cost = $total_in_cart['summ'];
+			$modelDelivery = Delivery::model()->calculateDelivery($modelDelivery, $positions, $currency_info, $total_cost);
+			//подставляем стоимость доставки к цене
+			if($modelDelivery->delivery_free != true) {
+				if($delivery_quick == 0) $delivery_cost = $modelDelivery->delivery_normal;
+					else $delivery_cost = $modelDelivery->delivery_quick;
+			}
+			
+		}
+		
 		//print_r($delivery_quick);die;
 		
 		$payment_id = $app->request->getParam('payment_id', 0);
@@ -131,6 +145,7 @@ class CartController extends Controller
 			'delivery_quick' => $delivery_quick,
 			'payment_list' => $payment_list,
 			'payment_id' => $payment_id,
+			'delivery_cost' => $delivery_cost,
 			
 		);
 		

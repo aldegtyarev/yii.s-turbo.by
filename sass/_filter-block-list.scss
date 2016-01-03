@@ -3,7 +3,7 @@
 	
 	.firms-block,
     .product-types-block {
-		margin: 0 0 30px 0;
+		//margin: 0 0 30px 0;
 	}
 	
 	.clear-filter {
@@ -42,7 +42,7 @@
 	
 	padding: 0 2px 10px 2px;
 	@extend %fl;
-	@extend %w_25;
+	@extend %w_33;
 	@extend %border_box;
 	
 	a,
@@ -57,31 +57,47 @@
 		
 		/* @include border-radius(4px); */
 		
-		//@extend %font_11;
 		@extend %db;
 		@extend %underline_n_n;
 		
+		@extend .cart-block-border-cnt;
+		
+		
+
+		padding: 5px;
+
 		.name {
-			//text-decoration: underline;
-			@extend %underline_y_n;
+			//@extend %underline_y_n;
+			@extend %underline_n_n;
+			@extend %font_11;
 		}
+		
+		.product-count {
+			@extend %normal;
+			padding-left: 3px;
+		}
+		
+		@extend %bold;
+		@extend %font_12;
+		color: #222;
 		
 		&:hover,
 		&.active {
-			//@include box-shadow(rgba(70,70,70,0.75) 4px 4px 8px 0px inset);
-			//@include box-shadow(#d0d0d0 2px 2px 4px 0 inset);
-			//background-color: #f5f5f5;
+			@include box-shadow(0 0 6px 3px #ccc);
+			@extend .c_d70000;
 		}
+		/*
 		&.active {
 			
 			span {
 				@extend %bold;
 			}
 			.name {
-				@extend %underline_n_y;
+				text-decoration: underline;
 			}
 
 		}
+		*/
 	}
 	
 	
@@ -98,16 +114,19 @@
 
 .product-types-block {
 	.filter-block-list {
-		@extend %fl;
+		//@extend %fl;
 	}
 }
 
 .filter-block-list-all {
 	width: 10%;
+	.product-types-list-item {
+		width: auto;
+	}
 }
 
 .filter-block-list-items {
-	width: 90%;
+	//width: 90%;
 }
 
 .product-types-list-all {

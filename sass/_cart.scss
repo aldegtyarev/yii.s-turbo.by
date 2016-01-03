@@ -480,18 +480,48 @@ textarea#CheckoutFizForm_comment {
 		@extend .mt-20;
 	}
 	
+	.cart-block-border-ttl {
+		margin-bottom: 0;
+		
+		a {
+			@extend %db;
+		}
+	}
+	
 }
 
 .payment-item {
 	width: 20%;
+	
+	.cart-block-border-ttl {
+		@extend .clearfix;
+		padding-left: 7px;
+		
+		a,
+		input {
+			@extend %db;
+			@extend %fl;
+		}
+		
+		a {
+			@extend %text_l;
+			width: 80px;
+			margin-left: 5px;
+		}
+		
+		input {
+			margin-top: 3px;
+		}
+	}
 }
 
 .cart-block-border-cnt {
 	@extend .p-10;
-	@extend %pointer;
+	//@extend %pointer;
 	@include border_radius(4px);
 		
-	border: 1px solid #c0c0c0; 
+	border: 1px solid #c0c0c0;
+	background-color: #fafafa;	
 	
 	@include transition-property(box-shadow);
 	@include transition-duration(200ms);
@@ -503,6 +533,12 @@ textarea#CheckoutFizForm_comment {
 		margin: 0 auto;
 	}
 	
+}
+
+.product-delivery {
+	.cart-block-border-cnt {
+		cursor: auto;
+	}
 }
 
 .cart-block-border-cnt-disabled {
@@ -520,6 +556,11 @@ textarea#CheckoutFizForm_comment {
 	@extend %text_c;
 	@extend .mb-20;
 	color: #1a8bfc;
+	
+	a {
+		color: #1a8bfc;
+		@extend %underline_y_n;
+	}
 }
 
 .cart-block-border-cnt-selected {

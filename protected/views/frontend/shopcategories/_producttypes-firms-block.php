@@ -120,7 +120,7 @@ $main_url = $this->createUrl('shopcategories/show', $all_url_params);
 			</div>
 		<?	}	?>
 		*/?>
-		<a href="<?=$main_url?>" class="clear-filter">Сбросить фильтр</a>
+		<?/*<a href="<?=$main_url?>" class="clear-filter">Сбросить фильтр</a>*/?>
 		
 	</div>
 <?	}	?>

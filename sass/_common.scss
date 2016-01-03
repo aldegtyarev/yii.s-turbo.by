@@ -73,6 +73,8 @@ $block_width: 188px;
     font-weight: normal;
     font-style: normal;
 }
+*/
+/*
 @font-face {
     font-family: 'ptsans-italic';
     src: url('../fonts/pt_sans-web-italic-webfont.eot');
@@ -82,7 +84,7 @@ $block_width: 188px;
     font-weight: normal;
     font-style: normal;
 }
-*/
+/**/
 @font-face {
     font-family: 'ptsans-bolditalic';
     src: url('../fonts/pt_sans-web-bolditalic-webfont.eot');
@@ -217,6 +219,10 @@ span sup{text-decoration:none;}
 .ptsans-bolditalic {
 	font-family: 'ptsans-bolditalic';
 }
+
+//.ptsans-italic {
+//	font-family: 'ptsans-italic';
+//}
 
 .grey {
     @extend %c_999;
@@ -587,3 +593,18 @@ span.required { @extend %c_d70000; }
 		background-color: #fafafa;
 	}
 }
+
+.scrollTop{  
+	@extend %db;
+	@extend %pointer;
+	
+	background:url(../img/arrow-up.png) 0 0 no-repeat;
+	background-size: contain;
+	width:48px; 
+	height:48px;  
+	position:fixed; 
+	bottom:150px; 
+	right:50%;  
+	margin-right: -580px;
+	z-index:2000;  
+}  

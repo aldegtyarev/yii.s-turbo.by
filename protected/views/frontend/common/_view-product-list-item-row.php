@@ -45,6 +45,21 @@
 			</div>
 			<div class="product-list-item-row-info-block">
 				<a href="<?=$data->product_url?>" class="product-title  db bold text_c font-12 mt-15"><?=$data->product_name?></a>
+				
+				<? if($data->product_availability > 0)	{	?>
+					<?
+					if($data->product_availability == 2) {
+						$status_class = 'status-available';
+					}	else	{
+						$status_class = 'status-on-request';
+					}
+	
+					$product_availability_text = $data->ProductAvailabilityArray[$data->product_availability]['name']. ' ' .$data->delivery;
+					?>
+				
+					<span class="status list-item-row-status <?=$status_class?>"><?= $product_availability_text ?></span>
+				<?	}	?>
+				
 
 				<ul class="prod-list-char-list prod-list-char-list-p1">
 					<li class="prod-list-char-item arial font-10"><span class="c_777"><? echo $data->getAttributeLabel('firm_id');?>:</span> <?=$data->firm_name?></li>
@@ -102,17 +117,6 @@
 					</p>
 				<?	}	?>
 				
-				<? if($data->product_availability > 0)	{	?>
-					<?
-					if($data->product_availability == 2) {
-						$status_class = 'status-available';
-					}	else	{
-						$status_class = 'status-on-request';
-					}
-					?>
-				
-					<p class="status list-item-row-status <?=$status_class?>"><?=$data->ProductAvailabilityArray[$data->product_availability]['name'] ?></p>
-				<?	}	?>
 				
 
 				

@@ -94,6 +94,10 @@
 		top: 0;
 		left: 0;
 		
+		&:hover {
+			@include box-shadow(0 0 6px 3px #ccc);
+		}
+		
 		
 		span {
 			@extend %pos_abs;

@@ -359,3 +359,5 @@ if($product_price >= Yii::app()->params['free_delivery_limit']) $model->free_del
 
 	
 </div>
+
+<?php $this->widget('application.components.HowItWorkWidget'); ?>

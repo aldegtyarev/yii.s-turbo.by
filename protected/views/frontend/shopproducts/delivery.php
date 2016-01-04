@@ -64,12 +64,26 @@
 $(document).ready(function () {
 	'use strict';
 	var max_height = 0;
-	
+	/*
 	$('.delivery-item-cnt').each(function(){
 		if($(this).height() > max_height)
 			max_height = $(this).height();
 	});
 
 	$('.delivery-item-cnt').css('height', max_height);
+	*/
+	function setEqualHeight(block) {
+		max_height = 0;
+		$(block).each(function(){
+			if($(this).height() > max_height)
+				max_height = $(this).height();
+		});
+		$(block).css('height', max_height);
+	}
+	
+	setEqualHeight('.cart-block-border-ttl');
+	setEqualHeight('.delivery-item-cnt');
+	
+	
 });
 </script>

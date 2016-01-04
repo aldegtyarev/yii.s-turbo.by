@@ -117,4 +117,20 @@ class SiteController extends Controller
 		Yii::app()->user->logout();
 		$this->redirect(Yii::app()->homeUrl);
 	}
+	
+	public function actionCacheclear()
+	{
+		$app = Yii::app();
+		if(!$app->user->isGuest && $app->user->id == 1) {
+			$app = Yii::app();
+			$app->cache->flush();
+			//$this->redirect(array('my/settings'));
+			$this->redirect(Yii::app()->homeUrl);
+		}	else	{
+			$this->redirect(Yii::app()->homeUrl);
+		}
+		
+		
+	}
+	
 }

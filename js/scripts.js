@@ -50,7 +50,8 @@ $(document).ready(function () {
 		scroll_el = null,
 		scroll_el_pos = 0,
 		model_is_change = false,
-		scroll_to_block = false;
+		scroll_to_block = false,
+		simple_page = false;
 		
 	
 	function showFullImg(imgElem) {
@@ -156,6 +157,15 @@ $(document).ready(function () {
 		//scroll_el = $("#content-wr");
 		scroll_el = $("#central-cnt");
 		//scroll_el_pos = scroll_el.offset().top + 30;
+		scroll_el_pos = scroll_el.offset().top;
+		scroll_to_block = true;
+	});
+	
+	$("#central-cnt").on('click', '.page-item-more, .page-readmode, .all-items, .page-title, .page-image', function (e) {
+		e.preventDefault();
+		//simple_page = true;
+		History.pushState(null, document.title, $(this).attr('href'));
+		scroll_el = $('#search-auto-block');
 		scroll_el_pos = scroll_el.offset().top;
 		scroll_to_block = true;
 	});
@@ -443,17 +453,21 @@ $(document).ready(function () {
 			$('#clear-search-auto').show();
 		} else {
 			block_to_load = $central_cnt.find('#content-wr');
-			cnt_to_load = categoryProducts_cnt;
+			if(simple_page === false) cnt_to_load = categoryProducts_cnt;
+				else cnt_to_load = '';
 			//block_to_load = $central_cnt;
 			//cnt_to_load = central_cnt;
 		}
+		
 		/*
 		console.log(url);
 		console.log(block_to_load);
 		console.log(cnt_to_load);
 		console.log(model_is_change);
 		console.log(scroll_to_block);
+		console.log(simple_page);
 		*/
+		
 		
 		block_to_load.load(url + cnt_to_load, function(){
 			console.log('loaded');
@@ -477,6 +491,32 @@ $(document).ready(function () {
 				}
 			});
 			
+			$('.jcarousel-products-on-auto').jcarousel({
+				wrap: 'circular',
+				visible: 1
+			});
+
+			$('.jcarousel-products-on-auto-control-prev')
+				.on('jcarouselcontrol:active', function() {
+					$(this).removeClass('inactive');
+				})
+				.on('jcarouselcontrol:inactive', function() {
+					$(this).addClass('inactive');
+				})
+				.jcarouselControl({
+					target: '-=1'
+				});
+
+			$('.jcarousel-products-on-auto-control-next')
+				.on('jcarouselcontrol:active', function() {
+					$(this).removeClass('inactive');
+				})
+				.on('jcarouselcontrol:inactive', function() {
+					$(this).addClass('inactive');
+				})
+				.jcarouselControl({
+					target: '+=1'
+				});
 			
 			if ($(scroll_el).length != 0) {
 				if(scroll_to_block === true) {
@@ -494,6 +534,7 @@ $(document).ready(function () {
 			}
 			
 			model_is_change = false;
+			simple_page = false;
 		});
 	}	
 	

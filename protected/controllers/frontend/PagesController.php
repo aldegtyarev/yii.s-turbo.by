@@ -108,10 +108,10 @@ class PagesController extends Controller
 		
 		if($alias != '') {
 			$model = $this->loadModelByAlias($alias);
-			$this->renderPage1($model, $category_id);
+			$this->renderPage1($model, $category_id, 'view');
 		}	else	{
 			//$url_path = 'news';
-			$this->renderPagesList($category_id, $app);
+			$this->renderPagesList($category_id, $app, true);
 		}
 	}
 	
@@ -127,9 +127,9 @@ class PagesController extends Controller
 		
 		if($alias != '') {
 			$model = $this->loadModelByAlias($alias);
-			$this->renderPage1($model, $category_id);
+			$this->renderPage1($model, $category_id, 'view');
 		}	else	{
-			$this->renderPagesList($category_id, $app);
+			$this->renderPagesList($category_id, $app, true);
 		}
 	}
 	
@@ -240,7 +240,7 @@ class PagesController extends Controller
 		$this->renderPage1($model);
 	}
 
-	public function renderPage1(&$model, $category_id = 1)
+	public function renderPage1(&$model, $category_id = 1, $tmpl = '')
 	{		
 		$app = Yii::app();	
 		if (Yii::app()->request->isAjaxRequest) $modal = 1;
@@ -261,7 +261,7 @@ class PagesController extends Controller
 		//$aadThumbnails = new AadThumbnails();
 		//$aadThumbnails->onPrepareContent($model);
 		
-		if($modal == 0) {
+		if($modal == 0 || $tmpl == 'view') {
 			$this->render('view',array(
 				'model'=>$model,
 				'current_action'=>$current_action,
@@ -348,7 +348,7 @@ class PagesController extends Controller
 		return $dataProvider;
 	}
 	
-	public function renderPagesList($category_id, &$app)
+	public function renderPagesList($category_id, &$app, $full_render = false)
 	{
 		$this->processPageRequest('page');
 
@@ -362,7 +362,7 @@ class PagesController extends Controller
 
 		$url_path = $model->alias;
 
-		if ($app->request->isAjaxRequest){
+		if ($app->request->isAjaxRequest && $full_render == false){
 
 			$this->renderPartial('_loopAjax', array(
 				'dataProvider'=>$dataProvider,

@@ -524,8 +524,7 @@ textarea#CheckoutFizForm_comment {
 	background-color: #fafafa;	
 	
 	@include transition-property(box-shadow);
-	@include transition-duration(200ms);
-	
+	@include transition-duration(200ms);	
 	
 	img {
 		@extend %db;
@@ -538,6 +537,10 @@ textarea#CheckoutFizForm_comment {
 .product-delivery {
 	.cart-block-border-cnt {
 		cursor: auto;
+	}
+	
+	.delivery-item-cnt .cart-block-border-ttl {
+		margin-bottom: 14px;
 	}
 }
 

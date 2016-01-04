@@ -138,8 +138,9 @@ $(document).ready(function () {
 		setDelivery();
 	});
 	
-	$('.payment_type').on('click', function () {
+	$('#payment-list').on('click', '.payment_type', function () {
 		paymentItem = $(this).closest('.payment-item-cnt');
+		console.log(paymentItem.data('payment'));
 		$('.payment_type').each(function(){
 			$(this).prop('checked', false);
 		});

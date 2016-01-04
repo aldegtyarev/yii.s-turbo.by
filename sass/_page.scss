@@ -181,7 +181,7 @@
 }
 
 .page-row-info {
-	margin-left: 230px;
+	margin-left: 205px;
 }
 
 .pages-news {
@@ -367,6 +367,11 @@
 	}
 }
 
+.pages-delivery {
+	.fancybox1 {
+		@extend %c_d70000;
+	}
+}
 .pages-delivery,
 .pages-payment {
 	.nav-tabs {
@@ -384,17 +389,40 @@
 			padding: 0 2px;
 			a {
 				@extend .cart-block-border-cnt;
-				@extend %underline_y_n;
+				@extend %underline_n_n;
 				@extend %font_13;
+				@extend %pos_rel;
 				
 				padding: 5px;
 				
 				&:hover {
 					//border-bottom: 1px solid #c0c0c0;
 					@include box-shadow(0 0 6px 3px #ccc);
+					
 				}
 			}
 			
+			
+		}
+		
+		.selected > a,
+		a:hover {
+			&:before, 
+			&:after {
+				content: ''; 
+				position: absolute;
+				left: 50%; 
+				margin-left: -10px;
+				bottom: -20px;
+				border: 10px solid transparent;
+				border-top: 10px solid #c0c0c0;
+			}
+
+			&:after {
+				border-top: 10px solid #fafafa;
+				bottom: -19px; 
+			}
+
 		}
 		
 		.selected a {
@@ -410,4 +438,11 @@
 	padding-left: 5px;
 	padding-right: 5px;
 	padding-top: 5px;
+}
+
+.page-title {
+	@extend %bold;
+	@extend %font_14;
+	@extend %db;
+	@extend .mb-20;
 }

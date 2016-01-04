@@ -14,7 +14,7 @@ $url = $this->createUrl('pages/'.$url_path, array('alias'=>$data->alias));
 
 		<div class="page-row-info">
 			<p class="page-item-created"><?= Yii::app()->dateFormatter->format("dd MMMM yyyy", $data->created) ?></p>
-			<a href="<?= $url ?>" class="product-title db bold font-14"><?=$data->name?></a>
+			<a href="<?= $url ?>" class="page-title"><?=$data->name?></a>
 			<div class="page-intro"><?= $data->intro ?></div>				
 			<a href="<?= $url ?>" class="page-readmode">Подробнее</a>
 		</div>

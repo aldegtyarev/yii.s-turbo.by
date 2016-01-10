@@ -131,8 +131,9 @@
 	}
 	
 	&.pages-delivery {
-		p {
-			margin-bottom: 5px;
+		.tab-pane img {
+			height: 199px !important;
+			width: 300px !important;
 		}
 	}
 }
@@ -324,6 +325,7 @@
 }
 
 .backcall-form-cnt {
+	@extend .p-20;
 	margin-top: 0;
 	
 	h3 {

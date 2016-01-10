@@ -9,7 +9,10 @@ $url = $this->createUrl('pages/'.$url_path, array('alias'=>$data->alias));
 	<div class="product-item-wr clearfix">
 
 		<div class="product-list-item-row-image-block fLeft">
-			<a href="<?= $url ?>" class="db product-image page-image" style="background-image: url(<?=$data->foto ?>)"></a>
+			<?/*<a href="<?= $url ?>" class="db product-image page-image" style="background-image: url(<?=$data->foto ?>)"></a>*/?>
+			<a href="<?= $url ?>" class="db page-title">
+				<img class="product-image page-image" src="<?= $data->foto ?>" alt="<?=$data->name?>">
+			</a>
 		</div>
 
 		<div class="page-row-info">

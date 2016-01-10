@@ -69,6 +69,8 @@ class ShopCategoriesController extends Controller
 		UrlHelper::checkChangeAuto($app);
 		//-----------------------------------------------------------------
 		
+		
+		
 		$selected_auto = UrlHelper::getSelectedAuto($app);	//это то что храниться в сессии
 		
 		if($url_params['marka'] != $selected_auto['marka'] || $url_params['model'] != $selected_auto['model'] || $url_params['year'] != $selected_auto['year']) {
@@ -94,28 +96,53 @@ class ShopCategoriesController extends Controller
 			$this->redirect($this->createUrl($url, $url_params_));
 		}
 		
+		//echo'<pre>';print_r($url_params);echo'</pre>';die;
+		if(!is_null($url_params['type'])) $selected_auto['type'] = $url_params['type'];
+		
+		$url_params_ = UrlHelper::buildUrlParams($selected_auto, $url_params['id']);
+		$url = $url_params_[0];
+		unset($url_params_[0]);
+
+		//echo'<pre>';print_r($url_params_);echo'</pre>';die;
+		$select_view_row = $this->createUrl($url, $url_params_).'?select-view=row';
+		$select_view_tile = $this->createUrl($url, $url_params_).'?select-view=tile';
+		
+		
+		
+		
 		
 		$this->processPageRequest('page');
 		
-		//echo'<pre>';print_r($_GET);echo'</pre>';//die;
-		
 		$selected_view = $app->request->getParam('select-view', -1);
-		
 		$type_request = (int)$app->request->getParam('type', 0);
 		$firm_request = (int)$app->request->getParam('firm', 0);
 		$body_request = (int)$app->request->getParam('body', 0);
 		$engine_id = (int)$app->request->getParam('engine', 0);
+		$showmore = (int)$app->request->getParam('showmore', 0);
+		
+		
 		
 		$engineImage = null;
 		$engineTitle = null;
 		
 		if($selected_view != -1)	{
 			$app->session['Shopcategories.selected_view'] = $selected_view;
-			$url_params = array('id'=>$id);
-			if($body_request != 0) $url_params['body'] = $body_request;
-			if($type_request != 0) $url_params['type'] = $type_request;
-			if($firm_request != 0) $url_params['firm'] = $firm_request;
-			$this->redirect($this->createUrl('show', $url_params));
+			
+			$url_params_ = UrlHelper::buildUrlParams($selected_auto, $url_params['id']);
+			$url = $url_params_[0];
+			unset($url_params_[0]);
+			
+			$return_url = $this->createUrl($url, $url_params_);
+			/*
+			if($app->request->isAjaxRequest) {
+				echo $return_url;
+				$app->end();
+			}	else	{
+				$this->redirect($return_url);
+			}
+			*/
+			$this->redirect($return_url);
+			
 		}	else	{
 			if(isset($app->session['Shopcategories.selected_view']))	{
 				$selected_view = $app->session['Shopcategories.selected_view'];
@@ -139,9 +166,11 @@ class ShopCategoriesController extends Controller
 					$modelinfo = ShopModelsAuto::model()->getModelInfo($connection, $select_marka, $select_model, $select_year);
 				else $modelinfo = array();
 		}
-
+		
+		$cat_name = $category->name;
+		if($category->name1 != '') $category->name = $category->name1;
+		
 		if(count($modelinfo)) {
-			if($category->name1 != '') $category->name = $category->name1;
 			if(count($modelinfo))	$category->name .= ' для';
 			foreach($modelinfo as $k=>$i) {
 				if(isset($modelinfo[$k+1])) {
@@ -241,6 +270,8 @@ class ShopCategoriesController extends Controller
 			$bodies = array();
 		}
 		
+		$is_universal_products = false;
+		
 		if(count($dataProvider->data))	{
 			$product_ids = array();
 			
@@ -248,6 +279,8 @@ class ShopCategoriesController extends Controller
 			foreach($model_ids as $id)
 				if($id != $select_year && $id != $app->params['universal_products'])
 					$modelIds[] = $id;
+			
+			$free_delivery_limit = Delivery::model()->getFreeDeliveryLimit();
 			
 			foreach($dataProvider->data as $row)	{
 				$product_ids[] = $row->product_id;
@@ -257,13 +290,15 @@ class ShopCategoriesController extends Controller
 				$row->model_ids = $modelIds;
 				
 				$product_price = PriceHelper::formatPrice($row->product_price, $row->currency_id, 3, $currency_info, true, true);
-				if($product_price >= $app->params['free_delivery_limit']) $row->free_delivery = 1;
+				if($product_price >= $free_delivery_limit) $row->free_delivery = 1;
 				
 				$row->model_ids = $modelIds;
 			}
 			
 			//получаем массив доп. изображений для списка товаров
 			$ProductsImages = ShopProductsImages::model()->getFotoForProductList($connection, $product_ids);
+			
+			$is_universal_products = ShopProductsModelsAuto::model()->isUniversalroduct($product_ids[0]);
 			
 			if(count($ProductsImages))	{
 				foreach($ProductsImages as $Image)	{
@@ -308,7 +343,7 @@ class ShopCategoriesController extends Controller
 		$breadcrumbs = $this->createBreadcrumbs($category);
 		
 		if(count($model_ids))	{
-			if(count($model_ids) == 2 && $model_ids[1] == 1247)	{
+			if(count($model_ids) == 2 && $model_ids[1] == $app->params['universal_products'])	{
 				$this->show_models = false;
 			}	else	{
 				$this->show_models = true;
@@ -334,18 +369,31 @@ class ShopCategoriesController extends Controller
 			$itemView = "_view";
 		}
 		
+		$model_auto_selected = false;
 		// если не выбрана марка модель год то выводим уведомление
-		if($select_marka != -1 && $select_model != -1 && $select_year != -1) $show_search_notice = false;
-			else $show_search_notice = true;
+		if($select_marka != -1 && $select_model != -1 && $select_year != -1) {
+			$model_auto_selected = true;
+			$show_search_notice = false;
+			if($is_universal_products == true)	{
+				$category->name = $cat_name;
+				if($category->name1 != '') $category->name = $category->name1;
+			}
+		}	elseif($is_universal_products == true)	{
+			$model_auto_selected = true;
+			$show_search_notice = false;
+		}	else {
+			$show_search_notice = true;
+		}
 		
 		
-		/*
-        if ($app->request->isAjaxRequest){
+        if ($showmore == 1){
             $this->renderPartial('_loopAjax', array(
 				//'app'=> $app,
                 'dataProvider'=>$dataProvider,
                 'itemView'=>$itemView,
 				'currency_info' => $currency_info,
+				'model_auto_selected' => $model_auto_selected,
+				'page_num' => $_GET['page'],
             ));
             $app->end();
         } else {
@@ -371,12 +419,18 @@ class ShopCategoriesController extends Controller
 				'engineTitle' => $engineTitle,
 				'show_search_notice' => $show_search_notice,
 				'currency_info' => $currency_info,
+				'model_auto_selected' => $model_auto_selected,
+				'select_view_row' => $select_view_row,
+				'select_view_tile' => $select_view_tile,
+				
 			);
 
 			$this->render('show', $data);
         }
-		*/
 		
+		
+		
+		/*
 		$data = array(
 			'app'=> $app,
 			'dataProvider'=> $dataProvider,
@@ -399,16 +453,10 @@ class ShopCategoriesController extends Controller
 			'engineTitle' => $engineTitle,
 			'show_search_notice' => $show_search_notice,
 			'currency_info' => $currency_info,
-		);
-		/*
-		if ($app->request->isAjaxRequest){
-			$this->renderPartial('show', $data);
-			$app->end();
-		}	else	{
-			$this->render('show', $data);
-		}
-		*/
+			'model_auto_selected' => $model_auto_selected,
+		);		
 		$this->render('show', $data);
+		*/
 		
 		
 	}
@@ -452,115 +500,144 @@ class ShopCategoriesController extends Controller
 
 		$model_info = ShopModelsAuto::model()->getModelInfo($connection, $select_marka, $select_model, $select_year);
 		//echo'<pre>';print_r($model_info,0);echo'</pre>';
-		
-		
-		//$category = ShopCategories::model()->findByPk($id);
-		//$descendants = $category->children()->findAll(array('order'=>'ordering'));
-		
+
 		//если фильруем по какой-то модели - то получаем ИД этих моделей
 		$model_ids = ShopModelsAuto::model()->getModelIds($app);
-		//echo'$model_ids<pre>';print_r($model_ids,0);echo'</pre>';
 		
-		$criteria = new CDbCriteria();
-		$criteria->select = "t.product_id";
-		
-		$condition_arr = array();		
-		
-		if(count($model_ids))	{
-			$product_ids = ShopProductsModelsAuto::model()->getProductIdFromModels($connection, $model_ids);
-			if(count($product_ids))	{
-				$condition_arr[] = "t.`product_id` IN (".implode(',', $product_ids).")";
+		//******************************
+		$categories = ShopCategories::model()->getCategoriesList(0, $model_ids);
+		foreach($categories as $category) {
+			$criteria = new CDbCriteria();
+			$criteria->select = "t.product_id";
+			$criteria->join = 'INNER JOIN {{shop_products_categories}} AS pc USING (`product_id`) ';
+
+			$condition_arr = array();
+			$condition_arr[] = "pc.`category_id` = ".$category->id;
+
+			if(count($model_ids))	{
+				$product_ids = ShopProductsModelsAuto::model()->getProductIdFromModels($connection, $model_ids);
+
+				$product_ids = ProductsModelsDisabled::model()->checkForExcludedProducts($connection, $product_ids, $model_ids);
+
+				if(count($product_ids))
+					$condition_arr[] = "t.`product_id` IN (".implode(', ', $product_ids).")";
 			}
-		}
-		
-		$criteria->condition = implode(' AND ', $condition_arr);
-		
-		//echo'<pre>';print_r($criteria,0);echo'</pre>';
-		
-		//получаем сначала все позиции для получения их id без учета пагинации
-		//$rows = ShopProducts::model()->findAll($criteria);
-		//$finded_product_ids = ShopProducts::model()->getProductIds($rows);
-		if(count($product_ids))	{
-			$finded_product_ids = $product_ids;
-		}	else	{
+
+			$criteria->condition = implode(' AND ', $condition_arr);		
+
 			$rows = ShopProducts::model()->findAll($criteria);
-			$finded_product_ids = ShopProducts::model()->getProductIds($rows);			
-		}
-		
-		//echo'<pre>';print_r($product_ids,0);echo'</pre>';
-		//echo'<pre>';print_r($finded_product_ids,0);echo'</pre>';
-		
-		$criteria->select = "t.*";
-		
-		if($type_request != 0)	{
-			$condition_arr[] = "t.type_id = ".$type_request;
-		}
+			if(count($rows) > 0) {
+				$selected_auto = array(
+					'marka' => $select_marka,
+					'model' => $select_model,
+					'year' => $select_year,
+					'engine' => $app->request->getParam('engine', -1),
+					'type' => $app->request->getParam('type', -1),
+				);
+
+				$url_params = UrlHelper::buildUrlParams($selected_auto, $category->id);
+				$url = $url_params[0];
+				unset($url_params[0]);
+				$return_url = $this->createUrl($url, $url_params);
 				
-		$criteria->condition = implode(' AND ', $condition_arr);
-		
-		//$criteria->order = "t.`product_id`";
-		$criteria->order = $app->params->products_list_order;
-		
-		//echo'<pre>';print_r($criteria,0);echo'</pre>';
-		
-        $dataProvider = new CActiveDataProvider('ShopProducts', array(
-            'criteria'=>$criteria,
-            'pagination'=>array(
-               	'pageSize'=>$app->params->pagination['products_per_page'],
-				'pageVar' =>'page',
-            ),
-        ));
-		
-		//$finded_product_ids = ShopProducts::model()->getProductIds($dataProvider->data);
-		
-		if(count($finded_product_ids))	{
-			//загрузить группы товаров
-			//$producttypes = ShopProductTypes::model()->getProductTypesForProductList($connection, $product_ids, $get_null = true);
-			//загрузить фирмы
-			$firms = ShopFirms::model()->getFirmsForProductList($connection, $finded_product_ids);
-			
-			//$bodies = ShopBodies::model()->getBodiesForProductList($connection, $finded_product_ids, $model_ids);
-		}	else	{
-			$firms = array();
-			//$producttypes = array();
-			//$bodies = array();
-		}
-		
-		
-		//echo'<pre>';print_r($finded_product_ids);echo'</pre>';
-		//echo'<pre>';print_r($firms);echo'</pre>';
-		if(count($dataProvider->data))	{
-			$product_ids = array();
-			
-			$modelIds = array();
-			foreach($model_ids as $id)
-				if($id != $select_year && $id != $app->params['universal_products'])
-					$modelIds[] = $id;
-			
-			foreach($dataProvider->data as $row)	{
-				$product_ids[] = $row->product_id;
-				$row->product_url = $this->createUrl('shopproducts/detail', array('product'=> $row->product_id));
-				$row->product_image = $app->params->product_images_liveUrl.($row->product_image ? 'thumb_'.$row->product_image : 'noimage.jpg');
-				$row->firm_name = $firms[$row->firm_id]['name'];
-				//$row->product_availability_str = $firms[$row->firm_id]['name'];
-				$row->model_ids = $modelIds;				
+				return $this->redirect($return_url);
 			}
-			
-			//получаем массив доп. изображений для списка товаров
-			$ProductsImages = ShopProductsImages::model()->getFotoForProductList($connection, $product_ids);
-			
-			if(count($ProductsImages))	{
-				foreach($ProductsImages as $Image)	{
-					foreach($dataProvider->data as $row)	{
-						if($Image['product_id'] == $row->product_id)	{
-							$row->AdditionalImages[] = $Image['image_file'];
+		}
+		//******************************
+		
+		//----
+		if($app->params['show_products_on_index'] == true || $app->user->id == 1) {
+			$criteria = new CDbCriteria();
+			$criteria->select = "t.product_id";
+
+			$condition_arr = array();		
+
+			if(count($model_ids))	{
+				$product_ids = ShopProductsModelsAuto::model()->getProductIdFromModels($connection, $model_ids);
+				if(count($product_ids))	{
+					$condition_arr[] = "t.`product_id` IN (".implode(',', $product_ids).")";
+				}
+			}
+
+			$criteria->condition = implode(' AND ', $condition_arr);
+
+			//получаем сначала все позиции для получения их id без учета пагинации
+			if(count($product_ids))	{
+				$finded_product_ids = $product_ids;
+			}	else	{
+				$rows = ShopProducts::model()->findAll($criteria);
+				$finded_product_ids = ShopProducts::model()->getProductIds($rows);			
+			}
+
+
+			$criteria->select = "t.*";
+
+			if($type_request != 0)	{
+				$condition_arr[] = "t.type_id = ".$type_request;
+			}
+
+			$criteria->condition = implode(' AND ', $condition_arr);
+
+			//$criteria->order = "t.`product_id`";
+			$criteria->order = $app->params->products_list_order;
+
+			//echo'<pre>';print_r($criteria,0);echo'</pre>';
+
+			$dataProvider = new CActiveDataProvider('ShopProducts', array(
+				'criteria'=>$criteria,
+				'pagination'=>array(
+					'pageSize'=>$app->params->pagination['products_per_page'],
+					'pageVar' =>'page',
+				),
+			));
+
+			if(count($finded_product_ids))	{
+				//загрузить фирмы
+				$firms = ShopFirms::model()->getFirmsForProductList($connection, $finded_product_ids);
+			}	else	{
+				$firms = array();
+			}
+
+
+			if(count($dataProvider->data))	{
+				$product_ids = array();
+
+				$modelIds = array();
+				foreach($model_ids as $id)
+					if($id != $select_year && $id != $app->params['universal_products'])
+						$modelIds[] = $id;
+
+				foreach($dataProvider->data as $row)	{
+					$product_ids[] = $row->product_id;
+					$row->product_url = $this->createUrl('shopproducts/detail', array('product'=> $row->product_id));
+					$row->product_image = $app->params->product_images_liveUrl.($row->product_image ? 'thumb_'.$row->product_image : 'noimage.jpg');
+					$row->firm_name = $firms[$row->firm_id]['name'];
+					//$row->product_availability_str = $firms[$row->firm_id]['name'];
+					$row->model_ids = $modelIds;				
+				}
+
+				//получаем массив доп. изображений для списка товаров
+				$ProductsImages = ShopProductsImages::model()->getFotoForProductList($connection, $product_ids);
+
+				if(count($ProductsImages))	{
+					foreach($ProductsImages as $Image)	{
+						foreach($dataProvider->data as $row)	{
+							if($Image['product_id'] == $row->product_id)	{
+								$row->AdditionalImages[] = $Image['image_file'];
+							}
 						}
 					}
 				}
+			}	else	{
+				$ProductsImages = array();
 			}
+			
+			$productsTotal = count($finded_product_ids);
 		}	else	{
-			$ProductsImages = array();
+			$dataProvider = array();
+			$productsTotal = 0;
 		}
+		//---
 		
 		//echo'<pre>';print_r(count($finded_product_ids));echo'</pre>';
 		//echo'<pre>';print_r($model_info);echo'</pre>';die;
@@ -607,29 +684,7 @@ class ShopCategoriesController extends Controller
 		if($select_marka != -1 && $select_model != -1 && $select_year != -1) $show_search_notice = true;
 			else $show_search_notice = false;
 		
-		/*
-        if ($app->request->isAjaxRequest){
-            $this->renderPartial('_loopAjax', array(
-                'dataProvider'=>$dataProvider,
-                'itemView'=>$itemView,
-            ));
-            $app->end();
-        } else {
-			$data = array(
-				'app'=> $app,
-				'dataProvider'=> $dataProvider,
-				'itemView'=>$itemView,				
-				'selected_view'=> $selected_view,
-				'breadcrumbs' => $breadcrumbs,
-				'title' => $title,
-				//'producttypes' => $producttypes,
-				'productsTotal' => count($finded_product_ids),
-				'show_search_notice' => $show_search_notice,
-			);
-
-			$this->render('index', $data);
-        }
-		*/
+		
 		$data = array(
 			'app'=> $app,
 			'dataProvider'=> $dataProvider,
@@ -637,8 +692,7 @@ class ShopCategoriesController extends Controller
 			'selected_view'=> $selected_view,
 			'breadcrumbs' => $breadcrumbs,
 			'title' => $title,
-			//'producttypes' => $producttypes,
-			'productsTotal' => count($finded_product_ids),
+			'productsTotal' => $productsTotal,
 			'show_search_notice' => $show_search_notice,
 		);
 

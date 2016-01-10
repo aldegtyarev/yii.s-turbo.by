@@ -113,9 +113,11 @@
 		<?php echo $form->error($model,'comment'); ?>
 	</div>
 	
+	<?/*
 	<div class="row info_text">
 		Удобный способ оплаты и доставки с Вами обсудит наш менеджер по телефону
 	</div>
+	*/?>
 	
 
 </div>

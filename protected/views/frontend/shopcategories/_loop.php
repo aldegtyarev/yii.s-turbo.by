@@ -26,60 +26,8 @@
     <p id="loading" class="more-products button" style="display:none">Загрузка...</p>
 	<a href="#" id="showMore" class="more-products button">Показать еще</a>
 	
-	<?
-	$app->clientScript->registerScript('bids-index', "
-// скрываем стандартный навигатор
-$('.pager').hide();
-
-// запоминаем текущую страницу и их максимальное количество
-var page = parseInt('".(int)$app->request->getParam('page', 1)."');
-var pageCount = parseInt('".(int)$dataProvider->pagination->pageCount."');
-
-var loadingFlag = false;
-
-$('#showMore').click(function()
-{
-	// защита от повторных нажатий
-	if (!loadingFlag)
-	{
-		// выставляем блокировку
-		loadingFlag = true;
-
-		// отображаем анимацию загрузки
-		$('#loading').show();
-		$('#showMore').hide();
-
-		$.ajax({
-			type: 'post',
-			url: window.location.href,
-			data: {
-				// передаём номер нужной страницы методом POST
-				'page': page + 1,
-				'".$app->request->csrfTokenName."': '".$app->request->csrfToken."'
-			},
-			success: function(data)
-			{
-				// увеличиваем номер текущей страницы и снимаем блокировку
-				page++;                            
-				loadingFlag = false;                            
-
-				// прячем анимацию загрузки
-				$('#loading').hide();
-				$('#showMore').show();
-
-				// вставляем полученные записи после имеющихся в наш блок
-				$('#listView').append(data);
-
-				// если достигли максимальной страницы, то прячем кнопку
-				if (page >= pageCount)
-					$('#showMore').hide();
-			}
-		});
-	}
-	return false;
-})
-");
-
-?>
- 
+	<input type="hidden" id="page_input" value="<?= (int)$app->request->getParam('page', 1) ?>">
+	<input type="hidden" id="pageCount_input" value="<?= (int)$dataProvider->pagination->pageCount ?>">
+	<input type="hidden" id="csrfTokenName" value="<?= $app->request->csrfTokenName ?>">
+	<input type="hidden" id="csrfToken" value="<?= $app->request->csrfToken ?>"> 
 <?php	}	?>

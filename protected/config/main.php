@@ -11,7 +11,7 @@ return array(
 	'sourceLanguage' => 'en',
 	'language' => 'ru',
 	'charset'=>'utf-8',
-	'homeUrl'=>'http://new.s-turbo.by/',
+	'homeUrl'=>'http://s-turbo.by/',
 	
 
 	// preloading 'log' component
@@ -81,22 +81,9 @@ return array(
 				'class' => 'ext.yiiext.components.shoppingCart.EShoppingCart',
 			),		
 
-		/*
-		'db'=>array(
-			'connectionString' => 'sqlite:'.dirname(__FILE__).'/../data/testdrive.db',
-		),
-		*/
-		// uncomment the following to use a MySQL database
-		
-		'db'=>array(
-			'connectionString' => 'mysql:host=localhost;dbname=sturboby_yii',
-			'emulatePrepare' => true,
-			'username' => 'sturboby_yii',
-			'password' => 'O)8_d(8F[Ex&',
-			'charset' => 'utf8',
-			'tablePrefix' => '3hnspc_',
-			'enableProfiling'=>true,
-		),
+
+		// database settings are configured in database.php
+		'db'=>require(dirname(__FILE__).'/database.php'),
 		
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
@@ -249,7 +236,7 @@ return array(
 	// application-level parameters that can be accessed
 	// using Yii::app()->params['paramName']
 	'params'=>array(
-		'adminEmail'=>'aldegtyarev@yandex.ru',
+		'adminEmail'=>'info@s-turbo.by',
 		'siteSlogan' => 'магазин автомобильных запчастей',
 		'pagination' => array('per_page' => 30, 'products_per_page' => 32),		//параметры для пагинации
 		'images_live_url' => 'http://s-turbo.by/',
@@ -259,9 +246,8 @@ return array(
 		'category_imagePath' => 'webroot.images.shop.categories',
 		'category_images_liveUrl' => '/images/shop/categories/',
 		'universal_products' => '1247',	// id универсальных товаров в модельном ряде
-		'count_last_viewed_in_widget' => '2',	// кол-во последних просмотренных в виджете слева
-		'count_last_viewed_in_page' => '20',	// кол-во последних просмотренных в отдельной странице
-		//'usd_rate' => 18000,	// курс USD
+		'count_last_viewed_in_widget' => '3',	// кол-во последних просмотренных в виджете слева
+		'count_last_viewed_in_page' => '15',	// кол-во последних просмотренных в отдельной странице
 		'pages_imagePath' => 'webroot.images.pages',
 		'pages_images_liveUrl' => '/images/pages/',
 		'pages_rubriks' => array(
@@ -269,8 +255,9 @@ return array(
 			2=>'Новости магазина',
 			3=>'Наши работы',
 		),
-		'free_delivery_limit' => 4500000,	//порог для бесплатной доставки
-		'cache_duration' => (60 * 60),	//длительность кеширования
 
+		'cache_duration' => (60 * 60),		//длительность кеширования
+		'prepayment_text_id' => 16,			//ИД поясняющего текста для модального окна предоплаты к карточкет товара
+		'show_products_on_index' => false,	//выводить ли все товары если не выбрана модель авто
 	),
 );

@@ -125,9 +125,9 @@ class SiteController extends Controller
 			$app = Yii::app();
 			$app->cache->flush();
 			//$this->redirect(array('my/settings'));
-			$this->redirect(Yii::app()->homeUrl);
+			$this->redirect('/admin.php');
 		}	else	{
-			$this->redirect(Yii::app()->homeUrl);
+			$this->redirect('/admin.php');
 		}
 		
 		

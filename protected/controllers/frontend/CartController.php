@@ -84,7 +84,7 @@ class CartController extends Controller
 		$app = Yii::app();
 		$positions = $app->shoppingCart->getPositions();
 		
-		//echo'<pre>';print_r($_POST);echo'</pre>';die;
+		//echo'<pre>';var_dump($app->user->id);echo'</pre>';//die;
 		
 		$params = $app->params;
 		
@@ -118,14 +118,12 @@ class CartController extends Controller
 		if($delivery_id > 0) {
 			$modelDelivery = Delivery::model()->loadDelivery($delivery_id);
 			$total_in_cart = PriceHelper::calculateTotalInCart($positions, $currency_info);
-			$total_cost = $total_in_cart['summ'];
-			$modelDelivery = Delivery::model()->calculateDelivery($modelDelivery, $positions, $currency_info, $total_cost);
+			$modelDelivery = Delivery::model()->calculateDelivery($modelDelivery, $positions, $currency_info, $total_in_cart['summ_for_delivery'], $total_in_cart['qtyTotal_for_delivery']);
 			//подставляем стоимость доставки к цене
 			if($modelDelivery->delivery_free != true) {
 				if($delivery_quick == 0) $delivery_cost = $modelDelivery->delivery_normal;
 					else $delivery_cost = $modelDelivery->delivery_quick;
 			}
-			
 		}
 		
 		//print_r($delivery_quick);die;
@@ -247,7 +245,8 @@ class CartController extends Controller
 //		$total = $app->shoppingCart->getCount();
 		//echo'<pre>';print_r($total_cost);echo'</pre>';
 		
-		$modelDelivery = Delivery::model()->calculateDelivery($modelDelivery, $positions, $currency_info, $total_cost);
+		//$modelDelivery = Delivery::model()->calculateDelivery($modelDelivery, $positions, $currency_info, $total_cost);
+		$modelDelivery = Delivery::model()->calculateDelivery($modelDelivery, $positions, $currency_info, $total_in_cart['summ_for_delivery'], $total_in_cart['qtyTotal_for_delivery']);		
 		
 		$payment_list = Payment::model()->loadPaymentList();
 		
@@ -342,22 +341,34 @@ class CartController extends Controller
 	{
 		$app = Yii::app();
 		$params = $app->params;
-		
 		$order = $app->request->getParam('order', 0);
-		
 		$model = Orders::model()->findByPk($order);
 		
-		//echo'<pre>';print_r($_POST);echo'</pre>';die;
+		$delivery_id = $model->delivery_id;
+		$delivery_quick = $model->delivery_quick;
+		$positions = $app->shoppingCart->getPositions();
+		$currency_info = Currencies::model()->loadCurrenciesList();
 		
-		//$app->shoppingCart->clear();
 		
+		$delivery_cost = 0;
+		if($delivery_id > 0) {
+			$modelDelivery = Delivery::model()->loadDelivery($delivery_id);
+			$total_in_cart = PriceHelper::calculateTotalInCart($positions, $currency_info);
+			$modelDelivery = Delivery::model()->calculateDelivery($modelDelivery, $positions, $currency_info, $total_in_cart['summ_for_delivery'], $total_in_cart['qtyTotal_for_delivery']);
+			//подставляем стоимость доставки к цене
+			if($modelDelivery->delivery_free != true) {
+				if($delivery_quick == 0) $delivery_cost = $modelDelivery->delivery_normal;
+					else $delivery_cost = $modelDelivery->delivery_quick;
+			}
+		}
+		
+		$app->shoppingCart->clear();
 		$data = array(
 			'app' => $app,
 			'params' => $params,
-			//'positions' => $positions,
 			'model' => $model,
+			'delivery_cost' => $delivery_cost,
 		);
-		
 		$this->render('orderdone', $data);
 	}
 	
@@ -379,14 +390,32 @@ class CartController extends Controller
 				foreach($model->attributes as $attr=>$val) $customer[$attr] = $val;
 				
 				$delivery_id = $app->request->getParam('delivery_id', 1);
-				$delivery_quick = $app->request->getParam('delivery_quick', 0);
-				$payment_id = $app->request->getParam('delivery_id', 1);
+				$delivery_quick = $app->request->getParam('deliveryQuick', 0);
+				$payment_id = $app->request->getParam('payment_id', 1);
 				
 				$deliveryName = Delivery::model()->getDeliveryNameForEmail($delivery_id, $delivery_quick);
 				$paymentName = Payment::model()->getPaymentNameForEmail($payment_id);
 				
-				$order = $this->addOrder($positions, $total, $customer, $delivery_id, $payment_id);
-				//echo'<pre>';print_r($order);echo'</pre>';die;
+				$order = $this->addOrder($positions, $total, $customer, $delivery_id, $delivery_quick, $payment_id);
+				
+				$delivery_cost = 0;
+				if($delivery_id > 0) {
+					$modelDelivery = Delivery::model()->loadDelivery($delivery_id);
+					$total_in_cart = PriceHelper::calculateTotalInCart($positions, $currency_info);
+					$modelDelivery = Delivery::model()->calculateDelivery($modelDelivery, $positions, $currency_info, $total_in_cart['summ_for_delivery'], $total_in_cart['qtyTotal_for_delivery']);
+					//подставляем стоимость доставки к цене
+					if($modelDelivery->delivery_free != true) {
+						if($delivery_quick == 0) $delivery_cost = $modelDelivery->delivery_normal;
+							else $delivery_cost = $modelDelivery->delivery_quick;
+					}
+				}
+//				echo'<pre>deliveryName ';print_r($deliveryName);echo'</pre>';//die;
+//				echo'<pre>$paymentName ';print_r($paymentName);echo'</pre>';//die;
+//				echo'<pre>$delivery_cost ';print_r($delivery_cost);echo'</pre>';//die;
+//				echo'<pre>$delivery_quick ';print_r($delivery_quick);echo'</pre>';//die;
+//				echo'<pre>';var_dump($modelDelivery->delivery_free);echo'</pre>';//die;
+//				echo'<pre>';print_r($modelDelivery);echo'</pre>';
+//				die;
 				
 				
 				$data = array(
@@ -400,6 +429,7 @@ class CartController extends Controller
 					'currency_info' => $currency_info,
 					'delivery_name' => $deliveryName,
 					'payment_name' => $paymentName,
+					'delivery_cost' => $delivery_cost,
 					
 				);
 				
@@ -409,7 +439,7 @@ class CartController extends Controller
 				
 				Yii::app()->dpsMailer->sendByView(
 					$to, // определяем кому отправляется письмо
-					//array('aldegtyarev1980@mail.ru'), // определяем кому отправляется письмо
+					//array('aldegtyarev@yandex.ru'), // определяем кому отправляется письмо
 					'emailOrder', // view шаблона письма
 					$data
 				);
@@ -459,13 +489,25 @@ class CartController extends Controller
 				}
 				
 				$delivery_id = $app->request->getParam('delivery_id', 1);
-				$delivery_quick = $app->request->getParam('delivery_quick', 0);
+				$delivery_quick = $app->request->getParam('deliveryQuick', 0);
 				$payment_id = $app->request->getParam('delivery_id', 1);
 				
 				$deliveryName = Delivery::model()->getDeliveryNameForEmail($delivery_id, $delivery_quick);
 				$paymentName = Payment::model()->getPaymentNameForEmail($payment_id);				
 				
-				$order = $this->addOrder($positions, $total, $customer, $delivery_id, $payment_id);
+				$order = $this->addOrder($positions, $total, $customer, $delivery_id, $delivery_quick, $payment_id);
+				
+				$delivery_cost = 0;
+				if($delivery_id > 0) {
+					$modelDelivery = Delivery::model()->loadDelivery($delivery_id);
+					$total_in_cart = PriceHelper::calculateTotalInCart($positions, $currency_info);
+					$modelDelivery = Delivery::model()->calculateDelivery($modelDelivery, $positions, $currency_info, $total_in_cart['summ_for_delivery'], $total_in_cart['qtyTotal_for_delivery']);
+					//подставляем стоимость доставки к цене
+					if($modelDelivery->delivery_free != true) {
+						if($delivery_quick == 0) $delivery_cost = $modelDelivery->delivery_normal;
+							else $delivery_cost = $modelDelivery->delivery_quick;
+					}
+				}
 				
 				$data = array(
 					'positions' => $positions,
@@ -478,6 +520,7 @@ class CartController extends Controller
 					'currency_info' => $currency_info,
 					'delivery_name' => $deliveryName,
 					'payment_name' => $paymentName,
+					'delivery_cost' => $delivery_cost,
 				);
 				
 				$to = array(Yii::app()->params['adminEmail']);
@@ -486,7 +529,7 @@ class CartController extends Controller
 				
 				Yii::app()->dpsMailer->sendByView(
 					$to, // определяем кому отправляется письмо
-					//array('aldegtyarev1980@mail.ru'), // определяем кому отправляется письмо
+					//array('aldegtyarev@yandex.ru'), // определяем кому отправляется письмо
 					'emailOrder', // view шаблона письма
 					$data
 				);
@@ -524,13 +567,14 @@ class CartController extends Controller
 	 * добавляет в базу новый заказ
 	 * @return model
 	 */
-	public function addOrder($positions, $total, $customer, $delivery_id, $payment_id)
+	public function addOrder($positions, $total, $customer, $delivery_id, $delivery_quick, $payment_id)
 	{
 		$order = new Orders();
 		$order->created = time();
 		$order->summ_usd = $total['usd'];
 		$order->summ_byr = $total['byr'];
 		$order->delivery_id = $delivery_id;
+		$order->delivery_quick = $delivery_quick;
 		$order->payment_id = $payment_id;
 		$order->customer = json_encode($customer);
 		//$order->customer = '';

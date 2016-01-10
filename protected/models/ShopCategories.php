@@ -33,7 +33,7 @@ class ShopCategories extends CActiveRecord
 	public $category_image;
 	
 	public $SelectedCategory;
-	public $cargo_type;
+	public $cargo_type_old;
 	
 	
 	/**
@@ -368,13 +368,13 @@ class ShopCategories extends CActiveRecord
 		$model_ids = ShopModelsAuto::model()->getModelIds($app);
 		
 		//echo'<pre>';print_r($model_ids);echo'</pre>';die;
-
+		/*
 		$criteria = new CDbCriteria;
 		if($id != 0) {
 			$criteria->condition = "`root` = $id AND `show_in_menu` = 1 AND `level` <= 4";
 		}	else	{
 			if(count($model_ids))	{
-				$category_ids = $this->getCategoryIdFromModels(&$connection, $model_ids);
+				$category_ids = $this->getCategoryIdFromModels($connection, $model_ids);
 				//echo'<pre>';print_r($model_ids);echo'</pre>';
 				if(count($category_ids)) {
 					$criteria->condition = "(`level` = 2 OR `id` IN (".implode(',', $category_ids)."))";
@@ -390,6 +390,8 @@ class ShopCategories extends CActiveRecord
 		//$categories = $this->cache($app->params['cache_duration'])->findAll($criteria);
 		
 		$categories = $this->findAll($criteria);
+		*/
+		$categories = $this->getCategoriesList($id, $model_ids);
 		
 		if(count($categories) == 0 && $filtering )	{
 			$categories[0] = 'Не найдено';
@@ -466,6 +468,29 @@ class ShopCategories extends CActiveRecord
 			$cat_arr = $this->mapTree($cat_arr);
 			return isset($cat_arr[1]['items']) ? $cat_arr[1]['items'] : array();
 		}
+	}
+	
+	public function getCategoriesList($id = 0, $model_ids = array())
+	{
+		$app = Yii::app();
+		$connection = $app->db;
+		
+		$criteria = new CDbCriteria;
+		if($id != 0) {
+			$criteria->condition = "`root` = $id AND `show_in_menu` = 1 AND `level` <= 4";
+		}	else	{
+			if(count($model_ids))	{
+				$category_ids = $this->getCategoryIdFromModels($connection, $model_ids);
+				if(count($category_ids)) {
+					$criteria->condition = "(`level` = 2 OR `id` IN (".implode(',', $category_ids)."))";
+				}	else	{
+					$criteria->condition = "(`id` IN (0))";
+				}
+			}
+		}
+		
+		$criteria->order = 't.root, t.lft'; // или 't.root, t.lft' для множественных деревьев
+		return $this->findAll($criteria);		
 	}
 	
 	function mapTree($dataset) 

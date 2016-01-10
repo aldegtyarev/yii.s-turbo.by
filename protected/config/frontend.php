@@ -12,6 +12,18 @@ return CMap::mergeArray(
         
         // компоненты
         'components'=>array(
+			'session' => array(
+				'class' => 'system.web.CHttpSession',
+				//'sessionName' => 'SID',
+				'timeout' => 60 * 24 * 30,
+//				'cookieParams' => array (
+//					'lifetime' => 31536000,
+//					'path' => '/',
+//					'httponly' => 'on',
+//				),
+			),
+			
+			
 			// uncomment the following to enable URLs in path-format
 			
 			'urlManager'=>array(
@@ -38,6 +50,7 @@ return CMap::mergeArray(
 					
 					'category/index'=>'shopcategories/index',
 					
+					'category<id:.+>/type<type:.+>'=>'shopcategories/show',
 					'category<id:.+>'=>'shopcategories/show',
 					
 					'<controller:\w+>/<id:\d+>'=>'<controller>/view',

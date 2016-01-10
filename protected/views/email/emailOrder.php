@@ -5,7 +5,7 @@ $this->setSubject( $app->name . ' заказ №'.$order->id. ' принят в 
 $params = $app->params;
 
 $total_in_cart = PriceHelper::calculateTotalInCart($positions, $currency_info);
-$total_summ = $total_in_cart['summ'];
+$total_summ = $total_in_cart['summ'] + $delivery_cost;
 
 
 //$total_summ = 0;
@@ -70,7 +70,7 @@ $td_style = 'style="padding:10px;"';
 				<th style="text-align:center;padding:10px 10px 15px 10px;border-bottom:1px solid #f5f5f5;"></th>
 				<th style="text-align:left;padding:10px 10px 15px 10px;border-bottom:1px solid #f5f5f5;font-size:12px;font-family:Tahoma, Verdana, sans-serif;">Описание товара</th>
 				<th style="text-align:center;padding:10px 10px 15px 10px;border-bottom:1px solid #f5f5f5;font-size:12px;font-family:Tahoma, Verdana, sans-serif;">Количество</th>
-				<th style="text-align:center;padding:10px 10px 15px 10px;border-bottom:1px solid #f5f5f5;font-size:12px;font-family:Tahoma, Verdana, sans-serif;">Цена</th>
+				<th style="text-align:center;padding:10px 10px 15px 10px;border-bottom:1px solid #f5f5f5;font-size:12px;font-family:Tahoma, Verdana, sans-serif;">Сумма</th>
 			</tr>
 		</thead>
 
@@ -107,7 +107,7 @@ $td_style = 'style="padding:10px;"';
 			<tr>
 				<td colspan="3"></td>
 				<td <?=$td_style?> >
-					<p style="font-weight:bold;margin-bottom:10px;font-family:Tahoma, Verdana, sans-serif;">Итого</p>
+					<p style="font-weight:bold;margin-bottom:10px;font-family:Tahoma, Verdana, sans-serif;">Итого c доставкой</p>
 					<p style="font-size:16px;font-weight:bold;color:#d70000;font-family:Tahoma, Verdana, sans-serif;margin:0;white-space:nowrap;"><?=PriceHelper::formatPrice($total_summ, 3, 3, $currency_info, true)?></p>
 				</td>
 			</tr>

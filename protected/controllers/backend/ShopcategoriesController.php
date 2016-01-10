@@ -146,6 +146,8 @@ class ShopCategoriesController extends Controller
 	{
 		$model = $this->loadModel($id);
 		$model->getDropDownlistData();
+		
+		$model->cargo_type_old = $model->cargo_type;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -162,7 +164,7 @@ class ShopCategoriesController extends Controller
 			$model->new_parentId = $_POST['ShopCategories']['parentId'];
 			$model->parent_id = $_POST['ShopCategories']['parentId'];
 			
-			if($model->cargo_type != '') $model->updateCargoType();
+			if($model->cargo_type != '' && $model->cargo_type != $model->cargo_type_old) $model->updateCargoType();
 			
 			if($model->save()) {
 				if(isset($_POST['save']))	{

@@ -33,7 +33,22 @@ $total_summ = $total_in_cart['summ'] + $delivery_cost;
 					?>									
 				</td>
 				<td class="cart-prod-name-cell">
-					<? echo CHtml::link($product->product_name, $product_url, array('title' => $product->product_name, 'class'=>'bold')); ?>
+					<? echo CHtml::link($product->product_name, $product_url, array('title' => $product->product_name, 'class'=>'prod-name')); ?>
+					
+					<? if($product->product_availability > 0)	{	?>
+						<?
+						if($product->product_availability == 2) {
+							$status_class = 'status-available';
+						}	else	{
+							$status_class = 'status-on-request';
+						}
+
+						$product_availability_text = $product->ProductAvailabilityArray[$product->product_availability]['name']. ' ' .$product->delivery;
+						?>
+
+						<span class="status list-item-row-status <?=$status_class?>"><?= $product_availability_text ?></span>
+					<?	}	?>
+					
 					<p class="cart-model-info"><?php echo $product->cart_model_info ?></p>
 				</td>
 

@@ -56,9 +56,11 @@
 		<?php echo $form->error($model,'comment'); ?>
 	</div>
 	
+	<?/*
 	<div class="row info_text">
 		Удобный способ <a href="<?= $this->createUrl('pages/payment')?>" class="advantages-item-detail modal-url fancybox1 fancybox.ajax" title="Удобная оплата">оплаты</a> и <a href="<?= $this->createUrl('pages/delivery')?>" class="modal-url fancybox1 fancybox.ajax" title="Доставка по всей Беларуси">доставки</a>   с Вами обсудит наш менеджер по телефону
 	</div>
+	*/?>
 	
 
 </div>

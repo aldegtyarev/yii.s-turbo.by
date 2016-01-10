@@ -134,6 +134,17 @@ echo Yii::app()->theme->baseUrl . '/assets/js/respond.min.js';
 					array('label'=>'Оплата', 'url'=>array('payment/admin'), 'visible'=>!Yii::app()->user->isGuest),		
 			
 					array('label'=>'Валюта', 'url'=>array('currencies/admin'), 'visible'=>!Yii::app()->user->isGuest),			
+					
+					array(
+						'label'=>'Настройки', 
+						'url'=>array('#'), 
+						'visible'=>!Yii::app()->user->isGuest,
+						'items' => array(
+							array('label'=>'Очистить кеш', 'url'=>array('site/cacheclear')),
+							//array('label'=>'Категории', 'url'=>array('pagescategories/admin')),
+						),
+					),
+			
 
 					//array('label'=>'Новости магазина', 'url'=>array('shopposts/admin'), 'visible'=>!Yii::app()->user->isGuest),
 					//array('label'=>'Баннеры', 'url'=>array('banners/admin'), 'visible'=>!Yii::app()->user->isGuest),

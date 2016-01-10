@@ -1,8 +1,12 @@
 <?
 $app = Yii::app();
 
+$type = $app->request->getParam('type', -1);
 $url_params = UrlHelper::getUrlParams($app);	// это забирается из GET параметров
 $selected_auto = UrlHelper::getSelectedAuto($app);	//это то что храниться в сессии
+
+if($type != -1) $selected_auto['type'] = $type;
+
 if($selected_auto['engine'] == -1) unset($selected_auto['engine']);
 $url_params = UrlHelper::buildUrlParams($selected_auto, $url_params['id']);
 $url = $url_params[0];

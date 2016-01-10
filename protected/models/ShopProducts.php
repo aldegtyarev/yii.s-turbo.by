@@ -1149,6 +1149,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 			'product_override_price' => $this->product_override_price,
 			'currency_id' => $this->currency_id,
 			'cargo_type' => $this->cargo_type,
+			'free_delivery' => $this->free_delivery,
 			
 		));
 		$new_product_id = $app->db->getLastInsertId();

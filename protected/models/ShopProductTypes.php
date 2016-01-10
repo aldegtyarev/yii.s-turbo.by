@@ -17,7 +17,7 @@ class ShopProductTypes extends CActiveRecord
 	public $DropDownlistData;
 	public $parentId;
 	public $new_parentId;
-	public $cargo_type;
+	//public $cargo_type;
 
 	
 	/**
@@ -50,7 +50,7 @@ class ShopProductTypes extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, cargo_type', 'required'),
+			array('name', 'required'),
 			array('cargo_type', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>255),
 			// The following rule is used by search().
@@ -151,9 +151,10 @@ class ShopProductTypes extends CActiveRecord
 				}
 			}
 			
-			//echo'<pre>';print_r($this->new_parentId);echo'</pre>';
-			//echo'<pre>';print_r($this->parentId);echo'</pre>';
-			//die;
+//			echo'<pre>';print_r($this->new_parentId);echo'</pre>';
+//			echo'<pre>';print_r($this->parentId);echo'</pre>';
+//			echo'<pre>';print_r($this);echo'</pre>';
+//			die;
 			
 			$this->saveNode();
 		}

@@ -41,7 +41,9 @@ $images_live_url = Yii::app()->params->images_live_url;
 		</script>
 	</div>
 	
-	<?php $this->widget('application.components.LastViewedProductsWidget'); ?>
+	<div id="last-viewed-cnt">
+		<?php $this->widget('application.components.LastViewedProductsWidget'); ?>
+	</div>
 
 </div>				
 <div class="container">

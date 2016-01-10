@@ -78,7 +78,7 @@ $product_classes = '';
 $model_images = $model->Images;
 
 $product_price = PriceHelper::formatPrice($model->product_price, $model->currency_id, 3, $currency_info, true, true);
-if($product_price >= Yii::app()->params['free_delivery_limit']) $model->free_delivery = 1;
+if($product_price >= $free_delivery_limit) $model->free_delivery = 1;
 
 ?>
 
@@ -197,7 +197,7 @@ if($product_price >= Yii::app()->params['free_delivery_limit']) $model->free_del
 									
 									<?= $model->prepayment ?>
 									<?php if($model->prepayment != 'без предоплаты')	{	?>
-										<img src="/img/question_ico.gif" alt="предоплата" class="productdetails-prepayment-ico">
+										<a href="#prepayment" class="fancybox1" rel="nofollow"><img src="/img/question_ico.gif" alt="предоплата" class="productdetails-prepayment-ico"></a>
 									<?php	}	?>
 								</span>
 								
@@ -330,7 +330,7 @@ if($product_price >= Yii::app()->params['free_delivery_limit']) $model->free_del
 
 
 <? if(count($rows))	{	?>
-	<div class="related-products new-positions">
+	<div class="related-products new-positions clearfix">
 		<h3>Сопутствущие товары</h3>
 		<div class="jcarousel-wrapper">
 			<div class="jcarousel jcarousel-new-positions">
@@ -341,11 +341,6 @@ if($product_price >= Yii::app()->params['free_delivery_limit']) $model->free_del
 					'template'=>"{items}",
 					'itemsCssClass' => 'jcarousel products-list',
 				)); ?>
-				<?/*
-				<ul class="jcarousel products-list">
-					<? include(Yii::getPathOfAlias('webroot')."/protected/views/frontend/common/product-list.php");	?>
-				</ul>
-				*/?>
 			</div>
 			<a href="#" class="jcarousel-control-prev jcarousel-new-positions-control-prev">‹</a> <a href="#" class="jcarousel-control-next jcarousel-new-positions-control-next">›</a>
 		</div>
@@ -353,8 +348,12 @@ if($product_price >= Yii::app()->params['free_delivery_limit']) $model->free_del
 <?	}	?>
 
 
+<?php	if($prepayment_text != '')	{	?>
+<div id="prepayment" class="page-cnt" style="width:600px;display:none;">
+	<?= $prepayment_text ?>
+</div>
 
-
+<?php	}	?>
 
 
 	

@@ -136,3 +136,9 @@
 	@extend %fl;
 	margin: 0 10px 0 0;
 }
+
+.category-products-list {
+	.pager {
+		@extend %hide;
+	}
+}

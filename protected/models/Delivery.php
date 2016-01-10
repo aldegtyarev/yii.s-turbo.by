@@ -159,17 +159,26 @@ class Delivery extends CActiveRecord
 	{
 		$rows = $this->loadDeliveryList();
 		
+		$qty_for_delivery = 0;
+		
 		if($for_product === true) {
 			$total_summ = $positions[0]->product_price;
-			$price = PriceHelper::getPricePosition($position);
+			$price = PriceHelper::getPricePosition($positions[0]);
 			$total_summ = PriceHelper::formatPrice($price, $positions[0]->currency_id, 3, $currency_info, true, true);
+			$qty_for_delivery = 1;
 		}	else	{
 			$total_in_cart = PriceHelper::calculateTotalInCart($positions, $currency_info);
-			$total_summ = $total_in_cart['summ'];
+			//$total_summ = $total_in_cart['summ'];
+			$total_summ = $total_in_cart['summ_for_delivery'];
+			$qty_for_delivery = $total_in_cart['qtyTotal_for_delivery'];
+			//echo'<pre>';print_r($total_in_cart);echo'</pre>';//die;
 		}
 		
+		//echo'<pre>';print_r($total_summ);echo'</pre>';//die;
+		//echo'<pre>';print_r($qty_for_delivery);echo'</pre>';//die;
+		
 		foreach($rows as &$row) 
-			$row = $this->calculateDelivery($row, $positions, $currency_info, $total_summ);
+			$row = $this->calculateDelivery($row, $positions, $currency_info, $total_summ, $qty_for_delivery);
 		
 		//die;
 		return $rows;
@@ -178,17 +187,19 @@ class Delivery extends CActiveRecord
 	/**
 	 * рассчитывает стоимости в зависимости от товаров в корзине
 	 */
-	public function calculateDelivery($row, $positions, $currency_info, $total_summ)
+	public function calculateDelivery($row, $positions, $currency_info, $total_summ, $count_positions_for_delivery = 0)
 	{
 		$row->delivery_free = false;
 		//echo'<pre>';print_r($row);echo'</pre>';//die;
 
 		//проверяем на бесплатность доставки по сумме в корзине
-		if($total_summ >= $row->params['free']) $row->delivery_free = true;
+		if($total_summ >= $row->params['free'] || $total_summ == 0) $row->delivery_free = true;
 
 		//рассчитаем стомость доставки в зависимости от габаритов товаров
+		if($count_positions_for_delivery > 0) $count_positions = $count_positions_for_delivery;
+			else $count_positions = count($positions);
 
-		if(count($positions) <= 2)	{
+		if($count_positions <= 2)	{
 			$index = 'units_qty12';
 			$index_quick = 'units_qty12_q';
 		}	else	{
@@ -200,37 +211,38 @@ class Delivery extends CActiveRecord
 		$max_delivery_price_q = 0;
 		$row->delivery_no = false;
 		foreach($positions as $position) {
-			if($row->params[$index][$position->cargo_type] == '-') {
-				$row->delivery_no = true;
-			}	elseif($row->params[$index][$position->cargo_type] > $max_delivery_price)	{
-				$max_delivery_price = $row->params[$index][$position->cargo_type];
-			}	elseif($row->params[$index][$position->cargo_type] == 0)	{
-				$row->delivery_free = true;
-			}
+			
+				if($row->params[$index][$position->cargo_type] == '-') {
+					$row->delivery_no = true;
+				}	elseif($row->params[$index][$position->cargo_type] > $max_delivery_price)	{
+					if($position->free_delivery == 0) {
+						$max_delivery_price = $row->params[$index][$position->cargo_type];
+					}
+				}	elseif($row->params[$index][$position->cargo_type] == 0)	{
+					$row->delivery_free = true;
+				}
 
-
-
-			if($row->params[$index_quick][$position->cargo_type] == '-') {
-				$row->delivery_no = true;
-			}	elseif((int)$row->params[$index_quick][$position->cargo_type] > $max_delivery_price)	{
-				$max_delivery_price_q = $row->params[$index_quick][$position->cargo_type];
-			}	elseif((int)$row->params[$index_quick][$position->cargo_type] == 0 && $row->params[$index_quick][$position->cargo_type] != '')	{
-				//echo'<pre>';var_dump($row->params[$index_quick][$position->cargo_type]);echo'</pre>';die;
-				$row->delivery_free = true;
-			}
-
+				if($row->params[$index_quick][$position->cargo_type] == '-') {
+					$row->delivery_no = true;
+				}	elseif((int)$row->params[$index_quick][$position->cargo_type] > $max_delivery_price)	{
+					if($position->free_delivery == 0) {
+						$max_delivery_price_q = $row->params[$index_quick][$position->cargo_type];
+					}
+				}	elseif((int)$row->params[$index_quick][$position->cargo_type] == 0 && $row->params[$index_quick][$position->cargo_type] != '')	{
+					//echo'<pre>';var_dump($row->params[$index_quick][$position->cargo_type]);echo'</pre>';die;
+					$row->delivery_free = true;
+				}
+			
 			//echo'<pre>';var_dump($row->delivery_free);echo'</pre>';die;
-
-
 		}
 
 		$row->delivery_normal = $max_delivery_price;
 		$row->delivery_quick = $max_delivery_price_q;
 		$row->delivery_normal_lbl = $row->params['delivery_normal_lbl'];
 		$row->delivery_quick_lbl = $row->params['delivery_quick_lbl'];
-
-//			echo'<pre>';print_r($row->delivery_normal);echo'</pre>';//die;
-//			echo'<pre>';print_r($row->delivery_quick);echo'</pre>';//die;
+		
+//		echo'<pre>';var_dump($row->delivery_no);echo'</pre>';//die;
+//		echo'<pre>';print_r($row->delivery_quick);echo'</pre>';//die;
 		
 		return $row;
 	}
@@ -246,6 +258,23 @@ class Delivery extends CActiveRecord
 		
 		$res = $row->name;
 		if($is_quick == 1) $res .= ' (ускоренная)';
+		
+		return $res;
+	}
+	
+	/**
+	 * возвращает название доставки
+	 */
+	public function getFreeDeliveryLimit()
+	{
+		$rows = $this->findAll();
+		if(count($rows) > 0) {
+			$options = json_decode($rows[0]->options, true);
+			if(isset($options['free'])) $res = $options['free'];
+				else $res = 0;
+		}	else {
+			$res = 0;
+		}
 		
 		return $res;
 	}

@@ -3,13 +3,13 @@
 /* @var $model ShopProductTypes */
 
 $this->breadcrumbs=array(
-	'Список товаров'=>array('admin'),
+	'Группа товаров'=>array('admin'),
 	'Новый',
 );
 
 $this->menu=array(
 	//array('label'=>'List ShopProductTypes', 'url'=>array('index')),
-	array('label'=>'Список товаров', 'url'=>array('admin')),
+	array('label'=>'Группа товаров', 'url'=>array('admin')),
 );
 ?>
 

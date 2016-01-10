@@ -44,19 +44,25 @@ echo "$res";
 	
 	public static function calculateTotalInCart($positions, $currency_info, $to_currency = 3)
 	{
-		$summ = 0;
-		$qty = $qtyTotal = 0;
+		$qty = $qtyTotal = $qtyTotal_for_delivery = $summ_for_delivery = $prod_summ = $summ = 0;
 		
 		foreach($positions as $position) {
 			$price = self::getPricePosition($position);
 			$qty = $position->getQuantity();
-			$qtyTotal = $qtyTotal + $qty;
-			$summ += $qty * self::formatPrice($price, $position->currency_id, $to_currency, $currency_info, true, true);
+			$prod_summ = $qty * self::formatPrice($price, $position->currency_id, $to_currency, $currency_info, true, true);
+			$qtyTotal += $qty;
+			$summ += $prod_summ;
+			if($position->free_delivery == 0) {
+				$qtyTotal_for_delivery += $qty;
+				$summ_for_delivery += $prod_summ;
+			}
 		}
 		
 		$res = array(
 			'summ' => $summ,
+			'summ_for_delivery' => $summ_for_delivery,
 			'qtyTotal' => $qtyTotal,
+			'qtyTotal_for_delivery' => $qtyTotal_for_delivery,
 		);
 		return $res;
 	}

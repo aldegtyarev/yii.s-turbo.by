@@ -94,8 +94,11 @@ class SiteController extends Controller
 					$data
 				);
 				
-				Yii::app()->user->setFlash('contact','Мы получили вашу заявку. Мы свяжемся с вами в указанное вами время.');
-				$this->refresh();
+				if(Yii::app()->request->isAjaxRequest)	return $this->renderPartial('back-call-result',array('model'=>$model));
+					else return $this->render('back-call-result',array('model'=>$model));
+				
+				
+				//$this->refresh();
 			}
 		}
 		
@@ -152,5 +155,11 @@ class SiteController extends Controller
 		Yii::app()->user->logout();
 		$this->redirect(Yii::app()->homeUrl);
 	}	
+	
+	public function actionRenderlastviewed()
+	{
+		$this->renderPartial('last-viewed');
+	}	
+	
 	
 }

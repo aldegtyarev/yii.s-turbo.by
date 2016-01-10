@@ -14,7 +14,8 @@ class LastViewedProductsWidget extends CWidget {
 		$criteria = new CDbCriteria();
 		$criteria->select = "t.*";
 		$criteria->condition = 'product_id IN ('.implode(',', $shopProductsIds).')';
-		
+		$criteria->order = 'FIELD(product_id, '.implode(',', $shopProductsIds).')';
+
         $dataProvider = new CActiveDataProvider('ShopProducts', array(
             'criteria'=>$criteria,
             'pagination'=>array(

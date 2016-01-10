@@ -9,8 +9,8 @@
 								 
 			?>
 			<div id="product-image-cnt-<?= $data->product_id ?>" class="product-list-item-row-image-block">
-				<div id="product-image-<?= $data->product_id ?>" class="product-image<?php if($data->featured == 1) echo ' product-image-featured' ?>" style="background-image: url(<?=$data->product_image ?>)"></div>
-
+				<?/*<div id="product-image-<?= $data->product_id ?>" class="product-image<?php if($data->featured == 1) echo ' product-image-featured' ?>" style="background-image: url(<?=$data->product_image ?>)"></div>*/?>
+				<img id="product-image-<?= $data->product_id ?>" class="product-image<?php if($data->featured == 1) echo ' product-image-featured' ?>" src="<?=$data->product_image ?>" alt="<?=$data->product_name?>">
 				<div class="popup-prod-img">
 					<?php 
 						$full_image_url = str_replace('thumb_', 'full_', $data->product_image);

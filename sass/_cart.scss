@@ -202,6 +202,20 @@
 	@extend %text_c;
 	@extend %bold;
 	@extend %font_22;
+	@extend %arial;
+	
+	@include border-radius(100%);
+	
+	width: 23px;
+	height: 23px;
+	line-height: 25px;
+	background-color: #c4c4c4;
+	margin: 0 auto;
+	/*
+	@extend %underline_n_n;
+	@extend %text_c;
+	@extend %bold;
+	@extend %font_22;
 	
 	@include border-radius(100%);
 	
@@ -210,7 +224,7 @@
 	line-height: 20px;
 	background-color: #c4c4c4;
 	margin: 0 auto;
-	
+	*/
 	&:hover {
 		background-color: #e81e1e;
 	}
@@ -228,6 +242,12 @@
 .cart-prod-name-cell {
 	width: 250px;
 	vertical-align: top;
+	
+	.prod-name {
+		@extend %db;
+		@extend %bold;
+		@extend .mb-5;
+	}
 }
 
 .cart-btn {
@@ -485,6 +505,7 @@ textarea#CheckoutFizForm_comment {
 		
 		a {
 			@extend %db;
+			margin-bottom: 14px;
 		}
 	}
 	

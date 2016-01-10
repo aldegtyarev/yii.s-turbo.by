@@ -20,7 +20,7 @@
 		<?php foreach($delivery_list as $row)	{	?>
 			<div class="delivery-item cart-block-border">
 				<div class="delivery-item-cnt cart-block-border-cnt">
-					<img alt="" src="<?= $row->ico ?>" style="width: 40px; height: 40px;">
+					<img alt="" src="<?= $row->ico ?>" style="height: 40px;">
 					<div class="cart-block-border-ttl"><?= $row->name ?></div>
 
 					<?php if($row->delivery_free === true)	{	?>
@@ -45,13 +45,15 @@
 							<label><?= PriceHelper::formatPrice($row->delivery_quick, 3, 3, $currency_info, true) ?></label>
 						</p>
 						<p><?= $row->delivery_quick_lbl ?></p>
-					<?php	}	else	{	?>
+					<?php	}	elseif($row->delivery_normal > 0)	{	?>
 						<p class="c_d70000"><?= PriceHelper::formatPrice($row->delivery_normal, 3, 3, $currency_info, true) ?></p>
 						<p><?= $row->delivery_normal_lbl ?></p>
 						<?php if($row->delivery_quick > 0)	{	?>
 							<p class="c_d70000 delivery-quick"><?= PriceHelper::formatPrice($row->delivery_quick, 3, 3, $currency_info, true) ?></p>
 							<p><?= $row->delivery_quick_lbl ?></p>
 						<?php	}	?>
+					<?php	}	else	{	?>
+						<p class="c_d70000">НЕ ДОСТАВЛЯЕМ</p>
 					<?php	}	?>
 				</div>
 			</div>

@@ -1,3 +1,4 @@
+<p class="bold mb-15 pl-5">Страница <?= $page_num ?></p>
 <?php $this->widget('zii.widgets.CListView', array(
 	'dataProvider'=>$dataProvider,
 	'itemView'=>$itemView,

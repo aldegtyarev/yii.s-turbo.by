@@ -198,8 +198,8 @@ class Pages extends CActiveRecord
 			$this->uploading_foto->saveAs($file_path);
 
 			
-			$img_width_config = $app->params->product_tmb_params['width'];
-			$img_height_config = $app->params->product_tmb_params['height'];
+			$img_width_config = $app->params->page_tmb_params['width'];
+			$img_height_config = $app->params->page_tmb_params['height'];
 			
 			if($no_watermark == 0)	{
 				if($file_extention == '.jpg' || $file_extention == '.jpeg'){
@@ -223,7 +223,7 @@ class Pages extends CActiveRecord
 				$Image -> resize($img_width_config, $img_height_config, Image::WIDTH);
 			}
 			//$Image->crop($img_width_config, $img_height_config, 'top', 'center')->quality(75);
-			$Image->resize($img_width_config, $img_height_config)->quality(75);
+			$Image->resize($img_width_config, $img_height_config)->quality(100);
 			//echo'<pre>';print_r($filename);echo'</pre>';//die;
 			//echo'<pre>';print_r($this->id);echo'</pre>';die;
 			$Image->save($pages_imagePath . DIRECTORY_SEPARATOR . 'thumb_'.$filename);
@@ -242,6 +242,21 @@ class Pages extends CActiveRecord
 		$command->bindParam(":id", $id);
 		$command->bindParam(":foto", $filename);
 		$res = $command->execute();		
+	}
+	
+	/**
+	 * возвращает текст материала с заданным id
+	 *
+	 * @param $id integer
+	 * @return string
+	 */
+	public function getPageText($id = 0)
+	{
+		$connection = Yii::app()->db;
+		$sql = "SELECT `text` FROM ".$this->tableName()." WHERE `id` = :id";
+		$command = $connection->createCommand($sql);		
+		$command->bindParam(":id", $id);
+		return $command->queryScalar();
 	}
 	
 	public function getExtentionFromFileName($filename)

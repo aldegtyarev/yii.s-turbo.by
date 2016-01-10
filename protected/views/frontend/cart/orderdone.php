@@ -40,7 +40,7 @@ $app->clientScript->registerCss('order-done', $css);
 				<a href="/">Закрыть</a>
 			</div>
 			<div class="order-done-info">
-				<p class="r1">Ваш заказ <span>№<?= $model->id ?></span> от <?= Yii::app()->dateFormatter->format('d MMMM yyyy', $model->created);?> на сумму <span><?=PriceHelper::formatPrice($model->summ_byr, 3, 3, null, true)?></span></p>
+				<p class="r1">Ваш заказ <span>№<?= $model->id ?></span> от <?= Yii::app()->dateFormatter->format('d MMMM yyyy', $model->created);?> на сумму <span><?=PriceHelper::formatPrice(($model->summ_byr + $delivery_cost), 3, 3, null, true)?></span></p>
 				<p class="r2">Принят в обработку!</p>
 				<p class="r3">В ближайшее время с Вами свяжется наш менеджер</p>
 				<p class="r4">Спасибо!</p>

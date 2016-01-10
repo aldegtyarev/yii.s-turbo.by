@@ -54,6 +54,7 @@ class ShopCategoriesWidget extends CWidget {
 						$item['itemOptions'] = array('class'=>'eng-'.$engine['id']);
 						$items_[$engine['id']] = $item;
 					}
+					
 					$caregories_tree[$id1]['items'][$id2]['items'] = $items_;
 					
 				}	else	{
@@ -76,7 +77,7 @@ class ShopCategoriesWidget extends CWidget {
 							//'url' => array('/shopcategories/show/', 'id'=>$id2, 'bodyset'=>$c->id),
 							'url' => $url_params,
 							'active' => $active,
-							'itemOptions' => array('class'=>'eng-'.$c->id),
+							'itemOptions' => array('class'=>'bodyset eng-'.$c->id, 'data-body_id'=>$c->id),
 						);
 						/*
 						$item['label'] = CHtml::encode($engine['name']);

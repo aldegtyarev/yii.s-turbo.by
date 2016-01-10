@@ -116,8 +116,17 @@ class UrlHelper
 			
 			unset($app->session['autofilter.modelinfo']);
 			
+			$selected_auto = array(
+				'marka' => $select_marka,
+				'model' => $select_model,
+				'year' => $select_year,
+				'engine' => $app->request->getParam('engine', -1),
+				'type' => $app->request->getParam('type', -1),
+			);
+			
 			if(!is_null($url_params['id'])) {
-
+				//echo'*****';
+				/*
 				$selected_auto = array(
 					'marka' => $select_marka,
 					'model' => $select_model,
@@ -125,21 +134,30 @@ class UrlHelper
 					'engine' => $app->request->getParam('engine', -1),
 					'type' => $app->request->getParam('type', -1),
 				);
+				*/
+				
+				//echo'<pre>';print_r($selected_auto);echo'</pre>';
 
 				$url_params = self::buildUrlParams($selected_auto, $url_params['id']);
+				//echo'<pre>';print_r($url_params);echo'</pre>';
 				$url = $url_params[0];
 				unset($url_params[0]);
 				$return_url = $app->getController()->createUrl($url, $url_params);
 			}	else	{
-				$url_params = self::buildUrlParams($selected_auto, $url_params['id']);
+				//echo'++++++';
+				/*
+				$url_params = self::buildUrlParams($selected_auto);
 				
 				//echo'<pre>';print_r($url_params);echo'</pre>';
 				
 				$url = $url_params[0];
 				unset($url_params[0]);
-				$return_url = $app->getController()->createUrl($url, $url_params);
 				
-				//$return_url = $app->getController()->createUrl('shopcategories/index');
+				$return_url = $app->getController()->createUrl($url, $url_params);
+				*/
+				$return_url = self::getReturnUrlForNewAuto($app, $selected_auto);
+				
+				
 			}
 		}
 		/*
@@ -160,7 +178,54 @@ class UrlHelper
 		}
 	}
 	
-	
+	public static function getReturnUrlForNewAuto(&$app, $selected_auto)
+	{
+		$return_url = '';
+		//если фильруем по какой-то модели - то получаем ИД этих моделей
+		$model_ids = ShopModelsAuto::model()->getModelIds($app, $selected_auto);
+
+		$connection = $app->db;
+		$categories = ShopCategories::model()->getCategoriesList(0, $model_ids);
+		foreach($categories as $category) {
+			$criteria = new CDbCriteria();
+			$criteria->select = "t.product_id";
+			$criteria->join = 'INNER JOIN {{shop_products_categories}} AS pc USING (`product_id`) ';
+
+			$condition_arr = array();
+			$condition_arr[] = "pc.`category_id` = ".$category->id;
+
+			if(count($model_ids))	{
+				$product_ids = ShopProductsModelsAuto::model()->getProductIdFromModels($connection, $model_ids);
+
+				$product_ids = ProductsModelsDisabled::model()->checkForExcludedProducts($connection, $product_ids, $model_ids);
+
+				if(count($product_ids))
+					$condition_arr[] = "t.`product_id` IN (".implode(', ', $product_ids).")";
+			}
+
+			$criteria->condition = implode(' AND ', $condition_arr);		
+
+			$rows = ShopProducts::model()->findAll($criteria);
+			if(count($rows) > 0) {
+				/*
+				$selected_auto = array(
+					'marka' => $select_marka,
+					'model' => $select_model,
+					'year' => $select_year,
+					'engine' => $app->request->getParam('engine', -1),
+					'type' => $app->request->getParam('type', -1),
+				);
+				*/
+
+				$url_params = self::buildUrlParams($selected_auto, $category->id);
+				$url = $url_params[0];
+				unset($url_params[0]);
+				$return_url = $app->getController()->createUrl($url, $url_params);
+				break;
+			}
+		}
+		return $return_url;
+	}
 
 }
 

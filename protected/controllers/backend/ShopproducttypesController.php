@@ -103,6 +103,8 @@ class ShopProductTypesController extends Controller
 			
 			if($model->cargo_type != '') $model->updateCargoType();
 			
+			$model->validate();
+			//echo'<pre>';print_r($model);echo'</pre>';die;
 			if($model->save())
 				$this->redirect(array('admin'));
 		}

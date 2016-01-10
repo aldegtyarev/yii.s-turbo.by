@@ -26,12 +26,7 @@ $app = Yii::app();
 				'dataProvider'=>$dataProvider,
 				'itemView'=>'_view',
 				'ajaxUpdate'=>false,
-				'template'=>"{items}\n{pager}",
-				'pager'=>array(
-					'htmlOptions'=>array(
-						'class'=>'paginator'
-					)
-				),	
+				'template'=>"{items}",
 				'itemsCssClass' => 'products-list clearfix',
 			)); ?>
 		</div>

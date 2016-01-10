@@ -215,4 +215,25 @@ class ShopProductsModelsAuto extends CActiveRecord
 		//$rows = $command->queryAll();
 		return $command->queryColumn();
 	}
+	
+	/**
+	 * проверяет,является ли товар с заданным id универсальным товаром
+	 *
+	 * @param $id integer
+	 * @return boolean
+	 */
+	public function isUniversalroduct($id = 0)
+	{
+		$res = false;
+		$connection = Yii::app()->db;
+		$sql = "SELECT `id` FROM ".$this->tableName()." WHERE `product_id` = :id AND `model_id` = :model_id";
+		$command = $connection->createCommand($sql);		
+		$command->bindParam(":id", $id);
+		$command->bindParam(":model_id", Yii::app()->params['universal_products']);
+		$value = $command->queryScalar();
+		//echo'<pre>';var_dump($value);echo'</pre>';die;
+		if($value !== false) $res = true;
+		return $res;
+	}
+	
 }

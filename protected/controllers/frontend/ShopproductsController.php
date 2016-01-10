@@ -7,6 +7,7 @@ class ShopProductsController extends Controller
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
 	public $layout='//layouts/column2l';
+	public $show_models = false;
 
 	/**
 	 * @return array action filters
@@ -89,7 +90,8 @@ class ShopProductsController extends Controller
 		// сохраняем в сессию, что мы смотрели данный товар
 		$shopProductsIds = isset($app->session['shopProducts.ids']) ? $app->session['shopProducts.ids'] : array() ;
 		if (!in_array($model->product_id, $shopProductsIds)) {
-			$shopProductsIds[] = $model->product_id;
+			//$shopProductsIds[] = $model->product_id;
+			array_unshift($shopProductsIds, $model->product_id);
 		}
 		
 		$app->session['shopProducts.ids'] = $shopProductsIds;
@@ -98,6 +100,14 @@ class ShopProductsController extends Controller
 		
 		$modelinfoTxt = $this->buildModelInfo($app, $connection, $url_params);
 		
+		if($model->prepayment != 'без предоплаты')	{
+			$prepayment_text = Pages::model()->getPageText($app->params['prepayment_text_id']);
+		}	else	{
+			$prepayment_text = '';
+		}
+		
+		$free_delivery_limit = Delivery::model()->getFreeDeliveryLimit();
+		
 		$this->render('view',array(
 			'model'=>$model,
 			'rows'=>$related_rows,
@@ -105,6 +115,8 @@ class ShopProductsController extends Controller
 			'breadcrumbs' => $breadcrumbs,
 			'currency_info' => $currency_info,
 			'modelinfoTxt' => $modelinfoTxt,
+			'prepayment_text' => $prepayment_text,
+			'free_delivery_limit' => $free_delivery_limit,
 		));
 		
 	}
@@ -124,6 +136,7 @@ class ShopProductsController extends Controller
 		$criteria = new CDbCriteria();
 		$criteria->select = "t.*";
 		$criteria->condition = 'product_id IN ('.implode(',', $shopProductsIds).')';
+		$criteria->order = 'FIELD(product_id, '.implode(',', $shopProductsIds).')';
 		
         $dataProvider = new CActiveDataProvider('ShopProducts', array(
             'criteria'=>$criteria,
@@ -135,9 +148,29 @@ class ShopProductsController extends Controller
 		
 		$finded_product_ids = ShopProducts::model()->getProductIds($dataProvider->data);
 		
-		//echo'<pre>';print_r($finded_product_ids);echo'</pre>';
+		
 		
 		$firms = ShopFirms::model()->getFirmsForProductList($connection, $finded_product_ids);
+		
+		$selected_auto = UrlHelper::getSelectedAuto($app);	//это то что храниться в сессии
+		//echo'<pre>';print_r($selected_auto);echo'</pre>';//die;
+		if($selected_auto['marka'] > 0 && $selected_auto['model'] > 0 && $selected_auto['year'] > 0 && $selected_auto['engine'] > 0) {
+			//если фильруем по какой-то модели - то получаем ИД этих моделей
+			$model_ids = ShopModelsAuto::model()->getModelIds($app, $selected_auto);
+		}	else	{
+			$model_ids = array();
+		}
+		//echo'<pre>';print_r($model_ids);echo'</pre>';die;
+		if(count($model_ids)) {
+			if(count($model_ids) == 2 && $model_ids[1] == $app->params['universal_products'])	{
+				$this->show_models = false;
+			}	else	{
+				$this->show_models = true;
+			}
+		}	else	{
+			$this->show_models = false;
+		}
+		
 		
 		foreach($dataProvider->data as $row)	{
 			$product_ids[] = $row->product_id;
@@ -262,7 +295,21 @@ class ShopProductsController extends Controller
 		
 		if(count($modelinfo)) {
 			$modelinfoTxt .= ' для';
-			foreach($modelinfo as $i) $modelinfoTxt .= ' ' . $i['name'];
+			//foreach($modelinfo as $i) $modelinfoTxt .= ' ' . $i['name'];
+			foreach($modelinfo as $k=>$i) {
+				if(isset($modelinfo[$k+1])) {
+					//бывает что часть названия попадает в двух частях, поэтому отлавливаем этот момент
+					$findme = $i['name'];
+					$mystring = $modelinfo[$k+1]['name'];
+					$pos = strpos($mystring, $findme);
+					if ($pos === false) {
+						$modelinfoTxt .= ' ' . $i['name'];
+					}
+				}	else	{
+					$modelinfoTxt .= ' ' . $i['name'];
+				}
+			}
+			
 		}
 		
 		return $modelinfoTxt;

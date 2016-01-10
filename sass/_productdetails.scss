@@ -140,6 +140,17 @@
 		@extend %font_14;
 	}
 	
+	.addtocart-button {
+		@extend %font_14;
+		@extend %bold;
+
+		padding-left: 25px;
+		padding-right: 25px;
+		margin-left: 180px;
+		width: 175px;
+
+	}	
+	
 }
 
 .productdetails-price-row {
@@ -177,29 +188,6 @@
 //		margin: 0 0 5px 0;		
 	}
 	
-	
-}
-
-.productdetails-view .addtocart-button {
-	padding-left: 25px;
-	padding-right: 25px;
-	margin-left: 180px;
-	width: 175px;
-	
-//	@include border-radius(3px);
-//	@include transition-property(background-color);
-//	@include transition-duration(500ms);
-	
-	//@extend %db;
-//	@extend %pointer;
-//	@extend %c_fff;
-	@extend %font_14;
-	@extend %bold;
-	
-//	&:hover {
-//		background: #be0000;
-//		border-color: #d70000;
-//	}	
 	
 }
 
@@ -416,6 +404,7 @@
 .productdetails-prepayment-ico {
 	@extend %pos_abs;
 	top: 4px;
+	margin-left: 4px;
 }
 
 .buy-in-one-click img,

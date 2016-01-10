@@ -1,18 +1,23 @@
-<div class="product-item product-list-item fLeft pos-rel1">
+<div class="product-item product-list-item fLeft">
 	<div id="product-image-cnt-<?= $data->product_id ?>" class="product-item-wr">
-		<a href="<?=$data->product_url?>" class="product-title db bold text_c font-12"><?=$data->product_name?></a>
-
-		<div id="product-image-<?= $data->product_id ?>" class="product-image mb-10<?php if($data->featured == 1) echo ' product-image-featured' ?>" style="background-image: url(<?=$data->product_image ?>)"></div>
-
+		<a href="<?=$data->product_url?>" class="product-title" title="<?=$data->product_name?>">
+			<span class="product-title-name"><?=$data->product_name?></span>
+			<?/*<span id="product-image-<?= $data->product_id ?>" class="product-image<?php if($data->featured == 1) echo ' product-image-featured' ?>" style="background-image: url(<?=$data->product_image ?>)"></span>*/?>
+			<span class="product-image-cnt">
+				<img id="product-image-<?= $data->product_id ?>" class="product-image<?php if($data->featured == 1) echo ' product-image-featured' ?>" src="<?=$data->product_image ?>" alt="<?=$data->product_name?>">
+			</span>
+		</a>
 		<p class="small font-13">
-			<span class="grey c_999"><? echo $data->getAttributeLabel('firm_id');?>:</span> <span class="c_fff"><?=$data->firm_name?></span><br />
-			<span class="grey c_999"><? echo $data->getAttributeLabel('product_sku');?>:</span> <span class="c_fff"><?=$data->product_sku?></span>
+			<span class="c_777"><? echo $data->getAttributeLabel('firm_id');?>:</span> <span class="c_0001"><?=$data->firm_name?></span><br />
+			<span class="c_777"><? echo $data->getAttributeLabel('product_sku');?>:</span> <span class="c_0001"><?=$data->product_sku?></span>
+			<?/*
 			<?php if($data->manufacturer_sku)	{	?>
-				<br /><span class="grey c_999"><? echo $data->getAttributeLabel('manufacturer_sku');?>:</span> <span class="c_fff"><?=$data->manufacturer_sku?></span>
+				<br /><span class="c_777"><? echo $data->getAttributeLabel('manufacturer_sku');?>:</span> <span class="c_0001"><?=$data->manufacturer_sku?></span>
 			<?php	}	?>
+			*/?>
 		</p>
 		
-
+		<?/*
 		<?	if($data->product_availability > 0)	{
 				if($data->product_availability == 2) {
 					$status_class = 'status-available';
@@ -22,11 +27,12 @@
 		?>
 		<p class="status <?=$status_class?>"><?=$data->ProductAvailabilityArray[$data->product_availability]['name'] ?></p>
 		<?	}	?>
+		*/?>
 		<div class="product-list-item-bottom-cnt">
 			<div class="product-list-item-bottom">
 					<?//if($data->product_override_price != 0) {	?>
 						<p class="c_d70000 bold font-16"><?=PriceHelper::formatPrice($data->product_price, $data->currency_id, 3, $currency_info, true)?></p>
-						<p class="c_000 bold font-12 mt-10"><?=PriceHelper::formatPrice($data->product_price, $data->currency_id, 0, $currency_info)?></p>
+						<p class="product-list-item-row-price-usd"><?=PriceHelper::formatPrice($data->product_price, $data->currency_id, 0, $currency_info)?></p>
 					<?	//}	else	{	?>
 						<? /*<p class="price"><?=number_format($data->product_price, 0, '.', ' ')?> у.е.</p> */ ?>
 					<?	//}	?>

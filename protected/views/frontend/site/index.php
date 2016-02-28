@@ -57,7 +57,7 @@ $clientScript->registerCoreScript('fancybox');
 						<img src="/img/advantages-2.png" alt="Доставка по всей Беларуси" class="advantages-item-img advantages-item-img-2">
 						
 					</div>
-					<a href="<?= $this->createUrl('pages/delivery')?>" class="advantages-item-detail modal-url fancybox1 fancybox.ajax"><span>Подробнее</span></a>
+					<a href="<?= $this->createUrl('pages/dostavka')?>" class="advantages-item-detail modal-url fancybox1 fancybox.ajax"><span>Подробнее</span></a>
 				</div>
 			</div>
 		</div>
@@ -76,7 +76,7 @@ $clientScript->registerCoreScript('fancybox');
 						<img src="/img/advantages-3.png" alt="Удобная оплата" class="advantages-item-img advantages-item-img-3">
 						
 					</div>
-					<a href="<?= $this->createUrl('pages/payment')?>" class="advantages-item-detail modal-url fancybox1 fancybox.ajax"><span>Подробнее</span></a>
+					<a href="<?= $this->createUrl('pages/oplata')?>" class="advantages-item-detail modal-url fancybox1 fancybox.ajax"><span>Подробнее</span></a>
 				</div>
 			</div>
 		</div>
@@ -93,7 +93,7 @@ $clientScript->registerCoreScript('fancybox');
 						<img src="/img/advantages-4.png" alt="Гарантия и возврат" class="advantages-item-img advantages-item-img-4">
 						
 					</div>
-					<a href="<?= $this->createUrl('pages/guarantee')?>" class="advantages-item-detail modal-url fancybox1 fancybox.ajax"><span>Подробнее</span></a>
+					<a href="<?= $this->createUrl('pages/garantiya')?>" class="advantages-item-detail modal-url fancybox1 fancybox.ajax"><span>Подробнее</span></a>
 				</div>
 			</div>
 		</div>

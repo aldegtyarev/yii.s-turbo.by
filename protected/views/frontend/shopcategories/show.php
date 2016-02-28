@@ -21,7 +21,6 @@ if ($engineTitle != null) {
 }
 
 $this->pageTitle = $title.' | '.$app->name;
-//echo'<pre>';print_r($app->homeUrl);echo'</pre>';
 
 $images_live_url = substr($app->params->images_live_url, 0, -1);	// на таких страницах нужно удалить последний слэш
 
@@ -140,8 +139,7 @@ $cat_imgPath = Yii::getPathOfAlias($app->params->category_imagePath);
 
 <?php if($category->category_description && $model_auto_selected == false) { ?>
 	<div class="category-description clearfix">
-		<?php //if($category->foto != '') echo CHtml::image($app->params->category_images_liveUrl . 'thumb_'.$category->foto, $category->name, array('class'=>'category-description-image'))?>
-		<?=$category->category_description?>
+		<?= $category->category_description?>
 	</div>
 <?php } ?>
 

@@ -2,7 +2,7 @@
 class PriceHelper
 {
     public static function formatPrice($price = 0, $price_currency = 0, $currency_id = 0, $currency_info = null, $ceil_price = false, $unformatted = false)
-    { 
+    {
         if(is_null($currency_info)) $currency_info = Currencies::model()->loadCurrenciesList();
 		
 		//echo'<pre>';print_r($currency_info);echo'</pre>';die;
@@ -10,10 +10,11 @@ class PriceHelper
 		if($currency_id == 0)
 			$currency_id = 1;
 		
-		if($price_currency != 0)
+		if($price_currency != 0 && $price_currency != $currency_id)
 			$price = $price / $currency_info[$price_currency]['currency_value'];
 		
-		$price = $price * $currency_info[$currency_id]['currency_value'];
+		if($price_currency != $currency_id)
+			$price = $price * $currency_info[$currency_id]['currency_value'];
 		
 		if( $currency_id == 3 && $ceil_price == true) $price = self::ceilPrice($price);	//если выводим в BYR - округляем
 		

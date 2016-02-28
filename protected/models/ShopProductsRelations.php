@@ -125,7 +125,29 @@ class ShopProductsRelations extends CActiveRecord
 		}
 	}
 	
-	//получает сопутствующие товары для frontend части сайта
+	/**
+	 * получает сопутствующие товары для frontend части сайта
+	 */
+	public function getRelatedProducts($product_id)
+	{
+		$criteria = new CDbCriteria();
+		
+		//получаем сопутствующие товары
+		$criteria->select = "t.*";
+		$criteria->join = 'INNER JOIN `{{shop_products_relations}}` AS pr ON t.`product_id` = pr.`product_related_id`';
+		$criteria->condition = 'pr.`product_id` = '.$product_id;
+
+        $RelatedDataProvider = new CActiveDataProvider('ShopProducts', array(
+            'criteria'=>$criteria,
+            'pagination'=>array(
+                'pageSize'=>100,
+				'pageVar' =>'page',
+            ),
+        ));
+		
+		return $RelatedDataProvider;
+	}
+	/*
 	public function getRelatedProducts($product_id)
 	{
 		$connection = Yii::app()->db;
@@ -154,5 +176,5 @@ class ShopProductsRelations extends CActiveRecord
 		
 		return $result;
 	}
-	
+	*/
 }

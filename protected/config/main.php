@@ -11,7 +11,7 @@ return array(
 	'sourceLanguage' => 'en',
 	'language' => 'ru',
 	'charset'=>'utf-8',
-	'homeUrl'=>'http://s-turbo.by/',
+	'homeUrl'=>'http://new.s-turbo.by/',
 	
 
 	// preloading 'log' component
@@ -205,26 +205,7 @@ return array(
             ),
         ),	
 		
-		'dpsMailer' => array(
-				'class' => 'ext.dpsmailer.components.dpsMailer',
-				'sViewPath' => './protected/views/email', // путь к шаблонам
-				'aFrom' => array( 'info@s-turbo.by' => 'S-TURBO.BY' ), // от кого будут отправляться письма по умолчанию
-				'aBehaviors' => array(
-					'swift' => array(
-						'class' => 'ext.dpsmailer.behaviors.dpsSwiftMailerBehavior',
-						'sLibPath'=> './protected/extensions/swiftmailer/lib', // путь к папке, c библиотекой swift http://swiftmailer.org/
-						'sTransport' => 'Swift_SmtpTransport',
-						'aOptions' => array(// настройки swift
-							'Host'            => 'smtp.yandex.ru',
-							'Port'            => 465,
-							'Encryption'        => 'ssl',
-							'Username'        => 'info@s-turbo.by',
-							'Password'        => 'gJLYYxAGIo1',
-						),
-					),
-				),
-		),		
-		
+		'dpsMailer' => require(dirname(__FILE__).'/mailer-config.php'),
 	),
 
 	'behaviors'=>array(

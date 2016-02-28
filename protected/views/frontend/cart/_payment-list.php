@@ -24,7 +24,7 @@
 					if($payment_id == $row->id) $active = true;
 				?>
 					<?php echo CHtml::radioButton('payment-type', $active, array('id'=>'payment-'.$row->id, 'class'=>'payment_type', 'value'=>0))?>
-					<a href="<?= $this->createUrl('pages/payment', array('tab'=>$row->id)) ?>" class="fancybox1 fancybox.ajax" rel="nofollow"><?= $row->name ?></a>
+					<a href="<?= $this->createUrl('pages/oplata', array('tab'=>$row->id)) ?>" class="fancybox1 fancybox.ajax" rel="nofollow"><?= $row->name ?></a>
 			</div>
 		</div>
 	</div>

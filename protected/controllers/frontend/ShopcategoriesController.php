@@ -60,16 +60,11 @@ class ShopCategoriesController extends Controller
 
 	public function actionShow($id)
 	{
-		//echo'<pre>';print_r('actionShow');echo'</pre>';//die;
 		$app = Yii::app();
 		$connection = $app->db;
 		$url_params = UrlHelper::getUrlParams($app);	// это забирается из GET параметров
 		
-		//------------------------------------------------------
 		UrlHelper::checkChangeAuto($app);
-		//-----------------------------------------------------------------
-		
-		
 		
 		$selected_auto = UrlHelper::getSelectedAuto($app);	//это то что храниться в сессии
 		
@@ -83,33 +78,24 @@ class ShopCategoriesController extends Controller
 		//если мы в выхлопной системе кликнули на кузов то устанавливаем 
 		//это значение в сессию и редиректим на просмотр глушителей
 		$bodyset = (int) $app->request->getParam('bodyset', -1);
-		//echo'<pre>';print_r($bodyset);echo'</pre>';die;
 		if($bodyset > -1) {
 			$app->session['autofilter.year'] = $bodyset;
 			$selected_auto['year'] = $bodyset;
-			//echo'<pre>';print_r($selected_auto);echo'</pre>';die;			
 			$url_params_ = UrlHelper::buildUrlParams($selected_auto, $url_params['id']);
 			$url = $url_params_[0];
 			unset($url_params_[0]);
 			
-			//echo'<pre>';print_r($url_params_);echo'</pre>';die;
 			$this->redirect($this->createUrl($url, $url_params_));
 		}
 		
-		//echo'<pre>';print_r($url_params);echo'</pre>';die;
 		if(!is_null($url_params['type'])) $selected_auto['type'] = $url_params['type'];
 		
 		$url_params_ = UrlHelper::buildUrlParams($selected_auto, $url_params['id']);
 		$url = $url_params_[0];
 		unset($url_params_[0]);
 
-		//echo'<pre>';print_r($url_params_);echo'</pre>';die;
 		$select_view_row = $this->createUrl($url, $url_params_).'?select-view=row';
 		$select_view_tile = $this->createUrl($url, $url_params_).'?select-view=tile';
-		
-		
-		
-		
 		
 		$this->processPageRequest('page');
 		
@@ -120,27 +106,16 @@ class ShopCategoriesController extends Controller
 		$engine_id = (int)$app->request->getParam('engine', 0);
 		$showmore = (int)$app->request->getParam('showmore', 0);
 		
-		
-		
 		$engineImage = null;
 		$engineTitle = null;
 		
 		if($selected_view != -1)	{
 			$app->session['Shopcategories.selected_view'] = $selected_view;
-			
 			$url_params_ = UrlHelper::buildUrlParams($selected_auto, $url_params['id']);
 			$url = $url_params_[0];
 			unset($url_params_[0]);
 			
 			$return_url = $this->createUrl($url, $url_params_);
-			/*
-			if($app->request->isAjaxRequest) {
-				echo $return_url;
-				$app->end();
-			}	else	{
-				$this->redirect($return_url);
-			}
-			*/
 			$this->redirect($return_url);
 			
 		}	else	{
@@ -178,9 +153,7 @@ class ShopCategoriesController extends Controller
 					$findme = $i['name'];
 					$mystring = $modelinfo[$k+1]['name'];
 					$pos = strpos($mystring, $findme);
-					if ($pos === false) {
-						$category->name .= ' ' . $i['name'];
-					}
+					if ($pos === false) $category->name .= ' ' . $i['name'];
 				}	else	{
 					$category->name .= ' ' . $i['name'];
 				}
@@ -248,7 +221,6 @@ class ShopCategoriesController extends Controller
             'criteria'=>$criteria,
             'pagination'=>array(
 				'pageSize'=>$app->params->pagination['products_per_page'],
-				//'pageSize'=>120,
 				'pageVar' =>'page',
             ),
         ));
@@ -260,6 +232,7 @@ class ShopCategoriesController extends Controller
 		if(count($finded_product_ids))	{
 			//загрузить группы товаров
 			$producttypes = ShopProductTypes::model()->getProductTypesForProductList($connection, $finded_product_ids, $get_null = true);
+			
 			//загрузить фирмы
 			$firms = ShopFirms::model()->getFirmsForProductList($connection, $finded_product_ids);
 			
@@ -282,9 +255,28 @@ class ShopCategoriesController extends Controller
 			
 			$free_delivery_limit = Delivery::model()->getFreeDeliveryLimit();
 			
+			$is_universal_products = ShopProductsModelsAuto::model()->isUniversalroduct($dataProvider->data[0]->product_id);
+			
 			foreach($dataProvider->data as $row)	{
 				$product_ids[] = $row->product_id;
-				$row->product_url = $this->createUrl('shopproducts/detail', array('product'=> $row->product_id));
+				
+				if($is_universal_products == 1) {
+					$prod_params = array(
+						'uni' => 'uni',
+						'product'=> $row->product_id
+					);					
+				}	else	{
+					$prod_params = array(
+						'marka' => $url_params['marka'],
+						'model' => $url_params['model'],
+						'year' => $url_params['year'],
+						'year' => $url_params['year'],
+						'product'=> $row->product_id
+					);
+				}
+
+				//$row->product_url = $this->createUrl('shopproducts/detail', array('product'=> $row->product_id));
+				$row->product_url = $this->createUrl('shopproducts/detail', $prod_params);
 				$row->product_image = $app->params->product_images_liveUrl.($row->product_image ? 'thumb_'.$row->product_image : 'noimage.jpg');
 				$row->firm_name = $firms[$row->firm_id]['name'];
 				$row->model_ids = $modelIds;
@@ -298,7 +290,7 @@ class ShopCategoriesController extends Controller
 			//получаем массив доп. изображений для списка товаров
 			$ProductsImages = ShopProductsImages::model()->getFotoForProductList($connection, $product_ids);
 			
-			$is_universal_products = ShopProductsModelsAuto::model()->isUniversalroduct($product_ids[0]);
+			
 			
 			if(count($ProductsImages))	{
 				foreach($ProductsImages as $Image)	{

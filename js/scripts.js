@@ -524,11 +524,6 @@ $(document).ready(function () {
 				else cnt_to_load = '';
 		}
 		
-		console.log(url);
-		console.log(block_to_load);
-		console.log(cnt_to_load);
-		
-		
 		block_to_load.load(url + cnt_to_load, function(){
 			$('#central-cnt').find('.pager').hide();
 			ya_share_init();

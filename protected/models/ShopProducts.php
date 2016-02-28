@@ -653,7 +653,6 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 				}
 			}
 		}
-		//echo'<pre>';var_dump($arrays_of_identical);echo'</pre>';die;
 		if($arrays_of_identical == false)	{
 			ShopProductsBodies::model()->clearItemBodies($this->product_id, $connection);
 			ShopProductsBodies::model()->insertItemBodies($this->SelectedBodies, $this->product_id, $connection);
@@ -674,9 +673,6 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 	{
 		$related_product_ids = $app->request->getParam('related_product_ids', array());
 		$RelatedProducts = $this->ProductsRelations;
-		//echo'<pre>';print_r($related_product_ids);echo'</pre>';
-		//echo'<pre>';print_r($RelatedProducts);echo'</pre>';
-		//die;
 		
 		$arrays_of_identical = true;
 		if(count($related_product_ids) != count($RelatedProducts))	{
@@ -684,26 +680,16 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		}	else	{
 			foreach($RelatedProducts as $item)	{
 				$item_is_present = false;
-				/*
-				foreach($related_product_ids as $product_id)	{
-					if($cat_item['body']['body_id'] == $key)	{
-						$cat_is_present = true;
-					}
-				}
-				*/
 				if($item_is_present == false)	{
 					$arrays_of_identical = false;
 				}
 			}
-			
 		}
 		
 		if($arrays_of_identical == false)	{
 			ShopProductsRelations::model()->clearRelatedProducts($this->product_id, $connection);
 			ShopProductsRelations::model()->insertRelatedProducts($related_product_ids, $this->product_id, $connection);
 		}
-		
-
 	}
 	
 	//проверяем, не изменились ли объемы двигателей...
@@ -718,47 +704,22 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		}	else	{
 			$arrays_of_identical = false;
 		}
-		if($_SERVER['REMOTE_ADDR'] == '178.121.85.185') {
-			//echo'<pre>';print_r(($this->ProductsModelsAutos));echo'</pre>';die;
-			//echo'<pre>';print_r($this->SelectedEngines);echo'</pre>';die;
-		}
-		//echo'<pre>';print_r($_SERVER['REMOTE_ADDR']);echo'</pre>';//die;
-		//echo'<pre>';print_r(($this->ProductsModelsAutos));echo'</pre>';die;
-		//echo'<pre>';print_r(count($this->SelectedEngines));echo'</pre>';//die;
-		//echo'<pre>';print_r($this->SelectedEngines);echo'</pre>';die;
-		//echo'<pre>';print_r($this->ProductsModelsAutos);echo'</pre>';die;
 
-		//проверяем, не изменились ли категории...
-		//if(count($ProductsEngines) != count($this->SelectedEngines))	{
-		//	$arrays_of_identical = false;
-		//}	else	{
 			foreach($ProductsEngines as $cat_item)	{
-				//echo'<pre>';print_r($cat_item);echo'</pre>';//die;
-				//echo'<pre>';print_r($cat_item['engine_id']);echo'</pre>';//die;
-				//echo'<pre>';print_r($cat_item['engine']['id']);echo'</pre>';//die;
-				
 				foreach($ProductsModels as $model_item)	{
 					$cat_is_present = false;
-					//echo'<pre>';print_r($model_item['model_id']);echo'</pre>';//die;
 					foreach($this->SelectedEngines as $key=>$val)	{
-						//echo'<pre>';print_r($cat_item['engine_id']. ' ' . $key . ' ' . $cat_item['model_id'] . $model_item['model_id']);echo'</pre>';//die;
-						
 						if($cat_item['engine_id'] == $key && $cat_item['model_id'] == $model_item['model_id'])	{
-						//if($cat_item['engine_id'] == $key)	{
 							$cat_is_present = true;
 						}
-						//echo'<pre>';var_dump($cat_is_present);echo'</pre>';//die;
 						
 						if($cat_is_present == false)	{
 							break;
 						}
-						
 					}
-					
 					if($cat_is_present == false)	{
 						break;
 					}
-					
 				}
 				
 				if($cat_is_present == false)	{
@@ -766,25 +727,14 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 					break;
 				}
 			}
-		//}
-		
-		//echo'<pre>';var_dump($models_changed);echo'</pre>';//die;
-		//echo'<pre>';var_dump($arrays_of_identical);echo'</pre>';die;
-		
 
 		if($arrays_of_identical == false || $models_changed == true)	{
-			//echo'<pre>';print_r($this->ProductsModelsAutos);echo'</pre>';//die;
-			//echo'<pre>';print_r($this->SelectedEngines);echo'</pre>';die;
-			
 			$engines_models = array();
 			foreach($this->SelectedEngines as $key=>$row) {
 				$engines_models[] = EnginesModels::model()->findByPk($key);
 			}
 			
-			//echo'<pre>';print_r($engines_models);echo'</pre>';die;
-
 			ProductsEngines::model()->clearItemEngines($this->product_id, $this->ProductsModelsAutos, $connection);
-			//ProductsEngines::model()->insertItemEngines($this->SelectedEngines, $this->ProductsModelsAutos, $this->product_id, $connection);
 			ProductsEngines::model()->insertItemEngines($this->SelectedEngines, $engines_models, $this->product_id, $connection);
 		}
 	}
@@ -809,20 +759,10 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		$connection = $app->db;
 		
 		$criteria = new CDbCriteria();
-		/*
-		$criteria->select = "t.*, m.`file_url_thumb`, pp.`product_price`, pp.`product_override_price`, pp.`product_currency`";
-		$criteria->join = '
-		inner join {{shop_products_categories}} AS pc USING (`product_id`) 
-		INNER JOIN {{shop_products_medias}} AS pm USING (`product_id`) 
-		INNER JOIN {{shop_medias}} AS m USING (`media_id`) 
-		INNER JOIN {{shop_product_prices}} AS pp USING (`product_id`)';
-		*/
 		
 		$criteria->select = "t.product_id";
 		$criteria->join = 'INNER JOIN {{shop_products_categories}} AS pc USING (`product_id`) ';
 		
-		
-		//$criteria->condition = "pc.`category_id` = $category_id AND t.`published` = 1";
 		$condition_arr = array();
 		$condition_arr[] = "pc.`category_id` = $category_id";
 		
@@ -835,7 +775,6 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		
 		$criteria->condition = implode(' AND ', $condition_arr);
 		$criteria->order = "pc.`ordering`, t.`product_id`";
-		//echo'<pre>';print_r($criteria,0);echo'</pre>';
 		
 		//получаем сначала все позиции для получения их id без учета пагинации
 		$rows = $this->findAll($criteria);
@@ -856,22 +795,11 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		$criteria->condition = implode(' AND ', $condition_arr);
 		
 		$product_ids = $this->getProductIds($rows);
-		/*
-		if(count($rows))	{
-			foreach($rows as $row)	{
-				$product_ids[] = $row->product_id;
-			}
-		}
-		*/
-		//echo'<pre>';print_r(count($rows),0);echo'</pre>';
-		//echo'<pre>';print_r(($rows),0);echo'</pre>';
 		
 		$criteria->select = "t.*";
 		
-		//$count = User::model()->count($criteria);
 		$count = $this->count($criteria);
 		$pages = new CPagination($count);
-		//echo'<pre>';print_r($count,0);echo'</pre>';
 		
 		$pages->pageSize = Yii::app()->params->pagination['products_per_page']; // элементов на страницу
 		$pages->applyLimit($criteria);
@@ -880,7 +808,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		foreach($rows1 as $row)	{
 			$rows[$row->product_id] = $row;
 		}
-		//echo'<pre>';print_r(count($rows),0);echo'</pre>';
+		
 		return array(
 			'rows' => $rows, 
 			'pages' => $pages,
@@ -901,23 +829,11 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 	public function getLastAddedProducts()
 	{		
 		$criteria = new CDbCriteria();
-		/*
-		$criteria->select = "t.*, (SELECT m.`file_url_thumb` FROM `3hnspc_shop_medias` AS m INNER JOIN `3hnspc_shop_products_medias` AS pm USING (`media_id`) WHERE pm.`product_id` = t.`product_id` LIMIT 1) AS `file_url_thumb`, pp.`product_price`, pp.`product_override_price`, pp.`product_currency`";
-		$criteria->join = 'INNER JOIN {{shop_product_prices}} AS pp USING (`product_id`)';
-		*/
-
 		$criteria->select = "t.*";
-
-		
-		
-		//$criteria->condition = "t.`published` = 1 AND (t.`product_id` IN (117,112,158,288,2026,7292,1102))";
 		$criteria->condition = "t.`published` = 1";
 		$criteria->order = "t.`product_id` DESC";
 		$criteria->limit = 7;
-		//echo'<pre>';print_r($criteria, 0);echo'</pre>';
-
 		$rows = $this->findAll($criteria);
-		//echo'<pre>';print_r($criteria,0);echo'</pre>';
 		return $rows;
 	}
 	
@@ -929,16 +845,62 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		$criteria->select = "t.*, (SELECT m.`file_url_thumb` FROM `3hnspc_shop_medias` AS m INNER JOIN `3hnspc_shop_products_medias` AS pm USING (`media_id`) WHERE pm.`product_id` = t.`product_id` LIMIT 1) AS `file_url_thumb`, pp.`product_price`, pp.`product_override_price`, pp.`product_currency`";
 		$criteria->join = 'INNER JOIN {{shop_product_prices}} AS pp USING (`product_id`)';
 		
-		
-		//$criteria->condition = "t.`published` = 1";
 		$criteria->condition = "t.`published` = 1 AND (t.`product_id` IN (117,112,158,288,2026,1102))";
 		$criteria->order = "t.`product_id` DESC";
 		$criteria->limit = 3;
-		//echo'<pre>';print_r($criteria, 0);echo'</pre>';
 
 		$rows = $this->findAll($criteria);
-		//echo'<pre>';print_r($criteria,0);echo'</pre>';
 		return $rows;
+	}
+	
+	/**
+	 * генерация названия файла картинки
+	 * @return string
+	 */
+	public function buildFileName(&$app, $file_extention)
+	{
+		$product_name = $this->ToTranslitStr($this->product_name);
+		
+		if($this->product_sku != '') $product_name .= '-'.$this->ToTranslitStr($this->product_sku);
+		$product_name = str_replace('--', '-', $product_name);
+		$product_name = str_replace('--', '-', $product_name);
+
+		if($this->manufacturer_sku != '') $product_name .= '-'.$this->ToTranslitStr($this->manufacturer_sku);
+		$product_name = str_replace('--', '-', $product_name);
+		$product_name = str_replace('--', '-', $product_name);
+		
+		
+		$model_name_arr = ShopProductsModelsAuto::model()->getModelsFullNamesFull($this->product_id);
+		if(count($model_name_arr)) {
+			$model_name = $this->ToTranslitStr($model_name_arr[0]['fullname']);
+			$model_name = str_replace('--', '-', $model_name);
+			$model_name = str_replace('--', '-', $model_name);
+		}	else	{
+			$model_name = '';
+		}
+		
+		$is_universal_products = ShopProductsModelsAuto::model()->isUniversalroduct($this->product_id);
+		if($is_universal_products) $model_name = 'uni';		
+		
+		$Images = $this->Images;
+		
+		$imagePath = Yii::getPathOfAlias($app->params->product_imagePath);
+
+		if(count($Images) > 0)	{
+			$img_num = count($Images);
+			$image_file_name = $product_name . '-' . $model_name . '-' . $img_num . $file_extention;
+			
+			$file_path = $imagePath . DIRECTORY_SEPARATOR . 'full_' . $image_file_name;
+			//если такое имя файла встречается - ищем то, которого нет еще
+			while (file_exists($file_path))	{
+				$img_num++;
+				$image_file_name = $product_name . '-' . $model_name . '-' . $img_num . $file_extention;
+				$file_path = $imagePath . DIRECTORY_SEPARATOR . 'full_' . $image_file_name;
+			}
+		}	else	{
+			$image_file_name = $product_name . '-' . $model_name . $file_extention;
+		}
+		return $image_file_name;
 	}
 	
 	//загрузка фото
@@ -950,7 +912,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 
 			$file_extention = $this->getExtentionFromFileName($this->uploading_foto->name);
 			
-			$filename = md5(strtotime('now')).$file_extention;
+			$filename = $this->buildFileName($app, $file_extention);
 			
 			$file_path = $product_imagePath . DIRECTORY_SEPARATOR . 'full_'.$filename;
 			
@@ -995,20 +957,16 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 			//echo'<pre>';print_r($Images, 0);echo'</pre>';die;
 			
 			if(count($Images) == 1)	{
-				$connection = $app->db;				
-				
+				$connection = $app->db;
 				ShopProductsImages::model()->setMainFoto($connection, $Images[0]->image_id, $this->product_id);
-				
 				$this->setProductImage($connection,  $Images[0]->image_file, $this->product_id);
 			}
-			
 		}
 	}
 	
 	//получение расширения имени файла
 	public function getExtentionFromFileName($filename)
 	{
-		//разбиваем имя загружаемого файла на части чтобы получить его расширение
 		$file_name_arr = explode('.', strtolower($filename));
 		return '.'.$file_name_arr[(count($file_name_arr)-1)];
 	}
@@ -1017,14 +975,9 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 	function getSelectedCategories()
 	{
 		$selectedValues = array();
-		//echo'<pre>';print_r($this->ProductsCategories,0);echo'</pre>';die;
-		
 		foreach($this->ProductsCategories as $cat) {
-			//echo'<pre>';print_r($cat,0);echo'</pre>';
-			//echo'<pre>';print_r($cat['category']['id'],0);echo'</pre>';die;
 			$selectedValues[$cat['category']['id']] = Array ( 'selected' => 'selected' );
 		}
-		//die;
 		$this->SelectedCategories = $selectedValues;		
 	}
 	
@@ -1032,11 +985,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 	function getSelectedAdminCategories()
 	{
 		$selectedValues = array();
-		//echo'<pre>';print_r($this->ProductsCategories,0);echo'</pre>';die;
-		
 		foreach($this->ProductsAdminCategories as $cat) {
-			//echo'<pre>';print_r($cat,0);echo'</pre>';
-			//echo'<pre>';print_r($cat['category']['id'],0);echo'</pre>';die;
 			$selectedValues[$cat['category']['id']] = array( 'selected' => 'selected' );
 		}
 		$this->SelectedAdminCategories = $selectedValues;		
@@ -1046,10 +995,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 	function getSelectedModels()
 	{
 		$selectedValues = array();
-		//echo'<pre>';print_r($this->ProductsModelsAutos,0);echo'</pre>';die;
-		
 		foreach($this->ProductsModelsAutos as $row) {
-			//echo'<pre>';print_r($cat['category']['id'],0);echo'</pre>';
 			$selectedValues[$row['model']['id']] = array( 'selected' => 'selected' );
 		}
 		$this->SelectedModels = $selectedValues;
@@ -1059,7 +1005,6 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 	function getSelectedModelsDisabled()
 	{
 		$selectedValues = array();
-		
 		foreach($this->ProductsModelsDisabled as $row)
 			$selectedValues[$row['model']['id']] = array( 'selected' => 'selected' );
 		
@@ -1070,7 +1015,6 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 	function getSelectedBodies()
 	{
 		$selectedValues = array();
-		
 		foreach($this->ProductsBodies as $row) {
 			$selectedValues[$row['body']['id']] = Array ( 'selected' => 'selected' );
 		}
@@ -1081,9 +1025,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 	function getSelectedEngines()
 	{
 		$selectedValues = array();
-		//echo'<pre>';print_r($this->ProductsEngines);echo'</pre>';
 		foreach($this->ProductsEngines as $cat) {
-			//$selectedValues[$cat['engine']['id']] = array( 'selected' => 'selected' );
 			$selectedValues[$cat['engines_models_id']] = array( 'selected' => 'selected' );
 		}
 		$this->SelectedEngines = $selectedValues;
@@ -1379,7 +1321,10 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		
 	}
 	
-	//получает ID товаров из выбранных категорий
+	/**
+	 * является ли товар универсальным
+	 * @return boolean
+	 */
 	public function isUniversalProduct()
 	{
 		$connection = Yii::app()->db;
@@ -1393,6 +1338,93 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 			else $res = true;
 		
 		return $res;
+	}
+	
+	public function ToTranslitStr($text)
+	{
+		$res = $this->ToTranslit($text);
+		$res = strtolower($res);
+		$res = $this->setFilterAlias($res);
+		return $res;
+	}
+	
+	/**
+	 * Транслит
+	 * @param $text
+	 * @return string
+	 */
+	public function ToTranslit($text)
+	{
+		$find=array('А','а','Б','б','В','в','Г','г','Д','д','Е','е','Ё','ё',
+			'Ж','ж','З','з','И','и','Й','й','К','к','Л','л','М','м',
+			'Н','н','О','о','П','п','Р','р','С','с','Т','т','У','у',
+			'Ф','ф','Х','х','Ц','ц','Ч','ч','Ш','ш','Щ','щ','Ъ','ъ',
+			'Ы','ы','Ь','ь','Э','э','Ю','ю','Я','я', '№',' ');
+
+		$replace=array('A','a','B','b','V','v','G','g','D','d','E','e','Yo','yo',
+			'Zh','zh','Z','z','I','i','J','j','K','k','L','l','M','m',
+			'N','n','O','o','P','p','R','r','S','s','T','t','U','u','F',
+			'f','H','h','Ts','ts','CH','ch','Sh','sh','Sch','sch',
+			'','','Y','y','','','E','e','Yu','yu','Ya','ya', '',' ');
+
+	   return preg_replace('/[^\w\d\s_-]*/','',str_replace($find,$replace,$text));
+	}
+	
+	public static function setFilterAlias($alias)
+	{
+		$alias = str_replace(" ", "-", $alias);
+		$alias = (string) preg_replace('/[\x00-\x1F\x7F<>"\'$#%&\?\/\.\)\(\{\}\+\=\[\]\\\,:;]/', '', $alias);
+		$alias = strtolower($alias);
+		return $alias;
+	}	
+	
+	public function updateImg($connection, $id, $new_name)
+	{
+		$sql = "UPDATE {{shop_products_images}} SET `image_file` = :image_file WHERE `image_id` = :image_id";
+		$command = $connection->createCommand($sql);
+		$command->bindParam(":image_id", $id);
+		$command->bindParam(":image_file", $new_name);
+		$res = $command->execute();
+		return $res;
+	}
+	
+	public function updateMainImg($connection, $id, $new_name)
+	{
+		$sql = "UPDATE {{shop_products}} SET `product_image` = :product_image WHERE `product_id` = :product_id";
+		$command = $connection->createCommand($sql);
+		$command->bindParam(":product_id", $id);
+		$command->bindParam(":product_image", $new_name);
+		$res = $command->execute();
+		return $res;
+	}
+	
+	public function renameImg(&$app, $old_name, $new_name)
+	{
+		$imagePath = Yii::getPathOfAlias($app->params->product_imagePath);
+		
+		$file_path_old = $imagePath . DIRECTORY_SEPARATOR . 'full_' . $old_name;
+		$file_path_new = $imagePath . DIRECTORY_SEPARATOR . 'full_' . $new_name;
+		
+		if(file_exists($file_path_old)) {
+			rename($file_path_old, $file_path_new);
+			//echo'<pre> file find ';print_r($file_path_old);echo'</pre>';
+		}	else	{
+			//echo'<pre> file not find ';print_r($file_path_old);echo'</pre>';
+		}
+		
+		$file_path_old = $imagePath . DIRECTORY_SEPARATOR . 'thumb_' . $old_name;
+		$file_path_new = $imagePath . DIRECTORY_SEPARATOR . 'thumb_' . $new_name;
+		
+		//if(file_exists($file_path_old)) rename($file_path_old, $file_path_new);
+		if(file_exists($file_path_old)) {
+			rename($file_path_old, $file_path_new);
+			//echo'<pre> file find ';print_r($file_path_old);echo'</pre>';
+		}	else	{
+			//echo'<pre> file not find ';print_r($file_path_old);echo'</pre>';
+		}
+		
+		
+		//die;
 	}
 	
 }

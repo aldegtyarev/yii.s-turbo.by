@@ -20,20 +20,19 @@ $total_summ = $total_in_cart['summ'] + $delivery_cost;
 
 	<tbody>
 		<?	foreach($positions as $product) {	?>
-			<? 				//echo'$modelinfo<pre>';print_r($product);echo'</pre>';die;?>
 			<? $product_url = $this->createUrl('shopproducts/detail', array('product'=> $product->product_id)); ?>
 			<tr>
 				<td class="cart-prod-img-cell">
 					<? 
 						if ($product->product_image) {
-							echo CHtml::link(CHtml::image($params->product_images_liveUrl . 'thumb_'.$product->product_image, $product->product_name, array('class' => "cart-image radius-4")), $product_url, array('class' => "db", 'title'=>$product->product_name));
+							echo CHtml::link(CHtml::image($params->product_images_liveUrl . 'thumb_'.$product->product_image, $product->product_name, array('class' => "cart-image radius-4")), $product->product_url, array('class' => "db", 'title'=>$product->product_name));
 						}	else	{
-							echo CHtml::link(CHtml::image($params->product_images_liveUrl . 'noimage.jpg', "", array('class' => "cart-image radius-4")), $product_url, array('class' => "db"));											
+							echo CHtml::link(CHtml::image($params->product_images_liveUrl . 'noimage.jpg', "", array('class' => "cart-image radius-4")), $product->product_url, array('class' => "db"));											
 						}	
 					?>									
 				</td>
 				<td class="cart-prod-name-cell">
-					<? echo CHtml::link($product->product_name, $product_url, array('title' => $product->product_name, 'class'=>'prod-name')); ?>
+					<? echo CHtml::link($product->product_name, $product->product_url, array('title' => $product->product_name, 'class'=>'prod-name')); ?>
 					
 					<? if($product->product_availability > 0)	{	?>
 						<?

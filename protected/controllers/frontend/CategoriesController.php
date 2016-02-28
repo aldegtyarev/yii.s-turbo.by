@@ -1,5 +1,4 @@
 <?php
-
 class CategoriesController extends Controller
 {
 	/**
@@ -158,7 +157,6 @@ class CategoriesController extends Controller
 	 */
 	public function actionIndex()
 	{
-		
 		$dataProvider=new CActiveDataProvider('Categories');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,

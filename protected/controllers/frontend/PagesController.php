@@ -136,7 +136,7 @@ class PagesController extends Controller
 	/**
 	 * Доставка
 	 */
-	public function actionDelivery()
+	public function actionDostavka()
 	{
 		$id = 3;
 		$this->renderPage($id);
@@ -145,7 +145,7 @@ class PagesController extends Controller
 	/**
 	 * Оплата
 	 */
-	public function actionPayment()
+	public function actionOplata()
 	{
 		$id = 4;
 		$this->renderPage($id);
@@ -154,7 +154,7 @@ class PagesController extends Controller
 	/**
 	 * гарантия
 	 */
-	public function actionGuarantee()
+	public function actionGarantiya()
 	{
 		$id = 5;
 		$this->renderPage($id);
@@ -172,7 +172,7 @@ class PagesController extends Controller
 	/**
 	 * Города доставки по Беларуси:
 	 */
-	public function actionContacts()
+	public function actionKontakty()
 	{
 		$id = 6;
 		$app = Yii::app();
@@ -220,7 +220,7 @@ class PagesController extends Controller
 	/**
 	 * о нас
 	 */
-	public function actionAbout()
+	public function actionOnas()
 	{
 		$id = 2;
 		//$id = 1;

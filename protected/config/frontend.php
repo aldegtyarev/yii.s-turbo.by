@@ -33,13 +33,21 @@ return CMap::mergeArray(
 				'urlSuffix' => '.html',
 				'rules'=>array(
 					'<_action:(news|our)>/<alias:.+>'=>'pages/<_action>',
-					'<_action:(delivery|payment|guarantee|contacts|about|townslist|news|our)>'=>'pages/<_action>',
+					'<_action:(dostavka|oplata|garantiya|kontakty|onas|townslist|news|our)>'=>'pages/<_action>',
+					'<_action:(backcall)>'=>'site/<_action>',
 					
+					
+					'korzina'=>'cart/showcart',
 					'<path:.+cart>'=>'cart/<path>',
 
+					'<_action:(lastviewed)>'=>'shopproducts/<_action>',
 					'product/buyoneclick'=>'shopproducts/buyoneclick',
-					'product/delivery/<id:.+>'=>'shopproducts/delivery',
-					'product/<product>'=>'shopproducts/detail',
+					'product/dostavka/<id:.+>'=>'shopproducts/delivery',
+					
+					
+					'product/marka<marka:.+>/model<model:.+>/year<year:.+>/<product:.+>'=>'shopproducts/detail',
+					'product/<uni:.+>/<product:.+>'=>'shopproducts/detail',
+					//'product/<product>'=>'shopproducts/detail',
 					
 					'category/marka<marka:.+>/model<model:.+>/year<year:.+>'=>'shopcategories/index',
 					

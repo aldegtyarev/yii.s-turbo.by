@@ -147,7 +147,8 @@
 	.jq-selectbox__dropdown li {
 		padding: 5px 10px;
 		
-		@extend %c_999;
+		//@extend %c_999;
+		color: #ddd;
 		//@extend %bold;
 		@extend %font_12;
 		

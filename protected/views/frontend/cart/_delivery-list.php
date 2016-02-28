@@ -3,7 +3,7 @@
 		<div class="delivery-item-cnt cart-block-border-cnt <?php if($delivery_id == $row->id) echo 'cart-block-border-cnt-selected'; if($row->delivery_no === true) echo ' cart-block-border-cnt-disabled' ?>" data-delivery="<?= $row->id ?>">
 			<?/*<img alt="" src="<?= $row->ico ?>" style="width: 40px; height: 40px;">*/?>
 			<img alt="" src="<?= $row->ico ?>" style="height: 40px;">
-			<div class="cart-block-border-ttl"><a href="<?= $this->createUrl('pages/delivery', array('tab'=>$row->id)) ?>" class="fancybox1 fancybox.ajax" rel="nofollow"><?= $row->name ?></a></div>
+			<div class="cart-block-border-ttl"><a href="<?= $this->createUrl('pages/dostavka', array('tab'=>$row->id)) ?>" class="fancybox1 fancybox.ajax" rel="nofollow"><?= $row->name ?></a></div>
 			<?php
 				$deliveryNormal = false;
 				$deliveryQuick = false;

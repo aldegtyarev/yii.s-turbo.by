@@ -51,48 +51,75 @@ class ShopProductsController extends Controller
 	{
 		$app = Yii::app();
 		$connection = $app->db;
-		//echo'<pre>';print_r($product);echo'</pre>';
+		$url_params = UrlHelper::getUrlParams($app);	// это забирается из GET параметров
+		UrlHelper::checkChangeAuto($app);
+		
+		$selected_auto = UrlHelper::getSelectedAuto($app);	//это то что храниться в сессии
+		
+		if($url_params['marka'] != $selected_auto['marka'] || $url_params['model'] != $selected_auto['model'] || $url_params['year'] != $selected_auto['year']) {
+			$app->session['autofilter.marka'] = $selected_auto['marka'] = $url_params['marka'];
+			$app->session['autofilter.model'] = $selected_auto['model'] = $url_params['model'];
+			$app->session['autofilter.year'] = $selected_auto['year'] = $url_params['year'];
+			unset($app->session['autofilter.modelinfo']);
+		}
+		
 		//$model = $this->loadModelbySlug($slug);
 		$model = $this->loadModel($product);
 		
 		//получаем сопутствующие товары
-		$related_rows = ShopProductsRelations::model()->getRelatedProducts($product);
-		
-		$criteria = new CDbCriteria();
-		
-		$criteria->select = "t.*";
-		$criteria->join = 'INNER JOIN `{{shop_products_relations}}` AS pr ON t.`product_id` = pr.`product_related_id`';
-		$criteria->condition = 'pr.`product_id` = '.$product;
-
-        $RelatedDataProvider = new CActiveDataProvider('ShopProducts', array(
-            'criteria'=>$criteria,
-            'pagination'=>array(
-                'pageSize'=>100,
-				'pageVar' =>'page',
-            ),
-        ));
+        $RelatedDataProvider = ShopProductsRelations::model()->getRelatedProducts($product);
 		
 		$finded_product_ids = ShopProducts::model()->getProductIds($RelatedDataProvider->data);
 		
 		$firms = ShopFirms::model()->getFirmsForProductList($connection, $finded_product_ids);
 		
 		foreach($RelatedDataProvider->data as $row)	{
-			$row->product_url = $this->createUrl('shopproducts/detail', array('product'=> $row->product_id));
+			$is_universal_product = ShopProductsModelsAuto::model()->isUniversalroduct($row->product_id);
+			if($is_universal_products == 1) {
+				$prod_params = array(
+					'uni' => 'uni',
+					'product'=> $row->product_id
+				);					
+			}	else	{
+				$prod_params = array(
+					'marka' => $url_params['marka'],
+					'model' => $url_params['model'],
+					'year' => $url_params['year'],
+					'year' => $url_params['year'],
+					'product'=> $row->product_id
+				);
+			}
+			
+			$row->product_url = $this->createUrl('shopproducts/detail', $prod_params);
+			//$row->product_url = $this->createUrl('shopproducts/detail', array('product'=> $row->product_id));
 			$row->product_image = $app->params->product_images_liveUrl.($row->product_image ? 'thumb_'.$row->product_image : 'noimage.jpg');
 			$row->firm_name = $firms[$row->firm_id]['name'];
 		}
 		
 		//$breadcrumbs = $this->createBreadcrumbs($category_path, $model);
-		$breadcrumbs = array(
-			$model->product_name,
-		);
+		$breadcrumbs = array($model->product_name);
 		
 		// сохраняем в сессию, что мы смотрели данный товар
 		$shopProductsIds = isset($app->session['shopProducts.ids']) ? $app->session['shopProducts.ids'] : array() ;
-		if (!in_array($model->product_id, $shopProductsIds)) {
-			//$shopProductsIds[] = $model->product_id;
-			array_unshift($shopProductsIds, $model->product_id);
+		if(is_null($url_params['marka']) && is_null($url_params['model']) && is_null($url_params['year'])) $is_uni = 1;
+			else $is_uni = 0;
+		
+		$last_viewed_item = array(
+			'id' => $model->product_id,
+			'marka' => $url_params['marka'],
+			'model' => $url_params['model'],
+			'year' => $url_params['year'],
+			'uni' => $is_uni,
+		);
+		
+		foreach($shopProductsIds as $k=>$i) {
+			if($i['id'] == $model->product_id) unset($shopProductsIds[$k]);
 		}
+		
+		array_unshift($shopProductsIds, $last_viewed_item);
+		
+		if(count($shopProductsIds) > $app->params['count_last_viewed_in_page'])
+			unset($shopProductsIds[$app->params['count_last_viewed_in_page']]);
 		
 		$app->session['shopProducts.ids'] = $shopProductsIds;
 		
@@ -110,7 +137,6 @@ class ShopProductsController extends Controller
 		
 		$this->render('view',array(
 			'model'=>$model,
-			'rows'=>$related_rows,
 			'RelatedDataProvider'=>$RelatedDataProvider,
 			'breadcrumbs' => $breadcrumbs,
 			'currency_info' => $currency_info,
@@ -121,7 +147,9 @@ class ShopProductsController extends Controller
 		
 	}
 	
-	//метод загружает последние просмотренные товары
+	/**
+	 * метод загружает последние просмотренные товары
+	 */
 	public function actionLastviewed()
 	{
 		$app = Yii::app();
@@ -129,14 +157,21 @@ class ShopProductsController extends Controller
 
 		$shopProductsIds = isset($app->session['shopProducts.ids']) ? $app->session['shopProducts.ids'] : array() ;
 		
+		$shopProductsIds_m = array();
+		
 		if(!count($shopProductsIds))	{
-			$shopProductsIds = array(0);
+			$product_ids = array(0);
+		}	else	{
+			foreach($shopProductsIds as $i) {
+				$product_ids[] = $i['id'];
+				$shopProductsIds_m[$i['id']] = $i;
+			}
 		}
 		
 		$criteria = new CDbCriteria();
 		$criteria->select = "t.*";
-		$criteria->condition = 'product_id IN ('.implode(',', $shopProductsIds).')';
-		$criteria->order = 'FIELD(product_id, '.implode(',', $shopProductsIds).')';
+		$criteria->condition = 'product_id IN ('.implode(',', $product_ids).')';
+		$criteria->order = 'FIELD(product_id, '.implode(',', $product_ids).')';
 		
         $dataProvider = new CActiveDataProvider('ShopProducts', array(
             'criteria'=>$criteria,
@@ -173,8 +208,23 @@ class ShopProductsController extends Controller
 		
 		
 		foreach($dataProvider->data as $row)	{
-			$product_ids[] = $row->product_id;
-			$row->product_url = $this->createUrl('shopproducts/detail', array('product'=> $row->product_id));
+			if($shopProductsIds_m[$model->product_id]['uni'] == 1) {
+				$prod_params = array(
+					'uni' => 'uni',
+					'product'=> $row->product_id,
+				);					
+			}	else	{
+				$prod_params = array(
+					'marka' => $shopProductsIds_m[$row->product_id]['marka'],
+					'model' => $shopProductsIds_m[$row->product_id]['model'],
+					'year' => $shopProductsIds_m[$row->product_id]['year'],
+					'year' => $shopProductsIds_m[$row->product_id]['year'],
+					'product'=> $row->product_id,
+				);
+			}
+			
+			$row->product_url = $this->createUrl('shopproducts/detail', $prod_params);
+			//$row->product_url = $this->createUrl('shopproducts/detail', array('product'=> $row->product_id));
 			$row->product_image = $app->params->product_images_liveUrl.($row->product_image ? 'thumb_'.$row->product_image : 'noimage.jpg');
 			$row->firm_name = $firms[$row->firm_id]['name'];
 		}
@@ -196,14 +246,9 @@ class ShopProductsController extends Controller
 	{
 		$app = Yii::app();
 		$connection = $app->db;
-		//echo'<pre>';print_r($product);echo'</pre>';
 		$model = $this->loadModel($id);
-		
 		$currency_info = Currencies::model()->loadCurrenciesList();
-		
 		$delivery_list = Delivery::model()->loadCalculatedDeliveryList(array($model), $currency_info, true);
-		//echo'<pre>';print_r($delivery_list);echo'</pre>';
-		
 		$modelinfoTxt = $this->buildModelInfo($app, $connection, $url_params);
 		
 		$this->renderPartial('delivery',array(
@@ -213,9 +258,8 @@ class ShopProductsController extends Controller
 			'modelinfoTxt' => $modelinfoTxt,
 			'currency_info' => $currency_info,
 		));
-		
-		
 	}
+	
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
@@ -275,10 +319,10 @@ class ShopProductsController extends Controller
 	 */
 	private function buildModelInfo(&$app, &$connection, $url_params)
 	{
+		/*
 		if(isset($app->session['autofilter.modelinfo']))	{
 			$modelinfo = json_decode($app->session['autofilter.modelinfo'], 1);
 		}	else	{
-
 			$select_marka = $url_params['marka'] ? $url_params['marka'] : -1;
 			$select_model = $url_params['model'] ? $url_params['model'] : -1;
 			$select_year = $url_params['year'] ? $url_params['year'] : -1;
@@ -287,33 +331,43 @@ class ShopProductsController extends Controller
 				$modelinfo = ShopModelsAuto::model()->getModelInfo($connection, $select_marka, $select_model, $select_year);
 					else $modelinfo = array();
 		}
+		*/
+		if(isset($url_params['marka']) && isset($url_params['model']) && isset($url_params['year'])) {
+			$select_marka = $url_params['marka'] ? $url_params['marka'] : -1;
+			$select_model = $url_params['model'] ? $url_params['model'] : -1;
+			$select_year = $url_params['year'] ? $url_params['year'] : -1;
+
+			if($select_marka != -1 && $select_model != -1 && $select_year != -1) {
+				$modelinfo = ShopModelsAuto::model()->getModelInfo($connection, $select_marka, $select_model, $select_year);
+			}	else	{
+				$modelinfo = array();
+			}
+			
+		}	elseif(isset($app->session['autofilter.modelinfo']))	{
+			$modelinfo = json_decode($app->session['autofilter.modelinfo'], 1);
+		}	else	{
+			$modelinfo = array();
+		}
 		
 		$modelinfoTxt = '';
 		
-		//echo'<pre>';print_r($app->session['autofilter.modelinfo']);echo'</pre>';
 		//echo'<pre>';print_r($modelinfo);echo'</pre>';
 		
 		if(count($modelinfo)) {
 			$modelinfoTxt .= ' для';
-			//foreach($modelinfo as $i) $modelinfoTxt .= ' ' . $i['name'];
 			foreach($modelinfo as $k=>$i) {
 				if(isset($modelinfo[$k+1])) {
 					//бывает что часть названия попадает в двух частях, поэтому отлавливаем этот момент
 					$findme = $i['name'];
 					$mystring = $modelinfo[$k+1]['name'];
 					$pos = strpos($mystring, $findme);
-					if ($pos === false) {
-						$modelinfoTxt .= ' ' . $i['name'];
-					}
+					if ($pos === false) $modelinfoTxt .= ' ' . $i['name'];
 				}	else	{
 					$modelinfoTxt .= ' ' . $i['name'];
 				}
 			}
 			
 		}
-		
 		return $modelinfoTxt;
-		
 	}
-	
 }

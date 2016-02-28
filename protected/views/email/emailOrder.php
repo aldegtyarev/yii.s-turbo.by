@@ -7,13 +7,6 @@ $params = $app->params;
 $total_in_cart = PriceHelper::calculateTotalInCart($positions, $currency_info);
 $total_summ = $total_in_cart['summ'] + $delivery_cost;
 
-
-//$total_summ = 0;
-//foreach($positions as $product)
-//	$total_summ += PriceHelper::formatPrice($product->product_price, $product->currency_id, 3, null, false, true);
-//
-
-
 $td_style = 'style="padding:10px;"';
 ?>
 <div style="width:765px;">
@@ -82,14 +75,14 @@ $td_style = 'style="padding:10px;"';
 					<td style="padding:10px 10px 10px 0;" >
 						<? 
 							if ($product->product_image) {
-								echo CHtml::link(CHtml::image($app->getBaseUrl(true) . $params->product_images_liveUrl . 'thumb_'.$product->product_image, $product->product_name, array('style' => "border-radius:4px;width:115px;")), $product_url, array('title'=>$product->product_name));
+								echo CHtml::link(CHtml::image($app->getBaseUrl(true) . $params->product_images_liveUrl . 'thumb_'.$product->product_image, $product->product_name, array('style' => "border-radius:4px;width:115px;")), $product->product_url, array('title'=>$product->product_name));
 							}	else	{
-								echo CHtml::link(CHtml::image($app->getBaseUrl(true) . $params->product_images_liveUrl . 'noimage.jpg', "", array('style' => "border-radius:4px;width:115px;")), $product_url, array());											
+								echo CHtml::link(CHtml::image($app->getBaseUrl(true) . $params->product_images_liveUrl . 'noimage.jpg', "", array('style' => "border-radius:4px;width:115px;")), $product->product_url, array());											
 							}	
 						?>									
 					</td>
 					<td <?=$td_style?> >
-						<? echo CHtml::link($product->product_name, $product_url, array('title' => $product->product_name, 'style'=>'font-weight:bold;color:#000;font-family:Tahoma, Verdana, sans-serif;')); ?>
+						<? echo CHtml::link($product->product_name, ($app->getBaseUrl(true) . $product->product_url), array('title' => $product->product_name, 'style'=>'font-weight:bold;color:#000;font-family:Tahoma, Verdana, sans-serif;')); ?>
 						<p style="font-size:10px;color:#000;font-family:Tahoma, Verdana, sans-serif;"><?php echo $product->cart_model_info ?></p>
 					</td>
 

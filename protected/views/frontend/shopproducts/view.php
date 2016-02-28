@@ -3,12 +3,6 @@
 /* @var $model ShopProducts */
 
 $this->breadcrumbs = $breadcrumbs;
-/*
-$this->breadcrumbs=array(
-	'Shop Products'=>array('index'),
-	$model->product_id,
-);
-*/
 
 $app = Yii::app();
 $baseUrl = $app->getBaseUrl(true).'/';
@@ -18,15 +12,8 @@ $clientScript = $app->clientScript;
 $clientScript->registerCoreScript('phone-input');
 $clientScript->registerCoreScript('fancybox');
 
-
-
-
-
-if ($model->metatitle)	{
-  $this->pageTitle = $model->metatitle;
-}	else	{
-	$this->pageTitle = $model->product_name;
-}
+if ($model->metatitle) $this->pageTitle = $model->metatitle;
+	else	$this->pageTitle = $model->product_name;
 
 $this->pageTitle .= ' | '.$app->name;
 
@@ -36,10 +23,6 @@ if ($model->metakey)
 if ($model->metadesc)		
 	$clientScript->registerMetaTag($model->metadesc, 'description');
 
-
-
-
-//echo'<pre>';print_r($baseUrl);echo'</pre>';
 $params = $app->params;
 
 $image_url = $app->getBaseUrl(true) . $params->product_images_liveUrl . 'full_'.$model->product_image;
@@ -55,7 +38,6 @@ $product_desc .= strip_tags($model->product_desc);
 
 
 if($product_desc != '') {
-	//$product_desc = str_replace(array("\r\n", "\r", "\n", "\t"), '', $product_desc);
 	mb_internal_encoding('UTF-8');
 	$product_desc = mb_substr($product_desc, 0, 297).'...';
 }	else	{
@@ -69,22 +51,16 @@ if (!$app->request->isAjaxRequest) {
 	$clientScript->registerMetaTag($this->pageTitle, 'og:title');
 	$clientScript->registerMetaTag($product_desc, 'og:description');
 }
-//var_dump($product_desc);
-//echo $app->getBaseUrl(true).$app->getRequest()->getUrl();
 
 $product_classes = '';
 
-//$model_images = $model->shopProductsMediases;
 $model_images = $model->Images;
 
 $product_price = PriceHelper::formatPrice($model->product_price, $model->currency_id, 3, $currency_info, true, true);
 if($product_price >= $free_delivery_limit) $model->free_delivery = 1;
-
 ?>
 
-
 <div class="productdetails-view">
-	<?/*<input type="hidden" id="og_image" value="http://new.s-turbo.by<?	echo $params->product_images_liveUrl . 'full_'.$model->product_image	?>" />*/?>
 	<?php 
 		if ($app->request->isAjaxRequest) {
 			
@@ -230,14 +206,11 @@ if($product_price >= $free_delivery_limit) $model->free_delivery = 1;
 										
 					<?/*<div class="productview-ask-question"><a href="#">Задать вопрос</a></div>*/?>
 
-
-
 					<div class="cart-popup-wr hidden">
 						<div id="cart-popup" class="cart-popup" >
 							<div id="cart-popup-info" class="cart-popup-info">Количество товара было обновлено.</div>
 							<a class="continue close" href="javascript:void(0)" onclick="ClosePopUp();">Продолжить покупки</a>
-							<? /*<a class="showcart floatright" href="/magazin-tyuninga/cart.html">Оформить заказ</a> */ ?>
-							<?echo CHtml::link('Оформить заказ', $this->createUrl('/cart/showcart', array()), array('class'=>'showcart floatright')); ?>
+							<?php echo CHtml::link('Оформить заказ', $this->createUrl('/cart/showcart', array()), array('class'=>'showcart floatright')); ?>
 
 						</div>
 					</div>
@@ -256,9 +229,9 @@ if($product_price >= $free_delivery_limit) $model->free_delivery = 1;
 			<div class="productdetails-client-info">
 				<p class="title">Информация для клиента</p>
 				<div class="productdetails-client-info-wr clearfix">
-					<p class="delivery"><a href="<?= $this->createUrl('pages/delivery')?>" class="modal-url fancybox1 fancybox.ajax" title="Доставка по всей Беларуси"><img src="/img/advantages-2.png" alt="Доставка"><br>Доставка</a></p>
-					<p class="payment"><a href="<?= $this->createUrl('pages/payment')?>" class="advantages-item-detail modal-url fancybox1 fancybox.ajax" title="Удобная оплата"><img src="/img/advantages-3.png" alt="Оплата"><br>Оплата</a></p>
-					<p class="guarantie"><a href="<?= $this->createUrl('pages/guarantee')?>" class="advantages-item-detail modal-url fancybox1 fancybox.ajax" title="Гарантия и возврат"><img src="/img/advantages-4.png" alt="Гарантия"><br>Гарантия / возврат</a></p>
+					<p class="delivery"><a href="<?= $this->createUrl('pages/dostavka')?>" class="modal-url fancybox1 fancybox.ajax" title="Доставка по всей Беларуси"><img src="/img/advantages-2.png" alt="Доставка"><br>Доставка</a></p>
+					<p class="payment"><a href="<?= $this->createUrl('pages/oplata')?>" class="advantages-item-detail modal-url fancybox1 fancybox.ajax" title="Удобная оплата"><img src="/img/advantages-3.png" alt="Оплата"><br>Оплата</a></p>
+					<p class="guarantie"><a href="<?= $this->createUrl('pages/garantiya')?>" class="advantages-item-detail modal-url fancybox1 fancybox.ajax" title="Гарантия и возврат"><img src="/img/advantages-4.png" alt="Гарантия"><br>Гарантия / возврат</a></p>
 				</div>
 			</div>
 		</div>		
@@ -294,22 +267,12 @@ if($product_price >= $free_delivery_limit) $model->free_delivery = 1;
     <? } ?>
     
 	<div id="likes-block" class="likes-block">
-		<?/*
-		<script type="text/javascript" src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js" charset="utf-8"></script>
-		<script type="text/javascript" src="//yastatic.net/share2/share.js" charset="utf-8"></script>
-		*/?>
 		<div id="my-share" class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,moimir,gplus,twitter,lj"></div>
-		
 	</div>
     
     <?
-
-	
 	$this->endWidget();				
 
-//	$this->beginWidget('system.web.widgets.CClipWidget', array('id'=>"Отзывы покупателей<sup>5</sup>"));
-//	echo "Отзывы покупателей";
-//	$this->endWidget();
 	if($model->installation != '') {
 		$this->beginWidget('system.web.widgets.CClipWidget', array('id'=>"Установка"));
 		echo $model->installation;
@@ -324,38 +287,32 @@ if($product_price >= $free_delivery_limit) $model->free_delivery = 1;
 		$i++;
 	}
 
-	$this->widget('system.web.widgets.CTabView', array('tabs'=>$tabParameters, /*'cssFile'=>"/css/gorizontal_tab.css",*/ 'htmlOptions'=>array('class'=>'productdetails-view-tab clearfix', 'id'=>'productdetails-view-tab'), 'activeTab'=>"0"));				
+	$this->widget('system.web.widgets.CTabView', array('tabs'=>$tabParameters, 'htmlOptions'=>array('class'=>'productdetails-view-tab clearfix', 'id'=>'productdetails-view-tab'), 'activeTab'=>"0"));
+	?>
 
-?>
-
-
-<? if(count($rows))	{	?>
-	<div class="related-products new-positions clearfix">
-		<h3>Сопутствущие товары</h3>
-		<div class="jcarousel-wrapper">
-			<div class="jcarousel jcarousel-new-positions">
-				<?php $this->widget('zii.widgets.CListView', array(
-					'dataProvider'=>$RelatedDataProvider,
-					'itemView'=>'_view-related',
-					'ajaxUpdate'=>false,
-					'template'=>"{items}",
-					'itemsCssClass' => 'jcarousel products-list',
-				)); ?>
+	<?php if(count($RelatedDataProvider->data))	{	?>
+		<div class="related-products new-positions clearfix">
+			<h3>Сопутствущие товары</h3>
+			<div class="jcarousel-wrapper">
+				<?php //тут карусель не нужна. просто классы используем от нее ?>
+				<div class="jcarousel jcarousel-new-positions">
+					<?php $this->widget('zii.widgets.CListView', array(
+						'dataProvider'=>$RelatedDataProvider,
+						'itemView'=>'_view-related',
+						'ajaxUpdate'=>false,
+						'template'=>"{items}",
+						'itemsCssClass' => 'jcarousel products-list',
+					)); ?>
+				</div>
 			</div>
-			<a href="#" class="jcarousel-control-prev jcarousel-new-positions-control-prev">‹</a> <a href="#" class="jcarousel-control-next jcarousel-new-positions-control-next">›</a>
 		</div>
-	</div>
-<?	}	?>
+	<?	}	?>
 
-
-<?php	if($prepayment_text != '')	{	?>
-<div id="prepayment" class="page-cnt" style="width:600px;display:none;">
-	<?= $prepayment_text ?>
-</div>
-
-<?php	}	?>
-
-
+	<?php	if($prepayment_text != '')	{	?>
+		<div id="prepayment" class="page-cnt" style="width:600px;display:none;">
+			<?= $prepayment_text ?>
+		</div>
+	<?php	}	?>
 	
 </div>
 

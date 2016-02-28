@@ -7,7 +7,6 @@
 
 		<div class="last-viewed-item-prices">
 			<p class="price-byr"><?=PriceHelper::formatPrice($data->product_price, $data->currency_id, 3, $currency_info, true)?></p>
-			<?/*<p class="price"><?=PriceHelper::formatPrice($data->product_price)?></p>*/?>
 		</div>
 	</div>
 </div>

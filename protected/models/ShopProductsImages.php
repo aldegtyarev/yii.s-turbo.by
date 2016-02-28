@@ -149,18 +149,12 @@ class ShopProductsImages extends CActiveRecord
 	
 	public function setMainFoto(&$connection, $image_id, $product_id)
 	{
-		/*
-		echo'<pre>';print_r($image_id);echo'</pre>';
-		echo'<pre>';print_r($product_id);echo'</pre>';
-		die;
-		*/
 		$sql = "UPDATE {{shop_products_images}} SET `main_foto` = 0 WHERE `product_id` = :product_id";
 		$command = $connection->createCommand($sql);
 		$command->bindParam(":product_id", $product_id);
 		$res = $command->execute();
 		
 		$sql = "UPDATE {{shop_products_images}} SET `main_foto` = 1 WHERE `image_id` = :image_id AND `product_id` = :product_id";
-		//$sql = "UPDATE {{shop_products_images}} SET `main_foto` = 1 WHERE `image_id` =$image_id";
 		$command = $connection->createCommand($sql);
 		$command->bindParam(":image_id", $image_id);
 		$command->bindParam(":product_id", $product_id);

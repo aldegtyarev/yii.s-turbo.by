@@ -47,27 +47,30 @@
 	
 
 ?>
-
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="language" content="ru" />
-	<?
-	/*
-
-	<!-- blueprint CSS framework -->
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/screen.css" media="screen, projection" />
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/print.css" media="print" />
-	*/
-	?>
-	<!--[if lt IE 8]>
-	<link rel="stylesheet" type="text/css" href="<?php echo $app->request->baseUrl; ?>/css/ie.css" media="screen, projection" />
-	<![endif]-->
-
-	<link rel="stylesheet" type="text/css" href="<?php echo $app->request->baseUrl; ?>/css/screen.css" />
-	<?	/*<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/form.css" />*/	?>
 	
-	<? /*<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js" type="text/javascript"></script>	*/?>
-	<? /*<script src="<?=Yii::app()->request->baseUrl?>/js/jquery.2.0.3.min.js" type="text/javascript"></script>	*/?>
-
+	<link rel="apple-touch-icon" sizes="57x57" href="/favicons/apple-touch-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="/favicons/apple-touch-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/favicons/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="/favicons/apple-touch-icon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="/favicons/apple-touch-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="/favicons/apple-touch-icon-120x120.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="/favicons/apple-touch-icon-144x144.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="/favicons/apple-touch-icon-152x152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon-180x180.png">
+	<link rel="icon" type="image/png" href="/favicons/favicon-32x32.png" sizes="32x32">
+	<link rel="icon" type="image/png" href="/favicons/android-chrome-192x192.png" sizes="192x192">
+	<link rel="icon" type="image/png" href="/favicons/favicon-96x96.png" sizes="96x96">
+	<link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
+	<link rel="manifest" href="/favicons/manifest.json">
+	<link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#5bbad5">
+	<link rel="shortcut icon" href="/favicons/favicon.ico">
+	<meta name="msapplication-TileColor" content="#da532c">
+	<meta name="msapplication-TileImage" content="/favicons/mstile-144x144.png">
+	<meta name="msapplication-config" content="/favicons/browserconfig.xml">
+	<meta name="theme-color" content="#ffffff">	
+	<link rel="stylesheet" type="text/css" href="<?php echo $app->request->baseUrl; ?>/css/screen.css" />
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
 
@@ -82,19 +85,15 @@
 
 						<?php $this->widget('zii.widgets.CMenu',array(
 							'items'=>array(
-
 								array('label'=>'Главная', 'url'=>($app->homeUrl), 'itemOptions'=> $isMainPage ? array('class'=>'active') : array()),
-								//array('label'=>'тест', 'url'=>array('/pages/view', 'id'=> 1)),
-								array('label'=>'Доставка', 'url'=>array('/pages/delivery')),
-								array('label'=>'Оплата', 'url'=>array('/pages/payment')),
-								array('label'=>'Гарантия', 'url'=>array('/pages/guarantee')),
-								array('label'=>'Контакты', 'url'=>array('/pages/contacts')),
-								array('label'=>'О нас', 'url'=>array('/pages/about'), 'itemOptions'=>array('class'=>'last-item')),
-								//array('label'=>'Отзывы', 'url'=>array('/site/feedback'), 'itemOptions'=>array('class'=>'last-item'),),
+								array('label'=>'Доставка', 'url'=>array('/pages/dostavka')),
+								array('label'=>'Оплата', 'url'=>array('/pages/oplata')),
+								array('label'=>'Гарантия', 'url'=>array('/pages/garantiya')),
+								array('label'=>'Контакты', 'url'=>array('/pages/kontakty')),
+								array('label'=>'О нас', 'url'=>array('/pages/onas'), 'itemOptions'=>array('class'=>'last-item')),
 							),'htmlOptions' => array('class'=>'main-menu clearfix', 'id'=>'main-menu')
 						)); ?>
 					</div>
-					<? /* <a href="http://turbo/admin.php">Адм</a> */ ?>
 				
 					<div id="cartBlock-cnt" class="pos-rel floatRight"><?php $this->widget('application.components.CartWidget'); ?></div>
 				</div>
@@ -205,7 +204,7 @@
 	<script type="text/javascript" src="http://consultsystems.ru/script/30888/" charset="utf-8"></script>
 	
 <!-- Yandex.Metrika counter -->
-<script type="text/javascript">
+<script>
     (function (d, w, c) {
         (w[c] = w[c] || []).push(function() {
             try {
@@ -235,5 +234,16 @@
 <noscript><div><img src="https://mc.yandex.ru/watch/34557575" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <!-- /Yandex.Metrika counter -->
 	
+	
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-73715533-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
 </body>
 </html>

@@ -45,6 +45,7 @@ class ShopProductsController extends Controller
 					'batchdelete',
 					'moveup',
 					'movedown',
+					'imgrename',
 				),
 				'users'=>array('superman'),
 			),
@@ -497,9 +498,6 @@ class ShopProductsController extends Controller
 		if(count($EnginesDropDownlistData))
 			$EnginesDropDownlistData = array(0=>'Все') + $EnginesDropDownlistData;
 		
-		//echo'<pre>';print_r($SelectedModel);echo'</pre>';//die;
-		//echo'<pre>';print_r($EnginesDropDownlistData);echo'</pre>';//die;
-		
 		$SelectedEngine = -1;
 		if(isset($app->session['ShopProducts.selected_engine']))	{
 			$SelectedEngine = (int)$app->session['ShopProducts.selected_engine'];
@@ -551,39 +549,6 @@ class ShopProductsController extends Controller
 		$this->redirect(array('admin'));
 	}
 
-	/**
-	 * Returns the data model based on the primary key given in the GET variable.
-	 * If the data model is not found, an HTTP exception will be raised.
-	 * @param integer $id the ID of the model to be loaded
-	 * @return ShopProducts the loaded model
-	 * @throws CHttpException
-	 */
-	public function loadModel($id)
-	{
-		$model=ShopProducts::model()->findByPk($id);
-		if($model===null)
-			throw new CHttpException(404,'The requested page does not exist.');
-		return $model;
-	}
-
-	/**
-	 * Performs the AJAX validation.
-	 * @param ShopProducts $model the model to be validated
-	 */
-	protected function performAjaxValidation($model)
-	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='shop-products-form')
-		{
-			echo CActiveForm::validate($model);
-			Yii::app()->end();
-		}
-	}
-	
-	function getDropDownLists()
-	{
-		$lists = array();
-		//$lists['categories'] = 
-	}
 	
 	public function actionSearchajax($str)
 	{
@@ -597,23 +562,6 @@ class ShopProductsController extends Controller
 		));
 		
 	}
-	/*
-	public function actionUpdateprice()
-	{
-		$connection = Yii::app()->db;
-		$sql = "SELECT `product_id`, `product_price` FROM {{shop_product_prices}}";
-		$command = $connection->createCommand($sql);
-		$rows = $command->queryAll();
-		
-		foreach($rows as $row)	{
-			$sql = "UPDATE {{shop_products}} SET `product_price` = :product_price WHERE `product_id` = :product_id";
-			$command = $connection->createCommand($sql);
-			$command->bindParam(":product_price", $row['product_price']);
-			$command->bindParam(":product_id",  $row['product_id']);
-			$command->execute();
-		}
-	}
-	*/
 	
 	public function actionPublishup($id)
 	{
@@ -632,9 +580,7 @@ class ShopProductsController extends Controller
 	}
 	
 	public function actionBatchdelete()
-	{
-		//echo'<pre>';print_r($_POST,0);echo'</pre>';die;
-		
+	{		
 		$batchId = Yii::app()->request->getParam('batchId', array());
 		foreach($batchId as $id) {
 			
@@ -649,4 +595,189 @@ class ShopProductsController extends Controller
 			$model->delete();			
 		}		
 	}
+	
+	/**
+	 * переименование картинок
+	 * 1. получаем список товаров product_id, product_name, product_image, manufacturer_sku 3hnspc_shop_products
+	 * 2. в цикле по каждой записи получаем ее изобажения image_id, image_file 3hnspc_shop_products_images
+	 * 3. Проверяем, универсльный ли это товар
+	 * 4. Если нет, то еще получаем первую модель, назначенную для этого товара
+	 */
+	public function actionImgrename()
+	{
+		$app = Yii::app();
+		$connection = $app->db;
+		
+		$file_name_arr = Yii::getPathOfAlias('webroot').'/file_name_arr.json';
+		//echo'<pre>';print_r(Yii::getPathOfAlias('webroot'));echo'</pre>';die;
+		
+		$start_at = $app->request->getParam('start_at', 0);
+		$go = $app->request->getParam('go', '');
+		
+
+		/*
+		$mytext = json_encode(array(
+			'qwe'=>12,
+			'sfwe'=>32,
+		));
+		*/
+		if($start_at == 0) {
+			$mytext = json_encode(array());		
+			$fp = fopen($file_name_arr, "w"); // Открываем файл в режиме записи
+			$test = fwrite($fp, $mytext); // Запись в файл
+			fclose($fp); //Закрытие файла
+		}
+//		echo'<pre>';print_r(Yii::getPathOfAlias('webroot'));echo'</pre>';die;
+		
+		
+		$file = file_get_contents($file_name_arr);
+		$image_file_name_arr = json_decode($file, true);
+		//echo'<pre>';print_r($image_file_name_arr);echo'</pre>';die;			
+		
+		
+		$limit = 500;
+		//$limit = 1000;
+		
+		//$sql = "SELECT product_id, product_name, product_image, manufacturer_sku, product_sku FROM {{shop_products}} WHERE product_id = 876 ORDER BY product_id LIMIT $start_at, $limit";
+		$sql = "SELECT product_id, product_name, product_image, manufacturer_sku, product_sku FROM {{shop_products}} ORDER BY product_id LIMIT $start_at, $limit";
+		$command = $connection->createCommand($sql);
+		$products = $command->queryAll();
+		
+		$start_at += $limit;
+		echo'<pre>';print_r($sql);echo'</pre>';//die;
+		//echo'<pre>';print_r($products);echo'</pre>';//die;
+		
+		
+		foreach($products as $product) {
+			//echo'<pre>';print_r($product);echo'</pre>';//die;
+			$product_name = ShopProducts::model()->ToTranslitStr($product['product_name']);
+			$product_name = str_replace('--', '-', $product_name);
+			$product_name = str_replace('--', '-', $product_name);
+			
+			if($product['product_sku'] != '') $product_name .= '-'.ShopProducts::model()->ToTranslitStr($product['product_sku']);
+			$product_name = str_replace('--', '-', $product_name);
+			$product_name = str_replace('--', '-', $product_name);
+			
+			if($product['manufacturer_sku'] != '') $product_name .= '-'.ShopProducts::model()->ToTranslitStr($product['manufacturer_sku']);
+			$product_name = str_replace('--', '-', $product_name);
+			$product_name = str_replace('--', '-', $product_name);
+			
+			
+			//echo'<pre>';print_r($product_name );echo'</pre>';//die;
+			$model_name_arr = ShopProductsModelsAuto::model()->getModelsFullNamesFull($product['product_id']);
+			
+			if(count($model_name_arr)) {
+				$model_name = ShopProducts::model()->ToTranslitStr($model_name_arr[0]['fullname']);
+				$model_name = str_replace('--', '-', $model_name);
+				$model_name = str_replace('--', '-', $model_name);
+			}	else	{
+				$model_name = '';
+			}
+				
+			//echo'<pre>';print_r($model_name );echo'</pre>';//die;
+			$sql = "SELECT image_id, image_file FROM {{shop_products_images}} WHERE product_id = " . $product['product_id'];
+			$command = $connection->createCommand($sql);
+			$product_images = $command->queryAll();
+			//echo'<pre>';print_r($product_images);echo'</pre>';//die;
+			
+			$is_universal_products = ShopProductsModelsAuto::model()->isUniversalroduct($product['product_id']);
+			if($is_universal_products) $model_name = 'uni';
+			
+			$img_num = 1;
+				foreach($product_images as $img) {
+					$file_extention = ShopProducts::model()->getExtentionFromFileName($img['image_file']);
+
+					if($img['image_file'] == $product['product_image']) {
+						$main_foto = 1;
+						$image_file_name = $product_name . '-' . $model_name . $file_extention;
+						if(isset($image_file_name_arr[$image_file_name])) {
+							$x = 0;
+							while (isset($image_file_name_arr[$image_file_name]))	{
+								$x++; // Увеличение счетчика
+								$image_file_name = $product_name . '-' . $x . '-' . $model_name . $file_extention;;
+							}
+						}	
+						$image_file_name_arr[$image_file_name] = $product['product_id'];
+
+						ShopProducts::model()->renameImg($app, $img['image_file'], $image_file_name);
+						ShopProducts::model()->updateImg($connection, $img['image_id'], $image_file_name);
+						ShopProducts::model()->updateMainImg($connection, $product['product_id'], $image_file_name);
+
+					}	else	{
+						$main_foto = 0;
+						$image_file_name = $product_name . '-' . $model_name . '-' . $img_num . $file_extention;
+						$img_num++;
+						
+						if(isset($image_file_name_arr[$image_file_name])) {
+							$x = 0;
+							while (isset($image_file_name_arr[$image_file_name]))	{
+								$x++; // Увеличение счетчика
+								$image_file_name = $product_name . '-' . $x . '-' . $model_name . $file_extention;;
+							}
+						}						
+						$image_file_name_arr[$image_file_name] = $product['product_id'];
+						
+						ShopProducts::model()->renameImg($app, $img['image_file'], $image_file_name);
+						ShopProducts::model()->updateImg($connection, $img['image_id'], $image_file_name);
+					}
+				}
+			
+			$fp = fopen($file_name_arr, "w"); // Открываем файл в режиме записи
+			$mytext = json_encode($image_file_name_arr);
+			$test = fwrite($fp, $mytext); // Запись в файл
+			fclose($fp); //Закрытие файла
+			
+			
+			//echo'<pre>';print_r($file_extention);echo'</pre>';die;
+			
+			//$img_name = 
+		}
+		
+		
+		//die;
+		echo'<pre>';print_r(count($products));echo'</pre>';
+		
+		
+		//die;
+		$this->renderPartial('img-rename',array(
+			'start_at'=>$start_at,
+			'limit'=>$limit,
+			'count'=>count($products),
+			'go'=>$go,
+			'image_file_name_arr'=>$image_file_name_arr,
+			
+		));
+		
+				
+		//$this->redirect(array('admin'));
+	}
+	
+	
+	/**
+	 * Returns the data model based on the primary key given in the GET variable.
+	 * If the data model is not found, an HTTP exception will be raised.
+	 * @param integer $id the ID of the model to be loaded
+	 * @return ShopProducts the loaded model
+	 * @throws CHttpException
+	 */
+	public function loadModel($id)
+	{
+		$model=ShopProducts::model()->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}	
+	
+	/**
+	 * Performs the AJAX validation.
+	 * @param ShopProducts $model the model to be validated
+	 */
+	protected function performAjaxValidation($model)
+	{
+		if(isset($_POST['ajax']) && $_POST['ajax']==='shop-products-form')
+		{
+			echo CActiveForm::validate($model);
+			Yii::app()->end();
+		}
+	}	
 }

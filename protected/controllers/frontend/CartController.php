@@ -29,19 +29,36 @@ class CartController extends Controller
 		
 		if($product_id && $quantity) {
 			$model = ShopProducts::model()->findByPk($product_id);
+			$url_params = UrlHelper::getSelectedAuto($app);	// это забирается из GET параметров
 			
 			$model->cart_model_info = '';
 			
-			if($model->isUniversalProduct()) $model->cart_model_info = 'УНИВЕРСАЛЬНЫЕ ТОВАРЫ';
+			if($model->isUniversalProduct()) {
+				$model->cart_model_info = 'УНИВЕРСАЛЬНЫЕ ТОВАРЫ';
+				
+				$prod_params = array(
+					'uni' => 'uni',
+					'product'=> $model->product_id
+				);					
+				
+			}
 			
 			if($model->cart_model_info == '') {
 				$modelinfo = json_decode($app->session['autofilter.modelinfo_cart'], 1);
-				//echo'$modelinfo<pre>';print_r($modelinfo);echo'</pre>';die;
 				if(count($modelinfo)) {
 					foreach($modelinfo as $i) $model->cart_model_info .= $i['name'] . ' ';
 				}
 				
+				$prod_params = array(
+					'marka' => $url_params['marka'],
+					'model' => $url_params['model'],
+					'year' => $url_params['year'],
+					'year' => $url_params['year'],
+					'product'=> $model->product_id
+				);
 			}
+			
+			$model->product_url = $this->createUrl('shopproducts/detail', $prod_params);			
 			
 			$app->shoppingCart->put($model, $quantity);
 			$total = $app->shoppingCart->getCount();
@@ -52,10 +69,6 @@ class CartController extends Controller
 			$total_in_cart = PriceHelper::calculateTotalInCart($positions, $currency_info);
 			$summ = $total_in_cart['summ'];
 			$total = $total_in_cart['qtyTotal'];
-			
-			
-			//$summ = PriceHelper::formatPrice($summ, 3, 3, $currency_info, true);
-			//echo'<pre>';print_r($summ);echo'</pre>';//die;
 			
 			$html = '';
 			$html = $this->renderPartial( 'add-to-cart', array(
@@ -83,8 +96,6 @@ class CartController extends Controller
 	{
 		$app = Yii::app();
 		$positions = $app->shoppingCart->getPositions();
-		
-		//echo'<pre>';var_dump($app->user->id);echo'</pre>';//die;
 		
 		$params = $app->params;
 		
@@ -153,12 +164,9 @@ class CartController extends Controller
 	public function actionUpdatecart()
 	{
 		$app = Yii::app();
-		//$positions = Yii::app()->shoppingCart->getPositions();
 
 		$product_id = $app->request->getParam('product_id', 0);
 		$quantity = $app->request->getParam('quantity', 0);
-		//echo'<pre>';print_r($product_id);echo'</pre>';
-		//echo'<pre>';print_r($quantity);echo'</pre>';
 		
 		$model = ShopProducts::model()->findByPk($product_id);
 		$app->shoppingCart->update($model, $quantity);
@@ -216,18 +224,14 @@ class CartController extends Controller
 		$app->end();
 	}
 	
-	
 	public function actionSetcostdelivery()
 	{
 		$app = Yii::app();
-		//$positions = Yii::app()->shoppingCart->getPositions();
 
 		$delivery_id = $app->request->getParam('delivery_id', -1);
 		$delivery_quick = $app->request->getParam('delivery_quick', -1);
 		
 		if($delivery_id == -1 || $delivery_quick == -1) $app->end();
-		//echo'<pre>';print_r($product_id);echo'</pre>';
-		//echo'<pre>';print_r($quantity);echo'</pre>';
 		
 		$modelDelivery = Delivery::model()->loadDelivery($delivery_id);
 		
@@ -242,10 +246,7 @@ class CartController extends Controller
 		$total_in_cart = PriceHelper::calculateTotalInCart($positions, $currency_info);
 		
 		$total_cost = $total_in_cart['summ'];
-//		$total = $app->shoppingCart->getCount();
-		//echo'<pre>';print_r($total_cost);echo'</pre>';
 		
-		//$modelDelivery = Delivery::model()->calculateDelivery($modelDelivery, $positions, $currency_info, $total_cost);
 		$modelDelivery = Delivery::model()->calculateDelivery($modelDelivery, $positions, $currency_info, $total_in_cart['summ_for_delivery'], $total_in_cart['qtyTotal_for_delivery']);		
 		
 		$payment_list = Payment::model()->loadPaymentList();
@@ -273,8 +274,9 @@ class CartController extends Controller
 		$app->end();
 	}
 	
-	
-	//удаление позиции товара из корзины
+	/**
+	 * удаление позиции товара из корзины
+	 */
 	public function actionRemovefromcart()
 	{
 		$app = Yii::app();
@@ -282,12 +284,8 @@ class CartController extends Controller
 		
 		if($product_id)	{
 			$model = ShopProducts::model()->findByPk($product_id);
-			//echo'<pre>';print_r($product_id);echo'</pre>';
 			$app->shoppingCart->remove($model->getId()); //no items
-		}	else	{
-			
 		}
-		
 		$this->redirect('showcart');
 	}
 	
@@ -295,7 +293,6 @@ class CartController extends Controller
 	public function actionClearcart()
 	{
 		Yii::app()->shoppingCart->clear();
-		
 		$this->redirect('showcart');
 	}
 	
@@ -403,20 +400,13 @@ class CartController extends Controller
 					$modelDelivery = Delivery::model()->loadDelivery($delivery_id);
 					$total_in_cart = PriceHelper::calculateTotalInCart($positions, $currency_info);
 					$modelDelivery = Delivery::model()->calculateDelivery($modelDelivery, $positions, $currency_info, $total_in_cart['summ_for_delivery'], $total_in_cart['qtyTotal_for_delivery']);
+					
 					//подставляем стоимость доставки к цене
 					if($modelDelivery->delivery_free != true) {
 						if($delivery_quick == 0) $delivery_cost = $modelDelivery->delivery_normal;
 							else $delivery_cost = $modelDelivery->delivery_quick;
 					}
 				}
-//				echo'<pre>deliveryName ';print_r($deliveryName);echo'</pre>';//die;
-//				echo'<pre>$paymentName ';print_r($paymentName);echo'</pre>';//die;
-//				echo'<pre>$delivery_cost ';print_r($delivery_cost);echo'</pre>';//die;
-//				echo'<pre>$delivery_quick ';print_r($delivery_quick);echo'</pre>';//die;
-//				echo'<pre>';var_dump($modelDelivery->delivery_free);echo'</pre>';//die;
-//				echo'<pre>';print_r($modelDelivery);echo'</pre>';
-//				die;
-				
 				
 				$data = array(
 					'positions' => $positions,
@@ -443,13 +433,9 @@ class CartController extends Controller
 					'emailOrder', // view шаблона письма
 					$data
 				);
-				
-				//echo'<pre>';print_r($positions);echo'</pre>';//die;
-				
 				$this->redirect(array('orderdone', 'order'=>$order->id));
 			}
 		}
-		
 	}
 	
 	
@@ -474,7 +460,6 @@ class CartController extends Controller
 				$currency_info = Currencies::model()->loadCurrenciesList();
 				
 				$total = $this->calculateTotalSumm($positions, $currency_info);
-				//echo'<pre>';print_r($total);echo'</pre>';die;				
 				
 				$customer = array('type' => Orders::CUSTOMER_TYPE_UR);
 				
@@ -502,6 +487,7 @@ class CartController extends Controller
 					$modelDelivery = Delivery::model()->loadDelivery($delivery_id);
 					$total_in_cart = PriceHelper::calculateTotalInCart($positions, $currency_info);
 					$modelDelivery = Delivery::model()->calculateDelivery($modelDelivery, $positions, $currency_info, $total_in_cart['summ_for_delivery'], $total_in_cart['qtyTotal_for_delivery']);
+					
 					//подставляем стоимость доставки к цене
 					if($modelDelivery->delivery_free != true) {
 						if($delivery_quick == 0) $delivery_cost = $modelDelivery->delivery_normal;
@@ -533,8 +519,6 @@ class CartController extends Controller
 					'emailOrder', // view шаблона письма
 					$data
 				);
-				//echo'<pre>';print_r($positions);echo'</pre>';//die;				
-				
 				$this->redirect(array('orderdone', 'order'=>$order->id));
 			}
 		}
@@ -577,7 +561,6 @@ class CartController extends Controller
 		$order->delivery_quick = $delivery_quick;
 		$order->payment_id = $payment_id;
 		$order->customer = json_encode($customer);
-		//$order->customer = '';
 		
 		if($order->validate()) {
 			$order->save();
@@ -597,7 +580,6 @@ class CartController extends Controller
 			
 			fclose($fp); //Закрытие файла
 		}
-		
 
 		foreach($positions as $product) {
 			$order_product = new OrdersProducts();
@@ -605,7 +587,6 @@ class CartController extends Controller
 			$order_product->product_id = $product->product_id;
 			$order_product->save();
 		}
-		
 		return $order;
 	}
 		

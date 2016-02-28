@@ -130,7 +130,7 @@
 		width: auto !important;
 	}
 	
-	&.pages-delivery {
+	&.pages-dostavka {
 		.tab-pane img {
 			height: 199px !important;
 			width: 300px !important;
@@ -208,7 +208,8 @@
 	//background-color: #fff;
 }
 
-.pages-contacts {
+.pages-contacts,
+.pages-kontakty {
 	td {
 		border: none;
 		vertical-align: top;
@@ -362,20 +363,20 @@
 .page-modal {
 	max-width:760px !important;
 	
-	&.pages-delivery {
+	&.pages-dostavka {
 		overflow-x: hidden;
 		padding: 0 5px;
 		
 	}
 }
 
-.pages-delivery {
+.pages-dostavka {
 	.fancybox1 {
 		@extend %c_d70000;
 	}
 }
-.pages-delivery,
-.pages-payment {
+.pages-dostavka,
+.pages-oplata {
 	.nav-tabs {
 		//overflow: hidden;
 		ul {
@@ -435,8 +436,7 @@
 	}
 }
 
-.page-modal.pages-payment .tabs-cnt .nav-tabs {
-	//width: 750px;
+.page-modal.pages-oplata .tabs-cnt .nav-tabs {
 	padding-left: 5px;
 	padding-right: 5px;
 	padding-top: 5px;

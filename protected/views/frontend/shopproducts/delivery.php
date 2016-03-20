@@ -2,8 +2,6 @@
 
 ?>
 
-
-
 <div class="product-delivery">
 	<h1>Стоимость доставки</h1>
 	
@@ -24,7 +22,7 @@
 					<div class="cart-block-border-ttl"><?= $row->name ?></div>
 
 					<?php if($row->delivery_free === true)	{	?>
-						<p class="c_d70000">БЕСПЛАТНО</p>
+						<p style="color:green;">БЕСПЛАТНО</p>
 					<?php	}	elseif($row->delivery_quick > 0)	{	?>
 						<p class="c_d70000">
 							<?php

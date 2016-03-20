@@ -113,7 +113,11 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 	public $SelectedEngine;
 	
 	public $cart_model_info = '';
-    
+
+	public $update_price_value = 0;
+	public $fake_discount = 0;
+	public $update_default_price = 0;
+
     
 	
 	
@@ -134,7 +138,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
         // will receive user inputs.
         return array(
             array('product_name, product_sku, currency_id, cargo_type', 'required'),
-            array('published, hide_s_desc, firm_id, type_id, protect_copy, product_availability, product_ordered, manufacturer_id, override, side, currency_id, featured, cargo_type, free_delivery', 'numerical', 'integerOnly'=>true),
+            array('published, hide_s_desc, firm_id, type_id, protect_copy, product_availability, product_ordered, manufacturer_id, override, side, currency_id, featured, cargo_type, free_delivery, update_price_value, fake_discount, update_default_price', 'numerical', 'integerOnly'=>true),
             array('metatitle, manuf, material, code, in_stock, delivery, prepayment, lamps, adjustment, product_s_desc', 'length', 'max'=>255),
             array('product_desc, installation, metadesc', 'length', 'max'=>17000),
             array('product_name', 'length', 'max'=>180),
@@ -143,8 +147,6 @@ class ShopProducts extends CActiveRecord implements IECartPosition
             array('metakey, slug', 'length', 'max'=>192),
 			array('product_price, product_override_price', 'length', 'max'=>15),
 			array('uploading_foto', 'file', 'types'=>'GIF,JPG,JPEG,PNG', 'minSize' => 1024,'maxSize' => 1048576, 'wrongType'=>'Не формат. Только {extensions}', 'tooLarge' => 'Допустимый вес 1Мб', 'tooSmall' => 'Не формат', 'on'=>self::SCENARIO_UPLOADING_FOTO),
-            // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             array('product_id, product_s_desc, product_desc, product_name, product_sku, published, metadesc, metakey, metatitle, slug, firm_id, type_id, protect_copy, product_availability, manuf, material, code, in_stock, delivery, prepayment, category_ids, manufacturer_id, product_price, override, product_override_price, product_ids, SelectedCategory, side, lamps, adjustment', 'safe', 'on'=>'search'),
         );
     }
@@ -199,8 +201,6 @@ class ShopProducts extends CActiveRecord implements IECartPosition
             'product_availability' => 'Наличие',
             'manuf' => 'Производитель',
             'material' => 'Материал',
-            //'code' => 'Код товара',
-            //'in_stock' => 'Наличие',
             'delivery' => 'Доставка',
             'prepayment' => 'Предоплата',
             'DropDownListCategories' => 'DropDownListCategories',
@@ -210,6 +210,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
             'body_ids' => 'Уточняющий год',
             'engine_ids' => 'Объем двигателя',
             'product_price' => 'Цена',
+            'product_price_default' => 'Исходная цена на товар',
             'currency_id' => 'Валюта',
             'override' => 'Выводить акционную цену',
             'product_override_price' => 'Акционная цена',
@@ -223,6 +224,9 @@ class ShopProducts extends CActiveRecord implements IECartPosition
             'featured' => 'Рекомендуем',
             'cargo_type' => 'Тип груза',
             'free_delivery' => 'Бесплатная доставка',
+			'update_price_value' => 'Изменить цену на товары в группе ("+" - изменятся основная цена; "-" - устанавливается скида на товар)',
+			'fake_discount' => 'Фейковая скидка',
+			'update_default_price' => 'Обновить исходную цену на товар',
         );
     }
     
@@ -289,8 +293,6 @@ class ShopProducts extends CActiveRecord implements IECartPosition
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
-
         $criteria = new CDbCriteria;
 		
 		$sort = new CSort();
@@ -438,6 +440,8 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 			
 			//приводим название к верхнему регистру
 			$this->product_name = mb_strtoupper($this->product_name, 'UTF-8');
+
+			if($this->update_default_price == 1) $this->product_price_default = $this->product_price;
 			
 			//echo'<pre>';print_r($this->product_name);echo'</pre>';die;
 			
@@ -594,6 +598,16 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 	function checkProductsModelsDisabled(&$connection)
 	{
 		$ProductsModels = $this->ProductsModelsDisabled;
+
+		//echo'<pre>';print_r($this->ProductsModelsDisabled);echo'</pre>';//die;
+		//echo'<pre>';print_r($this->SelectedModelsDisabled);echo'</pre>';//die;
+
+		//если ничего до сохраниения не было добавлено
+		// а теперь добавили то добавляем потомков добавленных моделей
+		if(count($ProductsModels) == 0 && count($this->SelectedModelsDisabled) != 0)
+			$this->SelectedModelsDisabled = ShopModelsAuto::model()->addDescedantsOfModels($this->SelectedModelsDisabled);
+
+		//echo'<pre>';print_r($this->SelectedModelsDisabled);echo'</pre>';die;
 
 		if(count($ProductsModels))	{
 			$arrays_of_identical = true;
@@ -1086,13 +1100,19 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 			'in_stock' => $this->in_stock,
 			'delivery' => $this->delivery,
 			'prepayment' => $this->prepayment,
-			'product_price' => $this->product_price,
-			'override' => $this->override,
-			'product_override_price' => $this->product_override_price,
+			//'product_price' => $this->product_price,
+			//'product_price_default' => $this->product_price_default,
+			'product_price' => 0,
+			'product_price_default' => 0,
 			'currency_id' => $this->currency_id,
+			//'override' => $this->override,
+			'override' => 0,
+			//'product_override_price' => $this->product_override_price,
+			'product_override_price' => 0,
+			//'percent_discount' => $this->percent_discount,
+			'percent_discount' => 0,
 			'cargo_type' => $this->cargo_type,
 			'free_delivery' => $this->free_delivery,
-			
 		));
 		$new_product_id = $app->db->getLastInsertId();
 		
@@ -1218,11 +1238,11 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 				$watermark_x	= $x - $main_img_obj_min_x;
 				$watermark_y	= $y - $main_img_obj_min_y;
  
-				$watermark_x_top_left	= $x - $main_img_obj_min_x_top_left;
-				$watermark_y_top_left	= $y - $main_img_obj_min_y_top_left;
+				//$watermark_x_top_left	= $x - $main_img_obj_min_x_top_left;
+				//$watermark_y_top_left	= $y - $main_img_obj_min_y_top_left;
  
-				$watermark_x_bottom_right	= $x - $main_img_obj_min_x_bottom_right;
-				$watermark_y_bottom_right	= $y - $main_img_obj_min_y_bottom_right;
+				//$watermark_x_bottom_right	= $x - $main_img_obj_min_x_bottom_right;
+				//$watermark_y_bottom_right	= $y - $main_img_obj_min_y_bottom_right;
  
 				# fetch color information for both of our images
 				$main_rgb = imagecolorsforindex( $main_img_obj, imagecolorat( $main_img_obj, $x, $y ) );
@@ -1406,7 +1426,8 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		$file_path_new = $imagePath . DIRECTORY_SEPARATOR . 'full_' . $new_name;
 		
 		if(file_exists($file_path_old)) {
-			rename($file_path_old, $file_path_new);
+			//rename($file_path_old, $file_path_new);
+			copy($file_path_old, $file_path_new);
 			//echo'<pre> file find ';print_r($file_path_old);echo'</pre>';
 		}	else	{
 			//echo'<pre> file not find ';print_r($file_path_old);echo'</pre>';
@@ -1417,7 +1438,8 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		
 		//if(file_exists($file_path_old)) rename($file_path_old, $file_path_new);
 		if(file_exists($file_path_old)) {
-			rename($file_path_old, $file_path_new);
+			//rename($file_path_old, $file_path_new);
+			copy($file_path_old, $file_path_new);
 			//echo'<pre> file find ';print_r($file_path_old);echo'</pre>';
 		}	else	{
 			//echo'<pre> file not find ';print_r($file_path_old);echo'</pre>';
@@ -1426,5 +1448,155 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		
 		//die;
 	}
-	
+
+	/**
+	 * возвращает урлы на все товары
+	 * @param mixed $controller
+	 * @param mixed $connection
+	 * @return array
+	 */
+	public function getAllProductsUrls(&$controller, &$connection)
+	{
+		$product_urls = array();
+
+		$sql = "SELECT `product_id` FROM {{shop_products_models_auto}} WHERE `model_id` = :model_id";
+		$commandModels = $connection->createCommand($sql);
+		
+		$homeUrl = substr(Yii::app()->homeUrl, 0, -1);
+
+		$markaList = ShopModelsAuto::model()->getModelsLevel1($connection, false);
+
+		foreach($markaList as $marka_id => $marka) {
+			$modelModel = ShopModelsAuto::model()->findByPk($marka_id);
+			$descendants = $modelModel->children()->findAll();
+			$modelList = CHtml::listData($descendants, 'id','name');
+
+			foreach($modelList as $model_id => $model) {
+				$modelYear = ShopModelsAuto::model()->findByPk($model_id);
+				$descendants = $modelYear->descendants()->findAll();
+
+				foreach($descendants as $k=>$c){
+					if($c->disabled_in_dropdown == 1) unset($descendants[$k]);
+				}
+
+				$yearsList = CHtml::listData($descendants, 'id','name');
+				
+				foreach($yearsList as $year_id => $year) {
+					$commandModels->bindParam(":model_id", $year_id);
+					$productsOfModel = $commandModels->queryColumn();
+
+					foreach($productsOfModel as $prod_id) {
+						$prod_params = array(
+							'marka' => $marka_id,
+							'model' => $model_id,
+							'year' => $year_id,
+							'product'=> $prod_id,
+						);
+						
+						$product_url = $homeUrl . $controller->createUrl('shopproducts/detail', $prod_params);
+						$product_urls[] = $product_url;
+					}
+				}
+			}
+		}
+		
+		// для универсальных товаров отдельно все сформировать
+		$universal_products = ShopProductsModelsAuto::model()->getProductIdsInCategories(Yii::app()->params['universal_products']);
+		$universal_products = explode(',', $universal_products);
+
+		foreach($universal_products as $prod_id) {
+			$prod_params = array(
+				'uni' => 'uni',
+				'product'=> $prod_id,
+			);								
+			$product_url = $homeUrl . $controller->createUrl('shopproducts/detail', $prod_params);
+			$product_urls[] = $product_url;
+		}
+		return $product_urls;
+	}
+
+	/**
+	 * обновляет цену на товар
+	 * @return bool
+	 */
+	public function updatePriceInProduct()
+	{
+		$app = Yii::app();
+		$connection = $app->db;
+
+		//echo'<pre>';print_r($type_ids);echo'</pre>';die;
+		$where = array('(product_id = ' . $this->product_id.')');
+
+		if($this->update_price_value > 0) {
+			if($this->update_price_value == 100) {
+				// если выбрано воостановление исходной цены
+				$values = array(
+					' `product_price` = `product_price_default` ',
+					' `product_override_price` = 0 ',
+					' `override` = 0 ',
+					' `percent_discount` = 0',
+				);
+			}	else {
+				$values = array(
+					' `product_price` = (`product_price` + (`product_price` / 100 * ' . $this->update_price_value . ')) ',
+				);
+			}
+
+		}	elseif($this->update_price_value < 0)	{
+			$values = array(
+				' `product_override_price` = (`product_price` + (`product_price` / 100 * ' . $this->update_price_value . ')) ',
+				' `override` = 1 ',
+				' `percent_discount` = ' . $this->update_price_value,
+			);
+
+		}	else	{
+			$values = array(
+				' `product_override_price` = 0 ',
+				' `override` = 0 ',
+				' `percent_discount` = 0',
+			);
+		}
+
+		$res = DBHelper::updateTbl($connection, $this->tableName(), $values, $where);
+
+		return $res;
+	}
+
+	/**
+	 * добавляем к товару фейковую скидку
+	 * @return bool
+	 */
+	public function updateFakePriceInProduct()
+	{
+		$app = Yii::app();
+		$connection = $app->db;
+
+		$where = array('(product_id = ' . $this->product_id.')');
+
+		if($this->fake_discount < 0) {
+			$values = array(
+				' `product_override_price` = `product_price` ',
+				' `product_price` = (`product_price` - (`product_price` / 100 * ' . $this->fake_discount . ')) ',
+				' `override` = 1 ',
+				' `percent_discount` = ' . $this->fake_discount,
+			);
+		}	elseif($this->fake_discount == 0)	{
+			//если выбран откат скидки
+			$values = array(
+				' `product_price` = `product_override_price` ',
+				' `product_override_price` = 0 ',
+				' `override` = 0 ',
+				' `percent_discount` = 0',
+			);
+
+			$where[] = '(product_override_price <> 0)';
+
+		}	else	{
+			return false;
+		}
+
+		$res = DBHelper::updateTbl($connection, $this->tableName(), $values, $where);
+
+		return $res;
+	}
 }

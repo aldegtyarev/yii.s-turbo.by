@@ -18,7 +18,7 @@
 			<?php if($row->delivery_no === true)	{	?>
 				<p class="c_d70000">НЕ ДОСТАВЛЯЕМ</p>
 			<?php	}	elseif($row->delivery_free === true)	{	?>
-				<p class="c_d70000">
+				<p style="color: green;">
 					<?php echo CHtml::radioButton('delivery_quick['.$row->id.']', $deliveryNormal, array('id'=>'delivery-normal-'.$row->id, 'class'=>'delivery_type', 'value'=>0))?>
 					БЕСПЛАТНО
 				</p>

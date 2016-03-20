@@ -29,7 +29,7 @@ class ShopProductsController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view','detail','lastviewed','buyoneclick', 'delivery'),
+				'actions'=>array('index','view','detail','lastviewed','buyoneclick', 'delivery', 'sitemapcreate'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -53,7 +53,9 @@ class ShopProductsController extends Controller
 		$connection = $app->db;
 		$url_params = UrlHelper::getUrlParams($app);	// это забирается из GET параметров
 		UrlHelper::checkChangeAuto($app);
-		
+
+		//echo'<pre>';print_r($url_params);echo'</pre>';die;
+
 		$selected_auto = UrlHelper::getSelectedAuto($app);	//это то что храниться в сессии
 		
 		if($url_params['marka'] != $selected_auto['marka'] || $url_params['model'] != $selected_auto['model'] || $url_params['year'] != $selected_auto['year']) {
@@ -91,7 +93,6 @@ class ShopProductsController extends Controller
 			}
 			
 			$row->product_url = $this->createUrl('shopproducts/detail', $prod_params);
-			//$row->product_url = $this->createUrl('shopproducts/detail', array('product'=> $row->product_id));
 			$row->product_image = $app->params->product_images_liveUrl.($row->product_image ? 'thumb_'.$row->product_image : 'noimage.jpg');
 			$row->firm_name = $firms[$row->firm_id]['name'];
 		}
@@ -135,6 +136,11 @@ class ShopProductsController extends Controller
 		
 		$free_delivery_limit = Delivery::model()->getFreeDeliveryLimit();
 		
+		$installation_page = Pages::model()->getPageText($app->params['installation_page']);
+		
+		$model_pages_cat = PagesCategories::model()->findByPk($app->params['cat_our_id']);
+		$ourWorkDataProvider = Pages::model()->loadPages($app->params['cat_our_id']);		
+		
 		$this->render('view',array(
 			'model'=>$model,
 			'RelatedDataProvider'=>$RelatedDataProvider,
@@ -143,6 +149,9 @@ class ShopProductsController extends Controller
 			'modelinfoTxt' => $modelinfoTxt,
 			'prepayment_text' => $prepayment_text,
 			'free_delivery_limit' => $free_delivery_limit,
+			'installation_page' => $installation_page,
+			'ourWorkDataProvider' => $ourWorkDataProvider,
+			'url_path' => $model_pages_cat->alias,
 		));
 		
 	}
@@ -182,9 +191,7 @@ class ShopProductsController extends Controller
         ));
 		
 		$finded_product_ids = ShopProducts::model()->getProductIds($dataProvider->data);
-		
-		
-		
+
 		$firms = ShopFirms::model()->getFirmsForProductList($connection, $finded_product_ids);
 		
 		$selected_auto = UrlHelper::getSelectedAuto($app);	//это то что храниться в сессии
@@ -319,19 +326,6 @@ class ShopProductsController extends Controller
 	 */
 	private function buildModelInfo(&$app, &$connection, $url_params)
 	{
-		/*
-		if(isset($app->session['autofilter.modelinfo']))	{
-			$modelinfo = json_decode($app->session['autofilter.modelinfo'], 1);
-		}	else	{
-			$select_marka = $url_params['marka'] ? $url_params['marka'] : -1;
-			$select_model = $url_params['model'] ? $url_params['model'] : -1;
-			$select_year = $url_params['year'] ? $url_params['year'] : -1;
-
-			if($select_marka != -1 && $select_model != -1 && $select_year != -1)
-				$modelinfo = ShopModelsAuto::model()->getModelInfo($connection, $select_marka, $select_model, $select_year);
-					else $modelinfo = array();
-		}
-		*/
 		if(isset($url_params['marka']) && isset($url_params['model']) && isset($url_params['year'])) {
 			$select_marka = $url_params['marka'] ? $url_params['marka'] : -1;
 			$select_model = $url_params['model'] ? $url_params['model'] : -1;
@@ -351,8 +345,6 @@ class ShopProductsController extends Controller
 		
 		$modelinfoTxt = '';
 		
-		//echo'<pre>';print_r($modelinfo);echo'</pre>';
-		
 		if(count($modelinfo)) {
 			$modelinfoTxt .= ' для';
 			foreach($modelinfo as $k=>$i) {
@@ -370,4 +362,11 @@ class ShopProductsController extends Controller
 		}
 		return $modelinfoTxt;
 	}
+	
+    protected function processPageRequest($param='page')
+    {
+        if (Yii::app()->request->isAjaxRequest && isset($_POST[$param]))
+            $_GET[$param] = Yii::app()->request->getPost($param);
+    }	
+
 }

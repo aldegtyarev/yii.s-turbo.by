@@ -17,7 +17,8 @@ class ShopProductTypes extends CActiveRecord
 	public $DropDownlistData;
 	public $parentId;
 	public $new_parentId;
-	//public $cargo_type;
+	public $update_price_value = 0;
+	public $fake_discount = 0;
 
 	
 	/**
@@ -51,10 +52,8 @@ class ShopProductTypes extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('name', 'required'),
-			array('cargo_type', 'numerical', 'integerOnly'=>true),
+			array('cargo_type, update_price_value, fake_discount', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>255),
-			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
 			array('type_id, name', 'safe', 'on'=>'search'),
 		);
 	}
@@ -67,8 +66,9 @@ class ShopProductTypes extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-		);
-	}
+			'typesRelated' => array(self::HAS_MANY, 'ShopProductTypesRelations', 'type_id'),
+			'products' => array(self::HAS_MANY, 'ShopProducts', 'type_id'),
+		);	}
 
 	/**
 	 * @return array customized attribute labels (name=>label)
@@ -79,6 +79,8 @@ class ShopProductTypes extends CActiveRecord
 			'type_id' => 'id',
 			'name' => 'Название',
 			'cargo_type' => 'Тип груза',
+			'update_price_value' => 'Изменить цену на товары в группе ("+" - изменятся основная цена; "-" - устанавливается скида на товар)',
+			'fake_discount' => 'Фейковая скидка',
 		);
 	}
 
@@ -96,8 +98,6 @@ class ShopProductTypes extends CActiveRecord
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('type_id',$this->type_id);
@@ -112,6 +112,10 @@ class ShopProductTypes extends CActiveRecord
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+			'pagination'=>array(
+				'pageSize' => 200,
+			),
+
 		));
 	}
 
@@ -231,8 +235,14 @@ class ShopProductTypes extends CActiveRecord
 		$categories = $this->findAll($criteria);
 		return true;
 	}
-	
-	//получаем типы товаров для списка товаров категории
+
+	/**
+	 * получаем типы товаров для списка товаров категории
+	 * @param $connection
+	 * @param array $product_ids
+	 * @param bool $get_null
+	 * @return array
+     */
 	public function getProductTypesForProductList(&$connection, $product_ids = array(), $get_null = false )
 	{
 		if(count($product_ids))	{
@@ -251,7 +261,10 @@ GROUP BY pr.`type_id` ORDER BY pt.root, pt.lft
 		}
 		return $rows;
 	}
-	
+
+	/**
+	 * @return mixed
+     */
 	public function updateCargoType()
 	{
 		$app = Yii::app();
@@ -262,5 +275,103 @@ GROUP BY pr.`type_id` ORDER BY pt.root, pt.lft
 		$res = $command->execute();
 		
 		return $res;
-	}	
+	}
+
+	/**
+	 * получает массив id дочерних групп товаров и текущей группы товаров
+	 * @return array
+     */
+	public function getTypeIds()
+	{
+		$descendants = $this->descendants()->findAll();
+		$type_ids = CHtml::listData($descendants, 'type_id','type_id');
+		$type_ids[ $this->type_id] = $this->type_id;
+		return $type_ids;
+	}
+
+	/**
+	 * обновляет цены на товары в указанно группе товаров и ее дочерних группах
+	 * @return bool
+     */
+	public function updatePricesInProducts()
+	{
+		$app = Yii::app();
+		$connection = $app->db;
+
+		$type_ids = $this->getTypeIds();
+		//echo'<pre>';print_r($type_ids);echo'</pre>';die;
+		$where = array(' (`type_id` IN ('. implode(',', $type_ids) . ')) ');
+
+		if($this->update_price_value > 0) {
+			if($this->update_price_value == 100) {
+				// если выбрано воостановление исходной цены
+				$values = array(
+					' `product_price` = `product_price_default` ',
+					' `product_override_price` = 0 ',
+					' `override` = 0 ',
+					' `percent_discount` = 0',
+				);
+			}	else {
+				$values = array(
+					' `product_price` = (`product_price` + (`product_price` / 100 * ' . $this->update_price_value . ')) ',
+				);
+			}
+
+		}	elseif($this->update_price_value < 0)	{
+			$values = array(
+				' `product_override_price` = (`product_price` + (`product_price` / 100 * ' . $this->update_price_value . ')) ',
+				' `override` = 1 ',
+				' `percent_discount` = ' . $this->update_price_value,
+			);
+
+		}	else	{
+			$values = array(
+				' `product_override_price` = 0 ',
+				' `override` = 0 ',
+				' `percent_discount` = 0',
+			);
+		}
+
+		$res = DBHelper::updateTbl($connection, ShopProducts::model()->tableName(), $values, $where);
+		return $res;
+	}
+
+	/**
+	 * добавляем к товарам фейковую скидку
+	 * @return bool
+     */
+	public function updateFakePricesInProducts()
+	{
+		$app = Yii::app();
+		$connection = $app->db;
+
+		$type_ids = $this->getTypeIds();
+
+		$where = array(' (`type_id` IN ('. implode(',', $type_ids) . ')) ');
+
+		if($this->fake_discount < 0) {
+			$values = array(
+				' `product_override_price` = `product_price` ',
+				' `product_price` = (`product_price` - (`product_price` / 100 * ' . $this->fake_discount . ')) ',
+				' `override` = 1 ',
+				' `percent_discount` = ' . $this->fake_discount,
+			);
+		}	elseif($this->fake_discount == 0)	{
+			//если выбран откат скидки
+			$values = array(
+				' `product_price` = `product_override_price` ',
+				' `product_override_price` = 0 ',
+				' `override` = 0 ',
+				' `percent_discount` = 0',
+			);
+
+			$where[] = ' (product_override_price <> 0) ';
+
+		}	else	{
+			return false;
+		}
+
+		$res = DBHelper::updateTbl($connection, ShopProducts::model()->tableName(), $values, $where);
+		return $res;
+	}
 }

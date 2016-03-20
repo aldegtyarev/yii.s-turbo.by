@@ -56,8 +56,15 @@ $product_classes = '';
 
 $model_images = $model->Images;
 
-$product_price = PriceHelper::formatPrice($model->product_price, $model->currency_id, 3, $currency_info, true, true);
+
+if($model->product_override_price == 0) {
+	$prod_price = $model->product_price;
+}	else	{
+	$prod_price = $model->product_override_price;
+}
+$product_price = PriceHelper::formatPrice($prod_price, $model->currency_id, 3, $currency_info, true, true);
 if($product_price >= $free_delivery_limit) $model->free_delivery = 1;
+
 ?>
 
 <div class="productdetails-view">
@@ -81,10 +88,11 @@ if($product_price >= $free_delivery_limit) $model->free_delivery = 1;
 		}
 	?>
 	
-	<h1><?php echo $model->product_name; ?></h1>
-	<?php if($modelinfoTxt != '')	{	?>
-		<p class="productdetails-modelinfo"><?= $modelinfoTxt ?></p>
-	<?php	}	?>
+	<h1><?php echo $model->product_name; ?>
+		<?php if($modelinfoTxt != '')	{	?>
+			<span class="productdetails-modelinfo"><?= $modelinfoTxt ?></span>
+		<?php	}	?>
+	</h1>
 	<div class="head clearfix">
 		<div class="productdetails-view-image-part">
 			<div id="product-image-cnt-<?= $model->product_id ?>" class="productdetails-main-image">
@@ -106,7 +114,8 @@ if($product_price >= $free_delivery_limit) $model->free_delivery = 1;
 									echo CHtml::openTag('li');
 									$thumb_image_url = $params->product_images_liveUrl . 'thumb_'.$media_item->image_file;
 									$image_url = $params->product_images_liveUrl . 'full_'.$media_item->image_file;
-									echo CHtml::link(CHtml::image($thumb_image_url), $image_url, array('class' => "fancybox", "data-fancybox-group" => "gallery"));
+									//echo CHtml::link(CHtml::image($thumb_image_url), $image_url, array('class' => "fancybox", "data-fancybox-group" => "gallery"));
+									echo CHtml::link('', $image_url, array('class' => "fancybox productdetails-slider-images-tmb", "data-fancybox-group" => "gallery", 'style'=>'background-image:url("'.$thumb_image_url.'")'));
 									echo CHtml::closeTag('li');
 								}
 							}	
@@ -123,8 +132,15 @@ if($product_price >= $free_delivery_limit) $model->free_delivery = 1;
 						<div class="productdetails-price-row clearfix">
 							<span class="label"><? echo $model->getAttributeLabel('product_price');?>:</span>
 							<div class="value" id="productPrice<?=$model->product_id?>">
-								<p class="price-byr"><?=PriceHelper::formatPrice($model->product_price, $model->currency_id, 3, $currency_info, true)?></p>
-								<p class="price"><?=PriceHelper::formatPrice($model->product_price, $model->currency_id, 0, $currency_info)?></p>
+								<? if($model->percent_discount < 0)	{	?>
+									<span class="percent_discount"><?= $model->percent_discount ?>%</span>
+									<p class="price-override"><?= PriceHelper::formatPrice($model->product_price, $data->currency_id, 3, $currency_info, true)?></p>
+									<p class="price-byr"><?=PriceHelper::formatPrice($model->product_override_price, $model->currency_id, 3, $currency_info, true)?></p>
+									<p class="price"><?=PriceHelper::formatPrice($model->product_override_price, $model->currency_id, 0, $currency_info)?></p>
+								<?	}	else	{	?>
+									<p class="price-byr"><?=PriceHelper::formatPrice($model->product_price, $model->currency_id, 3, $currency_info, true)?></p>
+									<p class="price"><?=PriceHelper::formatPrice($model->product_price, $model->currency_id, 0, $currency_info)?></p>
+								<?	}	?>
 							</div>
 						</div>
 						
@@ -270,14 +286,28 @@ if($product_price >= $free_delivery_limit) $model->free_delivery = 1;
 		<div id="my-share" class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,moimir,gplus,twitter,lj"></div>
 	</div>
     
-    <?
-	$this->endWidget();				
+    <?php $this->endWidget();
 
-	if($model->installation != '') {
+	//if($model->installation != '') {
 		$this->beginWidget('system.web.widgets.CClipWidget', array('id'=>"Установка"));
 		echo $model->installation;
+		?>
+		<div class="page-cnt">
+		<?php
+		echo $installation_page;
+		?>
+		</div>
+		<?php
+		
+		$this->renderPartial('_our-work', array(
+			'app'=>$app,
+			'dataProvider' => $ourWorkDataProvider,
+			'url_path' => $url_path,
+		));						 
+		
+
 		$this->endWidget();
-	}
+	//}
 
 	$tabParameters = array();
 

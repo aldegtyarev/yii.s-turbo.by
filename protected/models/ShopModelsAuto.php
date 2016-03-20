@@ -434,12 +434,9 @@ class ShopModelsAuto extends CActiveRecord
 		$descendants = $category->descendants()->findAll();
 		$ids_arr = array();
 		$ids_arr[] = $parentId;
-		foreach($descendants as $item)	{
-			$ids_arr[] = $item->id;
-		}
-		
+		foreach($descendants as $item) $ids_arr[] = $item->id;
+
 		return implode(',', $ids_arr);		
-		//echo'<pre>';print_r($ids_arr);echo'</pre>';
 	}
 	
 	public function getFullNameModel($model_id)
@@ -574,4 +571,27 @@ class ShopModelsAuto extends CActiveRecord
 		$chain_arr[] = $model->name;
 		return implode(' ', $chain_arr);
 	}
+
+	/**
+	 * добавляет потомков к выбранным моделям авто
+	 * @param array $models
+	 * @return array
+	 */
+	public function addDescedantsOfModels($models = array())
+	{
+		$res = $models;
+		foreach($models as $model_id => $item) {
+			$model = self::model()->findByPk($model_id);
+			if(!is_null($model)) {
+				$descendants = $model->descendants()->findAll();
+				foreach ($descendants as $descendant) {
+					$res[$descendant->id] = array(
+						'selected'=>'selected',
+					);
+				}
+			}
+		}
+		return $res;
+	}
+
 }

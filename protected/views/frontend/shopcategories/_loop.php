@@ -30,4 +30,5 @@
 	<input type="hidden" id="pageCount_input" value="<?= (int)$dataProvider->pagination->pageCount ?>">
 	<input type="hidden" id="csrfTokenName" value="<?= $app->request->csrfTokenName ?>">
 	<input type="hidden" id="csrfToken" value="<?= $app->request->csrfToken ?>"> 
+	<input type="hidden" id="pagination-url" value="<?= $app->getRequest()->getRequestUri() ?>"> 
 <?php	}	?>

@@ -25,7 +25,7 @@ return CMap::mergeArray(
 			
 			
 			// uncomment the following to enable URLs in path-format
-			
+
 			'urlManager'=>array(
 				'class'=>'UrlManager',
 				'showScriptName'=>false,
@@ -34,7 +34,7 @@ return CMap::mergeArray(
 				'rules'=>array(
 					'<_action:(news|our)>/<alias:.+>'=>'pages/<_action>',
 					'<_action:(dostavka|oplata|garantiya|kontakty|onas|townslist|news|our)>'=>'pages/<_action>',
-					'<_action:(backcall)>'=>'site/<_action>',
+					'<_action:(backcall|buildsitemap)>'=>'site/<_action>',
 					
 					
 					'korzina'=>'cart/showcart',

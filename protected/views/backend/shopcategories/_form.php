@@ -66,6 +66,52 @@
 				</div>
 			</div>
 			
+			<div class="row">
+				<div class="col-lg-6">
+					<div style="padding-left: 20px;">
+						<?php echo $form->checkBoxControlGroup($model, 'uni'); ?>
+						<?php echo $form->error($model,'uni'); ?>
+					</div>
+				</div>			
+			</div>
+
+			<fieldset>
+				<legend>Связанные категории</legend>
+				<?php if(count($model->сategoriesRelated) != 0)	{	?>
+					<table class="items table table-striped table-bordered">
+						<tr>
+							<th>Категория</th>
+							<th>Модель</th>
+							<th style="width: 80px"></th>
+						</tr>
+						<?php foreach ($model->сategoriesRelated as $item)	{	?>
+							<tr>
+								<td><?= $item->categoryRelated->name ?></td>
+								<td><ul><?php foreach($item->categoriesRelationsModels as $model_item) echo '<li>'. ShopModelsAuto::model()->getModelChain($model_item->model_id) .'</li>' ?></ul></td>
+								<td class="button-column">
+									<a class="update" title="Редактировать" href="<?= $this->createUrl('relatedupdate', array('id'=>$item->id)) ?>">
+										<img src="/img/grid-icons/update.png" alt="Редактировать">
+									</a>
+									<a class="delete" title="Удалить" href="<?= $this->createUrl('relateddelete', array('id'=>$item->id)) ?>">
+										<img src="/img/grid-icons/delete.png" alt="Удалить">
+									</a>
+								</td>
+							</tr>
+						<?php }	?>
+					</table>
+
+				<?php }	?>
+
+				<div class="row">
+					<div class="col-lg-6">
+						<a href="<?= $this->createUrl('relatedadd', array('id'=>$model->id)) ?>"  class="btn btn-primary">Добавить связанную категорию</a>
+					</div>
+				</div>
+			</fieldset>
+
+			
+
+
 			<?php if($model->foto != '')	{	?>
 				<img src="<?= Yii::app()->params->category_images_liveUrl . 'thumb_'.$model->foto ?>" alt="">
 				<p><a href="<?= $this->createUrl('removefoto', array('id'=>$model->id))?>">Удалить фото</a></p>

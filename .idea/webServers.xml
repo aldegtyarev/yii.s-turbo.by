@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="caeb5606-c7c2-431c-90ce-fd29f821dc21" name="s-turbo.by" url="http://vh52.hoster.by">
+        <fileTransfer host="vh52.hoster.by" port="21" password="dfc6dfcfdfcfdfe0df9cdfcfdffedfc3" username="sturboby">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

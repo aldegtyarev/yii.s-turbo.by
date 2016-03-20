@@ -102,7 +102,8 @@ class PagesController extends Controller
 	public function actionNews()
 	{
 		$app = Yii::app();
-		$category_id = 2;
+		//$category_id = 2;
+		$category_id = $app->params['cat_news_id'];
 		
 		$alias = $app->request->getParam('alias', '');
 		
@@ -121,7 +122,8 @@ class PagesController extends Controller
 	public function actionOur()
 	{
 		$app = Yii::app();
-		$category_id = 3;
+		//$category_id = 3;
+		$category_id = $app->params['cat_our_id'];
 		
 		$alias = $app->request->getParam('alias', '');
 		
@@ -322,43 +324,22 @@ class PagesController extends Controller
 		}
 	}
 	
-	/*
-	* возвращает список страниц заданной рубрики
-	*/
-	private function loadPages($category_id = 1)
-	{
-		$criteria = new CDbCriteria();
-		//$criteria->select = "t.product_id";
-
-		$condition_arr = array(
-			'type = '.$category_id,
-		);
-
-		$criteria->condition = implode(' AND ', $condition_arr);
-		$criteria->order = 'created DESC';
-		
-        $dataProvider = new CActiveDataProvider('Pages', array(
-            'criteria'=>$criteria,
-            'pagination'=>array(
-				'pageSize'=>Yii::app()->params->pagination['products_per_page'],
-				//'pageSize'=>1,
-				'pageVar' =>'page',
-            ),
-        ));
-		return $dataProvider;
-	}
-	
 	public function renderPagesList($category_id, &$app, $full_render = false)
 	{
 		$this->processPageRequest('page');
+		$show_more = $app->request->getPost('more', 0);
+		if($show_more == 0)
+			$show_more = $app->request->getPost('showmore', 0);
+		
+		if($show_more == 1) $full_render = false;
 
 		$model = $this->loadCategoryModel($category_id);
 
-		$dataProvider = $this->loadPages($category_id);
+		$dataProvider = Pages::model()->loadPages($category_id);
 
-		foreach($dataProvider->data as $row)	{
-			$row->foto = $app->params->pages_images_liveUrl.($row->foto ? 'thumb_'.$row->foto : 'noimage.jpg');
-		}
+//		foreach($dataProvider->data as $row)	{
+//			$row->foto = $app->params->pages_images_liveUrl.($row->foto ? 'thumb_'.$row->foto : 'noimage.jpg');
+//		}
 
 		$url_path = $model->alias;
 

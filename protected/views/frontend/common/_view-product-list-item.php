@@ -10,32 +10,17 @@
 		<p class="small font-13">
 			<span class="c_777"><? echo $data->getAttributeLabel('firm_id');?>:</span> <span class="c_0001"><?=$data->firm_name?></span><br />
 			<span class="c_777"><? echo $data->getAttributeLabel('product_sku');?>:</span> <span class="c_0001"><?=$data->product_sku?></span>
-			<?/*
-			<?php if($data->manufacturer_sku)	{	?>
-				<br /><span class="c_777"><? echo $data->getAttributeLabel('manufacturer_sku');?>:</span> <span class="c_0001"><?=$data->manufacturer_sku?></span>
-			<?php	}	?>
-			*/?>
 		</p>
 		
-		<?/*
-		<?	if($data->product_availability > 0)	{
-				if($data->product_availability == 2) {
-					$status_class = 'status-available';
-				}	else	{
-					$status_class = 'status-on-request';
-				}
-		?>
-		<p class="status <?=$status_class?>"><?=$data->ProductAvailabilityArray[$data->product_availability]['name'] ?></p>
-		<?	}	?>
-		*/?>
 		<div class="product-list-item-bottom-cnt">
 			<div class="product-list-item-bottom">
-					<?//if($data->product_override_price != 0) {	?>
-						<p class="c_d70000 bold font-16"><?=PriceHelper::formatPrice($data->product_price, $data->currency_id, 3, $currency_info, true)?></p>
+					<? if($data->percent_discount < 0)	{	?>
+						<p class="product-list-item-row-price-byr"><?=PriceHelper::formatPrice($data->product_override_price, $data->currency_id, 3, $currency_info, true)?></p>
+						<p class="product-list-item-row-price-usd"><?=PriceHelper::formatPrice($data->product_override_price, $data->currency_id, 0, $currency_info)?></p>
+					<?	}	else	{	?>
+						<p class="product-list-item-row-price-byr"><?=PriceHelper::formatPrice($data->product_price, $data->currency_id, 3, $currency_info, true)?></p>
 						<p class="product-list-item-row-price-usd"><?=PriceHelper::formatPrice($data->product_price, $data->currency_id, 0, $currency_info)?></p>
-					<?	//}	else	{	?>
-						<? /*<p class="price"><?=number_format($data->product_price, 0, '.', ' ')?> у.е.</p> */ ?>
-					<?	//}	?>
+					<?	}	?>
 					<?php echo CHtml::beginForm('/addtocart.html'); ?>
 						<p class="to-cart-process pt-5 hidden">
 							<span class="ajax-loading font-10"><img class="v-middle" src="/img/loading.gif" alt="Обработка" /> Обработка...</span>

@@ -144,21 +144,24 @@ class ShopCategoriesController extends Controller
 		
 		$cat_name = $category->name;
 		if($category->name1 != '') $category->name = $category->name1;
-		
+
+		$model_info_name = '';
 		if(count($modelinfo)) {
-			if(count($modelinfo))	$category->name .= ' для';
+			if(count($modelinfo))	$model_info_name .= ' для';
 			foreach($modelinfo as $k=>$i) {
 				if(isset($modelinfo[$k+1])) {
 					//бывает что часть названия попадает в двух частях, поэтому отлавливаем этот момент
 					$findme = $i['name'];
 					$mystring = $modelinfo[$k+1]['name'];
 					$pos = strpos($mystring, $findme);
-					if ($pos === false) $category->name .= ' ' . $i['name'];
+					if ($pos === false) $model_info_name .= ' ' . $i['name'];
 				}	else	{
-					$category->name .= ' ' . $i['name'];
+					$model_info_name .= ' ' . $i['name'];
 				}
 			}
 		}
+
+		$category->name .= $model_info_name;
 				
 		//если фильруем по какой-то модели - то получаем ИД этих моделей
 		$model_ids = ShopModelsAuto::model()->getModelIds($app, $selected_auto);
@@ -183,19 +186,15 @@ class ShopCategoriesController extends Controller
 		}
 		
 		$criteria->condition = implode(' AND ', $condition_arr);
-		$criteria->order = $app->params->products_list_order;
+
 		
 		//получаем сначала все позиции для получения их id без учета пагинации
 		$rows = ShopProducts::model()->findAll($criteria);
 		$finded_product_ids = ShopProducts::model()->getProductIds($rows);
 		
-		if($type_request != 0)	{
-			$condition_arr[] = "t.type_id = ".$type_request;
-		}
+		if($type_request != 0) $condition_arr[] = "t.type_id = ".$type_request;
 		
-		if($firm_request != 0)	{
-			$condition_arr[] = "t.firm_id = ".$firm_request;
-		}
+		if($firm_request != 0) $condition_arr[] = "t.firm_id = ".$firm_request;
 		
 		if($body_request != 0)	{
 			$criteria->join .= ' INNER JOIN {{shop_products_bodies}} AS pb USING (`product_id`) ';
@@ -203,9 +202,12 @@ class ShopCategoriesController extends Controller
 		}
 		
 		$criteria->condition = implode(' AND ', $condition_arr);
-				
-		$criteria->select = "t.*";
-		
+
+		//$criteria->select = "t.*";
+		$criteria->select = "t.*, IF (t.product_override_price <> 0, product_override_price, product_price) AS price_prod";
+		//$criteria->order = $app->params->products_list_order;
+		$criteria->order = 'price_prod ASC';
+
 		if($engine_id != 0) {
 			$criteria->join .= ' INNER JOIN {{shop_products_engines}} as eng ON t.product_id = eng.product_id';
 			$criteria->distinct = true;
@@ -256,11 +258,13 @@ class ShopCategoriesController extends Controller
 			$free_delivery_limit = Delivery::model()->getFreeDeliveryLimit();
 			
 			$is_universal_products = ShopProductsModelsAuto::model()->isUniversalroduct($dataProvider->data[0]->product_id);
+			//$is_universal_products == true;
 			
 			foreach($dataProvider->data as $row)	{
 				$product_ids[] = $row->product_id;
 				
-				if($is_universal_products == 1) {
+				//if($is_universal_products == 1) {
+				if($row->is_uni == 1) {
 					$prod_params = array(
 						'uni' => 'uni',
 						'product'=> $row->product_id
@@ -275,13 +279,17 @@ class ShopCategoriesController extends Controller
 					);
 				}
 
-				//$row->product_url = $this->createUrl('shopproducts/detail', array('product'=> $row->product_id));
 				$row->product_url = $this->createUrl('shopproducts/detail', $prod_params);
 				$row->product_image = $app->params->product_images_liveUrl.($row->product_image ? 'thumb_'.$row->product_image : 'noimage.jpg');
 				$row->firm_name = $firms[$row->firm_id]['name'];
 				$row->model_ids = $modelIds;
-				
-				$product_price = PriceHelper::formatPrice($row->product_price, $row->currency_id, 3, $currency_info, true, true);
+
+				if($row->product_override_price == 0) {
+					$prod_price = $row->product_price;
+				}	else	{
+					$prod_price = $row->product_override_price;
+				}
+				$product_price = PriceHelper::formatPrice($prod_price, $row->currency_id, 3, $currency_info, true, true);
 				if($product_price >= $free_delivery_limit) $row->free_delivery = 1;
 				
 				$row->model_ids = $modelIds;
@@ -289,8 +297,6 @@ class ShopCategoriesController extends Controller
 			
 			//получаем массив доп. изображений для списка товаров
 			$ProductsImages = ShopProductsImages::model()->getFotoForProductList($connection, $product_ids);
-			
-			
 			
 			if(count($ProductsImages))	{
 				foreach($ProductsImages as $Image)	{
@@ -301,67 +307,40 @@ class ShopCategoriesController extends Controller
 					}
 				}
 			}
+			
 		}	else	{
-			//echo'<pre>';print_r($type_request);echo'</pre>';die;
 			if($type_request != 0)
 				$this->redirect($this->createUrl('shopcategories/index'));
 			
-			
-			if(isset($url_params['marka']) || isset($url_params['model']) || isset($url_params['year']) || isset($url_params['type']) || isset($url_params['engine'])) {
-				/*
-				$url_params_ = UrlHelper::buildUrlParams($selected_auto, $url_params['id']);
-
-
-				$url = $url_params_[0];
-				unset($url_params_[0]);
-
-				//echo'<pre>';print_r($url);echo'</pre>';//die;
-				//echo'<pre>';print_r($url_params);echo'</pre>';//die;
-				//echo'<pre>';print_r($url_params_);echo'</pre>';die;
-
-				$this->redirect($this->createUrl($url, $url_params_));
-				*/
-				$this->redirect($this->createUrl('shopcategories/index'));				
-			}
+			if(isset($url_params['marka']) || isset($url_params['model']) || isset($url_params['year']) || isset($url_params['type']) || isset($url_params['engine']))
+				$this->redirect($this->createUrl('shopcategories/index'));
 			
 			$ProductsImages = array();
 		}
 		
-		//echo'$model_ids<pre>';print_r(($model_ids));echo'</pre>';
-		//echo'$model_ids<pre>';print_r(($select_year));echo'</pre>';
-		//echo'$model_ids<pre>';print_r(count($model_ids));echo'</pre>';
-		
-		
 		$breadcrumbs = $this->createBreadcrumbs($category);
 		
 		if(count($model_ids))	{
-			if(count($model_ids) == 2 && $model_ids[1] == $app->params['universal_products'])	{
-				$this->show_models = false;
-			}	else	{
-				$this->show_models = true;
-			}
+			if(count($model_ids) == 2 && $model_ids[1] == $app->params['universal_products']) $this->show_models = false;
+				else $this->show_models = true;
 
 		}	else	{
 			$firms = array();
 			$bodies = array();
-			//$show_models = true;
 			$this->show_models = false;
 		}
-		//echo'<pre>';var_dump($this->show_models);echo'</pre>';
+		
 		if(count($firms))	{
 			$firmsArr = array();
 			foreach($firms as $f) $firmsArr[$f['id']] = $f['name'];
 			$firmsDropDown = CHtml::listData($firms, 'id','name');
-			//$firmsDropDown = CHtml::listData($firmsArr, 'id','name');
-		}
-		//echo'<pre>';print_r($firmsDropDown);echo'</pre>';
-		if($selected_view == 'row')	{
-			$itemView = "_view-row";
-		}	else	{
-			$itemView = "_view";
 		}
 		
+		if($selected_view == 'row')	$itemView = "_view-row";
+			else $itemView = "_view";
+		
 		$model_auto_selected = false;
+		
 		// если не выбрана марка модель год то выводим уведомление
 		if($select_marka != -1 && $select_model != -1 && $select_year != -1) {
 			$model_auto_selected = true;
@@ -376,8 +355,7 @@ class ShopCategoriesController extends Controller
 		}	else {
 			$show_search_notice = true;
 		}
-		
-		
+
         if ($showmore == 1){
             $this->renderPartial('_loopAjax', array(
 				//'app'=> $app,
@@ -389,6 +367,42 @@ class ShopCategoriesController extends Controller
             ));
             $app->end();
         } else {
+			if($engine_id == 0 && $category->id == $app->params['shtatnie_glushiteli_id']) $select_engine = true;
+				else $select_engine = false;
+
+			//получаем связанные категории
+			$related_categories = ShopCategoriesRelations::getRelatedCategories($connection, $category->id, $selected_auto['year']);
+			foreach($related_categories as $key=>$rel_cat) {
+				if($rel_cat['uni'] == 1) {
+					$params = array('id'=>$rel_cat['id']);
+				}	else	{
+					$params = array(
+						'id'=>$rel_cat['id'],
+						'marka'=>$selected_auto['marka'],
+						'model'=>$selected_auto['model'],
+						'year'=>$selected_auto['year'],
+					);
+				}
+				$related_categories[$key]['url'] = $this->createUrl('shopcategories/show', $params);
+			}
+
+			//получаем связанные группы товаров
+			$related_types = ShopProductTypesRelations::getRelatedTypes($connection, $category->id, $selected_auto['type'], $selected_auto['year']);
+			foreach($related_types as $key=>$rel_type) {
+				$params = array(
+					'id'=>$rel_type['category_id'],
+					'marka'=>$selected_auto['marka'],
+					'model'=>$selected_auto['model'],
+					'year'=>$selected_auto['year'],
+					//'type'=>$rel_type['type_id'],
+				);
+				if($rel_type['type_id'] != 0) $params['type'] = $rel_type['type_id'];
+
+				$related_types[$key]['url'] = $this->createUrl('shopcategories/show', $params);
+			}
+
+			//echo'<pre>';print_r($related_types);echo'</pre>';//die;
+
 			$data = array(
 				'app'=> $app,
 				'dataProvider'=> $dataProvider,
@@ -414,43 +428,13 @@ class ShopCategoriesController extends Controller
 				'model_auto_selected' => $model_auto_selected,
 				'select_view_row' => $select_view_row,
 				'select_view_tile' => $select_view_tile,
-				
+				'select_engine' => $select_engine,
+				'related_categories' => $related_categories,
+				'related_types' => $related_types,
 			);
 
 			$this->render('show', $data);
         }
-		
-		
-		
-		/*
-		$data = array(
-			'app'=> $app,
-			'dataProvider'=> $dataProvider,
-			'itemView'=>$itemView,				
-			'type_request'=> $type_request,
-			'firm_request'=> $firm_request,
-			'body_request'=> $body_request,
-			'category_id'=> $category_id,
-			'selected_view'=> $selected_view,
-			'category'=> $category,
-			'descendants'=> $descendants,
-			'ProductsImages'=> $ProductsImages,
-			'breadcrumbs' => $breadcrumbs,
-			'producttypes' => $producttypes,
-			'bodies' => $bodies,
-			'firms' => $firms,
-			'productsTotal' => count($finded_product_ids),
-			'firmsDropDown' => $firmsDropDown,
-			'engineImage' => $engineImage,
-			'engineTitle' => $engineTitle,
-			'show_search_notice' => $show_search_notice,
-			'currency_info' => $currency_info,
-			'model_auto_selected' => $model_auto_selected,
-		);		
-		$this->render('show', $data);
-		*/
-		
-		
 	}
 
 	/**
@@ -463,10 +447,7 @@ class ShopCategoriesController extends Controller
 		
 		$this->processPageRequest('page');
 		
-		//------------------------------------------------------
 		UrlHelper::checkChangeAuto($app);
-		//-----------------------------------------------------------------
-		
 		
 		$selected_view = $app->request->getParam('select-view', -1);
 		$type_request = (int)$app->request->getParam('type', 0);
@@ -491,12 +472,10 @@ class ShopCategoriesController extends Controller
 		$select_year = isset($app->session['autofilter.year']) ? $app->session['autofilter.year'] : -1;
 
 		$model_info = ShopModelsAuto::model()->getModelInfo($connection, $select_marka, $select_model, $select_year);
-		//echo'<pre>';print_r($model_info,0);echo'</pre>';
 
 		//если фильруем по какой-то модели - то получаем ИД этих моделей
 		$model_ids = ShopModelsAuto::model()->getModelIds($app);
 		
-		//******************************
 		$categories = ShopCategories::model()->getCategoriesList(0, $model_ids);
 		foreach($categories as $category) {
 			$criteria = new CDbCriteria();
@@ -535,9 +514,7 @@ class ShopCategoriesController extends Controller
 				return $this->redirect($return_url);
 			}
 		}
-		//******************************
 		
-		//----
 		if($app->params['show_products_on_index'] == true || $app->user->id == 1) {
 			$criteria = new CDbCriteria();
 			$criteria->select = "t.product_id";
@@ -561,19 +538,15 @@ class ShopCategoriesController extends Controller
 				$finded_product_ids = ShopProducts::model()->getProductIds($rows);			
 			}
 
-
 			$criteria->select = "t.*";
 
-			if($type_request != 0)	{
+			if($type_request != 0)
 				$condition_arr[] = "t.type_id = ".$type_request;
-			}
+			
 
 			$criteria->condition = implode(' AND ', $condition_arr);
 
-			//$criteria->order = "t.`product_id`";
 			$criteria->order = $app->params->products_list_order;
-
-			//echo'<pre>';print_r($criteria,0);echo'</pre>';
 
 			$dataProvider = new CActiveDataProvider('ShopProducts', array(
 				'criteria'=>$criteria,
@@ -604,7 +577,6 @@ class ShopCategoriesController extends Controller
 					$row->product_url = $this->createUrl('shopproducts/detail', array('product'=> $row->product_id));
 					$row->product_image = $app->params->product_images_liveUrl.($row->product_image ? 'thumb_'.$row->product_image : 'noimage.jpg');
 					$row->firm_name = $firms[$row->firm_id]['name'];
-					//$row->product_availability_str = $firms[$row->firm_id]['name'];
 					$row->model_ids = $modelIds;				
 				}
 
@@ -629,10 +601,7 @@ class ShopCategoriesController extends Controller
 			$dataProvider = array();
 			$productsTotal = 0;
 		}
-		//---
 		
-		//echo'<pre>';print_r(count($finded_product_ids));echo'</pre>';
-		//echo'<pre>';print_r($model_info);echo'</pre>';die;
 		$title = 'Список товаров';
 		if(count($model_info))	$title .= ' для';
 		foreach($model_info as $k=>$i) {
@@ -649,16 +618,11 @@ class ShopCategoriesController extends Controller
 			}
 		}
 			
-		$breadcrumbs = array(
-			$title,
-		);
+		$breadcrumbs = array($title);
 		
 		if(count($model_ids))	{
-			if(count($model_ids) == 2 && $model_ids[1] == 1247)	{
-				$this->show_models = false;
-			}	else	{
-				$this->show_models = true;
-			}
+			if(count($model_ids) == 2 && $model_ids[1] == $app->params['universal_products']) $this->show_models = false;
+				else $this->show_models = true;
 
 		}	else	{
 			$firms = array();
@@ -676,7 +640,6 @@ class ShopCategoriesController extends Controller
 		if($select_marka != -1 && $select_model != -1 && $select_year != -1) $show_search_notice = true;
 			else $show_search_notice = false;
 		
-		
 		$data = array(
 			'app'=> $app,
 			'dataProvider'=> $dataProvider,
@@ -689,24 +652,8 @@ class ShopCategoriesController extends Controller
 		);
 
 		$this->render('index', $data);
-		
 	}
 
-	/**
-	 * Manages all models.
-	 */
-	public function actionAdmin()
-	{
-		$model=new ShopCategories('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['ShopCategories']))
-			$model->attributes=$_GET['ShopCategories'];
-
-		$this->render('admin',array(
-			'model'=>$model,
-		));
-	}
-	
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.

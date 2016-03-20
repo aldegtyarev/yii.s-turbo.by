@@ -62,17 +62,12 @@ class ShopCategories extends CActiveRecord
 	 */
 	public function rules()
 	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
 		return array(
-			//array('root, lft, rgt, level, name, title, keywords, description, alias, ordering, category_companies, cat_column', 'required'),
 			array('name', 'required'),
-			array('root, lft, rgt, level, ordering, cat_column, currency_id, cargo_type', 'numerical', 'integerOnly'=>true),
+			array('root, lft, rgt, level, ordering, cat_column, currency_id, cargo_type, uni', 'numerical', 'integerOnly'=>true),
 			array('name, name1, title, alias, category_companies', 'length', 'max'=>255),
 			array('category_description, keywords, description', 'length', 'max'=>7000),
 			array('alias','ext.LocoTranslitFilter','translitAttribute'=>'name'), 
-			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
 			array('parentId, id, root, lft, rgt, level, name, title, keywords, description, alias, ordering, category_companies, cat_column, category_description', 'safe', 'on'=>'search'),
 			array('uploading_foto', 'file', 'types'=>'GIF,JPG,JPEG,PNG', 'minSize' => 1024,'maxSize' => 1048576, 'wrongType'=>'Не формат. Только {extensions}', 'tooLarge' => 'Допустимый вес 1Мб', 'tooSmall' => 'Не формат', 'on'=>self::SCENARIO_UPLOADING_FOTO),
 		);
@@ -83,9 +78,11 @@ class ShopCategories extends CActiveRecord
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
 		return array(
+			'shopCategoriesMediases' => array(self::HAS_MANY, 'ShopCategoriesMedias', 'category_id'),
+			'shopCategoriesRelations' => array(self::HAS_MANY, 'ShopCategoriesRelations', 'category_related_id'),
+			'сategoriesRelated' => array(self::HAS_MANY, 'ShopCategoriesRelations', 'category_id'),
+			'shopProductsCategories' => array(self::HAS_MANY, 'ShopProductsCategories', 'category_id'),
 		);
 	}
 
@@ -114,6 +111,7 @@ class ShopCategories extends CActiveRecord
 			'category_description' => 'Описание категории',
 			'currency_id' => 'Валюта по умолчанию',
 			'cargo_type' => 'Тип груза',
+			'uni' => 'Универсальная категория',
 		);
 	}
 
@@ -131,32 +129,18 @@ class ShopCategories extends CActiveRecord
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
 		$criteria=new CDbCriteria;
-		
 		$sort = new CSort();
-		
 		$app = Yii::app();
 
 		$this->SelectedCategory = 0;
-		if(isset($app->session['ShopCategories.selected_category']))	{
+		if(isset($app->session['ShopCategories.selected_category']))
 			$this->SelectedCategory = (int)$app->session['ShopCategories.selected_category'];
-		}
 				
-		//echo'<pre>';var_dump($this->SelectedCategory);echo'</pre>';
-
 		if($this->SelectedCategory)	{
-			//echo'<pre>';var_dump($SelectedCategory);echo'</pre>';
 			$cat_ids = $this->getChildrensIds($this->SelectedCategory);
-			//echo'<pre>';var_dump($cat_ids);echo'</pre>';
-			//$this->catego_ids = ShopProductsCategories::model()->getProductIdsInCategories($cat_ids);
-			//echo'<pre>';print_r($product_ids);echo'</pre>';
-			if($cat_ids)	{
-				$criteria->condition = "t.`id` IN ($cat_ids)";
-			}
+			if($cat_ids) $criteria->condition = "t.`id` IN ($cat_ids)";
 		}
-		
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('root',$this->root);
@@ -238,14 +222,8 @@ class ShopCategories extends CActiveRecord
 					$this->moveAsRoot();
 				}
 			}
-			
-			//echo'<pre>';print_r($this->new_parentId);echo'</pre>';
-			//echo'<pre>';print_r($this->parentId);echo'</pre>';
-			//die;
-			
 			$this->saveNode();
 		}
-		
 		return true;
 	}
 	
@@ -349,14 +327,11 @@ class ShopCategories extends CActiveRecord
 	public function getTreeCategories($id = 0)
 	{
 		$app = Yii::app();
-		$connection = $app->db;
+		//$connection = $app->db;
 		
-		if(isset($app->session['autofilter.marka'])) {
-			$filtering = true;
-		}	else	{
-			$filtering = false;
-		}
-		
+		if(isset($app->session['autofilter.marka'])) $filtering = true;
+			else $filtering = false;
+
 		/*
 		$model_ids = $app->cache->get(self::CACHE_getTreeCategories_model_ids);
 		
@@ -367,7 +342,7 @@ class ShopCategories extends CActiveRecord
 		*/
 		$model_ids = ShopModelsAuto::model()->getModelIds($app);
 		
-		//echo'<pre>';print_r($model_ids);echo'</pre>';die;
+		//echo'<pre>';print_r($model_ids);echo'</pre>';//die;
 		/*
 		$criteria = new CDbCriteria;
 		if($id != 0) {
@@ -403,8 +378,9 @@ class ShopCategories extends CActiveRecord
 			
 			foreach($categories as $n => $category) {
 				if($category->level > 3)	{
-					$current_category = $this->findByPk($category->id);
-					$parent = $current_category->parent()->find();
+					//$current_category = $this->findByPk($category->id);
+					//$parent = $current_category->parent()->find();
+					$parent = $category->parent()->find();
 					$categories[count($categories)] = $parent;
 				}
 			}
@@ -415,9 +391,12 @@ class ShopCategories extends CActiveRecord
 			//получаем всех предков текущей категории
 			if($current_category_id)	{
 				$current_category = $this->findByPk($current_category_id);
-				$current_category_ancestors = $current_category->ancestors()->findAll();
+
+				if(!is_null($current_category)) $current_category_ancestors = $current_category->ancestors()->findAll();
+					else $current_category_ancestors = array();
+
 			}	else	{
-				$current_category_ancestors = array();				
+				$current_category_ancestors = array();
 			}
 
 			$categories1 = $categories;
@@ -452,12 +431,14 @@ class ShopCategories extends CActiveRecord
 					}
 				}
 				
-				$select_marka = isset($app->session['autofilter.marka']) ? $app->session['autofilter.marka'] : -1;
-				$select_model = isset($app->session['autofilter.model']) ? $app->session['autofilter.model'] : -1;
-				$select_year = isset($app->session['autofilter.year']) ? $app->session['autofilter.year'] : -1;
+				//$select_marka = isset($app->session['autofilter.marka']) ? $app->session['autofilter.marka'] : -1;
+				//$select_model = isset($app->session['autofilter.model']) ? $app->session['autofilter.model'] : -1;
+				//$select_year = isset($app->session['autofilter.year']) ? $app->session['autofilter.year'] : -1;
 
 				if($add_category) {
-					$url_params = UrlHelper::buildUrlParams($selected_auto, $category->id);
+					$url_params = UrlHelper::buildUrlParams($selected_auto, $category->id, $category->uni);
+					//echo'<pre>';print_r($category->uni);echo'</pre>';
+					//echo'<pre>';print_r($selected_auto);echo'</pre>';
 					$cat_arr[$category->id]['label'] = CHtml::encode($category->name);
 					$cat_arr[$category->id]['parent_id'] = CHtml::encode($category->parent_id);
 					$cat_arr[$category->id]['url'] = $url_params;
@@ -614,15 +595,16 @@ class ShopCategories extends CActiveRecord
 		return CHtml::listData($rows, 'id','name');
 	}
 	
-	public function getCategoryIdFromModels(&$connection, $model_ids)
+	public function getCategoryIdFromModels(&$connection, $model_ids = array())
 	{
+		$disabled_product_ids = ProductsModelsDisabled::model()->getExludedProductIds($connection, $model_ids);
+		if(count($disabled_product_ids) == 0) $disabled_product_ids = array(0);
+
 		$sql = "SELECT DISTINCT(`category_id`)
 				FROM {{shop_products_categories}}
-				WHERE `product_id` IN (SELECT `product_id` FROM {{shop_products_models_auto}}
-				WHERE `model_id` IN (".implode(', ', $model_ids)."))";
+				WHERE `product_id` IN (SELECT `product_id` FROM {{shop_products_models_auto}} WHERE `model_id` IN (".implode(', ', $model_ids).") AND `product_id` NOT IN (".implode(', ', $disabled_product_ids)."))";
 		
 		$command = $connection->createCommand($sql);
-		//$rows = $command->queryAll();
 		return $command->queryColumn();
 	}	
 	
@@ -656,6 +638,99 @@ class ShopCategories extends CActiveRecord
 		}
 		
 		return $res;
-	}	
+	}
+	
+	/**
+	 * возвращает
+	 * @return array
+	 */
+	public function getAllCategoriesUrls(&$controller, &$connection)
+	{
+		$categories_urls = array();
+		$app = Yii::app();
+		
+		//header('Content-Type: text/html; charset=utf-8');
+		
+		$sql = "SELECT `id`, `level`, `name`, `uni` FROM {{shop_categories}} WHERE `id` > 1";
+		$categories_list1 = $connection->createCommand($sql)->queryAll();
+		
+		$categories_list = array();
+		foreach($categories_list1 as $c) $categories_list[$c['id']] = $c;
+		
+		$sql = "SELECT `product_id` FROM {{shop_products_models_auto}} WHERE `model_id` = :model_id";
+		$commandModels = $connection->createCommand($sql);
+				
+		$homeUrl = substr(Yii::app()->homeUrl, 0, -1);
+		
+		//формируем урлы для универсальных категорий
+		foreach($categories_list as $cat) {
+			if($cat['level'] > 2 && $cat['uni'] == 1) {
+				$url_params = array('id' => $cat['id']);
+				$categories_urls[] = $homeUrl . $controller->createUrl('shopcategories/show', $url_params);
+			}
+		}
+		
+		//echo'<pre>';print_r(($categories_urls));echo'</pre>';//die;		
+		$markaList = ShopModelsAuto::model()->getModelsLevel1($connection, false);
+
+		foreach($markaList as $marka_id => $marka) {
+			//if($marka_id != 31) continue;
+			$modelModel = ShopModelsAuto::model()->findByPk($marka_id);
+			$descendants = $modelModel->children()->findAll();
+			$modelList = CHtml::listData($descendants, 'id','name');
+			$descendants = null;
+			
+			foreach($modelList as $model_id => $model) {
+				//if($model_id != 34) continue;
+				$modelYear = ShopModelsAuto::model()->findByPk($model_id);
+				$descendants = $modelYear->descendants()->findAll();
+				$parent_id = 0;
+				foreach($descendants as $k=>$c)
+					if($c->disabled_in_dropdown == 1) unset($descendants[$k]);
+				
+				$yearsList = CHtml::listData($descendants, 'id','id');
+				
+				$descendants = null;
+				
+				foreach($yearsList as $year_id => $year) {
+					//if($year_id != 2074) continue;
+					$category_ids = $this->getCategoryIdFromModels($connection, array($year_id, Yii::app()->params['universal_products']));
+					
+					foreach($category_ids as $category_id) {
+						if($categories_list[$category_id]['level'] > 2 && $categories_list[$category_id]['uni'] == 0) {							
+							if($category_id != $app->params['shtatnie_glushiteli_id']) {
+								$url_params = array(
+									'id' => $category_id,
+									'marka' => $marka_id,
+									'model' => $model_id,
+									'year' => $year_id,
+								);
+								
+								$categories_urls[] = $homeUrl . $controller->createUrl('shopcategories/show', $url_params);
+							}	else	{
+								//если категория "Штатные глушители"
+								$engines_info = Engines::model()->getEnginesInfo($year_id);
+								
+								foreach($engines_info as $engine) {
+									$url_params = array(
+										'id' => $category_id,
+										'marka' => $marka_id,
+										'model' => $model_id,
+										'year' => $year_id,
+										'engine' => $engine['id'],
+									);
+									$categories_urls[] = $homeUrl . $controller->createUrl('shopcategories/show', $url_params);									
+								}
+							}
+						}
+					}
+					//echo'<pre>';print_r($categories_urls);echo'</pre>';die;
+				}
+			}
+		}
+		
+		//echo'$rows<pre>';print_r(count($categories_urls));echo'</pre>';die;
+		return $categories_urls;
+	}
 	
 }

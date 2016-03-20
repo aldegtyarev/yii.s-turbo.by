@@ -71,6 +71,9 @@ class ShopCategoriesController extends Controller
 					'moveup',
 					'movedown',
 					'removefoto',
+					'relatedadd',
+					'relateddelete',
+					'relatedupdate',
 				),
 				'users'=>array('superman'),
 			),
@@ -152,8 +155,7 @@ class ShopCategoriesController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['ShopCategories']))
-		{
+		if(isset($_POST['ShopCategories']))	{
 			if($_FILES['ShopCategories']["name"]["uploading_foto"]) {
 				$model->scenario = Pages::SCENARIO_UPLOADING_FOTO;
 				$model->removeFoto();
@@ -173,8 +175,13 @@ class ShopCategoriesController extends Controller
 					$this->redirect(array('update','id'=>$model->id));
 				}
 			}
-				
 		}
+
+		/*
+		echo'<pre>';print_r($model->сategoriesRelated[0]->category->name);echo'</pre>';//die;
+		echo'<pre>';print_r($model->сategoriesRelated[0]->categoriesRelationsModels[0]->model->id);echo'</pre>';//die;
+		echo'<pre>';print_r(ShopModelsAuto::model()->getModelChain($model->сategoriesRelated[0]->categoriesRelationsModels[0]->model->id));echo'</pre>';//die;
+		*/
 
 		$this->render('update',array(
 			'model'=>$model,
@@ -241,10 +248,8 @@ class ShopCategoriesController extends Controller
 		
 		$model->SelectedCategory = $SelectedCategory;
 		
-		
 		$ShopCategories = new ShopCategories;
 		$ShopCategories->getDropDownlistData();
-		
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -268,230 +273,147 @@ class ShopCategoriesController extends Controller
 		$category->moveAfter($next_cat);
 		$this->redirect(array('admin'));
 	}
-	
-	
-	
-	public function actionUpdatemeta1()
-	{
-		$connection = Yii::app()->db;
-		$sql = "SELECT * FROM `{{shop_categories}}`";
-		$command = $connection->createCommand($sql);
-		$cat_rows = $command->queryAll();
-		//echo'<pre>';print_r($cat_rows);echo'</pre>';
-		foreach($cat_rows as $cat_row)	{
-			$sql = "SELECT * FROM `s9r5d_virtuemart_categories_ru_ru` WHERE `virtuemart_category_id` = ".$cat_row['id'];
-			$command = $connection->createCommand($sql);
-			$old_info = $command->queryRow();
-			$update_arr = array();
-			$update_arr[] = "`title` = '".$old_info['customtitle']."'";
-			$update_arr[] = "`keywords` = '".$old_info['metakey']."'";
-			$update_arr[] = "`description` = '".$old_info['metadesc']."'";
-			$update_str = implode(', ', $update_arr);
-			$cat_id = $cat_row['id'];
-			echo'<pre>';print_r($update_str);echo'</pre>';
-			$sql = "UPDATE {{shop_categories}} SET $update_str WHERE `id` = $cat_id";
-			$command = $connection->createCommand($sql);
-			$rowCount=$command->execute();
-			
-		}
-	}
-	
-	public function actionUpdateshowinmenu()
-	{
-		$connection = Yii::app()->db;
-		$sql = "SELECT * FROM `{{shop_categories}}` WHERE `anchor_css` = 'end'";
-		$command = $connection->createCommand($sql);
-		$cat_rows = $command->queryAll();
-		//echo'<pre>';print_r($cat_rows);echo'</pre>';
-		foreach($cat_rows as $cat_row)	{
-			$category=ShopCategories::model()->findByPk($cat_row['id']);
-			$descendants=$category->children()->findAll();
-			foreach($descendants as $descendant)	{
-				$descendant->show_in_menu = 0;
-				$descendant->save(false);
-			}
-		}
-	}
-	
-	//обновление мета информации из старой таблицы меню
-	public function actionUpdatemeta()
-	{
-		//unset($menu_items);
-		
-		$connection = Yii::app()->db;
-		$sql = "SELECT * FROM `s9r5d_menu` WHERE `published` = 1 AND `link` like '%com_virtuemart%'";
-		$command = $connection->createCommand($sql);
-		$menu_items = $command->queryAll();
-		
-		//echo'<pre>';print_r(json_decode($menu_items[66]['params']));echo'</pre>';
-		//echo'<pre>';print_r($menu_items[16]['link']);echo'</pre>';
-		//$link_arr = explode('&', $menu_items[16]['link']);
-		//echo'<pre>';print_r($link_arr);echo'</pre>';
-		//echo'<pre>';print_r($menu_items);echo'</pre>';
-		
-		foreach($menu_items as $menu_item)	{
-			$update_arr = array();
-			$cat_name = '';
-			$cat_id = 0;
-			$params = json_decode($menu_item['params']);
-			//echo'<pre>';print_r($params);echo'</pre>';
-			
-			
-			
-			$anchor_css = 'menu-anchor_css';
-			if($params->$anchor_css != '')	{
-				$update_arr[] = "`anchor_css` = '".$params->$anchor_css."'";
-			}	else	{
-				
-			}
-			$update_arr[] = "`show_in_menu` = 1";
-			$update_arr[] = "`alias` = '".$menu_item['alias']."'";
-			
-			
-			$link_arr = explode('&', $menu_item['link']);
-			foreach($link_arr as $link_i)	{
-				$link_i_arr = explode('=', $link_i);
-				//echo'<pre>';print_r($link_i_arr);echo'</pre>';
-				if($link_i_arr[0] == 'virtuemart_category_id')	{
-					$cat_id = $link_i_arr[1];
-				}
-			}
-			
 
-			if($params->page_title != '')	{
-				$update_arr[] = "`title` = '".$params->page_title."'";
-			}
-			
-			$description = 'menu-meta_description';
-			if($params->$description != '')	{
-				$update_arr[] = "`description` = '".$params->$description."'";
-			}
-			
-			$keywords = 'menu-meta_keywords';
-			if($params->$keywords != '')	{
-				$update_arr[] = "`keywords` = '".$params->$keywords."'";
-			}
-			
-			$update_str = implode(', ', $update_arr);
-			//echo'<pre>';print_r($params->$description);echo'</pre>';
-			//echo'<pre>';print_r($params->menu-meta_keywords);echo'</pre>';
-			
-			//if($cat_name != '')	{
-			if($cat_id)	{
-				//echo'<pre>cat_name = ';print_r($cat_name);echo'</pre>';
-				//echo"<pre> $cat_id | ";print_r($update_str);echo'</pre>';
-				//$sql = "UPDATE {{shop_categories}} SET $update_str WHERE `name` = \"$cat_name\"";
-				$sql = "UPDATE {{shop_categories}} SET $update_str WHERE `id` = $cat_id";
-				echo'<pre>';print_r($sql);echo'</pre>';
-				$command = $connection->createCommand($sql);
-				$rowCount=$command->execute();
-			}
-		}
-		unset($menu_items);
-		//echo'<pre>';print_r($menu_items);echo'</pre>';
-	}
-	
-	public function actionMovecategories()
+	/**
+	 * Добавление связанной категории к категории
+	 * @param int $id
+	 */
+	public function actionRelatedadd($id)
 	{
-		$connection = Yii::app()->db;
-		
-		$sql = 'TRUNCATE TABLE {{shop_categories}}';
-		$command = $connection->createCommand($sql);
-		//$res = $command->execute();
-		
-		$sql = "select cr.*, cc.category_parent_id, ca.ordering
-				FROM s9r5d_virtuemart_categories_ru_ru as cr
-				INNER JOIN s9r5d_virtuemart_category_categories AS cc ON cc.category_child_id = cr.virtuemart_category_id
-				INNER JOIN s9r5d_virtuemart_categories AS ca ON ca.virtuemart_category_id = cr.virtuemart_category_id
-				WHERE cr.virtuemart_category_id >= 4500 AND cr.virtuemart_category_id <=4999 ORDER BY cr.virtuemart_category_id";
-		$command = $connection->createCommand($sql);
-		$virtuemart_categories = $command->queryAll();
-		$virtuemart_categories1 = $virtuemart_categories;
-		$deleted_cats = array();
-		//echo'<pre>';print_r($virtuemart_categories);echo'</pre>';
-		foreach($virtuemart_categories as $key=>$cat) {
-			//echo'<pre>';print_r($cat);echo'</pre>';
-			/*
-			$data_['Categories'][parentId] = ;
-			$data_['Categories'][name] = $cat['category_name'];
-			$data_['Categories'][title] = '';
-			$data_['Categories'][keywords] = '';
-			$data_['Categories'][description] = '';
-			$data_['Categories'][alias] = '';
-			*/
-			$add_record = false;
-			$add_record = true;
-			/*
-			if($cat['category_parent_id'] == 0)	{
-				$add_record = true;
-			}	else	{
-				foreach($virtuemart_categories1 as $cat1) {
-					if($cat['category_parent_id'] == $cat1['virtuemart_category_id'])	{
-						$add_record = true;
-						break;
-					}
-				}
-			}
-			*/
-			if($add_record)	{
-				$model = new ShopCategories;
-				$model->id = $cat['virtuemart_category_id'];
-				$model->parentId = $cat['category_parent_id'];
-				$model->name = $cat['category_name'];
-				$model->title = $cat['custom_title'];
-				$model->keywords = $cat['metakey'];
-				$model->description = $cat['metadesc'];
-				$model->alias = $cat['slug'];
-				$model->ordering = $cat['ordering'];
-				$model->category_companies = $cat['category_companies'];
-				$model->cat_column = $cat['cat_column'];
-				$model->save();
-			}	else	{
-				$virtuemart_categories[$key]['deleted'] = 1;
-			}
-			echo'<pre>';print_r($cat);echo'</pre>';
-		}
-		
-	}
-	
-	public function actionUpdatepath()
-	{
-		echo'<pre>';print_r('actionUpdatepath');echo'</pre>';
-		$ShopCategories = ShopCategories::model()->findAll('id > 4000 and id <= 5000');
-		echo'<pre>';print_r(count($ShopCategories));echo'</pre>';
-		$i = 0;
-		foreach($ShopCategories as $category)	{
-			//if($category->alias != 'avtomobili')	{
-				$ancestors = $category->ancestors()->findAll();
-				$path = '';
-				foreach($ancestors as $a)	{
-					if($a->alias != 'avtomobili')	{
-						$path .= $a->alias.'/';
-						//echo'<pre>';print_r($a->name);echo'</pre>';
-					}
-				}
-				$path .= $category->alias;
-				if($category->name == 'vt146|146 (94-01)')	{
+		$model = new ShopCategoryRelationForm();
 
-					
-				}
-					//echo'<pre>ancestors=';print_r($ancestors);echo'</pre>';
-				//echo'<pre>path = ';print_r($path);echo'</pre>';				
-				$category->path = $path;
-				$category->save(false);
-			//}
-			/*
-			foreach($ancestors as $$ancestor)	{
-				$ancestor->__destruct();
+		$model->category_id = $id;
+
+		$DropDownCategories = ShopCategories::model()->getDropDownlistItems();
+		$DropDownModels = ShopModelsAuto::model()->getDropDownlistDataProduct();
+
+		//echo'<pre>';print_r($_POST);echo'</pre>';die;
+
+		if(isset($_POST['ShopCategoryRelationForm']))	{
+			$model->category_related_id = $_POST['ShopCategoryRelationForm']['category_related_id'];
+			$model->name = $_POST['ShopCategoryRelationForm']['name'];
+			$model->model_ids = $_POST['ShopCategoryRelationForm']['model_ids'];
+
+			if($model->category_related_id != 0 && count($model->model_ids) != 0) {
+				$cat_relation = new ShopCategoriesRelations();
+				$cat_relation->category_id = $model->category_id;
+				$cat_relation->name = $model->name;
+				$cat_relation->category_related_id = $model->category_related_id;
+
+				$cat_relation->setSelectedModelIds($model->model_ids);
+				$cat_relation->save();
+
+				$this->redirect(array('shopcategories/update', 'id' => $model->category_id));
 			}
-			*/
-			//if (count($ancestors))	$ancestors->__destruct();
-			$i++;
+		}
+
+		$category = $this->loadModel($model->category_id);
+
+		$breadcrumbs = array(
+			'Список категорий' => array('admin'),
+			$category->name => array('update','id'=>$category->id),
+			'Связаная категория - Новая',
+		);
+
+		$menu = array(
+			array('label'=>'Список категорий', 'url'=>array('admin')),
+			array('label'=>$category->name, 'url'=>array('update','id'=>$category->id)),
+		);
+
+		$this->render('related-form', array(
+			'model'=>$model,
+			'cat_relation'=>$cat_relation,
+			'DropDownCategories'=> $DropDownCategories,
+			'DropDownModels'=> $DropDownModels,
+			'breadcrumbs'=> $breadcrumbs,
+			'menu'=> $menu,
+		));
+
+	}
+
+	/**
+	 * Обновление связанной категории к категории
+	 * @param int $id
+	 * @throws CHttpException
+	 */
+	public function actionRelatedupdate($id)
+	{
+		$cat_relation = ShopCategoriesRelations::model()->findByPk($id);
+
+		if($cat_relation===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+
+		$model = new ShopCategoryRelationForm();
+
+		$model->category_id = $cat_relation->category_id;
+		$model->category_related_id = $cat_relation->category_related_id;
+		$model->name = $cat_relation->name;
+
+		foreach ($cat_relation->categoriesRelationsModels as $item)
+			$model->model_ids[$item->model_id] = array('selected' => 'selected');
+
+		//echo'<pre>';print_r($model);echo'</pre>';die;
 
 
+
+		if(isset($_POST['ShopCategoryRelationForm']))	{
+			$model->category_related_id = $_POST['ShopCategoryRelationForm']['category_related_id'];
+			$model->model_ids = $_POST['ShopCategoryRelationForm']['model_ids'];
+			$model->name = $_POST['ShopCategoryRelationForm']['name'];
+
+			if($model->category_related_id != 0 && count($model->model_ids) != 0) {
+				//echo'<pre>';print_r($model);echo'</pre>';die;
+
+				$cat_relation->setSelectedModelIds($model->model_ids);
+
+				$cat_relation->category_id = $model->category_id;
+				$cat_relation->category_related_id = $model->category_related_id;
+				$cat_relation->name = $model->name;
+				$cat_relation->save();
+
+				$this->redirect(array('shopcategories/update', 'id' => $model->category_id));
+			}
 		}
-		echo'<pre>';print_r($i);echo'</pre>';
-	}	
+
+		$DropDownCategories = ShopCategories::model()->getDropDownlistItems();
+		$DropDownModels = ShopModelsAuto::model()->getDropDownlistDataProduct();
+
+		$breadcrumbs = array(
+			'Список категорий' => array('admin'),
+			$cat_relation->category->name => array('update','id'=>$cat_relation->category_id),
+			'Связаная категория - Изменить',
+		);
+
+		$menu = array(
+			array('label'=>'Список категорий', 'url'=>array('admin')),
+			array('label'=>$cat_relation->category->name, 'url'=>array('update','id'=>$cat_relation->category_id)),
+		);
+
+		$this->render('related-form', array(
+			'model'=>$model,
+			'cat_relation'=>$cat_relation,
+			'DropDownCategories'=> $DropDownCategories,
+			'DropDownModels'=> $DropDownModels,
+			'breadcrumbs'=> $breadcrumbs,
+			'menu'=> $menu,
+		));
+	}
+
+	/**
+	 * @param int $id
+	 * @throws CHttpException
+	 */
+	public function actionRelateddelete($id)
+	{
+		$model = ShopCategoriesRelations::model()->findByPk($id);
+
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+
+		$return_url = $this->createUrl('update', array('id'=>$model->category_id));
+		$model->delete();
+		$this->redirect($return_url);
+	}
 	
 
 	/**

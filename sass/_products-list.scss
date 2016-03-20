@@ -161,6 +161,7 @@
 	bottom: 10px;
 	left: 10px;
 	
+	.product-list-item-row-price-byr,
 	.product-list-item-row-price-usd {
 		padding-left: 0;
 	}
@@ -195,7 +196,7 @@
 
 
 .product-list-item-row {
-	width: 96%;
+	width: 98%;
 	height: auto;
 }
 
@@ -291,9 +292,10 @@
 	@extend %text_c;
 	@extend %text_c;
 	@extend .mt-5;
+	@extend %pos_rel;
+
 	
-	
-	width: 140px;
+	width: 146px;
 	//height: 180px;
 	height: auto;
 	
@@ -311,9 +313,29 @@
 	.addtocart-button {
 		width: 121px;
 	}
-	
-	
-	
+}
+
+.percent_discount {
+	@extend %pos_abs;
+	@extend %c_fff;
+	@extend %normal;
+	@extend %font_12;
+
+	right:0;
+	top:0;
+	background-color: #009a00;
+	padding: 0 3px;
+	line-height:16px;
+}
+
+
+.product-list-item-row-price-override {
+	@extend %font_14;
+	@extend %text_l;
+	@extend .pl-10;
+
+	text-decoration: line-through;
+	color: #4c4c4c;
 }
 
 .list-item-row-status {

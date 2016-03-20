@@ -391,10 +391,16 @@ $style = '';
 		
 		<div class="tab-pane" id="tab5">
 			<div class="row">
-				<div class="col-lg-6">
+				<div class="col-lg-4">
 					<?php echo $form->labelEx($model,'product_price'); ?>
 					<?php echo $form->textField($model,'product_price',array('size'=>60,'maxlength'=>180)); ?>
-					<?php echo $form->error($model,'product_price'); ?>					
+					<?php echo $form->error($model,'product_price'); ?>
+					<div style="margin-left:20px;"><?php echo $form->checkBoxControlGroup($model, 'update_default_price'); ?></div>
+				</div>
+				<div class="col-lg-4">
+					<?php echo $form->labelEx($model,'product_price_default'); ?>
+					<?php echo $form->textField($model,'product_price_default',array('size'=>60,'maxlength'=>180, 'readonly'=>'readonly')); ?>
+					<?php echo $form->error($model,'product_price_default'); ?>
 				</div>
 				<div class="col-lg-2">
 					<?php echo $form->labelEx($model,'currency_id'); ?>
@@ -431,9 +437,41 @@ $style = '';
 					<?php echo $form->error($model,'free_delivery'); ?>
 				</div>
 			</div>
-						
-			
-		
+
+			<div class="row">
+				<div class="col-lg-12">
+					<?php echo $form->labelEx($model,'update_price_value'); ?>
+					<div style="width: 150px;">
+						<?php echo $form->dropDownList($model, 'update_price_value', Yii::app()->params['price_change']); ?>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-3">
+					<?php echo BsHtml::submitButton('Обновить цены', array('color' => BsHtml::BUTTON_COLOR_WARNING, 'name'=>'task', 'value'=>'update_price')); ?>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-12">
+					<?php echo $form->labelEx($model,'fake_discount'); ?>
+					<div style="width: 150px;">
+						<?php echo $form->dropDownList($model, 'fake_discount', Yii::app()->params['price_change_fake']); ?>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-3">
+					<?php echo BsHtml::submitButton('Обновить fake цены', array('color' => BsHtml::BUTTON_COLOR_WARNING, 'name'=>'task', 'value'=>'update_price_fake')); ?>
+				</div>
+			</div>
+
+			<br>
+			<br>
+			<br>
+
 		</div>
 		
 		<div class="tab-pane" id="tab6">

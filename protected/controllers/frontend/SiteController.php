@@ -156,6 +156,51 @@ class SiteController extends Controller
 		$this->redirect(Yii::app()->homeUrl);
 	}	
 	
+	/**
+	 * Logs out the current user and redirect to homepage.
+	 */
+	public function actionBuildsitemap()
+	{
+		$app = Yii::app();
+		$connection = $app->db;
+		
+		$categories_urls = ShopCategories::model()->getAllCategoriesUrls($this, $connection);
+		$product_urls = ShopProducts::model()->getAllProductsUrls($this, $connection);
+		$pages_urls = Pages::model()->getAllUrlsForSitemap($this, $connection);
+		//die;
+		
+		//$urls = $product_urls + $pages_urls;
+		$urls = array_merge($categories_urls, $product_urls , $pages_urls);
+		
+		$sitemap_file = Yii::getPathOfAlias('webroot') . '/sitemap.xml';
+		
+		$date_now = date('Y-m-d');
+		
+		$dom = new domDocument("1.0", "utf-8");
+		$urlset = $dom->createElement("urlset");
+		$urlset->setAttribute("xmlns", 'http://www.sitemaps.org/schemas/sitemap/0.9');
+		
+		$dom->appendChild($urlset);
+		
+		foreach($urls as $item) {
+			$url = $dom->createElement('url');
+			$urlset->appendChild($url);
+
+			$loc = $dom->createElement('loc', $item);
+			$lastmod = $dom->createElement('lastmod', $date_now);
+			$changefreq = $dom->createElement('changefreq', 'weekly');
+			$priority = $dom->createElement('priority', '1.0');
+
+			$url->appendChild($loc);
+			$url->appendChild($lastmod);
+			$url->appendChild($changefreq);
+			$url->appendChild($priority);
+		}
+		
+		$dom->save($sitemap_file);
+		$this->redirect('/admin.php?r=site/buildsitemapfinished&rows='.count($urls));
+	}	
+	
 	public function actionRenderlastviewed()
 	{
 		$this->renderPartial('last-viewed');

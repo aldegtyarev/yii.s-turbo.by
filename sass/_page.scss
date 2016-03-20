@@ -139,6 +139,8 @@
 }
 
 .pages-list {
+	margin: 0;
+	
 	.product-detail {
 		@extend %pos_rel;
 		
@@ -165,6 +167,24 @@
 		right: 5px;
 		bottom: 0;
 		color: #1a8bfc;
+	}
+	
+	.product-list-item {
+		border: 2px solid #cacaca;
+		margin-left: 0;
+		margin-right: 0;
+		width: 100%;
+		
+		box-sizing: border-box;
+			
+		
+		@include transition-property(box-shadow);
+		@include transition-duration(200ms);
+		
+		&:hover {
+			border-color: #b1b1b1;
+			@include box-shadow(0 0 6px 3px #ccc);
+		}
 	}
 }
 

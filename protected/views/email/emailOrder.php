@@ -1,11 +1,12 @@
 <? /** @var dpsEmailController $this */
-$this->setSubject( $app->name . ' заказ №'.$order->id. ' принят в обработку' ); // указываем тему
 //$this->setLayout( 'emailLayoutTpl' ); // какой макет
 //$this->attach( $sFilePath ); // приложим файлик
 $params = $app->params;
 
 $total_in_cart = PriceHelper::calculateTotalInCart($positions, $currency_info);
 $total_summ = $total_in_cart['summ'] + $delivery_cost;
+
+$this->setSubject( $app->name . ' заказ №'.$order->id. ' на сумму '. PriceHelper::formatPrice($total_summ, 3, 3, $currency_info, true) . ' принят в обработку' ); // указываем тему
 
 $td_style = 'style="padding:10px;"';
 ?>

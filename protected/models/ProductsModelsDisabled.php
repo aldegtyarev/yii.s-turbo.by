@@ -33,8 +33,6 @@ class ProductsModelsDisabled extends CActiveRecord
 			array('product_id, model_id', 'required'),
 			array('model_id', 'numerical', 'integerOnly'=>true),
 			array('product_id', 'length', 'max'=>11),
-			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
 			array('id, product_id, model_id', 'safe', 'on'=>'search'),
 		);
 	}
@@ -44,8 +42,6 @@ class ProductsModelsDisabled extends CActiveRecord
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
 		return array(
 			'model' => array(self::BELONGS_TO, 'ShopModelsAuto', 'model_id'),
 			'product' => array(self::BELONGS_TO, 'ShopProducts', 'product_id'),
@@ -78,8 +74,6 @@ class ProductsModelsDisabled extends CActiveRecord
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id,true);
@@ -126,25 +120,39 @@ class ProductsModelsDisabled extends CActiveRecord
 		}
 	}
 	
-	//проверка на то, чтобы исключить некоторые товары из выдачи
+
+	/**
+	 * проверка на то, чтобы исключить некоторые товары из выдачи
+	 *
+	 * @param mixed $connection
+	 * @param array $product_ids
+	 * @param array $model_ids
+	 * @return array
+     */
 	public function checkForExcludedProducts(&$connection, $product_ids = array(), $model_ids = array())
 	{
 		if(count($product_ids) == 0 || count($model_ids) == 0) return $product_ids;
-		
-		
-		$sql = "SELECT `product_id` FROM ".$this->tableName()." WHERE model_id IN (" . implode(',', $model_ids) . ")";
-		$command = $connection->createCommand($sql);
-		$rows = $command->queryColumn();		
-		//echo'<pre>';print_r($rows);echo'</pre>';die;
-		
+		$rows = self::getExludedProductIds($connection, $model_ids);
 		foreach($rows as $row)
 			foreach($product_ids as $key=>$product_id)
 				if($product_id == $row)
 					unset($product_ids[$key]);
-		
-		//echo'<pre>';print_r($product_ids);echo'</pre>';die;
-		
+
 		return $product_ids;
+	}
+
+	/**
+	 * возвращает ID товаров, которые нужно исключать из указанных моделей
+	 * @param $connection
+	 * @param array $model_ids
+	 * @return array
+     */
+	public function getExludedProductIds($connection, $model_ids = array())
+	{
+		if(count($model_ids) == 0) return array();
+		$sql = "SELECT `product_id` FROM ".$this->tableName()." WHERE model_id IN (" . implode(',', $model_ids) . ")";
+		$command = $connection->createCommand($sql);
+		return $command->queryColumn();
 	}
 	
 }

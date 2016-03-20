@@ -173,7 +173,7 @@ input {
 }
 
 
-h1 {
+h1, .h1 {
 	font-size: 22px;
 	margin: 0 0 20px 0;
 	@extend %bold;
@@ -455,36 +455,55 @@ span.required { @extend %c_d70000; }
 
 .select-view-block {
 	margin: 0 0 10px 0;
-	
+}
+
+.select-view-form {
+	@extend %fl;
+
 	a {
 		overflow: hidden;
 		text-indent: 7777px;
 		margin: 0 5px 0 0;
-		
+
 		@extend %db;
 		@extend %fl;
 	}
-	
+
 	.view-row {
 		@extend .ico-product-list-view1;
 		&:hover {
 			@extend .ico-product-list-view1-act;
 		}
 	}
-	
+
 	.view-row-active {
 		@extend .ico-product-list-view1-act;
 	}
-	
+
 	.view-tile {
 		@extend .ico-product-list-view2;
 		&:hover {
 			@extend .ico-product-list-view2-act;
 		}
 	}
-	
+
 	.view-tile-active {
 		@extend .ico-product-list-view2-act;
+	}
+}
+
+.related_categories {
+	@extend %fr;
+
+	p {
+		@extend %bold;
+		@extend %text_r;
+	};
+
+	a {
+		@extend %underline_y_n;
+
+		color: #1a8bfc;
 	}
 }
 

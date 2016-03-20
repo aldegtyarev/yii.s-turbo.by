@@ -141,6 +141,9 @@ echo Yii::app()->theme->baseUrl . '/assets/js/respond.min.js';
 						'visible'=>!Yii::app()->user->isGuest,
 						'items' => array(
 							array('label'=>'Очистить кеш', 'url'=>array('site/cacheclear')),
+							array('label'=>'Карта сайта', 'url'=>'/sitemap.xml'),
+							array('label'=>'Обновить карту сайта', 'url'=>'/buildsitemap.html'),
+							
 							//array('label'=>'Категории', 'url'=>array('pagescategories/admin')),
 						),
 					),

@@ -15,7 +15,6 @@
 					echo CHtml::image('#', '', array('data-fullsrc'=>$full_image_url, 'class'=>'popup-full-img db'));
 
 					if(count($data->AdditionalImages))	{
-
 						echo CHtml::OpenTag('div', array('class'=>'additional-images-wr'));
 						echo CHtml::OpenTag('ul', array('class'=>'popup-add-images'));
 
@@ -89,8 +88,16 @@
 			</ul>
 		</div>
 		<div class="product-list-item-row-price-block">
-			<p class="product-list-item-row-price-byr"><?=PriceHelper::formatPrice($data->product_price, $data->currency_id, 3, $currency_info, true)?></p>
-			<p class="product-list-item-row-price-usd"><?=PriceHelper::formatPrice($data->product_price, $data->currency_id, 0, $currency_info)?></p>
+			<? if($data->percent_discount < 0)	{	?>
+				<span class="percent_discount"><?= $data->percent_discount ?>%</span>
+				<p class="product-list-item-row-price-override"><?= PriceHelper::formatPrice($data->product_price, $data->currency_id, 3, $currency_info, true)?></p>
+				<p class="product-list-item-row-price-byr"><?= PriceHelper::formatPrice($data->product_override_price, $data->currency_id, 3, $currency_info, true)?></p>
+				<p class="product-list-item-row-price-usd"><?= PriceHelper::formatPrice($data->product_override_price, $data->currency_id, 0, $currency_info)?></p>
+			<?	}	else	{	?>
+				<p class="product-list-item-row-price-byr"><?= PriceHelper::formatPrice($data->product_price, $data->currency_id, 3, $currency_info, true)?></p>
+				<p class="product-list-item-row-price-usd"><?= PriceHelper::formatPrice($data->product_price, $data->currency_id, 0, $currency_info)?></p>
+			<?	}	?>
+
 
 			<? if($data->free_delivery != 0)	{	?>
 				<p class="product-list-item-row-free-delivery">+ бесплатная доставка</p>

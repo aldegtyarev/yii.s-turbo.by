@@ -37,6 +37,7 @@ $current_action = $app->getController()->getAction()->getId();
 $current_controller =  $app->getController()->getId();
 
 if($current_controller == 'shopcategories' && $current_action == 'show') {
+	unset($url_params['engine']);
 	$form_action = $app->getController()->createUrl($url, $url_params);
 } else {
 	$form_action = $app->getController()->createUrl('shopcategories/index');

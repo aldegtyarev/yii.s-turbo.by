@@ -129,7 +129,7 @@ class ShopProductsModelsAuto extends CActiveRecord
 		}
 	}
 	
-	//получает ID товаров из выбранных категорий
+	//получает ID товаров из выбранных моделей
 	public function getProductIdsInCategories($categories)
 	{
 		$result = '-1';
@@ -137,6 +137,7 @@ class ShopProductsModelsAuto extends CActiveRecord
 			$connection = Yii::app()->db;
 			
 			$sql = "SELECT distinct(`product_id`) FROM ".$this->tableName()." WHERE `model_id` IN ($categories) ";
+			//echo'<pre>';print_r($sql);echo'</pre>';die;
 			$command = $connection->createCommand($sql);
 			$rows = $command->queryColumn();
 			//echo'<pre>';print_r($rows);echo'</pre>';

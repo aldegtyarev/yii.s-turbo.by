@@ -11,7 +11,7 @@ return array(
 	'sourceLanguage' => 'en',
 	'language' => 'ru',
 	'charset'=>'utf-8',
-	'homeUrl'=>'http://new.s-turbo.by/',
+	'homeUrl'=>'http://s-turbo.by/',
 	
 
 	// preloading 'log' component
@@ -45,7 +45,7 @@ return array(
 			'class'=>'system.gii.GiiModule',
 			'password'=>'alexey27',
 			// If removed, Gii defaults to localhost only. Edit carefully to taste.
-			'ipFilters'=>array('127.0.0.1','::1', '37.45.156.166'),
+			'ipFilters'=>array('127.0.0.1','::1', '37.45.148.218'),
 		),
 		
 		'user'=>array(
@@ -219,7 +219,7 @@ return array(
 	'params'=>array(
 		'adminEmail'=>'info@s-turbo.by',
 		'siteSlogan' => 'магазин автомобильных запчастей',
-		'pagination' => array('per_page' => 30, 'products_per_page' => 32),		//параметры для пагинации
+		'pagination' => array('per_page' => 30, 'products_per_page' => 20),		//параметры для пагинации
 		'images_live_url' => 'http://s-turbo.by/',
 		'products_list_order' => 't.`product_price`', //t.`product_id` // порядок сортировки списка товаров
 		'product_imagePath' => 'webroot.images.shop.products',
@@ -240,5 +240,11 @@ return array(
 		'cache_duration' => (60 * 60),		//длительность кеширования
 		'prepayment_text_id' => 16,			//ИД поясняющего текста для модального окна предоплаты к карточкет товара
 		'show_products_on_index' => false,	//выводить ли все товары если не выбрана модель авто
+		'installation_page' => 32,	//ID страницы для таба "установка" в карточке товара
+		'vihlopnaya_sistema_id' => 4622,	//ИД категории "Выхлопная система"
+		'shtatnie_glushiteli_id' => 4623,	//ИД категории "Штатные глушители"
+		
+		'cat_our_id' => 3,	//ИД категории "Наши работы"
+		'cat_news_id' => 2,	//ИД категории "Новости"
 	),
 );

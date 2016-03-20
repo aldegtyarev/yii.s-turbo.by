@@ -142,3 +142,17 @@
 		@extend %hide;
 	}
 }
+
+.select_engine_notice {
+	@extend %c_000;
+	@extend %font_18;
+	@extend %bold;
+	
+	position: absolute;
+	display: none;
+	
+	img {
+		height: 40px;
+		vertical-align: middle;
+	}
+}

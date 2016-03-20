@@ -181,6 +181,37 @@ class Pages extends CActiveRecord
 		$this->foto = '';
 	}
 	
+	/**
+	 * возвращает список страниц заданной рубрики
+	 */
+	public function loadPages($category_id = 1)
+	{
+		$app = Yii::app();
+		$criteria = new CDbCriteria();
+
+		$condition_arr = array(
+			'type = '.$category_id,
+		);
+
+		$criteria->condition = implode(' AND ', $condition_arr);
+		$criteria->order = 'created DESC';
+		
+        $dataProvider = new CActiveDataProvider('Pages', array(
+            'criteria'=>$criteria,
+            'pagination'=>array(
+				'pageSize'=>Yii::app()->params->pagination['products_per_page'],
+				//'pageSize'=>3,
+				'pageVar' =>'page',
+            ),
+        ));
+		
+		foreach($dataProvider->data as $row)	{
+			$row->foto = $app->params->pages_images_liveUrl.($row->foto ? 'thumb_'.$row->foto : 'noimage.jpg');
+		}
+		
+		return $dataProvider;
+	}
+	
 	
 	//загрузка фото
 	public function uploadFoto($no_watermark = 0)
@@ -371,5 +402,44 @@ class Pages extends CActiveRecord
 		if ($c!=-1) return $c;
 		return imagecolorclosest($im, $r, $g, $b);
 	} # EBD _get_image_color()
+	
+	/**
+	 * возвращает ссылки на все материалы по сайту
+	 *
+	 * @param $id integer
+	 * @return string
+	 */
+	public function getAllUrlsForSitemap(&$controller, &$connection)
+	{
+		$urls = array();
+		$homeUrl = substr(Yii::app()->homeUrl, 0, -1);
+		
+		$categories = PagesCategories::model()->findAll();
+		
+		$sql = "SELECT `id`, `alias` FROM ".$this->tableName()." WHERE `type` = :type";
+		$commandModels = $connection->createCommand($sql);
+		
+		//echo'<pre>';print_r($categories);echo'</pre>';die;
+		
+		foreach($categories as $cat) {
+			if($cat->id != 1) {
+				$commandModels->bindParam(":type", $cat->id);
+				$url_path = $cat->alias;
+				$pages = $commandModels->queryAll();
+				foreach($pages as $p) {
+					$urls[] = $homeUrl . $controller->createUrl('pages/'.$url_path, array('alias'=>$p['alias']));
+				}
+			}
+		}
+		
+		$urls[] = $homeUrl . $controller->createUrl('pages/dostavka');
+		$urls[] = $homeUrl . $controller->createUrl('pages/oplata');
+		$urls[] = $homeUrl . $controller->createUrl('pages/kontakty');
+		$urls[] = $homeUrl . $controller->createUrl('pages/onas');
+		
+		//echo'<pre>';print_r($urls);echo'</pre>';die;
+		
+		return $urls;
+	}
 	
 }

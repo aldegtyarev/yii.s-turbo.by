@@ -46,6 +46,8 @@ class ShopProductsController extends Controller
 					'moveup',
 					'movedown',
 					'imgrename',
+					'sitemapcreate',
+					'setuni',
 				),
 				'users'=>array('superman'),
 			),
@@ -192,7 +194,9 @@ class ShopProductsController extends Controller
 		//если нажали "Отмена" возврат на список компаний
 		if(isset($_POST['cancel']))	
 			$this->redirect(array('admin'));
-		
+
+		$task = $app->request->getParam('task', '');
+
 		$current_tab_request = $app->request->getParam('current-tab', '');
 		
 		if(isset($app->session['ShopproductForm.current_tab']))	{
@@ -256,7 +260,15 @@ class ShopProductsController extends Controller
 		if(isset($_POST['ShopProducts']))
 		{
 			$model->attributes=$_POST['ShopProducts'];
-			
+
+			if($task == 'update_price') {
+				$model->updatePriceInProduct();
+				$this->redirect(array('update','id'=>$id));
+			}	elseif($task == 'update_price_fake')	{
+				$model->updateFakePriceInProduct();
+				$this->redirect(array('update','id'=>$id));
+			}
+
 			$SelectedCategories = isset($_POST['ShopProducts']['admin_category_ids']) ? $_POST['ShopProducts']['admin_category_ids'] : array();
 			$selectedValues = array();
 			foreach($SelectedCategories as $cat)	{
@@ -635,10 +647,10 @@ class ShopProductsController extends Controller
 		//echo'<pre>';print_r($image_file_name_arr);echo'</pre>';die;			
 		
 		
-		$limit = 500;
+		$limit = 50;
 		//$limit = 1000;
 		
-		//$sql = "SELECT product_id, product_name, product_image, manufacturer_sku, product_sku FROM {{shop_products}} WHERE product_id = 876 ORDER BY product_id LIMIT $start_at, $limit";
+		//$sql = "SELECT product_id, product_name, product_image, manufacturer_sku, product_sku FROM {{shop_products}} WHERE product_id = 6180 ORDER BY product_id LIMIT $start_at, $limit";
 		$sql = "SELECT product_id, product_name, product_image, manufacturer_sku, product_sku FROM {{shop_products}} ORDER BY product_id LIMIT $start_at, $limit";
 		$command = $connection->createCommand($sql);
 		$products = $command->queryAll();
@@ -698,6 +710,8 @@ class ShopProductsController extends Controller
 							}
 						}	
 						$image_file_name_arr[$image_file_name] = $product['product_id'];
+						
+						//echo'<pre>';print_r($image_file_name);echo'</pre>';//die;
 
 						ShopProducts::model()->renameImg($app, $img['image_file'], $image_file_name);
 						ShopProducts::model()->updateImg($connection, $img['image_id'], $image_file_name);
@@ -717,8 +731,10 @@ class ShopProductsController extends Controller
 						}						
 						$image_file_name_arr[$image_file_name] = $product['product_id'];
 						
+						//echo'<pre>';print_r($image_file_name);echo'</pre>';//die;
+						
 						ShopProducts::model()->renameImg($app, $img['image_file'], $image_file_name);
-						ShopProducts::model()->updateImg($connection, $img['image_id'], $image_file_name);
+						//ShopProducts::model()->updateImg($connection, $img['image_id'], $image_file_name);
 					}
 				}
 			
@@ -745,11 +761,36 @@ class ShopProductsController extends Controller
 			'count'=>count($products),
 			'go'=>$go,
 			'image_file_name_arr'=>$image_file_name_arr,
-			
 		));
 		
 				
 		//$this->redirect(array('admin'));
+	}
+
+	public function actionSetuni()
+	{
+		$app = Yii::app();
+		$connection = $app->db;
+
+		$sql = "SELECT product_id FROM {{shop_products}} ORDER BY product_id";
+		$command = $connection->createCommand($sql);
+		$products = $command->queryAll();
+
+		//echo'<pre>';print_r(count($products));echo'</pre>';
+		//echo'<pre>';print_r(($products));echo'</pre>';die;
+
+
+		$sql = 'UPDATE {{shop_products}} SET `is_uni` = 1 WHERE `product_id` = :product_id';
+		$command = $connection->createCommand($sql);
+
+		foreach($products as $product) {
+			$is_uni = ShopProductsModelsAuto::model()->isUniversalroduct($product['product_id']);
+
+			if($is_uni === true) {
+				$command->bindParam(":product_id", $product['product_id']);
+				$res = $command->execute();
+			}
+		}
 	}
 	
 	

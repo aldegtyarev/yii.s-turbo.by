@@ -24,6 +24,10 @@
 	
 	a {
 		@extend %db;
+
+		background-size: contain;
+		background-position: center center;
+		background-repeat: no-repeat;
 	}
 	
 	li {
@@ -45,14 +49,11 @@
 	}
 	
 	li,
+	a,
 	img {
 		width: 90px;
 		height: 67px;
 		@include border_radius(4px);
-		
-	}
-	
-	img {
 	}
 }
 
@@ -184,8 +185,12 @@
 		@extend %bold;
 		@extend %font_16;
 		@extend %c_d70000;
-		
-//		margin: 0 0 5px 0;		
+	}
+
+	.price-override {
+		color: #777;
+		text-decoration: line-through;
+
 	}
 	
 	
@@ -318,16 +323,16 @@
 	@extend %pos_rel;
 	
 	.tabs {
-		padding: 0 0 0 20px;
-		margin: 15px 0 15px 0;
+//		padding: 0 0 0 20px;
+//		margin: 15px 0 15px 0;
 		
 		@extend .clearfix;
 		
 		li {
-			padding: 0 45px 0 0;
+			//padding: 0 45px 0 0;
 			
 			@extend %fl;
-			@extend %pos_rel;
+			
 		}
 		
 		a {
@@ -335,9 +340,39 @@
 			@extend %bold;
 			@extend %font_14;
 			@extend %underline_n_n;
+			@extend %db;
+			@extend %pos_rel;
+			
+			@include border-radius(4px 4px 0 0);
+			
+			line-height: 36px;
+			padding: 0 10px 5px 10px;
+			border: 1px solid #e6e6e6;
+			border-bottom: none;
+			
 			
 			&:hover {
 				@extend %c_d70000;
+			}
+			
+			&.active {
+				background-color: #fff;
+				border-color: #efefef;
+			}
+			
+			&:after {
+				@extend %pos_abs;
+				
+				
+				content: ' ';
+				background-color: #fff;
+				height: 3px;
+				top: 100%;
+				left: 4px;
+				width: 102%;
+				margin-top: -2px;
+				z-index: 2;
+				
 			}
 		}
 		
@@ -362,11 +397,16 @@
 		border-bottom: 1px solid #d4d4d4;
 		background: #fff;
 		padding: 10px;
-		min-height: 75px; 
+		min-height: 75px;
+		margin-top: -3px;
 
 		@include border-radius(4px);
 		@include box-shadow(#d4d4d4 2px 2px 5px);
 		
+	}
+	
+	.pager {
+		@extend %hide;
 	}
 }
 
@@ -433,7 +473,8 @@
 
 .productdetails-modelinfo {
 	@extend %font_15;
-	margin: -20px 0 20px 0;
+	@extend %db;
+	@extend %normal;
 }
 
 .productdetails-free-delivery {

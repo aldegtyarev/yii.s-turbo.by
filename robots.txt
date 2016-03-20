@@ -1,1 +1,27 @@
-Disallow: /
+User-agent: *
+Disallow: /cache/
+Disallow: /framework/
+Disallow: /logs/
+Disallow: /protected/
+Disallow: /tmp/
+Disallow: /uploads/
+
+Disallow: /elperro.ru/
+Disallow: /cgi-bin/
+Disallow: /9km.by/
+
+Crawl-delay: 5
+
+User-agent: BingBot
+Disallow: /*
+
+user-agent: AhrefsBot
+disallow: /
+
+user-agent: MJ12bot
+disallow: /
+
+User-agent: Yandex
+Crawl-delay: 2
+
+Sitemap: http://s-turbo.by/sitemap.xml

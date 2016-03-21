@@ -257,8 +257,8 @@ class ShopCategoriesController extends Controller
 			
 			$free_delivery_limit = Delivery::model()->getFreeDeliveryLimit();
 			
-			$is_universal_products = ShopProductsModelsAuto::model()->isUniversalroduct($dataProvider->data[0]->product_id);
-			//$is_universal_products == true;
+			//$is_universal_products = ShopProductsModelsAuto::model()->isUniversalroduct($dataProvider->data[0]->product_id);
+			$is_universal_products = true;
 			
 			foreach($dataProvider->data as $row)	{
 				$product_ids[] = $row->product_id;
@@ -270,10 +270,10 @@ class ShopCategoriesController extends Controller
 						'product'=> $row->product_id
 					);					
 				}	else	{
+					$is_universal_products = false;
 					$prod_params = array(
 						'marka' => $url_params['marka'],
 						'model' => $url_params['model'],
-						'year' => $url_params['year'],
 						'year' => $url_params['year'],
 						'product'=> $row->product_id
 					);
@@ -340,6 +340,8 @@ class ShopCategoriesController extends Controller
 			else $itemView = "_view";
 		
 		$model_auto_selected = false;
+
+		echo'<pre>';var_dump($is_universal_products);echo'</pre>';//die;
 		
 		// если не выбрана марка модель год то выводим уведомление
 		if($select_marka != -1 && $select_model != -1 && $select_year != -1) {
@@ -350,8 +352,10 @@ class ShopCategoriesController extends Controller
 				if($category->name1 != '') $category->name = $category->name1;
 			}
 		}	elseif($is_universal_products == true)	{
+
 			$model_auto_selected = true;
 			$show_search_notice = false;
+			//echo'<pre>';var_dump($show_search_notice);echo'</pre>';//die;
 		}	else {
 			$show_search_notice = true;
 		}
@@ -402,6 +406,7 @@ class ShopCategoriesController extends Controller
 			}
 
 			//echo'<pre>';print_r($related_types);echo'</pre>';//die;
+
 
 			$data = array(
 				'app'=> $app,

@@ -16,6 +16,9 @@ class CartController extends Controller
 		$app = Yii::app();
 		$product_id = $app->request->getParam('product_id', 0);
 		$quantity = $app->request->getParam('quantity', 0);
+
+		//print_r($_SERVER);die;
+		//$app->end();
 		
 		$message = '<span style="color:green;">Товар был добавлен в корзину.</span>';
 		
@@ -46,22 +49,59 @@ class CartController extends Controller
 			if($model->cart_model_info == '') {
 				$modelinfo = json_decode($app->session['autofilter.modelinfo_cart'], 1);
 				if(count($modelinfo)) {
-					foreach($modelinfo as $i) $model->cart_model_info .= $i['name'] . ' ';
+					$model_info_name = '';
+					foreach($modelinfo as $i) {
+						//$model->cart_model_info .= $i['name'] . ' ';
+						if(isset($modelinfo[$k+1])) {
+							//бывает что часть названия попадает в двух частях, поэтому отлавливаем этот момент
+							$findme = $i['name'];
+							$mystring = $modelinfo[$k+1]['name'];
+							$pos = strpos($mystring, $findme);
+							if ($pos === false) $model_info_name .= ' ' . $i['name'];
+						}	else	{
+							$model_info_name .= ' ' . $i['name'];
+						}
+
+					}
+
+					$model->cart_model_info .= ' ' . $model_info_name;
 				}
-				
+
 				$prod_params = array(
 					'marka' => $url_params['marka'],
 					'model' => $url_params['model'],
-					'year' => $url_params['year'],
 					'year' => $url_params['year'],
 					'product'=> $model->product_id
 				);
 			}
 			
-			$model->product_url = $this->createUrl('shopproducts/detail', $prod_params);			
-			
+			$model->product_url = $this->createUrl('shopproducts/detail', $prod_params);
+			/*
+			 * время
+			 * ид товара
+			 * ссылку на него
+			 * строку с моделью
+			 * HTTP_USER_AGENT
+			 * HTTP_REFERER
+			 */
+
+			$fp = fopen(Yii::getPathOfAlias('webroot') . "/cart.log", "a"); // Открываем файл в режиме записи
+
+			$mytext = date('d-m-Y H:i:s')."\r\n"; // Исходная строка
+			$mytext .= 'REMOTE_ADDR = ' . $_SERVER['REMOTE_ADDR'] . "\r\n";
+			$mytext .= 'HTTP_USER_AGENT = ' . $_SERVER['HTTP_USER_AGENT'] . "\r\n";
+			$mytext .= 'HTTP_USER_AGENT = ' . $_SERVER['HTTP_REFERER'] . "\r\n";
+			$mytext .= 'product_name = ' . $model->product_name . "\r\n";
+			$mytext .= 'product_url = ' . $model->product_url . "\r\n";
+			$mytext .= 'cart_model_info = ' . $model->cart_model_info . "\r\n";
+			$mytext .= "\r\n";
+			$mytext .= "\r\n";
+
+			fwrite($fp, $mytext); // Запись в файл
+			fclose($fp); //Закрытие файла
+
 			$app->shoppingCart->put($model, $quantity);
-			$total = $app->shoppingCart->getCount();
+			//$total = $app->shoppingCart->getCount();
 			
 			$positions = $app->shoppingCart->getPositions();
 			$currency_info = Currencies::model()->loadCurrenciesList();
@@ -70,7 +110,7 @@ class CartController extends Controller
 			$summ = $total_in_cart['summ'];
 			$total = $total_in_cart['qtyTotal'];
 			
-			$html = '';
+			//$html = '';
 			$html = $this->renderPartial( 'add-to-cart', array(
 				'count_products' => $total,
 				'total_summ' => $summ,
@@ -281,15 +321,15 @@ class CartController extends Controller
 	{
 		$app = Yii::app();
 		$product_id = $app->request->getParam('product_id', 0);
-		
-		if($product_id)	{
+
+		if ($product_id) {
 			$model = ShopProducts::model()->findByPk($product_id);
 			$app->shoppingCart->remove($model->getId()); //no items
 		}
 		$this->redirect('showcart');
 	}
-	
-	//полная очистка содержимого корзины
+
+	//полная очистка содержимого корзинымого корзины
 	public function actionClearcart()
 	{
 		Yii::app()->shoppingCart->clear();

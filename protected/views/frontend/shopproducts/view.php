@@ -133,8 +133,10 @@ if($product_price >= $free_delivery_limit) $model->free_delivery = 1;
 							<span class="label"><? echo $model->getAttributeLabel('product_price');?>:</span>
 							<div class="value" id="productPrice<?=$model->product_id?>">
 								<? if($model->percent_discount < 0)	{	?>
-									<span class="percent_discount"><?= $model->percent_discount ?>%</span>
-									<p class="price-override"><?= PriceHelper::formatPrice($model->product_price, $data->currency_id, 3, $currency_info, true)?></p>
+
+
+									<p><span class="price-override"><?= PriceHelper::formatPrice($model->product_price, $data->currency_id, 3, $currency_info, true)?></span><span class="percent_discount"><?= $model->percent_discount ?>%</span></p>
+
 									<p class="price-byr"><?=PriceHelper::formatPrice($model->product_override_price, $model->currency_id, 3, $currency_info, true)?></p>
 									<p class="price"><?=PriceHelper::formatPrice($model->product_override_price, $model->currency_id, 0, $currency_info)?></p>
 								<?	}	else	{	?>

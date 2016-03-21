@@ -46,6 +46,7 @@
 	border-top: 1px solid #452a2b;
 	background: #2f3435;
 	background: rgba(47, 52, 53, 0.8);
+	z-index: 10;
 	
 	@extend %pos_rel;
 	@extend %fl;

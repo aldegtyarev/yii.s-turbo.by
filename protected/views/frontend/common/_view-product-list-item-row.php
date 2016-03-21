@@ -89,8 +89,8 @@
 		</div>
 		<div class="product-list-item-row-price-block">
 			<? if($data->percent_discount < 0)	{	?>
-				<span class="percent_discount"><?= $data->percent_discount ?>%</span>
-				<p class="product-list-item-row-price-override"><?= PriceHelper::formatPrice($data->product_price, $data->currency_id, 3, $currency_info, true)?></p>
+
+				<p class="product-list-item-row-price-override-cnt"><span class="product-list-item-row-price-override"><?= PriceHelper::formatPrice($data->product_price, $data->currency_id, 3, $currency_info, true)?></span><span class="percent_discount"><?= $data->percent_discount ?>%</span></p>
 				<p class="product-list-item-row-price-byr"><?= PriceHelper::formatPrice($data->product_override_price, $data->currency_id, 3, $currency_info, true)?></p>
 				<p class="product-list-item-row-price-usd"><?= PriceHelper::formatPrice($data->product_override_price, $data->currency_id, 0, $currency_info)?></p>
 			<?	}	else	{	?>
@@ -99,18 +99,18 @@
 			<?	}	?>
 
 
-			<? if($data->free_delivery != 0)	{	?>
-				<p class="product-list-item-row-free-delivery">+ бесплатная доставка</p>
-			<?	}	else	{	?>
-				<p class="product-list-item-row-delivery-cost">
-					<a class="fancybox fancybox.ajax" href="<?= $this->createUrl('shopproducts/delivery', array('id'=>$data->product_id)) ?>">стоимость доставки</a>
-					<img src="/img/question_ico.gif" alt="стоимость доставки" class="product-list-item-row-delivery-cost-ico">
+			<?php echo CHtml::beginForm($this->createUrl('/cart/addtocart')); ?>
+				<? if($data->free_delivery != 0)	{	?>
+					<p class="product-list-item-row-free-delivery">+ бесплатная доставка</p>
+				<?	}	else	{	?>
+					<p class="product-list-item-row-delivery-cost">
+						<a class="fancybox fancybox.ajax" href="<?= $this->createUrl('shopproducts/delivery', array('id'=>$data->product_id)) ?>">стоимость доставки</a>
+						<img src="/img/question_ico.gif" alt="стоимость доставки" class="product-list-item-row-delivery-cost-ico">
 
-				</p>
-			<?	}	?>
+					</p>
+				<?	}	?>
 
-			<?php 
-				echo CHtml::beginForm($this->createUrl('/cart/addtocart'));
+			<?php
 				echo Chtml::hiddenField('quantity', '1', array('class'=>'quantity', 'id'=>false));
 				echo Chtml::hiddenField('product_id', $data->product_id, array('class'=>'product_id', 'id'=>false));
 				echo CHtml::submitButton('В корзину', array('name'=>'addtocart','class'=>'addtocart addtocart-button prod-list-addtocart-button add button-green','title'=>'Добавить этот товар в корзину'));
@@ -119,9 +119,11 @@
 					<span class="ajax-loading font-10"><img class="v-middle" src="/img/loading.gif" alt="Обработка" /> Обработка...</span>
 				</p>
 				<p class="cart-msg hidden font-10"></p>
+
+				<a href="<?=$data->product_url?>" class="button-red product-detail">Подробнее</a>
 			<?php echo CHtml::endForm(); ?>
 
-			<a href="<?=$data->product_url?>" class="button-red product-detail">Подробнее</a>								
+
 		</div>
 	</div>
 </div>

@@ -33,7 +33,6 @@ if($select_engine == true && $show_search_notice == false)	{
 		if($(this).hasClass('bodyset')) {
 			select_str = 'Для точного поиска, выберите КУЗОВ';
 		}
-		console.log($(this).attr('class'));
 	});
 
 	if(select_str === '') {

@@ -138,7 +138,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
         // will receive user inputs.
         return array(
             array('product_name, product_sku, currency_id, cargo_type', 'required'),
-            array('published, hide_s_desc, firm_id, type_id, protect_copy, product_availability, product_ordered, manufacturer_id, override, side, currency_id, featured, cargo_type, free_delivery, update_price_value, fake_discount, update_default_price', 'numerical', 'integerOnly'=>true),
+            array('published, hide_s_desc, firm_id, type_id, protect_copy, product_availability, product_ordered, manufacturer_id, override, side, currency_id, featured, cargo_type, free_delivery, update_price_value, fake_discount, update_default_price, is_uni', 'numerical', 'integerOnly'=>true),
             array('metatitle, manuf, material, code, in_stock, delivery, prepayment, lamps, adjustment, product_s_desc', 'length', 'max'=>255),
             array('product_desc, installation, metadesc', 'length', 'max'=>17000),
             array('product_name', 'length', 'max'=>180),
@@ -227,6 +227,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 			'update_price_value' => 'Изменить цену на товары в группе ("+" - изменятся основная цена; "-" - устанавливается скида на товар)',
 			'fake_discount' => 'Фейковая скидка',
 			'update_default_price' => 'Обновить исходную цену на товар',
+			'is_uni' => 'Универсальный товар',
         );
     }
     
@@ -1152,12 +1153,23 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 				$command->insert('{{shop_products_models_auto}}', array(
 					'product_id' => $new_product_id,
 					'model_id' => $row['model_id'],
-					'ordering' => $row['ordering'],
 				));
 				$command->reset();
 			}
 		}
 		
+		// дублируем исключающий модельный ряд товара
+		$ProductsModelsAutos = $this->ProductsModelsDisabled;
+		if(count($ProductsModelsAutos))	{
+			foreach($ProductsModelsAutos as $row)	{
+				$command->insert('{{shop_products_models_auto_disabled}}', array(
+					'product_id' => $new_product_id,
+					'model_id' => $row['model_id'],
+				));
+				$command->reset();
+			}
+		}
+
 		// дублируем кузова товара
 		$ProductsBodies = $this->ProductsBodies;
 		if(count($ProductsBodies))	{

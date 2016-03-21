@@ -295,9 +295,13 @@
 	@extend %pos_rel;
 
 	
-	width: 146px;
+	width: 160px;
 	//height: 180px;
 	height: auto;
+
+	form {
+		margin-left: -16px;
+	}
 	
 	.addtocart-button,
 	.product-detail {
@@ -316,24 +320,23 @@
 }
 
 .percent_discount {
-	@extend %pos_abs;
 	@extend %c_fff;
 	@extend %normal;
 	@extend %font_12;
 
-	right:0;
-	top:0;
 	background-color: #009a00;
-	padding: 0 3px;
+	padding: 0 2px;
 	line-height:16px;
 }
 
-
-.product-list-item-row-price-override {
-	@extend %font_14;
+.product-list-item-row-price-override-cnt {
 	@extend %text_l;
 	@extend .pl-10;
+}
+.product-list-item-row-price-override {
+	@extend %font_13;
 
+	padding-right: 10px;
 	text-decoration: line-through;
 	color: #4c4c4c;
 }

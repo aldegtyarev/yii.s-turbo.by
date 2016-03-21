@@ -627,16 +627,22 @@ $(document).ready(function () {
 								return true;
 							};
 							//$('#content-wr').find("#productdetails-view-tab").yiitab();
-							
+
 							$('#content-wr').on('click', '#productdetails-view-tab .tabs > li > a', function() {
-								var tabs = $(this).parent().parent().parent();
+								var tabs = $(this).parent().parent().parent(),
+									id = $(this).attr("href");
+
+
+								tabs.find('.tabs > li > a').removeClass("active");
+								$(this).addClass("active");
+
 								tabs.find('.view').hide();
-								tabs.find('.tabs > li').removeClass("selected");
-								var id = $(this).attr("href");
 								$(id).show();
-								$(this).parent().addClass("selected");
+
+								console.log(id);
 								return false;
 							});
+
 							
 						});
 						

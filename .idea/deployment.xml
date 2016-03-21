@@ -62,6 +62,7 @@
             <excludedPath path="/public_html/favicons.zip" />
             <excludedPath path="/public_html/oplata.html" />
             <excludedPath path="/public_html/Аналитикс.txt" />
+            <excludedPath path="/public_html/sass" />
           </excludedPaths>
         </serverdata>
       </paths>

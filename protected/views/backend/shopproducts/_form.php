@@ -23,6 +23,7 @@ $cs->registerScript('loading', "
 	$('#ShopProducts_override').bootstrapSwitch();
 	$('#ShopProducts_featured').bootstrapSwitch();
 	$('#ShopProducts_free_delivery').bootstrapSwitch();
+	$('#ShopProducts_is_uni').bootstrapSwitch();
 
 	$('.chosen_select').chosen();
 	
@@ -185,7 +186,12 @@ $style = '';
 				<?php echo $form->error($model,'protect_copy'); ?>
 			</div>
 					
-					
+			<div class="row">
+				<?php echo $form->checkBoxControlGroup($model, 'is_uni'); ?>
+				<?php echo $form->error($model,'is_uni'); ?>
+			</div>
+
+
 						
 			<?/*
 			<div class="row">

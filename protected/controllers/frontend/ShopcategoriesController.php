@@ -341,7 +341,7 @@ class ShopCategoriesController extends Controller
 		
 		$model_auto_selected = false;
 
-		echo'<pre>';var_dump($is_universal_products);echo'</pre>';//die;
+		//echo'<pre>';var_dump($is_universal_products);echo'</pre>';//die;
 		
 		// если не выбрана марка модель год то выводим уведомление
 		if($select_marka != -1 && $select_model != -1 && $select_year != -1) {

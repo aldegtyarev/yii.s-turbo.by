@@ -2,6 +2,13 @@
 <project version="4">
   <component name="PublishConfigData" autoUpload="On explicit save action" promptOnRemoteOverwrite="CHECK_TIMESTAMP" serverName="s-turbo.by" notifyRemoteChanges="true">
     <serverData>
+      <paths name="fantasy">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
       <paths name="s-turbo.by">
         <serverdata>
           <mappings>
@@ -11,9 +18,12 @@
             <excludedPath path="/public_html/9km.by" />
             <excludedPath path="/public_html/assets" />
             <excludedPath path="/public_html/cgi-bin" />
+            <excludedPath path="/public_html/elperro.ru" />
+            <excludedPath path="/public_html/favicons" />
             <excludedPath path="/public_html/fonts" />
             <excludedPath path="/public_html/framework" />
             <excludedPath path="/public_html/images" />
+            <excludedPath path="/public_html/img" />
             <excludedPath path="/public_html/sxd" />
             <excludedPath path="/public_html/themes" />
             <excludedPath path="/public_html/tmp" />
@@ -21,27 +31,25 @@
             <excludedPath path="/public_html/uploads" />
             <excludedPath path="/public_html/yii" />
             <excludedPath path="/public_html/.ftpquota" />
+            <excludedPath path="/public_html/.gitattributes" />
+            <excludedPath path="/public_html/.gitignore" />
+            <excludedPath path="/public_html/.htaccess" />
             <excludedPath path="/public_html/3504f1eba3cc.html" />
             <excludedPath path="/public_html/admin.php" />
-            <excludedPath path="/public_html/backup_01_03_16.zip" />
+            <excludedPath path="/public_html/cart.log" />
+            <excludedPath path="/public_html/error_log" />
             <excludedPath path="/public_html/file_name_arr.json" />
             <excludedPath path="/public_html/google75fcea9973072df7.html" />
             <excludedPath path="/public_html/googleb38da1fa1101c6d0.html" />
             <excludedPath path="/public_html/index-test.php" />
             <excludedPath path="/public_html/index.php" />
-            <excludedPath path="/public_html/info.php" />
-            <excludedPath path="/public_html/info.txt" />
-            <excludedPath path="/public_html/log.txt" />
             <excludedPath path="/public_html/order-err.log" />
+            <excludedPath path="/public_html/robots.txt" />
             <excludedPath path="/public_html/sitemap.xml" />
             <excludedPath path="/public_html/yandex_68c1bd58dd5319ee.txt" />
             <excludedPath path="/public_html/yandex_7020eeeead8c1ba4.html" />
-            <excludedPath path="/public_html/elperro.ru" />
-            <excludedPath path="/public_html/.sass-cache" />
-            <excludedPath path="/public_html/js/lightbox" />
             <excludedPath path="/public_html/protected/behaviors" />
             <excludedPath path="/public_html/protected/commands" />
-            <excludedPath path="/public_html/protected/components" />
             <excludedPath path="/public_html/protected/data" />
             <excludedPath path="/public_html/protected/extensions" />
             <excludedPath path="/public_html/protected/helpers" />
@@ -56,14 +64,26 @@
             <excludedPath path="/public_html/protected/yiic" />
             <excludedPath path="/public_html/protected/yiic.bat" />
             <excludedPath path="/public_html/protected/yiic.php" />
-            <excludedPath path="/public_html/.gitattributes" />
-            <excludedPath path="/public_html/.gitignore" />
-            <excludedPath path="/public_html/config.rb" />
-            <excludedPath path="/public_html/favicons.zip" />
-            <excludedPath path="/public_html/oplata.html" />
-            <excludedPath path="/public_html/Аналитикс.txt" />
-            <excludedPath path="/public_html/sass" />
+            <excludedPath local="true" path="$PROJECT_DIR$/.idea" />
+            <excludedPath local="true" path="$PROJECT_DIR$/makets" />
+            <excludedPath local="true" path="$PROJECT_DIR$/pravki" />
+            <excludedPath local="true" path="$PROJECT_DIR$/sass" />
+            <excludedPath local="true" path="$PROJECT_DIR$/.ftpquota" />
           </excludedPaths>
+        </serverdata>
+      </paths>
+      <paths name="s-turbo.by (project level)">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="vip-kvartira">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
         </serverdata>
       </paths>
     </serverData>

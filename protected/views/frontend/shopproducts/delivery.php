@@ -7,7 +7,7 @@
 	
 	<div class="product-delivery-product-cnt">
 		<div class="product-delivery-product-img">
-			<img src="<?= $app->params->product_images_liveUrl . 'thumb_'.$model->product_image ?>" alt="">
+			<img src="<?= (($product_images_liveUrl != '') ? ($product_images_liveUrl . 'thumb_')  : '') .$model->product_image ?>" alt="">
 		</div>
 		<div class="product-delivery-product-info">
 			<p class="name"><?= $model->product_name ?></p>
@@ -58,32 +58,3 @@
 		<?php 	}	?>
 	</div>
 </div>
-
-
-<script type="text/javascript">
-$(document).ready(function () {
-	'use strict';
-	var max_height = 0;
-	/*
-	$('.delivery-item-cnt').each(function(){
-		if($(this).height() > max_height)
-			max_height = $(this).height();
-	});
-
-	$('.delivery-item-cnt').css('height', max_height);
-	*/
-	function setEqualHeight(block) {
-		max_height = 0;
-		$(block).each(function(){
-			if($(this).height() > max_height)
-				max_height = $(this).height();
-		});
-		$(block).css('height', max_height);
-	}
-	
-	setEqualHeight('.cart-block-border-ttl');
-	setEqualHeight('.delivery-item-cnt');
-	
-	
-});
-</script>

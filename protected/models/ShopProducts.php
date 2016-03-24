@@ -1069,10 +1069,36 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 	function copyProduct()
 	{
 		//echo'<pre>';print_r($this->ProductsEngines);echo'</pre>';die;
+		/*
+		foreach ($this->attributes as $attribute=>$value) {
+			echo'<pre>';print_r($attribute);echo'</pre>';//die;
+		}
+		*/
+		//die;
+
 		$app = Yii::app();
 		//создаем копию изображений товара
 		$command = $app->db->createCommand();
-		
+
+		$values = array();
+
+		foreach ($this->attributes as $attribute=>$value) {
+			if($attribute != 'product_id') {
+				if($attribute == 'product_name') {
+					$values[$attribute] = $this->$attribute . ' copy';
+				}	else	{
+					$values[$attribute] = $this->$attribute;
+				}
+
+
+			}
+
+		}
+
+		//echo'<pre>';print_r($values);echo'</pre>';die;
+		$command->insert('{{shop_products}}', $values);
+
+		/*
 		$command->insert('{{shop_products}}', array(
 			'product_s_desc' => $this->product_s_desc,
 			'hide_s_desc' => $this->hide_s_desc,
@@ -1114,7 +1140,11 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 			'percent_discount' => 0,
 			'cargo_type' => $this->cargo_type,
 			'free_delivery' => $this->free_delivery,
+			'is_uni' => $this->is_uni,
 		));
+		*/
+
+
 		$new_product_id = $app->db->getLastInsertId();
 		
 		$command->reset();

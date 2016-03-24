@@ -246,6 +246,8 @@ class ShopCategoriesController extends Controller
 		}
 		
 		$is_universal_products = false;
+
+		$deliveries_list = array();
 		
 		if(count($dataProvider->data))	{
 			$product_ids = array();
@@ -293,6 +295,8 @@ class ShopCategoriesController extends Controller
 				if($product_price >= $free_delivery_limit) $row->free_delivery = 1;
 				
 				$row->model_ids = $modelIds;
+
+				$deliveries_list[$row->product_id] = Delivery::model()->loadCalculatedDeliveryList(array($row), $currency_info, true);
 			}
 			
 			//получаем массив доп. изображений для списка товаров
@@ -307,6 +311,8 @@ class ShopCategoriesController extends Controller
 					}
 				}
 			}
+
+
 			
 		}	else	{
 			if($type_request != 0)
@@ -362,11 +368,13 @@ class ShopCategoriesController extends Controller
 
         if ($showmore == 1){
             $this->renderPartial('_loopAjax', array(
-				//'app'=> $app,
+				'app'=> $app,
                 'dataProvider'=>$dataProvider,
                 'itemView'=>$itemView,
 				'currency_info' => $currency_info,
 				'model_auto_selected' => $model_auto_selected,
+				'deliveries_list' => $deliveries_list,
+				'model_info_name' => $model_info_name,
 				'page_num' => $_GET['page'],
             ));
             $app->end();
@@ -405,7 +413,7 @@ class ShopCategoriesController extends Controller
 				$related_types[$key]['url'] = $this->createUrl('shopcategories/show', $params);
 			}
 
-			//echo'<pre>';print_r($related_types);echo'</pre>';//die;
+			//echo'<pre>';print_r($deliveries_list);echo'</pre>';//die;
 
 
 			$data = array(
@@ -436,6 +444,9 @@ class ShopCategoriesController extends Controller
 				'select_engine' => $select_engine,
 				'related_categories' => $related_categories,
 				'related_types' => $related_types,
+				'deliveries_list' => $deliveries_list,
+				'model_info_name' => $model_info_name,
+
 			);
 
 			$this->render('show', $data);

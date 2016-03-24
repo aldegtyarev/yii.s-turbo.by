@@ -104,7 +104,7 @@
 					<p class="product-list-item-row-free-delivery">+ бесплатная доставка</p>
 				<?	}	else	{	?>
 					<p class="product-list-item-row-delivery-cost">
-						<a class="fancybox fancybox.ajax" href="<?= $this->createUrl('shopproducts/delivery', array('id'=>$data->product_id)) ?>">стоимость доставки</a>
+						<a class="fancybox-delivery" href="#delivery-<?= $data->product_id ?>" rel="nofollow">стоимость доставки</a>
 						<img src="/img/question_ico.gif" alt="стоимость доставки" class="product-list-item-row-delivery-cost-ico">
 
 					</p>
@@ -126,4 +126,17 @@
 
 		</div>
 	</div>
+
+	<?php if(isset($deliveries_list[$data->product_id]))	{	?>
+		<div id="delivery-<?= $data->product_id ?>" class="delivery-popup hidden" >
+			<?php $this->renderPartial('../shopproducts/delivery', array(
+				'app'=>$app,
+				'product_images_liveUrl'=>'',
+				'model'=>$data,
+				'delivery_list'=>$deliveries_list[$data->product_id],
+				'modelinfoTxt' => $modelinfoTxt,
+				'currency_info' => $currency_info,
+			));?>
+		</div>
+	<?php	}	?>
 </div>

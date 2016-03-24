@@ -139,7 +139,9 @@ class ShopProductsController extends Controller
 		$installation_page = Pages::model()->getPageText($app->params['installation_page']);
 		
 		$model_pages_cat = PagesCategories::model()->findByPk($app->params['cat_our_id']);
-		$ourWorkDataProvider = Pages::model()->loadPages($app->params['cat_our_id']);		
+		$ourWorkDataProvider = Pages::model()->loadPages($app->params['cat_our_id']);
+
+		$delivery_list = Delivery::model()->loadCalculatedDeliveryList(array($model), $currency_info, true);
 		
 		$this->render('view',array(
 			'model'=>$model,
@@ -152,6 +154,7 @@ class ShopProductsController extends Controller
 			'installation_page' => $installation_page,
 			'ourWorkDataProvider' => $ourWorkDataProvider,
 			'url_path' => $model_pages_cat->alias,
+			'delivery_list'=>$delivery_list,
 		));
 		
 	}
@@ -231,7 +234,6 @@ class ShopProductsController extends Controller
 			}
 			
 			$row->product_url = $this->createUrl('shopproducts/detail', $prod_params);
-			//$row->product_url = $this->createUrl('shopproducts/detail', array('product'=> $row->product_id));
 			$row->product_image = $app->params->product_images_liveUrl.($row->product_image ? 'thumb_'.$row->product_image : 'noimage.jpg');
 			$row->firm_name = $firms[$row->firm_id]['name'];
 		}

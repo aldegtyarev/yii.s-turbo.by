@@ -246,4 +246,13 @@
 		background: #be0000;
 	}	
 }
-/* end Поиск по автомобилю */
+
+.search-auto-loading {
+	@extend %pos_abs;
+	@extend %hide;
+
+	color: #8a8a8a;
+	top: 15px;
+	left: 55px;
+
+}

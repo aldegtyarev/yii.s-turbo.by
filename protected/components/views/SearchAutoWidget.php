@@ -66,17 +66,18 @@ if($current_controller == 'shopcategories' && $current_action == 'show') {
 			</div>
 			<div class="step2 step-wr <?php if($select_model != NULL) echo 'step-selected' ?>">
 				<span class="step-num">2</span>
-				<span id="select-model-wr">
+				<span id="select-model-loading" class="search-auto-loading">идет загрузка...</span>
+				<div id="select-model-wr">
 					<? echo CHtml::dropDownList('select-model', $select_model, $modelDropDown, $model_attribs) ?>
-				</span>
+				</div>
 			</div>
 			<div class="step3 step-wr <?php if($select_year != NULL) echo 'step-selected' ?>">
 				<span class="step-num">3</span>
-				<span id="select-year-wr">
+				<span id="select-year-loading" class="search-auto-loading">идет загрузка...</span>
+				<div id="select-year-wr">
 					<? echo CHtml::dropDownList('select-year', $select_year, $yearDropDown, $year_attribs) ?>
-				</span>
+				</div>
 			</div>
-			<?/*<button class="search-auto-button"> </button>		*/?>
 		</div>
 		<? echo CHtml::hiddenField('return', $return_url) ?>		
 	</form>

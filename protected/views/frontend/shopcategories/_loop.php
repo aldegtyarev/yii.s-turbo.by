@@ -13,6 +13,9 @@
 	'itemsCssClass' => 'products-list clearfix',
 	'viewData'=>array(
 		'currency_info' => $currency_info,
+		'deliveries_list' => $deliveries_list,
+		'modelinfoTxt' => $model_info_name,
+		'app'=>$app,
 	),
 )); ?>
 

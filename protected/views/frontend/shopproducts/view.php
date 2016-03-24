@@ -207,7 +207,7 @@ if($product_price >= $free_delivery_limit) $model->free_delivery = 1;
 							<p class="productdetails-free-delivery">+ бесплатная доставка</p>
 						<?	}	else	{	?>
 							<p class="productdetails-delivery-cost">
-								<a class="fancybox fancybox.ajax" href="<?= $this->createUrl('shopproducts/delivery', array('id'=>$model->product_id)) ?>">стоимость доставки</a>
+								<a class="fancybox-delivery" href="#delivery-<?= $model->product_id ?>" rel="nofollow">стоимость доставки</a>
 								<img src="/img/question_ico.gif" alt="стоимость доставки">
 							</p>
 						<?	}	?>
@@ -288,7 +288,22 @@ if($product_price >= $free_delivery_limit) $model->free_delivery = 1;
 		<div id="my-share" class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,moimir,gplus,twitter,lj"></div>
 	</div>
     
-    <?php $this->endWidget();
+    <?php $this->endWidget(); ?>
+
+	<?php if($model->free_delivery == 0)	{	?>
+		<div id="delivery-<?= $model->product_id ?>" class="delivery-popup hidden" >
+			<?php $this->renderPartial('delivery', array(
+				'app'=>$app,
+				'product_images_liveUrl'=>$app->params->product_images_liveUrl,
+				'model'=>$model,
+				'delivery_list'=>$delivery_list,
+				'modelinfoTxt' => $modelinfoTxt,
+				'currency_info' => $currency_info,
+			));?>
+		</div>
+	<? } ?>
+
+	<?php
 
 	//if($model->installation != '') {
 		$this->beginWidget('system.web.widgets.CClipWidget', array('id'=>"Установка"));

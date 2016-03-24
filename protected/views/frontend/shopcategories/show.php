@@ -166,6 +166,8 @@ if($select_engine == true && $show_search_notice == false)	{
 				'dataProvider'=>$dataProvider,
 				'itemView'=>$itemView,
 				'currency_info' => $currency_info,
+				'deliveries_list' => $deliveries_list,
+				'model_info_name' => $model_info_name,
 			));						 
 		?>		
 	</div>		

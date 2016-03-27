@@ -11,7 +11,9 @@ if ($engineTitle != null) {
 	$title = $category->name;
 }
 
-$this->pageTitle = $title.' | '.$app->name;
+$this->pageTitle = $title;
+
+MetaHelper::setMeta($this, $category);
 
 $images_live_url = substr($app->params->images_live_url, 0, -1);	// на таких страницах нужно удалить последний слэш
 

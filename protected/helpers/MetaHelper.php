@@ -7,8 +7,13 @@ class MetaHelper
 		$app = Yii::app();
 		$clientScript = $app->clientScript;
 		
+		/*
 		if($model->metatitle != '') $cntr->pageTitle = $model->metatitle.' | '.$app->name;
 			else $cntr->pageTitle = $model->$name.' | '.$app->name;
+		*/
+
+		if($model->metatitle != '') $cntr->pageTitle = $model->metatitle;
+			else $cntr->pageTitle = $model->$name;
 
 		if($model->metadesc != '') $val = $model->metadesc;
 			else $val = $model->$name;
@@ -19,7 +24,7 @@ class MetaHelper
 		if($model->metakey != '') $val = $model->metakey;
 			else $val = $model->$name;
 		
-		$clientScript->registerMetaTag($val, 'keywords');		
+		$clientScript->registerMetaTag($val, 'keywords');
     }
 }
 

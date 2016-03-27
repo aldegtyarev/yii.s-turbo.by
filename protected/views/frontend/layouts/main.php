@@ -44,12 +44,12 @@
 		
 	}
 	*/
-	
+
+//$cs->registerLinkTag('apple-touch-icon', NULL, '/favicons/apple-touch-icon-57x57.png', NULL, array('sizes'=>'57x57'));
 
 ?>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta name="language" content="ru" />
-	
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="language" content="ru">
 	<link rel="apple-touch-icon" sizes="57x57" href="/favicons/apple-touch-icon-57x57.png">
 	<link rel="apple-touch-icon" sizes="60x60" href="/favicons/apple-touch-icon-60x60.png">
 	<link rel="apple-touch-icon" sizes="72x72" href="/favicons/apple-touch-icon-72x72.png">
@@ -69,8 +69,10 @@
 	<meta name="msapplication-TileColor" content="#da532c">
 	<meta name="msapplication-TileImage" content="/favicons/mstile-144x144.png">
 	<meta name="msapplication-config" content="/favicons/browserconfig.xml">
-	<meta name="theme-color" content="#ffffff">	
+	<meta name="theme-color" content="#ffffff">
+	<meta name="yandex-verification" content="68c1bd58dd5319ee">
 	<link rel="stylesheet" type="text/css" href="<?php echo $app->request->baseUrl; ?>/css/screen.css" />
+
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
 
@@ -202,7 +204,7 @@
 	<script type="text/javascript" src="//yastatic.net/share2/share.js" charset="utf-8"></script>
 	
 	<script type="text/javascript" src="http://consultsystems.ru/script/30888/" charset="utf-8"></script>
-	
+<?/*
 <!-- Yandex.Metrika counter -->
 <script>
     (function (d, w, c) {
@@ -233,6 +235,34 @@
 </script>
 <noscript><div><img src="https://mc.yandex.ru/watch/34557575" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <!-- /Yandex.Metrika counter -->
+*/?>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+	(function (d, w, c) {
+		(w[c] = w[c] || []).push(function() {
+			try {
+				w.yaCounter24091183 = new Ya.Metrika({id:24091183,
+					clickmap:true,
+					trackLinks:true,
+					accurateTrackBounce:true});
+			} catch(e) { }
+		});
+
+		var n = d.getElementsByTagName("script")[0],
+			s = d.createElement("script"),
+			f = function () { n.parentNode.insertBefore(s, n); };
+		s.type = "text/javascript";
+		s.async = true;
+		s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+		if (w.opera == "[object Opera]") {
+			d.addEventListener("DOMContentLoaded", f, false);
+		} else { f(); }
+	})(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="//mc.yandex.ru/watch/24091183" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+
 	
 	
 <script>

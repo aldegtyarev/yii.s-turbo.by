@@ -142,6 +142,8 @@ class ShopProductsController extends Controller
 		$ourWorkDataProvider = Pages::model()->loadPages($app->params['cat_our_id']);
 
 		$delivery_list = Delivery::model()->loadCalculatedDeliveryList(array($model), $currency_info, true);
+
+		$model->setMetaInfo($modelinfoTxt);
 		
 		$this->render('view',array(
 			'model'=>$model,

@@ -12,22 +12,32 @@ $clientScript = $app->clientScript;
 $clientScript->registerCoreScript('phone-input');
 $clientScript->registerCoreScript('fancybox');
 
+//$product_name = $model->product_name;
+
+//$model->product_name .= $modelinfoTxt;
+
+MetaHelper::setMeta($this, $model, 'product_name');
+/*
+
 if ($model->metatitle) $this->pageTitle = $model->metatitle;
 	else	$this->pageTitle = $model->product_name;
 
-$this->pageTitle .= ' | '.$app->name;
+//$this->pageTitle .= ' | '.$app->name;
 
 if ($model->metakey)	
 	$clientScript->registerMetaTag($model->metakey, 'keywords');
 
 if ($model->metadesc)		
 	$clientScript->registerMetaTag($model->metadesc, 'description');
+*/
 
 $params = $app->params;
 
 $image_url = $app->getBaseUrl(true) . $params->product_images_liveUrl . 'full_'.$model->product_image;
 $current_url = $app->getBaseUrl(true).$app->getRequest()->getUrl();
 
+$product_desc = $model->metadesc;
+/*
 $product_desc = '';
 if(!empty($model->side)) $product_desc .= $model->getAttributeLabel('side') . ': '.$model->ProductSideArray[$model->side]['name'].' ';
 if(!empty($model->lamps)) $product_desc .= $model->getAttributeLabel('lamps') . ': '.nl2br($model->lamps).' ';
@@ -35,7 +45,7 @@ if(!empty($model->adjustment)) $product_desc .= $model->getAttributeLabel('adjus
 if(!empty($model->material)) $product_desc .= $model->getAttributeLabel('material') . ': '.$model->material.' ';
 if(!empty($model->product_s_desc)) $product_desc .= $model->getAttributeLabel('product_s_desc') . ': '.$model->product_s_desc.' ';
 $product_desc .= strip_tags($model->product_desc);
-
+*/
 
 if($product_desc != '') {
 	mb_internal_encoding('UTF-8');
@@ -48,7 +58,7 @@ if (!$app->request->isAjaxRequest) {
 	$clientScript->registerMetaTag($image_url, 'og:image');
 	$clientScript->registerMetaTag('article', 'og:type');
 	$clientScript->registerMetaTag($current_url, 'og:url');
-	$clientScript->registerMetaTag($this->pageTitle, 'og:title');
+	$clientScript->registerMetaTag($model->metatitle, 'og:title');
 	$clientScript->registerMetaTag($product_desc, 'og:description');
 }
 
@@ -70,7 +80,6 @@ if($product_price >= $free_delivery_limit) $model->free_delivery = 1;
 <div class="productdetails-view">
 	<?php 
 		if ($app->request->isAjaxRequest) {
-			
 			$tag = 'og_image';
 			echo CHtml::hiddenField($tag, $image_url, array ('id'=>$tag));
 			
@@ -81,7 +90,7 @@ if($product_price >= $free_delivery_limit) $model->free_delivery = 1;
 			echo CHtml::hiddenField($tag, $current_url, array ('id'=>$tag));
 			
 			$tag = 'og_title';
-			echo CHtml::hiddenField($tag, $this->pageTitle, array ('id'=>$tag));
+			echo CHtml::hiddenField($tag, $model->metatitle, array ('id'=>$tag));
 			
 			$tag = 'og_description';
 			echo CHtml::hiddenField($tag, $product_desc, array ('id'=>$tag));

@@ -118,9 +118,6 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 	public $fake_discount = 0;
 	public $update_default_price = 0;
 
-    
-	
-	
 	/**
      * @return string the associated database table name
      */
@@ -987,7 +984,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 	}
 	
 	//получает выбранные категории для товара
-	function getSelectedCategories()
+	public function getSelectedCategories()
 	{
 		$selectedValues = array();
 		foreach($this->ProductsCategories as $cat) {
@@ -997,7 +994,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 	}
 	
 	//получает выбранные адм. категории для товара
-	function getSelectedAdminCategories()
+	public function getSelectedAdminCategories()
 	{
 		$selectedValues = array();
 		foreach($this->ProductsAdminCategories as $cat) {
@@ -1007,7 +1004,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 	}
 	
 	//получает выбранные модели для товара
-	function getSelectedModels()
+	public function getSelectedModels()
 	{
 		$selectedValues = array();
 		foreach($this->ProductsModelsAutos as $row) {
@@ -1017,7 +1014,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 	}
 	
 	//получает выбранные модели для товара для исключения на опред. моделях
-	function getSelectedModelsDisabled()
+	public function getSelectedModelsDisabled()
 	{
 		$selectedValues = array();
 		foreach($this->ProductsModelsDisabled as $row)
@@ -1027,7 +1024,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 	}
 	
 	//получает выбранные модели для товара
-	function getSelectedBodies()
+	public function getSelectedBodies()
 	{
 		$selectedValues = array();
 		foreach($this->ProductsBodies as $row) {
@@ -1037,7 +1034,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 	}
 	
 	//получает выбранные объемы двигателя для товара
-	function getSelectedEngines()
+	public function getSelectedEngines()
 	{
 		$selectedValues = array();
 		foreach($this->ProductsEngines as $cat) {
@@ -1045,37 +1042,31 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		}
 		$this->SelectedEngines = $selectedValues;
 	}
-	
-	
-	function getDropDownProductAvailability()
+
+
+	public function getDropDownProductAvailability()
 	{
 		$result = CHtml::listData($this->ProductAvailabilityArray, 'id', 'name');
 		return $result;
 	}
-	
-	function getDropDownProductSide()
+
+	public function getDropDownProductSide()
 	{
 		$result = CHtml::listData($this->ProductSideArray, 'id', 'name');
 		return $result;
 	}
-	
-	function getDropDownListCurrensies()
+
+	public function getDropDownListCurrensies()
 	{
 		$result = CHtml::listData(Currencies::model()->findAll(), 'currency_id', 'currency_name');
 		return $result;
 	}
 	
-	//копирование товара
-	function copyProduct()
+	/**
+	 * копирование товара
+	 */
+	public function copyProduct()
 	{
-		//echo'<pre>';print_r($this->ProductsEngines);echo'</pre>';die;
-		/*
-		foreach ($this->attributes as $attribute=>$value) {
-			echo'<pre>';print_r($attribute);echo'</pre>';//die;
-		}
-		*/
-		//die;
-
 		$app = Yii::app();
 		//создаем копию изображений товара
 		$command = $app->db->createCommand();
@@ -1089,10 +1080,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 				}	else	{
 					$values[$attribute] = $this->$attribute;
 				}
-
-
 			}
-
 		}
 
 		//echo'<pre>';print_r($values);echo'</pre>';die;
@@ -1243,8 +1231,8 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		//echo'<pre>';print_r($Images[0]['image_file'],0);echo'</pre>';die;
 	}
 
-	
-	function create_watermark( $main_img_obj, $watermark_img_obj, $alpha_level = 100 )
+
+	public function create_watermark( $main_img_obj, $watermark_img_obj, $alpha_level = 100 )
 	{
 		$alpha_level	/= 100;	# convert 0-100 (%) alpha to decimal
 
@@ -1336,12 +1324,12 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 	} # END create_watermark()
 
 	# average two colors given an alpha
-	function _get_ave_color( $color_a, $color_b, $alpha_level ) {
+	public function _get_ave_color( $color_a, $color_b, $alpha_level ) {
 		return round( ( ( $color_a * ( 1 - $alpha_level ) ) + ( $color_b	* $alpha_level ) ) );
 	} # END _get_ave_color()
 
 	# return closest pallette-color match for RGB values
-	function _get_image_color($im, $r, $g, $b) {
+	public function _get_image_color($im, $r, $g, $b) {
 		$c=imagecolorexact($im, $r, $g, $b);
 		if ($c!=-1) return $c;
 		$c=imagecolorallocate($im, $r, $g, $b);
@@ -1349,29 +1337,45 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		return imagecolorclosest($im, $r, $g, $b);
 	} # EBD _get_image_color()
 	
-	//устанавливает главное фото товара
+	/**
+	 * устанавливает главное фото товара
+	 * @param mixed $connection
+	 * @param string $product_image
+	 * @param int $product_id
+	 * @return boolean
+	 */
 	public function setProductImage(&$connection, $product_image, $product_id)
 	{
 		$sql = "UPDATE {{shop_products}} SET `product_image` = :product_image WHERE `product_id` = :product_id";
 		$command = $connection->createCommand($sql);
 		$command->bindParam(":product_id", $product_id);
 		$command->bindParam(":product_image", $product_image);
-		$res = $command->execute();
+		return $command->execute();
 	}
 	
 	
-	//устанавливает новую цену товара
+	/**
+	 * устанавливает новую цену товара
+	 * @param mixed $connection
+	 * @param inf $product_id
+	 * @param float $product_price
+	 * @return boolean
+	 */
 	public function updateProductPrice(&$connection, $product_id, $product_price)
 	{
 		$sql = "UPDATE {{shop_products}} SET `product_price` = :product_price WHERE `product_id` = :product_id";
 		$command = $connection->createCommand($sql);
 		$command->bindParam(":product_id", $product_id);
 		$command->bindParam(":product_price", $product_price);
-		$res = $command->execute();
+		return $command->execute();
 	}
 	
-	//возвращает массив id товаров
-	public function getProductIds(&$rows)
+	/**
+	 * возвращает массив id товаров
+	 * @param array $rows
+	 * @return array
+	 */
+	public function getProductIds(&$rows = array())
 	{
 		$product_ids = array();
 		if(count($rows))	{
@@ -1380,7 +1384,6 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 			}
 		}
 		return $product_ids;
-		
 	}
 	
 	/**
@@ -1486,8 +1489,6 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		}	else	{
 			//echo'<pre> file not find ';print_r($file_path_old);echo'</pre>';
 		}
-		
-		
 		//die;
 	}
 
@@ -1640,5 +1641,38 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 		$res = DBHelper::updateTbl($connection, $this->tableName(), $values, $where);
 
 		return $res;
+	}
+
+	/**
+	 * генерация полей метатегов
+	 * @param string $model_info
+	 */
+	public function setMetaInfo($model_info = '')
+	{
+		$arr = array();
+
+		//if($this->metatitle == '')
+			$this->metatitle = $this->product_name . $model_info;
+
+		//if($this->metakey == '') {
+			$arr[] = $this->product_name . $model_info;
+			if($this->product_sku != '') $arr[] = $this->product_sku;
+			if($this->manufacturer_sku != '') $arr[] = $this->manufacturer_sku;
+			$this->metakey = implode(',', $arr);
+		//}
+
+		//if($this->metadesc == '') {
+			$arr = array();
+			$arr[] = $this->product_name . $model_info;
+
+			if(!empty($this->side))  $arr[] = $this->getAttributeLabel('side') . ': ' . $this->ProductSideArray[$this->side]['name'];
+			if(!empty($this->lamps))  $arr[] = $this->getAttributeLabel('lamps') . ': ' . nl2br($this->lamps);
+			if(!empty($this->adjustment))  $arr[] = $this->getAttributeLabel('adjustment') . ': ' . $this->adjustment;
+			if(!empty($this->material))  $arr[] = $this->getAttributeLabel('material') . ': ' . $this->material;
+			if($this->product_sku != '') $arr[] = $this->getAttributeLabel('product_sku') . ': ' . $this->product_sku;
+			if(!empty($this->product_s_desc))  $arr[] = $this->getAttributeLabel('product_s_desc') . ': ' . $this->product_s_desc;
+			if($this->product_desc != '') $arr[] = strip_tags($this->product_desc);
+			$this->metadesc = implode(' ', $arr);
+		//}
 	}
 }

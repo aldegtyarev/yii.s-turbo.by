@@ -65,8 +65,8 @@ class ShopCategories extends CActiveRecord
 		return array(
 			array('name', 'required'),
 			array('root, lft, rgt, level, ordering, cat_column, currency_id, cargo_type, uni', 'numerical', 'integerOnly'=>true),
-			array('name, name1, title, alias, category_companies', 'length', 'max'=>255),
-			array('category_description, keywords, description', 'length', 'max'=>7000),
+			array('name, name1, metatitle, alias, category_companies', 'length', 'max'=>255),
+			array('category_description, metakey, metadesc', 'length', 'max'=>7000),
 			array('alias','ext.LocoTranslitFilter','translitAttribute'=>'name'), 
 			array('parentId, id, root, lft, rgt, level, name, title, keywords, description, alias, ordering, category_companies, cat_column, category_description', 'safe', 'on'=>'search'),
 			array('uploading_foto', 'file', 'types'=>'GIF,JPG,JPEG,PNG', 'minSize' => 1024,'maxSize' => 1048576, 'wrongType'=>'Не формат. Только {extensions}', 'tooLarge' => 'Допустимый вес 1Мб', 'tooSmall' => 'Не формат', 'on'=>self::SCENARIO_UPLOADING_FOTO),
@@ -100,9 +100,9 @@ class ShopCategories extends CActiveRecord
 			'level' => 'Level',
 			'name' => 'Название',
 			'name1' => 'Название 1',
-			'title' => 'Title',
-			'keywords' => 'Keywords',
-			'description' => 'Description',
+			'metatitle' => 'Title',
+			'metakey' => 'Keywords',
+			'metadesc' => 'Description',
 			'alias' => 'Alias',
 			'ordering' => 'Ordering',
 			'category_companies' => 'Category Companies',
@@ -148,9 +148,9 @@ class ShopCategories extends CActiveRecord
 		$criteria->compare('rgt',$this->rgt);
 		$criteria->compare('level',$this->level);
 		$criteria->compare('name',$this->name,true);
-		$criteria->compare('title',$this->title,true);
-		$criteria->compare('keywords',$this->keywords,true);
-		$criteria->compare('description',$this->description,true);
+		$criteria->compare('metatitle',$this->metatitle,true);
+		$criteria->compare('metakey',$this->metakey,true);
+		$criteria->compare('metadesc',$this->metadesc,true);
 		$criteria->compare('alias',$this->alias,true);
 		$criteria->compare('ordering',$this->ordering);
 		$criteria->compare('category_companies',$this->category_companies,true);

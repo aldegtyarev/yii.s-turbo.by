@@ -14,8 +14,8 @@ $clientScript->registerCoreScript('fancybox');
 
 <?php //$this->widget('application.components.NewProductsWidget'); ?>
 
-<style>
-	.fancybox-wrap {/*top:50px !important;*/max-width:800px !important;}
+<style type="text/css">
+	.fancybox-wrap {max-width:800px !important;}
 	.fancybox-inner {max-width:760px !important;}
 </style>
 <div class="advantages">

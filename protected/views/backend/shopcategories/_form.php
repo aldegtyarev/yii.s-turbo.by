@@ -150,21 +150,21 @@
 
 		<div class="tab-pane" id="tab2">
 			<div class="row">
-				<?php echo $form->labelEx($model,'title'); ?>
-				<?php echo $form->textField($model,'title',array('size'=>60,'maxlength'=>255)); ?>
-				<?php echo $form->error($model,'title'); ?>
+				<?php echo $form->labelEx($model,'metatitle'); ?>
+				<?php echo $form->textField($model,'metatitle',array('size'=>60,'maxlength'=>255)); ?>
+				<?php echo $form->error($model,'metatitle'); ?>
 			</div>
 
 			<div class="row">
-				<?php echo $form->labelEx($model,'keywords'); ?>
-				<?php echo $form->textArea($model,'keywords',array('rows'=>6, 'cols'=>50)); ?>
-				<?php echo $form->error($model,'keywords'); ?>
+				<?php echo $form->labelEx($model,'metakey'); ?>
+				<?php echo $form->textArea($model,'metakey',array('rows'=>6, 'cols'=>50)); ?>
+				<?php echo $form->error($model,'metakey'); ?>
 			</div>
 
 			<div class="row">
-				<?php echo $form->labelEx($model,'description'); ?>
-				<?php echo $form->textArea($model,'description',array('rows'=>6, 'cols'=>50)); ?>
-				<?php echo $form->error($model,'description'); ?>
+				<?php echo $form->labelEx($model,'metadesc'); ?>
+				<?php echo $form->textArea($model,'metadesc',array('rows'=>6, 'cols'=>50)); ?>
+				<?php echo $form->error($model,'metadesc'); ?>
 			</div>
 		</div>
 	</div>

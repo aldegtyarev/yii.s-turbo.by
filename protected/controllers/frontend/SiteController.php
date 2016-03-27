@@ -198,6 +198,13 @@ class SiteController extends Controller
 		}
 		
 		$dom->save($sitemap_file);
+
+		//$data = implode("", file("bigfile.txt"));
+		$gzdata = gzencode($sitemap_file, 9);
+		$fp = fopen(Yii::getPathOfAlias('webroot') . '/sitemap.xml.gz', "w");
+		fwrite($fp, $gzdata);
+		fclose($fp);
+
 		$this->redirect('/admin.php?r=site/buildsitemapfinished&rows='.count($urls));
 	}	
 	

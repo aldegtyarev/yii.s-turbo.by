@@ -50,6 +50,9 @@
 ?>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="language" content="ru">
+
+	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
+	<link rel="stylesheet" type="text/css" href="<?php echo $app->request->baseUrl; ?>/css/screen.css" />
 	<link rel="apple-touch-icon" sizes="57x57" href="/favicons/apple-touch-icon-57x57.png">
 	<link rel="apple-touch-icon" sizes="60x60" href="/favicons/apple-touch-icon-60x60.png">
 	<link rel="apple-touch-icon" sizes="72x72" href="/favicons/apple-touch-icon-72x72.png">
@@ -71,20 +74,15 @@
 	<meta name="msapplication-config" content="/favicons/browserconfig.xml">
 	<meta name="theme-color" content="#ffffff">
 	<meta name="yandex-verification" content="68c1bd58dd5319ee">
-	<link rel="stylesheet" type="text/css" href="<?php echo $app->request->baseUrl; ?>/css/screen.css" />
-
-	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
 
 <body>
 <div class="wrapper">
 	<div class="wrapperPage">
-<? //echo $current_controller ?>
 		<header class="header">
 			<div class="top-line">
 				<div class="width-wrap">
 					<div class="main-menu floatLeft">
-
 						<?php $this->widget('zii.widgets.CMenu',array(
 							'items'=>array(
 								array('label'=>'Главная', 'url'=>($app->homeUrl), 'itemOptions'=> $isMainPage ? array('class'=>'active') : array()),
@@ -113,20 +111,14 @@
 					<?php $this->widget('application.components.ContactsWidget'); ?>
 					<?php $this->widget('application.components.ConsultantWidget'); ?>					
 				</div>
-			
-				<?php //$this->widget('application.components.CurrencyWidget'); ?>
-			
 			</div>
 		</header>
 
 		<div class="middle">
 			<div class="width-wrap">
-			
 				<?php $this->widget('application.components.SearchAutoWidget'); ?>
 				<div id="central-cnt" class="central clearfix"><?php echo $content; ?></div>
-				<div class="content-down">
-
-				</div>
+				<div class="content-down"></div>
 			</div>
 		</div>
 	</div>
@@ -150,7 +142,6 @@
 		
 			<div class="contacts">
 				<p class="footer-hdr">Контакты</p>
-				
 				<p class="phones phones-mts"><img src="/img/ico-mts.jpg" alt=""> +375 29 530 22 99</p>
 				<p class="phones phones-vel"><img src="/img/ico-velcom.png" alt="">+375 44 530 22 99</p>
 				<p class="email"><img src="/img/ico-email.png" alt=""><a href="mailto:info@s-turbo.by">info@s-turbo.by</a></p>
@@ -163,46 +154,14 @@
 					Заказы на сайте через корзину - КРУГЛОСУТОЧНО
 				</p>
 			</div>
-			<?/*
-			<div class="contacts">
-				<p class="footer-hdr">Контакты</p>
-				<p class="email">E-mail: info@s-turbo.by</p>
-				<p class="phones">Отдел продаж: <br>+375 29 530 22 99 <br>+375 44 530 22 99</p>
-				<p class="adress">Мы находимся: <br>г. Минск, АвтоМолл "Кольцо", <br>2-ой этаж, 417 павильон</p>
-				<p class="copyright">© <?php echo date('Y'); ?> <span class="site-name">S-TURBO.BY</span> Республика Беларусь</p>
-			</div>
-
-			<div class="ur-data">
-				<p class="footer-hdr">Юридические данные</p>
-				<p class="txt">220089 г. Минск ул. Гурского 37, офис 5Н, <br>комната 18/23</p>
-				<p class="txt">
-					р/с 3012162108013 в Региональной дирекции №700<br>
-					ОАО «БПС-Сбербанк» 220035, г. Минск, пр-т Машерова, 80, код 369<br>
-					УНП 192025656
-				</p>
-				<p class="txt">
-					Директор Ксензов Евгений Олегович<br>
-					Дата регистрации в торговом реестре - 07.08.2013г.	
-				</p>
-			</div>
-			<div class="our-shop">
-				<p class="footer-hdr uppercase">Наш магазин</p>
-				<a href="#" class="view-map"><img src="/images/map.jpg" alt="Наш магазин" /></a>
-			</div>
-			*/?>
-			
-			
  		</div>
  		<div class="db-stat" style="display:none;"><? print_r($app->db->getStats()); ?></div>
 	</footer>
-	
 	<div id="popup-gallery" class="popup-gallery pos-abs hidden"></div>
-
 </div>
 	<span id="gotop" class="scrollTop" onclick="top.goTop(); return false;" style="display:none;"></span>
 	<script type="text/javascript" src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js" charset="utf-8"></script>
 	<script type="text/javascript" src="//yastatic.net/share2/share.js" charset="utf-8"></script>
-	
 	<script type="text/javascript" src="http://consultsystems.ru/script/30888/" charset="utf-8"></script>
 <?/*
 <!-- Yandex.Metrika counter -->

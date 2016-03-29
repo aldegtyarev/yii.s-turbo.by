@@ -3,12 +3,11 @@
 
 $app = Yii::app();
 
-$this->pageTitle = $app->name;
+if(!is_null($meta_info)) MetaHelper::setMeta($this, $meta_info);
+	else $this->pageTitle = $app->name;
 
 $clientScript = $app->clientScript;
 $clientScript->registerCoreScript('fancybox');
-
-
 ?>
 
 

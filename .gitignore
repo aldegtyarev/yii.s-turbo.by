@@ -44,4 +44,4 @@ Temporary Items
 
 /.sass-cache/
 /css.old/
-*idea/*.*
+.idea

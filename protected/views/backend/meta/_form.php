@@ -2,6 +2,10 @@
 /* @var $this MetaController */
 /* @var $model Meta */
 /* @var $form CActiveForm */
+
+
+//echo'<pre>';print_r(ShopProductTypes::model()->getDropDownlistItems());echo'</pre>';
+
 ?>
 
 <div class="form">
@@ -32,6 +36,30 @@
 			<?php echo $form->labelEx($model,'cntr_act'); ?>
 			<?php echo $form->textField($model,'cntr_act',array('size'=>60,'maxlength'=>255)); ?>
 			<?php echo $form->error($model,'cntr_act'); ?>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-lg-12">
+			<?php echo $form->labelEx($model,'category_id'); ?>
+			<?php echo $form->dropDownList($model, 'category_id', ShopCategories::model()->getDropDownlistItems()); ?>
+			<?php echo $form->error($model,'category_id'); ?>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-lg-12">
+			<?php echo $form->labelEx($model,'model_id'); ?>
+			<?php echo $form->dropDownList($model, 'model_id', ShopModelsAuto::model()->getDropDownlistItems()); ?>
+			<?php echo $form->error($model,'model_id'); ?>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-lg-12">
+			<?php echo $form->labelEx($model,'type_id'); ?>
+			<?php echo $form->dropDownList($model, 'type_id', ShopProductTypes::model()->getDropDownlistItems()); ?>
+			<?php echo $form->error($model,'type_id'); ?>
 		</div>
 	</div>
 

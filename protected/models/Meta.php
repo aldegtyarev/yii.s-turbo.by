@@ -7,6 +7,9 @@
  * @property integer $id
  * @property string $name
  * @property string $cntr_act
+ * @property string $category_id
+ * @property string $model_id
+ * @property string $type_id
  * @property string $metatitle
  * @property string $metakey
  * @property string $metadesc
@@ -31,8 +34,9 @@ class Meta extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, cntr_act, metatitle, metakey, metadesc', 'required'),
+			array('name, metatitle, metakey, metadesc', 'required'),
 			array('name', 'length', 'max'=>64),
+			array('category_id, model_id, type_id', 'numerical', 'integerOnly'=>true),
 			array('cntr_act, metatitle, metakey', 'length', 'max'=>255),
 			array('metadesc', 'length', 'max'=>1024),
 			array('id, name, cntr_act, metatitle, metakey, metadesc', 'safe', 'on'=>'search'),
@@ -59,6 +63,9 @@ class Meta extends CActiveRecord
 			'id' => 'ID',
 			'name' => 'Name',
 			'cntr_act' => 'Controller/Action',
+			'category_id' => 'Категория',
+			'model_id' => 'Модель',
+			'type_id' => 'Группа',
 			'metatitle' => 'Title',
 			'metakey' => 'Keywords',
 			'metadesc' => 'Description',
@@ -115,7 +122,11 @@ class Meta extends CActiveRecord
 		return parent::model($className);
 	}
 
-	public static function getMetaInfo()
+	/**
+	 * получает мета информацию по паре $action / $controller
+	 * @return mixed
+	 */
+	public static function getMetaInfoControllerAction()
 	{
 		$app = Yii::app();
 		$action = $app->getController()->getAction()->getId();
@@ -129,6 +140,49 @@ class Meta extends CActiveRecord
 			$model = self::model()->find('cntr_act=:cntr_act', array(':cntr_act'=> $controller . '/' . $action));
 			$app->cache->set($cache_key, $model, $app->params['cache_duration']);
 		}
+		return $model;
+	}
+
+	/**
+	 * получает мета информацию по категории указанному авто и группе товаров
+	 * @param $params
+	 * @return mixed
+	 */
+	public static function getMetaInfoCategoryModel($params)
+	{
+		$app = Yii::app();
+
+		$cache_key = self::CACHE_META_INFO . $params['id'] . '_' . $params['year'];
+		if(!is_null($params['type'])) $cache_key .=  '_' . $params['type'];
+
+		//ищем такую модель в кеше
+		$model = $app->cache->get($cache_key);
+
+		if($model === false)	{
+			$condition_arr = array();
+			$params_arr = array();
+
+			if(!is_null($params['id'])) {
+				$condition_arr[] = 'category_id = :category_id';
+				$params_arr[':category_id'] = strip_tags($params['id']);
+			}
+			if(!is_null($params['year'])) {
+				$condition_arr[] = 'model_id = :model_id';
+				$params_arr[':model_id'] = strip_tags($params['year']);
+			}
+			if(!is_null($params['type'])) {
+				$condition_arr[] = 'type_id = :type_id';
+				$params_arr[':type_id'] = strip_tags($params['type']);
+			}
+
+			//echo'<pre>';print_r($condition_arr);echo'</pre>';//die;
+
+			if(count($condition_arr)) {
+				$model = self::model()->find(implode(' AND ', $condition_arr), $params_arr);
+				$app->cache->set($cache_key, $model, $app->params['cache_duration']);
+			}
+		}
+
 		return $model;
 	}
 }

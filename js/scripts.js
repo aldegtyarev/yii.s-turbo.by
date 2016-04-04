@@ -416,17 +416,17 @@ $(document).ready(function () {
 			hovered_img = $(this);
 			hovered = true;
 
-			//clearTimeout(timeOut);
-			//clearTimeout(checkhover);
+			clearTimeout(timeOut);
+			clearTimeout(checkhover);
 
 
-			//timeOut = setTimeout(function () {
+			timeOut = setTimeout(function () {
 				if (hovered === true) {
 					popup_gallery.html(('<span class="preloaderBig"></span>' + parent_el.find('.popup-prod-img').html()));
 					popup_img = popup_gallery.find('.popup-full-img');
 					loadGalleryImg(hovered_img, popup_img,  parent_el);
 				}
-			//}, 500);
+			}, 500);
 		}
 	});
 	

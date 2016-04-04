@@ -538,16 +538,6 @@ class ShopCategories extends CActiveRecord
 		}
 		$criteria->order = 't.root, t.lft'; // или 't.root, t.lft' для множественных деревьев
 		$categories = $this->findAll($criteria);
-		
-		
-		foreach($categories as $n=>$category)	{
-			//$category
-			//$category=Category::model()->findByPk(9);
-			//$parent = $category->parent()->find();
-			//$category->parent_id = $parent->id;
-			//$category->save(false);
-			//echo'<pre>';print_r($parent->id);echo'</pre>';
-		}
 		return true;
 	}
 	

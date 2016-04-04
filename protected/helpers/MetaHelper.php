@@ -6,11 +6,8 @@ class MetaHelper
     {
 		$app = Yii::app();
 		$clientScript = $app->clientScript;
-		
-		/*
-		if($model->metatitle != '') $cntr->pageTitle = $model->metatitle.' | '.$app->name;
-			else $cntr->pageTitle = $model->$name.' | '.$app->name;
-		*/
+
+		//echo'<pre>';print_r($model->metatitle);echo'</pre>';//die;
 
 		if($model->metatitle != '') $cntr->pageTitle = $model->metatitle;
 			else $cntr->pageTitle = $model->$name;

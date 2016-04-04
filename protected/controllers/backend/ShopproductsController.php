@@ -116,6 +116,8 @@ class ShopProductsController extends Controller
 			}
 			$model->SelectedBodies = $selectedValues;
 			//echo'<pre>';print_r($model->SelectedBodies);echo'</pre>';die;
+
+			$model->product_price_default = $model->product_price;
 			
 			if($_FILES['ShopProducts']["name"]["uploading_foto"]) {
 				$model->scenario = ShopProducts::SCENARIO_UPLOADING_FOTO;

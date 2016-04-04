@@ -31,7 +31,7 @@ class SiteController extends Controller
 	{
 		//$app = Yii::app();
 		//UrlHelper::checkChangeAuto($app);
-		$meta_info = Meta::getMetaInfo();
+		$meta_info = Meta::getMetaInfoControllerAction();
 		$this->render('index',array('meta_info'=>$meta_info));
 	}
 

@@ -312,8 +312,6 @@ class ShopCategoriesController extends Controller
 				}
 			}
 
-
-			
 		}	else	{
 			if($type_request != 0)
 				$this->redirect($this->createUrl('shopcategories/index'));
@@ -413,8 +411,9 @@ class ShopCategoriesController extends Controller
 				$related_types[$key]['url'] = $this->createUrl('shopcategories/show', $params);
 			}
 
-			//echo'<pre>';print_r($deliveries_list);echo'</pre>';//die;
-
+			// получаем инфу по мета тегам для комбинации категория - авто - группа товаров
+			$meta_info = Meta::getMetaInfoCategoryModel($url_params);
+			//echo'<pre>';print_r($meta_info);echo'</pre>';//die;
 
 			$data = array(
 				'app'=> $app,
@@ -446,7 +445,7 @@ class ShopCategoriesController extends Controller
 				'related_types' => $related_types,
 				'deliveries_list' => $deliveries_list,
 				'model_info_name' => $model_info_name,
-
+				'meta_info' => $meta_info,
 			);
 
 			$this->render('show', $data);

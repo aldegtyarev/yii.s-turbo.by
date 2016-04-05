@@ -152,17 +152,31 @@ class ShopCategoriesController extends Controller
 		
 		$model->cargo_type_old = $model->cargo_type;
 
+		$task = Yii::app()->request->getParam('task', '');
+
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
 		if(isset($_POST['ShopCategories']))	{
+
+			$model->attributes=$_POST['ShopCategories'];
+
+			if($task == 'update_price') {
+				$model->updatePricesInProducts();
+				$this->redirect(array('update','id'=>$id));
+			}	elseif($task == 'update_price_fake')	{
+				$model->updateFakePricesInProducts();
+				$this->redirect(array('update','id'=>$id));
+			}
+
+
 			if($_FILES['ShopCategories']["name"]["uploading_foto"]) {
 				$model->scenario = Pages::SCENARIO_UPLOADING_FOTO;
 				$model->removeFoto();
 				$model->uploading_foto = CUploadedFile::getInstance($model,'uploading_foto');
 			}			
 			
-			$model->attributes=$_POST['ShopCategories'];
+
 			$model->new_parentId = $_POST['ShopCategories']['parentId'];
 			$model->parent_id = $_POST['ShopCategories']['parentId'];
 			

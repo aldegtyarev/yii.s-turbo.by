@@ -129,11 +129,17 @@ class ShopProductsCategories extends CActiveRecord
 		}
 	}
 	
-	//получает ID товаров из выбранных категорий
-	public function getProductIdsInCategories($categories)
+
+	/**
+	 * получает ID товаров из выбранных категорий
+	 *
+	 * @param string $categories
+	 * @return string
+	 */
+	public function getProductIdsInCategories($categories = '')
 	{
 		$result = '-1';
-		if($categories)	{
+		if($categories != '')	{
 			$connection = Yii::app()->db;
 			
 			$sql = "SELECT distinct(`product_id`) FROM ".$this->tableName()." WHERE `category_id` IN ($categories) ";

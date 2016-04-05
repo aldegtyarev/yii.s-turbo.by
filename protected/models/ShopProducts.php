@@ -1650,9 +1650,12 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 	public function setMetaInfo($model_info = '')
 	{
 		$arr = array();
+		$arr[] = $this->product_name . $model_info;
+		$arr[] = $model_info;
+		if($this->product_sku != '') $arr[] = $this->getAttributeLabel('product_sku') . ': ' . $this->product_sku;
+		if($this->manufacturer_sku != '') $arr[] = $this->getAttributeLabel('manufacturer_sku') . ': ' . $this->manufacturer_sku;
 
-		//if($this->metatitle == '')
-			$this->metatitle = $this->product_name . $model_info;
+		$this->metatitle = implode(' ', $arr);
 
 		//if($this->metakey == '') {
 			$arr[] = $this->product_name . $model_info;
@@ -1670,6 +1673,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 			if(!empty($this->adjustment))  $arr[] = $this->getAttributeLabel('adjustment') . ': ' . $this->adjustment;
 			if(!empty($this->material))  $arr[] = $this->getAttributeLabel('material') . ': ' . $this->material;
 			if($this->product_sku != '') $arr[] = $this->getAttributeLabel('product_sku') . ': ' . $this->product_sku;
+			if($this->manufacturer_sku != '') $arr[] = $this->getAttributeLabel('manufacturer_sku') . ': ' . $this->manufacturer_sku;
 			if(!empty($this->product_s_desc))  $arr[] = $this->getAttributeLabel('product_s_desc') . ': ' . $this->product_s_desc;
 			if($this->product_desc != '') $arr[] = strip_tags($this->product_desc);
 			$this->metadesc = implode(' ', $arr);

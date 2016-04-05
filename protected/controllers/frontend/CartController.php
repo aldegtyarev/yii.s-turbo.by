@@ -48,9 +48,10 @@ class CartController extends Controller
 			
 			if($model->cart_model_info == '') {
 				$modelinfo = json_decode($app->session['autofilter.modelinfo_cart'], 1);
+				//echo'<pre>';print_r($modelinfo);echo'</pre>';die;
 				if(count($modelinfo)) {
 					$model_info_name = '';
-					foreach($modelinfo as $i) {
+					foreach($modelinfo as $k=>$i) {
 						//$model->cart_model_info .= $i['name'] . ' ';
 						if(isset($modelinfo[$k+1])) {
 							//бывает что часть названия попадает в двух частях, поэтому отлавливаем этот момент

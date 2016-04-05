@@ -34,6 +34,9 @@ class ShopCategories extends CActiveRecord
 	
 	public $SelectedCategory;
 	public $cargo_type_old;
+
+	public $update_price_value = 0;
+	public $fake_discount = 0;
 	
 	
 	/**
@@ -64,7 +67,7 @@ class ShopCategories extends CActiveRecord
 	{
 		return array(
 			array('name', 'required'),
-			array('root, lft, rgt, level, ordering, cat_column, currency_id, cargo_type, uni', 'numerical', 'integerOnly'=>true),
+			array('root, lft, rgt, level, ordering, cat_column, currency_id, cargo_type, uni, update_price_value, fake_discount', 'numerical', 'integerOnly'=>true),
 			array('name, name1, metatitle, alias, category_companies', 'length', 'max'=>255),
 			array('category_description, metakey, metadesc', 'length', 'max'=>7000),
 			array('alias','ext.LocoTranslitFilter','translitAttribute'=>'name'), 
@@ -112,6 +115,9 @@ class ShopCategories extends CActiveRecord
 			'currency_id' => 'Валюта по умолчанию',
 			'cargo_type' => 'Тип груза',
 			'uni' => 'Универсальная категория',
+			'update_price_value' => 'Изменить цену на товары в группе ("+" - изменятся основная цена; "-" - устанавливается скида на товар)',
+			'fake_discount' => 'Фейковая скидка',
+
 		);
 	}
 
@@ -722,5 +728,103 @@ class ShopCategories extends CActiveRecord
 		//echo'$rows<pre>';print_r(count($categories_urls));echo'</pre>';die;
 		return $categories_urls;
 	}
-	
+
+	/**
+	 * обновляет цены на товары в указанно группе товаров и ее дочерних группах
+	 * @return bool
+	 */
+	public function updatePricesInProducts()
+	{
+		$app = Yii::app();
+		$connection = $app->db;
+
+		$cat_ids = $this->getChildrensIds($this->id);
+		//echo'updatePricesInProducts <pre>';print_r($cat_ids);echo'</pre>';die;
+
+		$product_ids = ShopProductsCategories::model()->getProductIdsInCategories($cat_ids);
+		//echo'updatePricesInProducts<pre>';print_r($product_ids);echo'</pre>';die;
+
+
+		$where = array(' (`product_id` IN ('. $product_ids . ')) ');
+
+		if($this->update_price_value > 0) {
+			if($this->update_price_value == 100) {
+				// если выбрано воостановление исходной цены
+				$values = array(
+					' `product_price` = `product_price_default` ',
+					' `product_override_price` = 0 ',
+					' `override` = 0 ',
+					' `percent_discount` = 0',
+				);
+			}	else {
+				$values = array(
+					' `product_price` = (`product_price` + (`product_price` / 100 * ' . $this->update_price_value . ')) ',
+				);
+			}
+
+		}	elseif($this->update_price_value < 0)	{
+			$values = array(
+				' `product_override_price` = (`product_price` + (`product_price` / 100 * ' . $this->update_price_value . ')) ',
+				' `override` = 1 ',
+				' `percent_discount` = ' . $this->update_price_value,
+			);
+
+		}	else	{
+			$values = array(
+				' `product_override_price` = 0 ',
+				' `override` = 0 ',
+				' `percent_discount` = 0',
+			);
+		}
+
+		//echo'<pre>';print_r($values);echo'</pre>';//die;
+		//echo'<pre>';print_r($where);echo'</pre>';die;
+
+		$res = DBHelper::updateTbl($connection, ShopProducts::model()->tableName(), $values, $where);
+		return $res;
+	}
+
+	/**
+	 * добавляем к товарам фейковую скидку
+	 * @return bool
+	 */
+	public function updateFakePricesInProducts()
+	{
+		$app = Yii::app();
+		$connection = $app->db;
+
+		$cat_ids = $this->getChildrensIds($this->id);
+		//echo'updateFakePricesInProducts<pre>';print_r($cat_ids);echo'</pre>';die;
+
+		$product_ids = ShopProductsCategories::model()->getProductIdsInCategories($cat_ids);
+
+		//echo'updateFakePricesInProducts<pre>';print_r($product_ids);echo'</pre>';die;
+
+		$where = array(' (`product_id` IN ('. $product_ids . ')) ');
+
+		if($this->fake_discount < 0) {
+			$values = array(
+				' `product_override_price` = `product_price` ',
+				' `product_price` = (`product_price` - (`product_price` / 100 * ' . $this->fake_discount . ')) ',
+				' `override` = 1 ',
+				' `percent_discount` = ' . $this->fake_discount,
+			);
+		}	elseif($this->fake_discount == 0)	{
+			//если выбран откат скидки
+			$values = array(
+				' `product_price` = `product_override_price` ',
+				' `product_override_price` = 0 ',
+				' `override` = 0 ',
+				' `percent_discount` = 0',
+			);
+
+			$where[] = ' (product_override_price <> 0) ';
+
+		}	else	{
+			return false;
+		}
+
+		$res = DBHelper::updateTbl($connection, ShopProducts::model()->tableName(), $values, $where);
+		return $res;
+	}
 }

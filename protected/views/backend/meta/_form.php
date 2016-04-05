@@ -73,17 +73,17 @@
 
 	<div class="row">
 		<div class="col-lg-12">
-			<?php echo $form->labelEx($model,'metakey'); ?>
-			<?php echo $form->textField($model,'metakey',array('size'=>60,'maxlength'=>255)); ?>
-			<?php echo $form->error($model,'metakey'); ?>
+			<?php echo $form->labelEx($model,'metadesc'); ?>
+			<?php echo $form->textArea($model,'metadesc'); ?>
+			<?php echo $form->error($model,'metadesc'); ?>
 		</div>
 	</div>
 
 	<div class="row">
 		<div class="col-lg-12">
-			<?php echo $form->labelEx($model,'metadesc'); ?>
-			<?php echo $form->textArea($model,'metadesc'); ?>
-			<?php echo $form->error($model,'metadesc'); ?>
+			<?php echo $form->labelEx($model,'metakey'); ?>
+			<?php echo $form->textField($model,'metakey',array('size'=>60,'maxlength'=>255)); ?>
+			<?php echo $form->error($model,'metakey'); ?>
 		</div>
 	</div>
 

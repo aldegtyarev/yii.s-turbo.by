@@ -5,6 +5,7 @@ Disallow: /logs/
 Disallow: /protected/
 Disallow: /tmp/
 Disallow: /uploads/
+Disallow: *html?page
 
 Disallow: /elperro.ru/
 Disallow: /cgi-bin/
@@ -23,5 +24,17 @@ disallow: /
 
 User-agent: Yandex
 Crawl-delay: 2
+Disallow: /cache/
+Disallow: /framework/
+Disallow: /logs/
+Disallow: /protected/
+Disallow: /tmp/
+Disallow: /uploads/
+Disallow: *html?page
+
+Disallow: /elperro.ru/
+Disallow: /cgi-bin/
+Disallow: /9km.by/
+
 
 Sitemap: http://s-turbo.by/sitemap.xml

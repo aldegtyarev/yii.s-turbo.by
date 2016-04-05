@@ -44,7 +44,6 @@
             <excludedPath path="/index-test.php" />
             <excludedPath path="/index.php" />
             <excludedPath path="/order-err.log" />
-            <excludedPath path="/robots.txt" />
             <excludedPath path="/sitemap.xml" />
             <excludedPath path="/yandex_68c1bd58dd5319ee.txt" />
             <excludedPath path="/yandex_7020eeeead8c1ba4.html" />

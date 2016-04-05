@@ -173,6 +173,37 @@
 		<?php echo BsHtml::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить', array('color' => BsHtml::BUTTON_COLOR_PRIMARY, 'name'=>'save')); ?>
 		<?php echo BsHtml::submitButton('Применить', array('color' => BsHtml::BUTTON_COLOR_SUCCESS, 'name'=>'apply')); ?>
 	</div>
+
+
+	<div class="row">
+		<div class="col-lg-12">
+			<?php echo $form->labelEx($model,'update_price_value'); ?>
+			<div style="width: 150px;">
+				<?php echo $form->dropDownList($model, 'update_price_value', Yii::app()->params['price_change']); ?>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-lg-3">
+			<?php echo BsHtml::submitButton('Обновить цены', array('color' => BsHtml::BUTTON_COLOR_WARNING, 'name'=>'task', 'value'=>'update_price')); ?>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-lg-12">
+			<?php echo $form->labelEx($model,'fake_discount'); ?>
+			<div style="width: 150px;">
+				<?php echo $form->dropDownList($model, 'fake_discount', Yii::app()->params['price_change_fake']); ?>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-lg-3">
+			<?php echo BsHtml::submitButton('Обновить fake цены', array('color' => BsHtml::BUTTON_COLOR_WARNING, 'name'=>'task', 'value'=>'update_price_fake')); ?>
+		</div>
+	</div>
 	
 
 <?php $this->endWidget(); ?>

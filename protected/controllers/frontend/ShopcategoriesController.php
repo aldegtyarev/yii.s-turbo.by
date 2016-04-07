@@ -145,6 +145,7 @@ class ShopCategoriesController extends Controller
 		$cat_name = $category->name;
 		if($category->name1 != '') $category->name = $category->name1;
 
+
 		$model_info_name = '';
 		if(count($modelinfo)) {
 			if(count($modelinfo))	$model_info_name .= ' для';
@@ -161,8 +162,19 @@ class ShopCategoriesController extends Controller
 			}
 		}
 
-		$category->name .= $model_info_name;
-				
+		if($type_request > 0) $type_name = ShopProductTypes::model()->getProductTypeName($app, $type_request);
+			else $type_name = '';
+
+		if($type_name != '') {
+			$category->name = $type_name;
+			if($model_info_name != '') {
+				$category->name .= $model_info_name;
+				$category->metatitle = $category->metadesc = $category->metakey = $category->name . '  (купить в интернет магазине с доставкой)';
+			}
+		}	else	{
+			$category->name .= $model_info_name;
+		}
+
 		//если фильруем по какой-то модели - то получаем ИД этих моделей
 		$model_ids = ShopModelsAuto::model()->getModelIds($app, $selected_auto);
 		
@@ -364,7 +376,11 @@ class ShopCategoriesController extends Controller
 			$show_search_notice = true;
 		}
 
-        if ($showmore == 1){
+		// получаем инфу по мета тегам для комбинации категория - авто - группа товаров
+		$meta_info = Meta::getMetaInfoCategoryModel($url_params);
+		//echo'<pre>';print_r($type_request);echo'</pre>';//die;
+
+		if ($showmore == 1){
             $this->renderPartial('_loopAjax', array(
 				'app'=> $app,
                 'dataProvider'=>$dataProvider,
@@ -411,9 +427,7 @@ class ShopCategoriesController extends Controller
 				$related_types[$key]['url'] = $this->createUrl('shopcategories/show', $params);
 			}
 
-			// получаем инфу по мета тегам для комбинации категория - авто - группа товаров
-			$meta_info = Meta::getMetaInfoCategoryModel($url_params);
-			//echo'<pre>';print_r($meta_info);echo'</pre>';//die;
+
 
 			$data = array(
 				'app'=> $app,

@@ -50,7 +50,7 @@
 	<div class="row">
 		<div class="col-lg-12">
 			<?php echo $form->labelEx($model,'model_id'); ?>
-			<?php echo $form->dropDownList($model, 'model_id', ShopModelsAuto::model()->getDropDownlistItems()); ?>
+			<?php echo $form->dropDownList($model, 'model_id', array(0=>'Не указана') + ShopModelsAuto::model()->getDropDownlistItems()); ?>
 			<?php echo $form->error($model,'model_id'); ?>
 		</div>
 	</div>

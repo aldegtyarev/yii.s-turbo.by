@@ -145,11 +145,14 @@ class Meta extends CActiveRecord
 
 	/**
 	 * получает мета информацию по категории указанному авто и группе товаров
+	 *
 	 * @param $params
 	 * @return mixed
 	 */
 	public static function getMetaInfoCategoryModel($params)
 	{
+		//echo'<pre>';print_r($params);echo'</pre>';//die;
+
 		$app = Yii::app();
 
 		$cache_key = self::CACHE_META_INFO . $params['id'] . '_' . $params['year'];

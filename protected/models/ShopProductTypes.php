@@ -12,7 +12,8 @@
  */
 class ShopProductTypes extends CActiveRecord
 {
-	
+	const CACHE_PRODUCT_TYPE = 'product_type_';
+
 	public $dropDownListTree;
 	public $DropDownlistData;
 	public $parentId;
@@ -373,5 +374,28 @@ GROUP BY pr.`type_id` ORDER BY pt.root, pt.lft
 
 		$res = DBHelper::updateTbl($connection, ShopProducts::model()->tableName(), $values, $where);
 		return $res;
+	}
+
+	/**
+	 * возвращает название группы товаров
+	 *
+	 * @param mixed $app
+	 * @param int $type_id
+	 * @return string
+	 */
+	public function getProductTypeName($app, $type_id = 0)
+	{
+		$type_id = intval($type_id);
+
+		$cacheId = self::CACHE_PRODUCT_TYPE . $type_id;
+		$name = $app->cache->get($cacheId);
+		if($name === false)	{
+			$connection = $app->db;
+			$sql = "SELECT `name` FROM " . self::tableName() . " WHERE `type_id` = " . $type_id;
+			$command = $connection->createCommand($sql);
+			$name = $command->queryScalar();
+			$app->cache->set($cacheId, $name, $app->params['cache_duration']);
+		}
+		return $name;
 	}
 }

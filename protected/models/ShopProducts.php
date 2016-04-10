@@ -1650,10 +1650,10 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 	public function setMetaInfo($model_info = '')
 	{
 		$arr = array();
-		$arr[] = $this->product_name . $model_info;
+		$arr[] = $this->product_name;
 		$arr[] = $model_info;
-		if($this->product_sku != '') $arr[] = $this->getAttributeLabel('product_sku') . ': ' . $this->product_sku;
-		if($this->manufacturer_sku != '') $arr[] = $this->getAttributeLabel('manufacturer_sku') . ': ' . $this->manufacturer_sku;
+		if($this->product_sku != '') $arr[] = $this->product_sku;
+		if($this->manufacturer_sku != '') $arr[] = $this->manufacturer_sku;
 
 		$this->metatitle = implode(' ', $arr);
 

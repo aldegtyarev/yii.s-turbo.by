@@ -165,15 +165,22 @@ class ShopCategoriesController extends Controller
 		if($type_request > 0) $type_name = ShopProductTypes::model()->getProductTypeName($app, $type_request);
 			else $type_name = '';
 
+		//echo'<pre>';print_r($type_name);echo'</pre>';//die;
+
 		if($type_name != '') {
 			$category->name = $type_name;
 			if($model_info_name != '') {
 				$category->name .= $model_info_name;
-				$category->metatitle = $category->metadesc = $category->metakey = $category->name . '  (купить в интернет магазине с доставкой)';
+				$category->metatitle = $category->metadesc = $category->metakey = $category->name . '  купить в интернет магазине с доставкой';
 			}
+
+			$cat_name = $category->name;
 		}	else	{
 			$category->name .= $model_info_name;
 		}
+
+		//echo $category->metatitle;
+		//echo'<pre>';print_r($category->name);echo'</pre>';//die;
 
 		//если фильруем по какой-то модели - то получаем ИД этих моделей
 		$model_ids = ShopModelsAuto::model()->getModelIds($app, $selected_auto);
@@ -358,6 +365,7 @@ class ShopCategoriesController extends Controller
 		$model_auto_selected = false;
 
 		//echo'<pre>';var_dump($is_universal_products);echo'</pre>';//die;
+		//echo'<pre>';print_r($category->name);echo'</pre>';//die;
 		
 		// если не выбрана марка модель год то выводим уведомление
 		if($select_marka != -1 && $select_model != -1 && $select_year != -1) {
@@ -378,7 +386,18 @@ class ShopCategoriesController extends Controller
 
 		// получаем инфу по мета тегам для комбинации категория - авто - группа товаров
 		$meta_info = Meta::getMetaInfoCategoryModel($url_params);
-		//echo'<pre>';print_r($type_request);echo'</pre>';//die;
+		//
+		//echo'<pre>';print_r($meta_info);echo'</pre>';//die;
+		$show_category_descr = false;
+		if(!is_null($meta_info) || $meta_info !== false) {
+			if($meta_info->metatitle != '') $category->metatitle = $meta_info->metatitle;
+			if($meta_info->metakey != '') $category->metakey = $meta_info->metakey;
+			if($meta_info->metadesc != '') $category->metadesc = $meta_info->metadesc;
+			if($meta_info->descr != '') {
+				$category->category_description = $meta_info->descr;
+				$show_category_descr = true;
+			}
+		}
 
 		if ($showmore == 1){
             $this->renderPartial('_loopAjax', array(
@@ -459,7 +478,8 @@ class ShopCategoriesController extends Controller
 				'related_types' => $related_types,
 				'deliveries_list' => $deliveries_list,
 				'model_info_name' => $model_info_name,
-				'meta_info' => $meta_info,
+				//'meta_info' => $meta_info,
+				'show_category_descr' => $show_category_descr,
 			);
 
 			$this->render('show', $data);

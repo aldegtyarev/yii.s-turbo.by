@@ -94,8 +94,12 @@ class MetaController extends Controller
 		if(isset($_POST['Meta']))
 		{
 			$model->attributes=$_POST['Meta'];
+
+			$task = Yii::app()->request->getParam('task', 'save');
+
 			if($model->save()) {
-				$this->redirect(array('admin'));
+				if($task == 'save') $this->redirect(array('admin'));
+					else $this->redirect(array('update', 'id'=>$model->id));
 			}
 		}
 

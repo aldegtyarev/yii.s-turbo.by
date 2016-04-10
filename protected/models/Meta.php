@@ -13,6 +13,7 @@
  * @property string $metatitle
  * @property string $metakey
  * @property string $metadesc
+ * @property string $descr
  */
 class Meta extends CActiveRecord
 {
@@ -26,6 +27,20 @@ class Meta extends CActiveRecord
 		return '{{meta}}';
 	}
 
+	/*
+	public function behaviors()
+	{
+		return array(
+			'CTimestampBehavior' => array(
+				'class' => 'zii.behaviors.CTimestampBehavior',
+				'createAttribute' => 'created',
+				'updateAttribute' => 'modified',
+			)
+		);
+	}
+	*/
+
+
 	/**
 	 * @return array validation rules for model attributes.
 	 */
@@ -35,10 +50,11 @@ class Meta extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('name, metatitle, metakey, metadesc', 'required'),
-			array('name', 'length', 'max'=>64),
-			array('category_id, model_id, type_id', 'numerical', 'integerOnly'=>true),
+			array('name', 'length', 'max'=>255),
+			array('category_id, model_id, type_id, published', 'numerical', 'integerOnly'=>true),
 			array('cntr_act, metatitle, metakey', 'length', 'max'=>255),
 			array('metadesc', 'length', 'max'=>1024),
+			array('descr', 'length', 'max'=>2048),
 			array('id, name, cntr_act, metatitle, metakey, metadesc', 'safe', 'on'=>'search'),
 		);
 	}
@@ -62,6 +78,7 @@ class Meta extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'name' => 'Name',
+			'published' => 'Опубликовано',
 			'cntr_act' => 'Controller/Action',
 			'category_id' => 'Категория',
 			'model_id' => 'Модель',
@@ -69,6 +86,7 @@ class Meta extends CActiveRecord
 			'metatitle' => 'Title',
 			'metakey' => 'Keywords',
 			'metadesc' => 'Description',
+			'descr' => 'SEO текст',
 		);
 	}
 
@@ -104,10 +122,32 @@ class Meta extends CActiveRecord
 	protected function afterSave() {
 		parent::afterSave();
 
-		$arr = explode('/', $this->cntr_act);
-		$controller = $arr[0];
-		$action = $arr[1];
-		$cache_key = self::CACHE_META_INFO . $action . '_' . $controller;
+		if($this->cntr_act != '') {
+			$arr = explode('/', $this->cntr_act);
+			$controller = $arr[0];
+			$action = $arr[1];
+			$cache_key = self::CACHE_META_INFO . $action . '_' . $controller;
+		}	else	{
+			$cache_key = self::CACHE_META_INFO;
+			$cache_key_arr = array();
+
+			//$cache_key = self::CACHE_META_INFO . $params['id'] . '_' . $params['year'];
+			//if(!is_null($params['type'])) $cache_key .=  '_' . $params['type'];
+
+			if($this->category_id != 0) $cache_key_arr[] = $this->category_id;
+				else $cache_key_arr[] = 0;
+
+			if($this->model_id != 0) $cache_key_arr[] = $this->model_id;
+				else $cache_key_arr[] = 0;
+
+			if($this->type_id != 0) $cache_key_arr[] = $this->type_id;
+				else $cache_key_arr[] = 0;
+
+			if(count($cache_key_arr) != 0) $cache_key .= implode('_', $cache_key_arr);
+		}
+
+		//echo'<pre>';var_dump($cache_key);echo'</pre>';die;
+
 		Yii::app()->cache->set($cache_key, false);
 	}
 
@@ -155,14 +195,14 @@ class Meta extends CActiveRecord
 
 		$app = Yii::app();
 
-		$cache_key = self::CACHE_META_INFO . $params['id'] . '_' . $params['year'];
-		if(!is_null($params['type'])) $cache_key .=  '_' . $params['type'];
+		$cache_key = self::buildCacheKey($params);
+		//echo'<pre>';var_dump($cache_key);echo'</pre>';//die;
 
 		//ищем такую модель в кеше
 		$model = $app->cache->get($cache_key);
 
 		if($model === false)	{
-			$condition_arr = array();
+			$condition_arr = array('published = 1');
 			$params_arr = array();
 
 			if(!is_null($params['id'])) {
@@ -187,5 +227,22 @@ class Meta extends CActiveRecord
 		}
 
 		return $model;
+	}
+
+	public static function buildCacheKey($params = array())
+	{
+		//$cache_key = self::CACHE_META_INFO . $params['id'] . '_' . $params['year'];
+		$cache_key = self::CACHE_META_INFO;
+		$cache_key_arr = array();
+		if(!is_null($params['id'])) $cache_key_arr[] = $params['id'];
+			else $cache_key_arr[] = 0;
+
+		if(!is_null($params['year'])) $cache_key_arr[] = $params['year'];
+			else $cache_key_arr[] = 0;
+
+		if(!is_null($params['type'])) $cache_key_arr[] = $params['type'];
+			else $cache_key_arr[] = 0;
+
+		return $cache_key . implode('_', $cache_key_arr);
 	}
 }

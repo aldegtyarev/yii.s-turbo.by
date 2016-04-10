@@ -28,7 +28,7 @@
     <favorites_list name="yii.s-turbo.by" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="Git.Settings">
     <option name="ROOT_SYNC" value="DONT_SYNC" />
@@ -39,10 +39,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/protected/models/ShopModelsAuto.php" />
-        <option value="$PROJECT_DIR$/protected/models/ProductsModelsDisabled.php" />
-        <option value="$PROJECT_DIR$/protected/models/ShopCategoriesRelationsModels.php" />
-        <option value="$PROJECT_DIR$/protected/models/ShopProductTypesRelationsModels.php" />
         <option value="$PROJECT_DIR$/protected/views/backend/shopproducttypes/related-form.php" />
         <option value="$PROJECT_DIR$/protected/views/backend/shopproducttypes/_form.php" />
         <option value="$PROJECT_DIR$/protected/views/backend/shopcategories/related-form.php" />
@@ -59,37 +55,41 @@
         <option value="$PROJECT_DIR$/sass/_search-auto-block.scss" />
         <option value="$PROJECT_DIR$/protected/views/frontend/shopcategories/_loopAjax.php" />
         <option value="$PROJECT_DIR$/protected/views/frontend/shopcategories/_loop.php" />
-        <option value="$PROJECT_DIR$/sass/_common.scss" />
         <option value="$PROJECT_DIR$/protected/views/frontend/shopproducts/delivery.php" />
         <option value="$PROJECT_DIR$/protected/views/frontend/common/_view-product-list-item-row.php" />
-        <option value="$PROJECT_DIR$/protected/controllers/frontend/ShopproductsController.php" />
         <option value="$PROJECT_DIR$/protected/views/frontend/shopproducts/view.php" />
         <option value="$PROJECT_DIR$/protected/views/frontend/layouts/main.php" />
         <option value="$PROJECT_DIR$/protected/config/main.php" />
         <option value="$PROJECT_DIR$/protected/config/frontend.php" />
         <option value="$PROJECT_DIR$/protected/views/backend/layouts/main.php" />
         <option value="$PROJECT_DIR$/protected/views/backend/meta/create.php" />
-        <option value="$PROJECT_DIR$/protected/views/backend/meta/update.php" />
         <option value="$PROJECT_DIR$/protected/views/frontend/site/index.php" />
-        <option value="$PROJECT_DIR$/protected/controllers/backend/MetaController.php" />
         <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/js/scripts.js" />
         <option value="$PROJECT_DIR$/protected/controllers/backend/ShopproductsController.php" />
-        <option value="$PROJECT_DIR$/protected/views/backend/meta/admin.php" />
         <option value="$PROJECT_DIR$/protected/controllers/frontend/SiteController.php" />
-        <option value="$PROJECT_DIR$/protected/views/frontend/shopcategories/show.php" />
         <option value="$PROJECT_DIR$/protected/helpers/MetaHelper.php" />
         <option value="$PROJECT_DIR$/protected/views/backend/shopcategories/_form.php" />
         <option value="$PROJECT_DIR$/protected/models/ShopProductsCategories.php" />
         <option value="$PROJECT_DIR$/protected/controllers/backend/ShopcategoriesController.php" />
         <option value="$PROJECT_DIR$/protected/models/ShopCategories.php" />
         <option value="$PROJECT_DIR$/robots.txt" />
-        <option value="$PROJECT_DIR$/protected/models/ShopProducts.php" />
         <option value="$PROJECT_DIR$/protected/controllers/frontend/CartController.php" />
         <option value="$PROJECT_DIR$/protected/models/ShopProductTypes.php" />
+        <option value="$PROJECT_DIR$/protected/controllers/frontend/ShopproductsController.php" />
+        <option value="$PROJECT_DIR$/protected/models/ShopProducts.php" />
         <option value="$PROJECT_DIR$/protected/controllers/frontend/ShopcategoriesController.php" />
+        <option value="$PROJECT_DIR$/protected/views/frontend/shopcategories/show.php" />
+        <option value="$PROJECT_DIR$/protected/views/backend/meta/admin.php" />
         <option value="$PROJECT_DIR$/protected/views/backend/meta/_form.php" />
+        <option value="$PROJECT_DIR$/protected/controllers/backend/MetaController.php" />
+        <option value="$PROJECT_DIR$/protected/views/backend/meta/update.php" />
         <option value="$PROJECT_DIR$/protected/models/Meta.php" />
+        <option value="$PROJECT_DIR$/sass/_common.scss" />
+        <option value="$PROJECT_DIR$/js/scripts.js" />
+        <option value="$PROJECT_DIR$/protected/views/backend/orders/admin.php" />
+        <option value="$PROJECT_DIR$/protected/views/backend/orders/view.php" />
+        <option value="$PROJECT_DIR$/protected/controllers/backend/OrdersController.php" />
+        <option value="$PROJECT_DIR$/protected/models/Orders.php" />
       </list>
     </option>
   </component>
@@ -103,10 +103,9 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
-    <option name="width" value="1932" />
-    <option name="height" value="1056" />
+    <option name="x" value="-7" />
+    <option name="width" value="1924" />
+    <option name="height" value="1047" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -159,10 +158,11 @@
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="968" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/.ftpquota" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Alexius\Documents\GitHub\yii.s-turbo.by\protected\views\backend\orders" />
       <recent name="C:\Users\Alexius\Documents\GitHub\yii.s-turbo.by\protected\models" />
     </key>
   </component>
@@ -210,7 +210,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1932" height="1056" extended-state="0" />
+    <frame x="-7" y="0" width="1924" height="1047" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15438034" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -218,7 +218,6 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5042644" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32959402" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="File Transfer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.49573562" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18923241" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -227,6 +226,7 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="File Transfer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32932165" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29252437" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -273,115 +273,10 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/sass/_search-auto-block.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8201439">
-          <caret line="251" column="17" selection-start-line="251" selection-start-column="17" selection-end-line="251" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protected/views/frontend/shopcategories/_loop.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.557377">
-          <caret line="16" column="21" selection-start-line="16" selection-start-column="21" selection-end-line="16" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protected/views/frontend/shopcategories/_loopAjax.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.147541">
-          <caret line="15" column="21" selection-start-line="15" selection-start-column="21" selection-end-line="15" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sass/_products-list.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.06349207">
-          <caret line="327" column="19" selection-start-line="327" selection-start-column="4" selection-end-line="327" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sass/_productdetails.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.7352941">
-          <caret line="428" column="20" selection-start-line="428" selection-start-column="20" selection-end-line="428" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sass/_common.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.2647057">
-          <caret line="571" column="10" selection-start-line="571" selection-start-column="10" selection-end-line="571" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/css/screen.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="356.29413">
-          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protected/views/frontend/shopproducts/delivery.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-24.180328">
-          <caret line="59" column="6" selection-start-line="59" selection-start-column="6" selection-end-line="59" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protected/views/frontend/common/_view-product-list-item-row.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.9344263">
-          <caret line="106" column="51" selection-start-line="106" selection-start-column="34" selection-end-line="106" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://F:/projects/mirtov.com/framework/web/CClientScript.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.0011614402">
-          <caret line="352" column="41" selection-start-line="352" selection-start-column="41" selection-end-line="352" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protected/views/frontend/pages/view.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.43554008">
-          <caret line="15" column="35" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protected/views/frontend/layouts/main.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-36.213116">
-          <caret line="164" column="0" selection-start-line="164" selection-start-column="0" selection-end-line="164" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protected/config/main.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.764706">
-          <caret line="47" column="65" selection-start-line="47" selection-start-column="65" selection-end-line="47" selection-end-column="65" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protected/config/frontend.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.352941">
-          <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/protected/views/backend/layouts/main.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.65156794">
           <caret line="104" column="75" selection-start-line="104" selection-start-column="75" selection-end-line="104" selection-end-column="75" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protected/views/backend/meta/create.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.558824">
-          <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -396,13 +291,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.76771194">
           <caret line="44" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protected/views/backend/meta/update.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.49361208">
-          <caret line="17" column="42" selection-start-line="17" selection-start-column="42" selection-end-line="17" selection-end-column="42" />
         </state>
       </provider>
     </entry>
@@ -434,13 +322,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/protected/controllers/backend/MetaController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-39.754097">
-          <caret line="97" column="0" selection-start-line="97" selection-start-column="0" selection-end-line="97" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.7983871">
@@ -448,40 +329,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/scripts.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="419" column="12" selection-start-line="419" selection-start-column="12" selection-end-line="419" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protected/controllers/backend/ShopproductsController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.87410074">
-          <caret line="119" column="23" selection-start-line="119" selection-start-column="23" selection-end-line="119" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protected/views/backend/shopproducts/_form.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.58072007">
-          <caret line="287" column="56" selection-start-line="287" selection-start-column="56" selection-end-line="287" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/protected/models/ShopModelsAuto.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-18.382353">
           <caret line="25" column="20" selection-start-line="25" selection-start-column="6" selection-end-line="25" selection-end-column="20" />
-          <folding>
-            <marker date="1458453597871" expanded="true" signature="13571:13635" placeholder="SELECT `id`,... ${$this-&gt;tableName()}" />
-            <marker date="1458453597871" expanded="true" signature="13945:14147" placeholder="SELECT DISTI... " />
-            <marker date="1458453597871" expanded="true" signature="14825:14920" placeholder="SELECT 'mark... ${$this-&gt;tableName()}" />
-            <marker date="1458453597871" expanded="true" signature="14825:15149" placeholder="SELECT 'mark... " />
-            <marker date="1458453597871" expanded="true" signature="14940:15035" placeholder="SELECT 'mode... ${$this-&gt;tableName()}" />
-            <marker date="1458453597871" expanded="true" signature="15055:15149" placeholder="SELECT 'year... ${$this-&gt;tableName()}" />
-            <marker date="1458453597871" expanded="true" signature="15407:15462" placeholder="SELECT `name... ${$this-&gt;tableName()}" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -489,13 +340,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-8.088235">
           <caret line="77" column="25" selection-start-line="77" selection-start-column="25" selection-end-line="77" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protected/views/backend/meta/admin.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3612079">
-          <caret line="24" column="10" selection-start-line="24" selection-start-column="10" selection-end-line="24" selection-end-column="10" />
         </state>
       </provider>
     </entry>
@@ -524,20 +368,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.32288036">
           <caret line="138" column="20" selection-start-line="138" selection-start-column="20" selection-end-line="138" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protected/models/ShopCategories.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5644599">
-          <caret line="800" column="10" selection-start-line="800" selection-start-column="10" selection-end-line="800" selection-end-column="10" />
-          <folding>
-            <marker date="1459885668309" expanded="true" signature="17633:17697" placeholder="SELECT `id`,... ${$this-&gt;tableName()}" />
-            <marker date="1459885668309" expanded="true" signature="18101:18371" placeholder="SELECT DISTI... " />
-            <marker date="1459885668309" expanded="true" signature="18539:18602" placeholder="SELECT `curr... ${$this-&gt;tableName()}" />
-            <marker date="1459885668309" expanded="true" signature="19626:19701" placeholder="SELECT `id`,... " />
-            <marker date="1459885668309" expanded="true" signature="19886:19969" placeholder="SELECT `prod... " />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -573,7 +403,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="132.35294">
           <caret line="18" column="30" selection-start-line="18" selection-start-column="30" selection-end-line="18" selection-end-column="30" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -584,38 +413,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/protected/controllers/frontend/ShopproductsController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-19.205883">
-          <caret line="56" column="0" selection-start-line="56" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protected/models/ShopProducts.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.7352943">
-          <caret line="1659" column="36" selection-start-line="1659" selection-start-column="36" selection-end-line="1659" selection-end-column="36" />
-          <folding>
-            <element signature="n#search#0;n#ShopProducts#0;n#!!top" expanded="false" />
-            <element signature="n#create_watermark#0;n#ShopProducts#0;n#!!top" expanded="false" />
-            <marker date="1459886574304" expanded="true" signature="48123:48263" placeholder="SELECT `prod... " />
-            <marker date="1459886574304" expanded="true" signature="51725:51808" placeholder="SELECT `prod... " />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protected/controllers/frontend/CartController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4436451">
-          <caret line="53" column="48" selection-start-line="53" selection-start-column="48" selection-end-line="53" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/protected/controllers/frontend/PagesController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.5359712">
           <caret line="241" column="0" selection-start-line="235" selection-start-column="0" selection-end-line="241" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -623,51 +424,223 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.5503597">
           <caret line="390" column="36" selection-start-line="390" selection-start-column="36" selection-end-line="390" selection-end-column="36" />
-          <folding>
-            <marker date="1460055681150" expanded="true" signature="6491:6824" placeholder="SELECT pr.`t... " />
-            <marker date="1460055681150" expanded="true" signature="10326:10389" placeholder="SELECT `name... ${self::tableName()}" />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/protected/views/frontend/shopcategories/show.php">
+    <entry file="file://$PROJECT_DIR$/protected/controllers/frontend/ShopproductsController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.147059">
-          <caret line="10" column="20" selection-start-line="10" selection-start-column="20" selection-end-line="10" selection-end-column="20" />
-          <folding />
+        <state vertical-scroll-proportion="-10.245902">
+          <caret line="146" column="22" selection-start-line="146" selection-start-column="22" selection-end-line="146" selection-end-column="22" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/protected/views/backend/meta/_form.php">
+    <entry file="file://$PROJECT_DIR$/protected/models/ShopCategories.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7921022">
-          <caret line="52" column="69" selection-start-line="52" selection-start-column="69" selection-end-line="52" selection-end-column="69" />
-          <folding>
-            <marker date="1460056792666" expanded="true" signature="1842:1905" placeholder="..." />
-            <marker date="1460056792666" expanded="true" signature="1868:1905" placeholder="..." />
-            <marker date="1460056792666" expanded="true" signature="2113:2176" placeholder="..." />
-            <marker date="1460056792666" expanded="true" signature="2139:2176" placeholder="..." />
-            <marker date="1460056792666" expanded="true" signature="2370:2433" placeholder="..." />
-            <marker date="1460056792666" expanded="true" signature="2396:2433" placeholder="..." />
-            <marker date="1460056792666" expanded="true" signature="2588:2651" placeholder="..." />
-            <marker date="1460056792666" expanded="true" signature="2614:2651" placeholder="..." />
-            <marker date="1460056792666" expanded="true" signature="2854:2911" placeholder="..." />
-          </folding>
+        <state vertical-scroll-proportion="-15.8529415">
+          <caret line="113" column="33" selection-start-line="113" selection-start-column="13" selection-end-line="113" selection-end-column="33" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/protected/controllers/frontend/ShopcategoriesController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-14.764706">
-          <caret line="379" column="43" selection-start-line="379" selection-start-column="43" selection-end-line="379" selection-end-column="43" />
-          <folding />
+        <state vertical-scroll-proportion="-16.147058">
+          <caret line="480" column="18" selection-start-line="480" selection-start-column="18" selection-end-line="480" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/views/frontend/shopcategories/show.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-9.238095">
+          <caret line="192" column="44" selection-start-line="192" selection-start-column="44" selection-end-line="192" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/views/backend/categories/_form.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.1904762">
+          <caret line="62" column="0" selection-start-line="59" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/models/Pages.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.49361208">
+          <caret line="47" column="0" selection-start-line="37" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/views/backend/shopproducts/_form.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.45072114">
+          <caret line="565" column="125" selection-start-line="565" selection-start-column="12" selection-end-line="565" selection-end-column="125" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/views/backend/meta/_form.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.70023984">
+          <caret line="119" column="14" selection-start-line="119" selection-start-column="14" selection-end-line="119" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/controllers/backend/ShopproductsController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.18350755">
+          <caret line="79" column="25" selection-start-line="79" selection-start-column="15" selection-end-line="79" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/controllers/backend/MetaController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7793765">
+          <caret line="101" column="69" selection-start-line="101" selection-start-column="69" selection-end-line="101" selection-end-column="69" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/views/backend/meta/admin.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.40069687">
+          <caret line="24" column="18" selection-start-line="24" selection-start-column="18" selection-end-line="24" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/views/backend/meta/create.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.34843206">
+          <caret line="12" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/views/backend/meta/update.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.34843206">
+          <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/protected/models/Meta.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.78164923">
-          <caret line="182" column="39" selection-start-line="182" selection-start-column="39" selection-end-line="182" selection-end-column="39" />
+        <state vertical-scroll-proportion="0.8629501">
+          <caret line="148" column="10" selection-start-line="148" selection-start-column="10" selection-end-line="148" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sass/_common.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.117647">
+          <caret line="316" column="18" selection-start-line="316" selection-start-column="18" selection-end-line="316" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/screen.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="352.61765">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/scripts.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="32" column="11" selection-start-line="32" selection-start-column="11" selection-end-line="32" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/models/ShopProducts.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-13.323529">
+          <caret line="411" column="26" selection-start-line="411" selection-start-column="12" selection-end-line="411" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/views/backend/orders/admin.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.088235">
+          <caret line="48" column="32" selection-start-line="48" selection-start-column="32" selection-end-line="48" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/models/CheckoutFizForm.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.2285714">
+          <caret line="43" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/controllers/frontend/CartController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="9.914286">
+          <caret line="347" column="32" selection-start-line="347" selection-start-column="32" selection-end-line="347" selection-end-column="32" />
+          <folding>
+            <element signature="n#actionOrderdone#0;n#CartController#0;n#!!top" expanded="false" />
+            <element signature="n#checkoutFiz#0;n#CartController#0;n#!!top" expanded="false" />
+            <marker date="1459887115514" expanded="true" signature="452:464" placeholder="..." />
+            <marker date="1459887115514" expanded="true" signature="674:686" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/models/CheckoutUrForm.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.8285714">
+          <caret line="64" column="0" selection-start-line="51" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/controllers/backend/OrdersController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.6">
+          <caret line="56" column="33" selection-start-line="56" selection-start-column="25" selection-end-line="56" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/views/backend/orders/view.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="20" column="61" selection-start-line="20" selection-start-column="61" selection-end-line="20" selection-end-column="61" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/views/backend/orders/view-fiz.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="24" column="24" selection-start-line="24" selection-start-column="24" selection-end-line="24" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/models/Orders.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="38" column="27" selection-start-line="38" selection-start-column="27" selection-end-line="38" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/config/main.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="204" column="14" selection-start-line="204" selection-start-column="14" selection-end-line="204" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/config/backend.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/config/frontend.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7714286">
+          <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
           <folding />
         </state>
       </provider>

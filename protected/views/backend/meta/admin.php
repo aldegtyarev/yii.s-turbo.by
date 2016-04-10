@@ -22,7 +22,7 @@ $this->menu=array(
 	'columns'=>array(
 		'id',
 		'name',
-		//'cntr_act',
+		'published',
 		array(
 			'class' => 'CButtonColumn',
 			'template' => '{update}&nbsp;{delete}',

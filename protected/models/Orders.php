@@ -6,7 +6,11 @@
  * The followings are the available columns in table '{{orders}}':
  * @property integer $id
  * @property integer $created
- * @property string $summ
+ * @property string $summ_usd
+ * @property string $summ_byr
+ * @property string $delivery_id
+ * @property string $delivery_quick
+ * @property string $payment_id
  * @property string $customer
  *
  * The followings are the available model relations:
@@ -16,6 +20,40 @@ class Orders extends CActiveRecord
 {
 	const CUSTOMER_TYPE_FIZ = 1;
 	const CUSTOMER_TYPE_UR = 2;
+
+    public $customer_info;
+
+    public $type;
+
+
+    public $fio;
+    public $town;
+    public $address1;
+    public $address2;
+    public $address3;
+    public $phone1;
+    public $phone2;
+    public $email;
+    public $comment;
+
+    private $_deliveryName;
+
+    // юр.лицо
+    public $name_ur;
+    public $address_ur;
+    public $unp;
+    public $okpo;
+    public $r_schet;
+    public $bank_name;
+    public $bank_address;
+    public $bank_code;
+    public $fio_director;
+    public $na_osnovanii;
+    public $doverennost_text;
+    public $svidetelstvo_text;
+    public $phone1_ur;
+
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -37,8 +75,7 @@ class Orders extends CActiveRecord
 			array('summ_usd, summ_byr', 'length', 'max'=>10),
 			array('customer', 'length', 'max'=>10000),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
-			array('id, created, summ, customer', 'safe', 'on'=>'search'),
+			array('id, created, summ_usd, summ_byr, customer', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -65,6 +102,32 @@ class Orders extends CActiveRecord
 			'summ_usd' => 'Summ USD',
 			'summ_byr' => 'Summ BYR',
 			'customer' => 'Customer',
+
+            'name_ur'=>'Название организации',
+            'address_ur'=>'Юридический адрес',
+            'unp'=>'УНП',
+            'okpo'=>'ОКПО',
+            'r_schet'=>'Расчетный счет',
+            'bank_name'=>'Название банка',
+            'bank_address'=>'Адрес банка',
+            'bank_code'=>'Код банка',
+            'fio_director'=>'ФИО руководителя',
+            'na_osnovanii'=>'Работает на основании',
+            'doverennost_text'=>'№, от даты, кому выдана и пр.',
+            'svidetelstvo_text'=>'когда и кем выдано',
+            'phone1_ur'=>'Телефон / факс',
+
+            'fio'=>'Фамилия, Имя',
+            'town'=>'Город / населенный пункт',
+            'address1'=>'Улица',
+            'address2'=>'Дом',
+            'address3'=>'Квартира',
+            'phone1'=>'Моб. телефон',
+            'phone2'=>'Доп. телефон',
+            'email'=>'E-mail',
+            'comment'=>'Комментарий к заказу',
+
+
 		);
 	}
 
@@ -82,9 +145,10 @@ class Orders extends CActiveRecord
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
 		$criteria=new CDbCriteria;
+
+        $sort = new CSort();
+        $sort->defaultOrder = '`id` DESC'; // устанавливаем сортировку по умолчанию
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('created',$this->created);
@@ -94,6 +158,7 @@ class Orders extends CActiveRecord
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+            'sort'=>$sort,
 		));
 	}
 
@@ -107,4 +172,16 @@ class Orders extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    /**
+     * загружает информацию о пакупателе
+     */
+    public function loadCustomerInfo()
+    {
+        $customer_info = json_decode($this->customer, 1);
+        foreach ($customer_info as $fld=>$item) {
+            $this->$fld = $item;
+        }
+        
+    }
 }

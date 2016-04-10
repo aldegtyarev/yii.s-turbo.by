@@ -14,10 +14,12 @@ if ($engineTitle != null) {
 //echo'<pre>';print_r($meta_info->metatitle);echo'</pre>';//die;
 
 $this->pageTitle = $title;
+/*
 if(is_null($meta_info) || $meta_info == false) MetaHelper::setMeta($this, $category);
 	else MetaHelper::setMeta($this, $meta_info);
+*/
 
-//MetaHelper::setMeta($this, $category);
+MetaHelper::setMeta($this, $category);
 
 $images_live_url = substr($app->params->images_live_url, 0, -1);	// на таких страницах нужно удалить последний слэш
 
@@ -186,9 +188,9 @@ if($select_engine == true && $show_search_notice == false)	{
 
 
 
-<?php if($category->category_description && $model_auto_selected == false) { ?>
+<?php if($category->category_description && ($model_auto_selected == false || $show_category_descr == true)) { ?>
 	<div class="category-description clearfix">
-		<?= $category->category_description?>
+		<?= $category->category_description ?>
 	</div>
 <?php } ?>
 

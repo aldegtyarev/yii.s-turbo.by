@@ -4,7 +4,13 @@
 /* @var $form CActiveForm */
 
 
-//echo'<pre>';print_r(ShopProductTypes::model()->getDropDownlistItems());echo'</pre>';
+//echo'<pre>';print_r($model->attributes);echo'</pre>';die;
+$cs = Yii::app()->clientScript;
+
+$cs->registerScript('loading', "
+	$('#Meta_published').bootstrapSwitch();
+");
+
 
 ?>
 
@@ -28,6 +34,13 @@
 			<?php echo $form->labelEx($model,'name'); ?>
 			<?php echo $form->textField($model,'name',array('size'=>60,'maxlength'=>64)); ?>
 			<?php echo $form->error($model,'name'); ?>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-lg-12">
+			<?php echo $form->checkBoxControlGroup($model, 'published'); ?>
+			<?php echo $form->error($model,'published'); ?>
 		</div>
 	</div>
 
@@ -87,8 +100,24 @@
 		</div>
 	</div>
 
+	<div class="row">
+		<div class="col-lg-12">
+			<?php echo $form->labelEx($model,'descr'); ?>
+			<?php $this->widget('application.extensions.ckeditor.ECKEditor', array(
+				'model'=>$model,
+				'attribute'=>'descr',
+				'language'=>'ru',
+				'editorTemplate'=>'full',
+				'height'=>'400px',
+			)); ?>
+
+			<?php echo $form->error($model,'descr'); ?>
+		</div>
+	</div>
+
 	<div class="form-group buttons">
-		<?php echo BsHtml::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить', array('color' => BsHtml::BUTTON_COLOR_PRIMARY, 'name'=>'save')); ?>
+		<?php echo BsHtml::submitButton($model->isNewRecord ? 'Создать и выйти' : 'Сохранить и выйти', array('color' => BsHtml::BUTTON_COLOR_PRIMARY, 'name'=>'task', 'value'=>'save')); ?>
+		<?php echo BsHtml::submitButton('Применить', array('color' => BsHtml::BUTTON_COLOR_SUCCESS, 'name'=>'task', 'value'=>'apply')); ?>
 	</div>
 
 <?php $this->endWidget(); ?>

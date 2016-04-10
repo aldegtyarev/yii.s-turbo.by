@@ -51,8 +51,20 @@ class OrdersController extends Controller
 	 */
 	public function actionView($id)
 	{
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
+        $model = $this->loadModel($id);
+        switch($model->type) {
+            case $model::CUSTOMER_TYPE_FIZ:
+                $view = 'view-fiz';
+                break;
+            case $model::CUSTOMER_TYPE_UR:
+                $view = 'view-ur';
+                break;
+            default:
+                $view = 'view-fiz';
+                break;
+        }
+		$this->render($view, array(
+			'model'=>$model,
 		));
 	}
 
@@ -155,6 +167,9 @@ class OrdersController extends Controller
 		$model=Orders::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
+
+        $model->loadCustomerInfo();
+
 		return $model;
 	}
 

@@ -33,15 +33,22 @@ $('.search-form form').submit(function(){
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
-		'id',
-		'created',
+        array(
+            'name'=>'id',
+            'htmlOptions'=>array('width' => '80'),
+        ),
+        array(
+            'name'=>'created',
+            'value'=>'date("d.m.Y", $data->created)',
+            'htmlOptions'=>array('width' => '40'),
+        ),
 		'summ_usd',
 		'summ_byr',
 		array(
 			'class' => 'CButtonColumn',
-			'template' => '{update}&nbsp;{delete}',
+			'template' => '{view}&nbsp;{delete}',
 			'buttons' => array(
-				'update' => array(
+				'view' => array(
 					'imageUrl'=>'/img/grid-icons/update.png',
 				),
 

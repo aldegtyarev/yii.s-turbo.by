@@ -143,8 +143,10 @@ class ShopProductsController extends Controller
 
 		$delivery_list = Delivery::model()->loadCalculatedDeliveryList(array($model), $currency_info, true);
 
+		//echo'<pre>';print_r($modelinfoTxt);echo'</pre>';//die;
 		$model->setMetaInfo($modelinfoTxt);
-		
+		//echo'<pre>';print_r($model);echo'</pre>';//die;
+
 		$this->render('view',array(
 			'model'=>$model,
 			'RelatedDataProvider'=>$RelatedDataProvider,

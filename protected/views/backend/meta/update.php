@@ -8,10 +8,7 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List Meta', 'url'=>array('index')),
-	array('label'=>'Create Meta', 'url'=>array('create')),
-	array('label'=>'View Meta', 'url'=>array('view', 'id'=>$model->id)),
-	array('label'=>'Manage Meta', 'url'=>array('admin')),
+	array('label'=>'Meta', 'url'=>array('admin')),
 );
 ?>
 

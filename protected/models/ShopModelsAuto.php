@@ -481,12 +481,15 @@ class ShopModelsAuto extends CActiveRecord
 			$model_ids[] = $model_id;
 			$model_ids[] = $app->params['universal_products'];
 			$model = $this->findByPk($model_id);
-			$descendants = $model->descendants()->findAll();
-			//echo'<pre>';print_r(($model_id));echo'</pre>';
-			//echo'<pre>';print_r(count($descendants));echo'</pre>';
-			foreach($descendants as $row) {
-				$model_ids[] = $row->id;
-			}
+            //echo'<pre>';var_dump(($model));echo'</pre>';die;
+            if(!is_null($model)) {
+                $descendants = $model->descendants()->findAll();
+                //echo'<pre>';print_r(($model_id));echo'</pre>';
+                //echo'<pre>';print_r(count($descendants));echo'</pre>';
+                foreach ($descendants as $row) {
+                    $model_ids[] = $row->id;
+                }
+            }
 			
 		}
 		return $model_ids;

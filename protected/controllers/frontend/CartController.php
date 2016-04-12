@@ -32,6 +32,8 @@ class CartController extends Controller
 		
 		if($product_id && $quantity) {
 			$model = ShopProducts::model()->findByPk($product_id);
+            $model->loadAddInfoForCart($this, $app);
+            /*
 			$url_params = UrlHelper::getSelectedAuto($app);	// это забирается из GET параметров
 			
 			$model->cart_model_info = '';
@@ -77,6 +79,7 @@ class CartController extends Controller
 			}
 			
 			$model->product_url = $this->createUrl('shopproducts/detail', $prod_params);
+            */
 			/*
 			 * время
 			 * ид товара
@@ -105,6 +108,7 @@ class CartController extends Controller
 			//$total = $app->shoppingCart->getCount();
 			
 			$positions = $app->shoppingCart->getPositions();
+            //echo'<pre>';print_r($positions);echo'</pre>';//die;
 			$currency_info = Currencies::model()->loadCurrenciesList();
 			
 			$total_in_cart = PriceHelper::calculateTotalInCart($positions, $currency_info);
@@ -137,7 +141,8 @@ class CartController extends Controller
 	{
 		$app = Yii::app();
 		$positions = $app->shoppingCart->getPositions();
-		
+        //echo'<pre>';print_r($positions);echo'</pre>';//die;
+
 		$params = $app->params;
 		
 		$modelFiz = new CheckoutFizForm;
@@ -146,6 +151,14 @@ class CartController extends Controller
 		$checkoutType = $app->request->getParam('checkoutType', 'checkout-fiz');
 		
 		$currency_info = Currencies::model()->loadCurrenciesList();
+
+        foreach($positions as $product) {
+            $pr = PriceHelper::formatPrice((PriceHelper::calculateSummOfPosition($product, $currency_info)), 3, 3, $currency_info, true);
+            $pr = PriceHelper::calculateSummOfPosition($product, $currency_info);
+            //echo'<pre>';print_r($pr);echo'</pre>';//die;
+
+        }
+
 		
 		$delivery_list = Delivery::model()->loadCalculatedDeliveryList($positions, $currency_info);
 		
@@ -210,6 +223,10 @@ class CartController extends Controller
 		$quantity = $app->request->getParam('quantity', 0);
 		
 		$model = ShopProducts::model()->findByPk($product_id);
+        $model->loadAddInfoForCart($this, $app);
+
+
+
 		$app->shoppingCart->update($model, $quantity);
 		
 		$positions = $app->shoppingCart->getPositions();
@@ -622,12 +639,25 @@ class CartController extends Controller
 			fclose($fp); //Закрытие файла
 		}
 
-		foreach($positions as $product) {
+        $currency_info = Currencies::model()->loadCurrenciesList();
+
+        foreach($positions as $product) {
 			$order_product = new OrdersProducts();
 			$order_product->order_id = $order->id;
 			$order_product->product_id = $product->product_id;
+			$order_product->quantity = $product->getQuantity();
+			$order_product->summ = ($order_product->quantity * PriceHelper::getPricePosition($product));
+			$order_product->summ_byr = PriceHelper::calculateSummOfPosition($product, $currency_info);
+            $order_product->product_url = $product->product_url;
+            $order_product->model_info = $product->cart_model_info;
 			$order_product->save();
-		}
+
+            //$price = self::getPricePosition($position);
+            //PriceHelper::formatPrice((PriceHelper::calculateSummOfPosition($product, $currency_info)), 3, 3, $currency_info, true)
+
+            //$product_summ = PriceHelper::calculateSummOfPosition($product, $currency_info);
+
+        }
 		return $order;
 	}
 		

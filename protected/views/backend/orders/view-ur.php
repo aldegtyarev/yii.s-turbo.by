@@ -26,33 +26,33 @@ $this->menu=array(
             'value'=>date("d.m.Y", $model->created),
         ),
 
-		'customer_info_header',
-		'fio',
-		'town',
-		'address1',
-		'address2',
-		'address3',
-		'phone1',
-		'phone2',
-		'email',
-		'comment',
+		'summ_usd',
+		'summ_byr',
+		'customer_info_ur_header',
+		'name_ur',
+		'address_ur',
+		'unp',
+		'okpo',
+		'r_schet',
+		'bank_name',
+		'bank_address',
+		'bank_code',
+		'fio_director',
+		'na_osnovanii',
+		'doverennost_text',
+		'svidetelstvo_text',
+		'phone1_ur',
+
+        'customer_info_header',
+        'fio',
+        'phone1',
+        'phone2',
+        'email',
+        'comment',
+
         array(
             'name'=>'orderProducts',
             'type'=>'raw',
         ),
-
-        array(
-            'name'=>'summ_usd',
-            'value'=>number_format($model->summ_usd, 2, '.', ' ') . ' $',
-        ),
-
-        array(
-            'name'=>'summ_byr',
-            'value'=>number_format($model->summ_byr, 0, '.', ' ') . ' руб',
-        ),
-
-        'deliveryName',
-        'paymentName',
-
 	),
 )); ?>

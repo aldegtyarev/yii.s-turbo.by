@@ -6,7 +6,10 @@
  * The followings are the available columns in table '{{orders_products}}':
  * @property integer $id
  * @property integer $order_id
- * @property string $product_id
+ * @property integer $product_id
+ * @property integer $quantity
+ * @property string $product_url
+ * @property string $model_info
  *
  * The followings are the available model relations:
  * @property ShopProducts $product
@@ -30,11 +33,11 @@ class OrdersProducts extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('order_id, product_id', 'required'),
-			array('order_id', 'numerical', 'integerOnly'=>true),
-			array('product_id', 'length', 'max'=>11),
+			//array('order_id, product_id', 'required'),
+            array('order_id, product_id, quantity, product_url, model_info', 'required'),
+			array('order_id, product_id, quantity', 'numerical', 'integerOnly'=>true),
+			array('product_url, model_info', 'length', 'max'=>255),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
 			array('id, order_id, product_id', 'safe', 'on'=>'search'),
 		);
 	}

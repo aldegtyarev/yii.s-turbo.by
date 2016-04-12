@@ -1679,4 +1679,55 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 			$this->metadesc = implode(' ', $arr);
 		//}
 	}
+
+
+    public function loadAddInfoForCart($controller ,$app)
+    {
+        $url_params = UrlHelper::getSelectedAuto($app);	// это забирается из GET параметров
+
+        $this->cart_model_info = '';
+
+        if($this->isUniversalProduct()) {
+            $this->cart_model_info = 'УНИВЕРСАЛЬНЫЕ ТОВАРЫ';
+
+            $prod_params = array(
+                'uni' => 'uni',
+                'product'=> $this->product_id
+            );
+
+        }
+
+        if($this->cart_model_info == '') {
+            $modelinfo = json_decode($app->session['autofilter.modelinfo_cart'], 1);
+            //echo'<pre>';print_r($modelinfo);echo'</pre>';die;
+            if(count($modelinfo)) {
+                $model_info_name = '';
+                foreach($modelinfo as $k=>$i) {
+                    //$model->cart_model_info .= $i['name'] . ' ';
+                    if(isset($modelinfo[$k+1])) {
+                        //бывает что часть названия попадает в двух частях, поэтому отлавливаем этот момент
+                        $findme = $i['name'];
+                        $mystring = $modelinfo[$k+1]['name'];
+                        $pos = strpos($mystring, $findme);
+                        if ($pos === false) $model_info_name .= ' ' . $i['name'];
+                    }	else	{
+                        $model_info_name .= ' ' . $i['name'];
+                    }
+
+                }
+
+                $this->cart_model_info .= ' ' . $model_info_name;
+            }
+
+            $prod_params = array(
+                'marka' => $url_params['marka'],
+                'model' => $url_params['model'],
+                'year' => $url_params['year'],
+                'product'=> $this->product_id
+            );
+        }
+
+        $this->product_url = $controller->createUrl('shopproducts/detail', $prod_params);
+        return;
+    }
 }

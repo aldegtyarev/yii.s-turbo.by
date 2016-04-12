@@ -115,8 +115,13 @@ class SearchAutoWidget extends CWidget {
 		
 		if($select_model != null || $select_marka != null) {
 			$model = ShopModelsAuto::model()->findByPk($select_marka);
-			$descendants = $model->children()->findAll();
-			$modelDropDown = CHtml::listData($descendants, 'id','name');
+            if(!is_null($model)) {
+                $descendants = $model->children()->findAll();
+                $modelDropDown = CHtml::listData($descendants, 'id','name');
+            }   else    {
+                $modelDropDown = array();
+            }
+
 		} else {
 			$modelDropDown = array();
 		}
@@ -125,7 +130,11 @@ class SearchAutoWidget extends CWidget {
 		
 		if($select_year != null || $select_model != null) {
 			$model = ShopModelsAuto::model()->findByPk($select_model);
-			$descendants = $model->descendants()->findAll();
+            if(!is_null($model)) {
+                $descendants = $model->descendants()->findAll();
+            }   else    {
+                $descendants = array();
+            }
 			$parent_id = 0;
 			foreach($descendants as $c){
 				$separator = '';

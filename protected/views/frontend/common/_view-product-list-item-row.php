@@ -89,7 +89,6 @@
 		</div>
 		<div class="product-list-item-row-price-block">
 			<? if($data->percent_discount < 0)	{	?>
-
 				<p class="product-list-item-row-price-override-cnt"><span class="product-list-item-row-price-override"><?= PriceHelper::formatPrice($data->product_price, $data->currency_id, 3, $currency_info, true)?></span><span class="percent_discount"><?= $data->percent_discount ?>%</span></p>
 				<p class="product-list-item-row-price-byr"><?= PriceHelper::formatPrice($data->product_override_price, $data->currency_id, 3, $currency_info, true)?></p>
 				<p class="product-list-item-row-price-usd"><?= PriceHelper::formatPrice($data->product_override_price, $data->currency_id, 0, $currency_info)?></p>

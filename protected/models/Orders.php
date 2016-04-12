@@ -36,8 +36,6 @@ class Orders extends CActiveRecord
     public $email;
     public $comment;
 
-    private $_deliveryName;
-
     // юр.лицо
     public $name_ur;
     public $address_ur;
@@ -52,6 +50,13 @@ class Orders extends CActiveRecord
     public $doverennost_text;
     public $svidetelstvo_text;
     public $phone1_ur;
+
+    public $customer_info_header = '';
+    public $customer_info_ur_header = '';
+
+    private $_orderProducts;
+    private $_deliveryName;
+    private $_paymentName;
 
 
 	/**
@@ -99,8 +104,8 @@ class Orders extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'created' => 'Created',
-			'summ_usd' => 'Summ USD',
-			'summ_byr' => 'Summ BYR',
+			'summ_usd' => 'Итого в USD',
+			'summ_byr' => 'Итого в BYR',
 			'customer' => 'Customer',
 
             'name_ur'=>'Название организации',
@@ -126,6 +131,13 @@ class Orders extends CActiveRecord
             'phone2'=>'Доп. телефон',
             'email'=>'E-mail',
             'comment'=>'Комментарий к заказу',
+
+            'customer_info_header'=>'Контактное лицо',
+            'customer_info_ur_header'=>'Данные организации',
+            'orderProducts'=>'Список товаров',
+
+            'deliveryName'=>'Способ доставки',
+            'paymentName'=>'Способ оплаты',
 
 
 		);
@@ -184,4 +196,43 @@ class Orders extends CActiveRecord
         }
         
     }
+
+    /**
+     * возвращает заказанные товары
+     * @return string
+     */
+    public function getOrderProducts()
+    {
+        $app = Yii::app();
+        $html = '';
+        foreach($this->ordersProducts as $product_order){
+            $prod_info = CHtml::link(CHtml::encode($product_order->product->product_name), (substr($app->homeUrl, 0, -1) . $product_order->product_url), array('target'=>'_blank'));
+            $prod_info .= '<br>'.CHtml::tag('small', array(), $product_order->model_info);
+            $html .= CHtml::tag('td', array(), $prod_info);
+            $html .= CHtml::tag('td', array(), CHtml::encode($product_order->quantity == 0 ? 1 : $product_order->quantity));
+            $prod_price = number_format($product_order->summ, 2, '.', ' ') . '<br>' . number_format($product_order->summ_byr, 0, '.', ' ') . ' руб';
+
+            $html .= CHtml::tag('td', array(), $prod_price);
+
+            $html = CHtml::tag('tr', array(), $html);
+        }
+
+        $html = CHtml::tag('table', array(), $html);
+        return $html;
+    }
+
+    public function getDeliveryName()
+    {
+        return Delivery::model()->getDeliveryNameForEmail($this->delivery_id, $this->delivery_quick);
+    }
+
+    public function getPaymentName()
+    {
+        return Payment::model()->getPaymentNameForEmail($this->payment_id);
+    }
+
+
+//$deliveryName =
+//$paymentName = Payment::model()->getPaymentNameForEmail($payment_id);
+
 }

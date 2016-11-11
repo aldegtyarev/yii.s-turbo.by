@@ -35,6 +35,7 @@ class Orders extends CActiveRecord
     public $phone2;
     public $email;
     public $comment;
+    public $post_code;
 
     // юр.лицо
     public $name_ur;
@@ -50,6 +51,7 @@ class Orders extends CActiveRecord
     public $doverennost_text;
     public $svidetelstvo_text;
     public $phone1_ur;
+    public $positions;
 
     public $customer_info_header = '';
     public $customer_info_ur_header = '';
@@ -138,6 +140,7 @@ class Orders extends CActiveRecord
 
             'deliveryName'=>'Способ доставки',
             'paymentName'=>'Способ оплаты',
+            'post_code'=>'Почтовый индекс',
 
 
 		);

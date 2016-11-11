@@ -15,7 +15,7 @@
 		'deliveries_list' => $deliveries_list,
 		'modelinfoTxt' => $model_info_name,
 		'app'=>$app,
-
-	),
+        'arQuestionsCount'=>$arQuestionsCount,
+    ),
 	
 )); ?>

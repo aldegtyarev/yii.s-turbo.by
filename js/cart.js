@@ -13,17 +13,25 @@ $(document).ready(function () {
 		product_id = 0;
 	
 	function setDelivery() {
+	    var deliveryId = $('#delivery_id').val();
+
+        if (deliveryId == '2') {
+            $('.js-row__post-code').show();
+        } else {
+            $('.js-row__post-code').hide();
+        }
+
 		$.ajax({
 			type: 'post',
 			url: '/cart/setcostdelivery',
-			data: {delivery_id :$('#delivery_id').val(), delivery_quick : $('#delivery_quick').val()},
+			data: {delivery_id : deliveryId, delivery_quick : $('#delivery_quick').val()},
 			dataType: 'json',
 			beforeSend: function () {},
 			success: function (msg) {
 				$('#total-cost-byr').html(msg.cost_byr);
 				$('#total-cost-txt').html('Итого с доставкой');
 				paymentList.html(msg.payment_html);
-				setEqualHeight('.payment-item-cnt');
+				setEqualHeight('#payment-list', '.payment-item-cnt');
 			}
 		});
 	}
@@ -57,11 +65,9 @@ $(document).ready(function () {
 				setEqualHeight('#delivery-list-cnt', '.cart-block-border-ttl a');
 				setEqualHeight('#delivery-list-cnt', '.delivery-item-cnt');
 				setEqualHeight('#payment-list', '.payment-item-cnt');
-				
 			},
 			'json'
 		);
-		
 	}
 	
 	setEqualHeight('#delivery-list-cnt', '.cart-block-border-ttl a');
@@ -76,7 +82,6 @@ $(document).ready(function () {
 			cart_qty--;
 			updateCart($(this));
 		}
-		
 		return false;
 	});
 	
@@ -89,52 +94,18 @@ $(document).ready(function () {
 
 		return false;
 	});
-	
-	/*
-	deliveryList.on('click', '.delivery-item-cnt', function(){
-		if($('#delivery_id').val() != $(this).data('delivery')) {
-			
-			$('.delivery_type').each(function(){
-				$(this).prop('checked', false);
-			});
-			
-			$('.delivery-item-cnt').removeClass('cart-block-border-cnt-selected');
 
-			$(this).addClass('cart-block-border-cnt-selected');
-
-			$('#delivery_id').val($(this).data('delivery'));
-			
-			if($(this).find('.delivery_type').length > 0) {
-				elems = $(this).find('.delivery_type');
-				$(elems[0]).prop('checked', true);
-			}
-			
-			$('#delivery_quick').val(0);
-			setDelivery();
-		}
-	});
-	*/
-	/*
-	paymentList.on('click', '.payment-item-enabled', function () {
-		if($('#payment_id').val() != $(this).data('payment')) {
-			$('.payment-item-cnt').removeClass('cart-block-border-cnt-selected');
-
-			$(this).addClass('cart-block-border-cnt-selected');
-
-			$(this).find('input:radio').prop('checked', true);
-
-			$('#payment_id').val($(this).data('payment'));
-		}
-	});
-	*/
-	
 	$('#delivery-list-cnt').on('click', '.delivery_type', function () {
 		deliveryItem = $(this).closest('.delivery-item-cnt');
+
 		$('.delivery_type').each(function(){
 			$(this).prop('checked', false);
 		});
-		$(this).prop('checked', true);		
-		$('#delivery_quick').val($(this).val());		
+
+		$(this).prop('checked', true);
+
+		$('#delivery_quick').val($(this).val());
+
 		if($('#delivery_id').val() != deliveryItem.data('delivery')) {
 			$('.delivery-item-cnt').removeClass('cart-block-border-cnt-selected');
 			deliveryItem.addClass('cart-block-border-cnt-selected');
@@ -177,6 +148,25 @@ $(document).ready(function () {
 			
 			return res;
 		}
+
+		if($('#delivery_id').val() == 2) {
+		    var $postCode = $('#' + $('#checkoutType input:checked').val()).find('.post-code');
+
+            $postCode.removeClass('error');
+		    // console.log($('#checkoutType input:checked').val());
+            if($postCode.val() == '') {
+                $postCode.addClass('error');
+                scroll_el = $postCode;
+
+                if ($(scroll_el).length != 0)
+                    $('html, body').animate({ scrollTop: scroll_el.offset().top }, 500);
+
+                res = false;
+
+                return res;
+            }
+            // return false;
+        }
 		
 		if($('#payment_id').val() == '0') {
 			res = false;
@@ -189,10 +179,33 @@ $(document).ready(function () {
 			return res;
 			
 		}
-		
-		
-		console.log('ssw');
 		return res;
 	});
-	
+
+    $('#checkoutType input').on('change', function () {
+        $('#checkout-form .checkout-cnt').hide();
+        $('#' + $(this).val()).show();
+    });
+
+    $('.na_osnovanii_radio').on('click', function () {
+        var selected = parseInt($(this).val());
+
+        switch (selected) {
+            case 2:
+                $('#doverennost_text_cnt').show();
+                $('#svidetelstvo_text_cnt').hide();
+                $('#svidetelstvo_text_cnt').val('');
+                break;
+            case 3:
+                $('#svidetelstvo_text_cnt').show();
+                $('#doverennost_text_cnt').hide();
+                $('#doverennost_text_cnt').val('');
+                break;
+            default:
+                $('#doverennost_text_cnt').hide();
+                $('#doverennost_text_cnt').val('');
+                $('#svidetelstvo_text_cnt').hide();
+                $('#svidetelstvo_text_cnt').val('');
+        }
+    });
 });

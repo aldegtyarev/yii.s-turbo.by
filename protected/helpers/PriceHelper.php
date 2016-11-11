@@ -27,19 +27,15 @@ class PriceHelper
 		return $price;
     }
 		
-    public static function ceilPrice($price, $ceil_value = 5000)
+    public static function ceilPrice($price, $ceil_value = 1)
     { 
 		return (ceil($price / $ceil_value)) * $ceil_value;
     }
 	
     public static function roundValue($value = 0)
     { 
-		/*
-$var=101;
-$res=(ceil($var/100))*100;
-echo "$res";		
-*/
-		$precision = -3;
+//		$precision = -3;
+		$precision = 0;
 		return round($value, $precision);
     }
 	

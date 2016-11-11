@@ -1,18 +1,85 @@
-AddDefaultCharset Off
-<IfModule dir_module>
-    DirectoryIndex index.php
-</IfModule>
-
-Options +FollowSymLinks
-IndexIgnore */*
 RewriteEngine on
 
-RewriteCond %{HTTP_HOST} ^www.s-turbo.by$ [NC]
-RewriteRule ^(.*)$ http://s-turbo.by/$1 [R=301,L]
+RewriteCond %{HTTP_HOST} (.*)
+RewriteCond %{REQUEST_URI} /$ [NC]
+RewriteRule ^(.*)(/)$ $1 [L,R=301]
 
 # if a directory or a file exists, use it directly
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
-# otherwise forward it to index.php
 RewriteRule . index.php
+DirectoryIndex index.php
+
+addDefaultCharset utf-8
+
+<IfModule mod_php5.c>
+php_value short_open_tag 1
+</IfModule>
+
+# PHP error handling for production servers
+# disable display of startup errors
+php_flag display_startup_errors on
+# disable display of all other errors
+php_flag display_errors on
+
+<ifModule mod_deflate.c>
+  <IfModule mod_filter.c>
+      AddOutputFilterByType DEFLATE text/plain text/html
+      AddOutputFilterByType DEFLATE text/css
+      AddOutputFilterByType DEFLATE text/javascript application/javascript application/x-javascript
+      AddOutputFilterByType DEFLATE text/xml application/xml application/xhtml+xml application/rss+xml
+      AddOutputFilterByType DEFLATE application/json
+      AddOutputFilterByType DEFLATE application/vnd.ms-fontobject application/x-font-ttf font/opentype image/svg+xml image/x-icon
+      AddOutputFilterByType DEFLATE application/font-woff
+  </ifModule>
+</ifModule>
+
+### Способ #1
+### Подсказать браузеру схему кеширования через заголовки в ответе сервера
+<ifModule mod_headers.c>
+    # 43200 - день, 604800 - неделя, 2592000 - месяц
+    <FilesMatch "\.(html|js|css)$">
+	Header set Cache-Control "max-age=2592000"
+        #Header unset Last-Modified
+    </FilesMatch>
+    <Files *.txt>
+	Header add Cache-Control "max-age=43200"
+    </Files>
+    <FilesMatch "\.(flv|swf|ico|gif|jpg|jpeg|png|woff)$">
+	Header set Cache-Control "max-age=2592000"
+    </FilesMatch>
+    <FilesMatch "\.(pl|php|cgi|spl|scgi|fcgi)$">
+	# отключить кэширование
+	Header unset Cache-Control
+    </FilesMatch>
+</IfModule>
+
+### Способ #2
+### Подсказать браузеру схему кеширования через заголовки в ответе сервера
+<IfModule mod_expires.c>
+    # Enable expires
+    ExpiresActive On
+
+    # Default a cache expiration
+    ExpiresDefault "access plus 10 month"
+
+    # Images
+    ExpiresByType image/gif                 "access plus 1 month"
+    ExpiresByType image/png                 "access plus 1 month"
+    ExpiresByType image/jpg                 "access plus 1 month"
+    ExpiresByType image/jpeg                "access plus 1 month"
+
+    # CSS, JavaScript
+    ExpiresByType text/css                  "access plus 1 year"
+    ExpiresByType application/javascript    "access plus 1 year"
+    ExpiresByType text/javascript           "access plus 1 year"
+    ExpiresByType application/font-woff     "access plus 1 year"
+</IfModule>
+
+
+### Удалить заголовок ETag (иначе есть проблемы с кешированием при включенном сжатии)
+<IfModule mod_headers.c>
+    Header unset ETag
+</IfModule>
+FileETag None

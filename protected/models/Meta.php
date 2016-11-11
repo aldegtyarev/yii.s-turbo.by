@@ -104,7 +104,9 @@ class Meta extends CActiveRecord
 	 */
 	public function search()
 	{
-		$criteria=new CDbCriteria;
+        $app = Yii::app();
+
+        $criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('name',$this->name,true);
@@ -115,7 +117,11 @@ class Meta extends CActiveRecord
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
-		));
+            'pagination'=>array(
+                'pageSize' => $app->params->pagination['products_per_page'],
+            ),
+
+        ));
 	}
 
 
@@ -147,7 +153,6 @@ class Meta extends CActiveRecord
 		}
 
 		//echo'<pre>';var_dump($cache_key);echo'</pre>';die;
-
 		Yii::app()->cache->set($cache_key, false);
 	}
 
@@ -189,36 +194,51 @@ class Meta extends CActiveRecord
 	 * @param $params
 	 * @return mixed
 	 */
-	public static function getMetaInfoCategoryModel($params)
+	public static function getMetaInfoCategoryModel($params, $is_uni = false)
 	{
 		//echo'<pre>';print_r($params);echo'</pre>';//die;
 
 		$app = Yii::app();
 
-		$cache_key = self::buildCacheKey($params);
+		$cache_key = self::buildCacheKey($params, $is_uni);
 		//echo'<pre>';var_dump($cache_key);echo'</pre>';//die;
 
 		//ищем такую модель в кеше
 		$model = $app->cache->get($cache_key);
 
-		if($model === false)	{
+		if($model === false || is_null($model))	{
 			$condition_arr = array('published = 1');
 			$params_arr = array();
 
-			if(!is_null($params['id'])) {
-				$condition_arr[] = 'category_id = :category_id';
+
+            $condition_arr[] = 'category_id = :category_id';
+            if(!is_null($params['id'])) {
 				$params_arr[':category_id'] = strip_tags($params['id']);
-			}
-			if(!is_null($params['year'])) {
-				$condition_arr[] = 'model_id = :model_id';
-				$params_arr[':model_id'] = strip_tags($params['year']);
-			}
-			if(!is_null($params['type'])) {
-				$condition_arr[] = 'type_id = :type_id';
-				$params_arr[':type_id'] = strip_tags($params['type']);
-			}
+			}   else    {
+                $params_arr[':category_id'] = 0;
+            }
+
+            $condition_arr[] = 'model_id = :model_id';
+            if($is_uni === false) {
+                if (!is_null($params['year'])) {
+                    $params_arr[':model_id'] = strip_tags($params['year']);
+                }   else    {
+                    $params_arr[':model_id'] = 0;
+                }
+            }   else    {
+                $params_arr[':model_id'] = 0;
+            }
+
+            $condition_arr[] = 'type_id = :type_id';
+            if (!is_null($params['type'])) {
+                $params_arr[':type_id'] = strip_tags($params['type']);
+            }   else    {
+                $params_arr[':type_id'] = 0;
+            }
+
 
 			//echo'<pre>';print_r($condition_arr);echo'</pre>';//die;
+			//echo'<pre>';print_r($params_arr);echo'</pre>';//die;
 
 			if(count($condition_arr)) {
 				$model = self::model()->find(implode(' AND ', $condition_arr), $params_arr);
@@ -226,10 +246,19 @@ class Meta extends CActiveRecord
 			}
 		}
 
-		return $model;
+        //echo'<pre>';var_dump($model);echo'</pre>';//die;
+
+        return $model;
 	}
 
-	public static function buildCacheKey($params = array())
+    /**
+     * строит ключ для поиска в кеше сохраненных данных
+     *
+     * @param array $params
+     * @param bool $is_uni
+     * @return string
+     */
+    public static function buildCacheKey($params = array(), $is_uni = false)
 	{
 		//$cache_key = self::CACHE_META_INFO . $params['id'] . '_' . $params['year'];
 		$cache_key = self::CACHE_META_INFO;
@@ -237,7 +266,7 @@ class Meta extends CActiveRecord
 		if(!is_null($params['id'])) $cache_key_arr[] = $params['id'];
 			else $cache_key_arr[] = 0;
 
-		if(!is_null($params['year'])) $cache_key_arr[] = $params['year'];
+		if(!is_null($params['year']) && $is_uni === false) $cache_key_arr[] = $params['year'];
 			else $cache_key_arr[] = 0;
 
 		if(!is_null($params['type'])) $cache_key_arr[] = $params['type'];

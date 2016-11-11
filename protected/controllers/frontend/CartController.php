@@ -33,76 +33,21 @@ class CartController extends Controller
 		if($product_id && $quantity) {
 			$model = ShopProducts::model()->findByPk($product_id);
             $model->loadAddInfoForCart($this, $app);
-            /*
-			$url_params = UrlHelper::getSelectedAuto($app);	// это забирается из GET параметров
-			
-			$model->cart_model_info = '';
-			
-			if($model->isUniversalProduct()) {
-				$model->cart_model_info = 'УНИВЕРСАЛЬНЫЕ ТОВАРЫ';
-				
-				$prod_params = array(
-					'uni' => 'uni',
-					'product'=> $model->product_id
-				);					
-				
-			}
-			
-			if($model->cart_model_info == '') {
-				$modelinfo = json_decode($app->session['autofilter.modelinfo_cart'], 1);
-				//echo'<pre>';print_r($modelinfo);echo'</pre>';die;
-				if(count($modelinfo)) {
-					$model_info_name = '';
-					foreach($modelinfo as $k=>$i) {
-						//$model->cart_model_info .= $i['name'] . ' ';
-						if(isset($modelinfo[$k+1])) {
-							//бывает что часть названия попадает в двух частях, поэтому отлавливаем этот момент
-							$findme = $i['name'];
-							$mystring = $modelinfo[$k+1]['name'];
-							$pos = strpos($mystring, $findme);
-							if ($pos === false) $model_info_name .= ' ' . $i['name'];
-						}	else	{
-							$model_info_name .= ' ' . $i['name'];
-						}
 
-					}
-
-					$model->cart_model_info .= ' ' . $model_info_name;
-				}
-
-				$prod_params = array(
-					'marka' => $url_params['marka'],
-					'model' => $url_params['model'],
-					'year' => $url_params['year'],
-					'product'=> $model->product_id
-				);
-			}
-			
-			$model->product_url = $this->createUrl('shopproducts/detail', $prod_params);
-            */
-			/*
-			 * время
-			 * ид товара
-			 * ссылку на него
-			 * строку с моделью
-			 * HTTP_USER_AGENT
-			 * HTTP_REFERER
-			 */
-
-			$fp = fopen(Yii::getPathOfAlias('webroot') . "/cart.log", "a"); // Открываем файл в режиме записи
-
-			$mytext = date('d-m-Y H:i:s')."\r\n"; // Исходная строка
-			$mytext .= 'REMOTE_ADDR = ' . $_SERVER['REMOTE_ADDR'] . "\r\n";
-			$mytext .= 'HTTP_USER_AGENT = ' . $_SERVER['HTTP_USER_AGENT'] . "\r\n";
-			$mytext .= 'HTTP_USER_AGENT = ' . $_SERVER['HTTP_REFERER'] . "\r\n";
-			$mytext .= 'product_name = ' . $model->product_name . "\r\n";
-			$mytext .= 'product_url = ' . $model->product_url . "\r\n";
-			$mytext .= 'cart_model_info = ' . $model->cart_model_info . "\r\n";
-			$mytext .= "\r\n";
-			$mytext .= "\r\n";
-
-			fwrite($fp, $mytext); // Запись в файл
-			fclose($fp); //Закрытие файла
+//			$fp = fopen(Yii::getPathOfAlias('webroot') . "/cart.log", "a"); // Открываем файл в режиме записи
+//
+//			$mytext = date('d-m-Y H:i:s')."\r\n"; // Исходная строка
+//			$mytext .= 'REMOTE_ADDR = ' . $_SERVER['REMOTE_ADDR'] . "\r\n";
+//			$mytext .= 'HTTP_USER_AGENT = ' . $_SERVER['HTTP_USER_AGENT'] . "\r\n";
+//			$mytext .= 'HTTP_USER_AGENT = ' . $_SERVER['HTTP_REFERER'] . "\r\n";
+//			$mytext .= 'product_name = ' . $model->product_name . "\r\n";
+//			$mytext .= 'product_url = ' . $model->product_url . "\r\n";
+//			$mytext .= 'cart_model_info = ' . $model->cart_model_info . "\r\n";
+//			$mytext .= "\r\n";
+//			$mytext .= "\r\n";
+//
+//			fwrite($fp, $mytext); // Запись в файл
+//			fclose($fp); //Закрытие файла
 
 			$app->shoppingCart->put($model, $quantity);
 			//$total = $app->shoppingCart->getCount();
@@ -141,7 +86,7 @@ class CartController extends Controller
 	{
 		$app = Yii::app();
 		$positions = $app->shoppingCart->getPositions();
-        //echo'<pre>';print_r($positions);echo'</pre>';//die;
+//        echo'<pre>';print_r($positions);echo'</pre>';//die;
 
 		$params = $app->params;
 		
@@ -429,17 +374,30 @@ class CartController extends Controller
 	
 	public function checkoutFiz($post, $model)
 	{
+        $app = Yii::app();
+
 		if(isset($_POST['CheckoutFizForm'])) {
 			$model->attributes = $_POST['CheckoutFizForm'];
 
-			if($model->validate()) {
+            $delivery_id = $app->request->getParam('delivery_id', 0);
+//            if ($delivery_id == 2) $model->scenario = 'delivery_by_post';
+
+//            echo'<pre>';print_r($_POST);echo'</pre>';die;
+            //echo'<pre>';print_r($model->attributes);echo'</pre>';die;
+
+            $positions = $app->shoppingCart->getPositions();
+//            $positions = '';
+
+            if(is_array($positions) && count($positions) > 0) $model->positions = 1;
+//            $model->positions = 1;
+
+            if($model->validate()) {
 				$app = Yii::app();
-				$positions = $app->shoppingCart->getPositions();
+
 				$currency_info = Currencies::model()->loadCurrenciesList();
 				
 				$total = $this->calculateTotalSumm($positions, $currency_info);
-				//echo'<pre>';print_r($total);echo'</pre>';die;
-				
+
 				$customer = array('type' => Orders::CUSTOMER_TYPE_FIZ);
 				
 				foreach($model->attributes as $attr=>$val) $customer[$attr] = $val;
@@ -487,13 +445,15 @@ class CartController extends Controller
 				
 				Yii::app()->dpsMailer->sendByView(
 					$to, // определяем кому отправляется письмо
-					//array('aldegtyarev@yandex.ru'), // определяем кому отправляется письмо
+//					array('aldegtyarev@yandex.ru'), // определяем кому отправляется письмо
 					'emailOrder', // view шаблона письма
 					$data
 				);
 				$this->redirect(array('orderdone', 'order'=>$order->id));
 			}
-		}
+//            echo'<pre>';print_r($model->errors);echo'</pre>';die;
+
+        }
 	}
 	
 	
@@ -511,10 +471,12 @@ class CartController extends Controller
 					break;
 				default:
 			}
+
+            $app = Yii::app();
+            $positions = $app->shoppingCart->getPositions();
+            if(is_array($positions) && count($positions) > 0) $model->positions = 1;
 			
 			if($model->validate()) {
-				$app = Yii::app();
-				$positions = $app->shoppingCart->getPositions();
 				$currency_info = Currencies::model()->loadCurrenciesList();
 				
 				$total = $this->calculateTotalSumm($positions, $currency_info);

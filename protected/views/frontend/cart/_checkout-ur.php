@@ -1,4 +1,17 @@
+<?
+if($delivery_id == 2) $stylePostCode = 'display: block;';
+else $stylePostCode = 'display: none;';
+
+?>
+
 <div id="checkout-ur" class="checkout-cnt checkout-cnt-ur" <?= $style_ur ?> >
+	<?
+	if(isset($model->errors['positions'])) {
+		if(isset($model->errors['positions'][0])) {
+			echo '<p style="color: red; font-weight: bold">'.$model->errors['positions'][0].'</p>';
+		}
+	}
+	?>
 
 	<h3>Данные организации</h3>
 
@@ -6,6 +19,12 @@
 		<?php echo $form->labelEx($model,'name_ur', array('class'=>'bold nowrap')); ?>
 		<?php echo $form->textField($model,'name_ur',array('size'=>24,'maxlength'=>255, 'class'=>'inputbox')); ?>
 		<?php echo $form->error($model,'name_ur'); ?>
+	</div>
+
+    <div class="row  js-row__post-code" style="<?= $stylePostCode?>">
+		<?php echo $form->labelEx($model,'post_code', array('class'=>'bold nowrap')); ?>
+		<?php echo $form->textField($model,'post_code',array('size'=>24,'maxlength'=>6, 'class'=>'inputbox postcode')); ?>
+		<?php echo $form->error($model,'post_code'); ?>
 	</div>
 
 	<div class="row">

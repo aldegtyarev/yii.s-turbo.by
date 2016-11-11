@@ -10,8 +10,6 @@ $this->pageTitle = "Заказ завершен | ".$app->name;
 $clientScript->registerMetaTag("Заказ завершен,".$app->name, 'keywords');
 $clientScript->registerMetaTag("Заказ завершен на ".$app->name, 'description');
 
-$order_summ = 5420000;
-
 $js = "$('#orderdone-popup').click();";
 $js1 = '$(".fb-orderdone").fancybox({modal : true,padding : 0,helpers: {overlay: {locked: false}}});';
 $css = ".fancybox-skin .fancybox-close {display:none !important;}";

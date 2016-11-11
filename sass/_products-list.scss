@@ -206,8 +206,9 @@
 	
 	.product-image {
 		@extend %db;
+
 		width: 180px;
-		//height: 145px;
+		margin-bottom: 25px;
 		
 		@include border-radius(4px);
 	}

@@ -29,7 +29,7 @@ class ShopProductsController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view','detail','lastviewed','buyoneclick', 'delivery', 'sitemapcreate'),
+				'actions'=>array('index','view','detail','lastviewed','buyoneclick', 'delivery', 'sitemapcreate', 'comments'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -77,7 +77,7 @@ class ShopProductsController extends Controller
 		
 		foreach($RelatedDataProvider->data as $row)	{
 			$is_universal_product = ShopProductsModelsAuto::model()->isUniversalroduct($row->product_id);
-			if($is_universal_products == 1) {
+			if($is_universal_product == 1) {
 				$prod_params = array(
 					'uni' => 'uni',
 					'product'=> $row->product_id
@@ -86,7 +86,6 @@ class ShopProductsController extends Controller
 				$prod_params = array(
 					'marka' => $url_params['marka'],
 					'model' => $url_params['model'],
-					'year' => $url_params['year'],
 					'year' => $url_params['year'],
 					'product'=> $row->product_id
 				);
@@ -126,8 +125,9 @@ class ShopProductsController extends Controller
 		
 		$currency_info = Currencies::model()->loadCurrenciesList();
 		
-		$modelinfoTxt = $this->buildModelInfo($app, $connection, $url_params);
-		
+//		$modelinfoTxt = $this->buildModelInfo($app, $connection, $url_params);
+		$modelinfoTxt = ShopProducts::model()->buildModelInfo($app, $connection, $url_params);
+
 		if($model->prepayment != 'без предоплаты')	{
 			$prepayment_text = Pages::model()->getPageText($app->params['prepayment_text_id']);
 		}	else	{
@@ -147,9 +147,16 @@ class ShopProductsController extends Controller
 		$model->setMetaInfo($modelinfoTxt);
 		//echo'<pre>';print_r($model);echo'</pre>';//die;
 
+        $modelComment = new ProductCommentsForm();
+        $modelComment->product_id = $model->product_id;
+        $commentsDataProvider = $modelComment->getProductComments($model->product_id);
+
+
 		$this->render('view',array(
 			'model'=>$model,
+			'modelComment'=>$modelComment,
 			'RelatedDataProvider'=>$RelatedDataProvider,
+			'commentsDataProvider'=>$commentsDataProvider,
 			'breadcrumbs' => $breadcrumbs,
 			'currency_info' => $currency_info,
 			'modelinfoTxt' => $modelinfoTxt,
@@ -160,7 +167,6 @@ class ShopProductsController extends Controller
 			'url_path' => $model_pages_cat->alias,
 			'delivery_list'=>$delivery_list,
 		));
-		
 	}
 	
 	/**
@@ -222,7 +228,7 @@ class ShopProductsController extends Controller
 		
 		
 		foreach($dataProvider->data as $row)	{
-			if($shopProductsIds_m[$model->product_id]['uni'] == 1) {
+			if($shopProductsIds_m[$row->product_id]['uni'] == 1) {
 				$prod_params = array(
 					'uni' => 'uni',
 					'product'=> $row->product_id,
@@ -249,7 +255,6 @@ class ShopProductsController extends Controller
 		$this->render('lastViewed', $data);
 	}
 
-	
 	public function actionBuyoneclick()
 	{
 		echo 'ok';
@@ -262,8 +267,9 @@ class ShopProductsController extends Controller
 		$model = $this->loadModel($id);
 		$currency_info = Currencies::model()->loadCurrenciesList();
 		$delivery_list = Delivery::model()->loadCalculatedDeliveryList(array($model), $currency_info, true);
-		$modelinfoTxt = $this->buildModelInfo($app, $connection, $url_params);
-		
+//		$modelinfoTxt = $this->buildModelInfo($app, $connection, $url_params);
+		$modelinfoTxt = ShopProducts::model()->buildModelInfo($app, $connection, $url_params);
+
 		$this->renderPartial('delivery',array(
 			'app'=>$app,
 			'model'=>$model,
@@ -272,6 +278,41 @@ class ShopProductsController extends Controller
 			'currency_info' => $currency_info,
 		));
 	}
+
+	public function actionComments($id)
+    {
+        $app = Yii::app();
+        $model = $this->loadModel($id);
+
+        $modelComment = new ProductCommentsForm();
+        $modelComment->product_id = $id;
+
+        $commentsDataProvider = $modelComment->getProductComments($id);
+
+        if(isset($_POST['ProductCommentsForm'])) {
+            $modelComment->attributes = $_POST['ProductCommentsForm'];
+
+            if($modelComment->validate()) {
+                $modelComment->save();
+//                $modelComment = new ProductCommentsForm();
+//                $modelComment->product_id = $id;
+            }
+//            echo'<pre>';print_r($modelComment);echo'</pre>';//die;
+            $this->renderPartial('_questions-form',array(
+                'app'=>$app,
+                'model'=>$modelComment,
+            ));
+
+        } else {
+            $this->renderPartial('qiestions',array(
+                'app'=>$app,
+                'model'=>$model,
+                'modelComment'=>$modelComment,
+                'commentsDataProvider'=>$commentsDataProvider,
+            ));
+
+        }
+    }
 	
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
@@ -325,50 +366,7 @@ class ShopProductsController extends Controller
 		$breadcrumb[] = $model->product_name;
 		return $breadcrumb;
 	}
-	
-	/**
-	 * строит модельный ряд
-	 * @return string
-	 */
-	private function buildModelInfo(&$app, &$connection, $url_params)
-	{
-		if(isset($url_params['marka']) && isset($url_params['model']) && isset($url_params['year'])) {
-			$select_marka = $url_params['marka'] ? $url_params['marka'] : -1;
-			$select_model = $url_params['model'] ? $url_params['model'] : -1;
-			$select_year = $url_params['year'] ? $url_params['year'] : -1;
 
-			if($select_marka != -1 && $select_model != -1 && $select_year != -1) {
-				$modelinfo = ShopModelsAuto::model()->getModelInfo($connection, $select_marka, $select_model, $select_year);
-			}	else	{
-				$modelinfo = array();
-			}
-			
-		}	elseif(isset($app->session['autofilter.modelinfo']))	{
-			$modelinfo = json_decode($app->session['autofilter.modelinfo'], 1);
-		}	else	{
-			$modelinfo = array();
-		}
-		
-		$modelinfoTxt = '';
-		
-		if(count($modelinfo)) {
-			$modelinfoTxt .= ' для';
-			foreach($modelinfo as $k=>$i) {
-				if(isset($modelinfo[$k+1])) {
-					//бывает что часть названия попадает в двух частях, поэтому отлавливаем этот момент
-					$findme = $i['name'];
-					$mystring = $modelinfo[$k+1]['name'];
-					$pos = strpos($mystring, $findme);
-					if ($pos === false) $modelinfoTxt .= ' ' . $i['name'];
-				}	else	{
-					$modelinfoTxt .= ' ' . $i['name'];
-				}
-			}
-			
-		}
-		return $modelinfoTxt;
-	}
-	
     protected function processPageRequest($param='page')
     {
         if (Yii::app()->request->isAjaxRequest && isset($_POST[$param]))

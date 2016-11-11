@@ -249,18 +249,20 @@ class ShopCategoriesController extends Controller
 		if(count($descendants))	{
 			ShopCategories::model()->getCategoriesMedias($descendants);
 		}
-		
+
 		if(count($finded_product_ids))	{
 			//загрузить группы товаров
 			$producttypes = ShopProductTypes::model()->getProductTypesForProductList($connection, $finded_product_ids, $get_null = true);
-			
-			//загрузить фирмы
+            //echo'<pre>';print_r($producttypes);echo'</pre>';//die;
+            //загрузить фирмы
 			$firms = ShopFirms::model()->getFirmsForProductList($connection, $finded_product_ids);
 			
 			$bodies = ShopBodies::model()->getBodiesForProductList($connection, $finded_product_ids, $model_ids);
 		}	else	{
 			$firms = array();
-			$producttypes = array();
+			//$producttypes = array();
+
+            $producttypes = ShopProductTypes::model()->getProductTypesForProductList($connection, array(), $get_null = true);
 			$bodies = array();
 		}
 		
@@ -357,7 +359,9 @@ class ShopCategoriesController extends Controller
 			$firmsArr = array();
 			foreach($firms as $f) $firmsArr[$f['id']] = $f['name'];
 			$firmsDropDown = CHtml::listData($firms, 'id','name');
-		}
+		}   else    {
+            $firmsDropDown = array();
+        }
 		
 		if($selected_view == 'row')	$itemView = "_view-row";
 			else $itemView = "_view";
@@ -385,24 +389,32 @@ class ShopCategoriesController extends Controller
 		}
 
 		// получаем инфу по мета тегам для комбинации категория - авто - группа товаров
-		$meta_info = Meta::getMetaInfoCategoryModel($url_params);
+		$meta_info = Meta::getMetaInfoCategoryModel($url_params, $is_universal_products);
 		//
 		//echo'<pre>';print_r($meta_info);echo'</pre>';//die;
 		$show_category_descr = false;
+        if($category->category_description != '')
+            $show_category_descr = true;
+
 		if(!is_null($meta_info) || $meta_info !== false) {
 			if($meta_info->metatitle != '') $category->metatitle = $meta_info->metatitle;
 			if($meta_info->metakey != '') $category->metakey = $meta_info->metakey;
 			if($meta_info->metadesc != '') $category->metadesc = $meta_info->metadesc;
 			if($meta_info->descr != '') {
+    		//echo'<pre>';print_r($meta_info);echo'</pre>';//die;
+
 				$category->category_description = $meta_info->descr;
 				$show_category_descr = true;
 			}
 		}
 
+		$arQuestionsCount = ProductComments::getProductQuestionsCount($dataProvider->data, $connection, $app);
+
 		if ($showmore == 1){
             $this->renderPartial('_loopAjax', array(
 				'app'=> $app,
                 'dataProvider'=>$dataProvider,
+                'arQuestionsCount'=>$arQuestionsCount,
                 'itemView'=>$itemView,
 				'currency_info' => $currency_info,
 				'model_auto_selected' => $model_auto_selected,
@@ -451,6 +463,7 @@ class ShopCategoriesController extends Controller
 			$data = array(
 				'app'=> $app,
 				'dataProvider'=> $dataProvider,
+                'arQuestionsCount'=>$arQuestionsCount,
 				'itemView'=>$itemView,				
 				'type_request'=> $type_request,
 				'firm_request'=> $firm_request,
@@ -478,8 +491,9 @@ class ShopCategoriesController extends Controller
 				'related_types' => $related_types,
 				'deliveries_list' => $deliveries_list,
 				'model_info_name' => $model_info_name,
-				//'meta_info' => $meta_info,
+				'meta_info' => $meta_info,
 				'show_category_descr' => $show_category_descr,
+				'url_params' => $url_params,
 			);
 
 			$this->render('show', $data);

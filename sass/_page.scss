@@ -275,11 +275,8 @@
 	@extend .mt-30;
 	@extend .mb-20;
 	
-	.row {
+	.form-group {
 		@extend .clearfix;
-		
-		padding-bottom: 15px;
-		
 		
 		& > label {
 			@extend %db;

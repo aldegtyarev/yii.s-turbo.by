@@ -90,7 +90,7 @@
 		
 	}
 	
-	padding-bottom: 40px;
+
 }
 
 .search-notice {
@@ -101,7 +101,10 @@
 	p {
 		padding-left: 92px;
 	}
-	
+
+  border-bottom: 3px solid #d70000;
+  padding-bottom: 18px;
+  margin-bottom: 14px;
 }
 
 .search-notice-1 {
@@ -111,10 +114,9 @@
 	
 	p {
 		padding-left: 40px;
-		
-		
 	}
-	
+
+    padding-bottom: 40px;
 }
 
 .product-image-featured {

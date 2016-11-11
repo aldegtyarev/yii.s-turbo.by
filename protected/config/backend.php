@@ -6,7 +6,7 @@ return CMap::mergeArray(
     
     array(
         // стандартный контроллер
-        'defaultController' => 'shopcategories',
+        'defaultController' => 'shopproducts',
         //'defaultController' => 'companiescategories',
 		
 		'aliases' => array(

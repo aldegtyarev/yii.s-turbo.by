@@ -139,3 +139,10 @@
 		</div>
 	<?php	}	?>
 </div>
+
+<?php $this->renderPartial('../shopproducts/_questions-cnt', array(
+	'app'=>$app,
+	'model'=>$data,
+    'arQuestionsCount'=>$arQuestionsCount,
+	'formTitle'=>'Задать вопрос',
+));?>

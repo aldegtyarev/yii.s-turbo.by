@@ -39,52 +39,6 @@ $paddingLeftSideBar: 208px;
 
 $block_width: 188px;
 
-/*
-@mixin button_border($padding) {
-	display: inline-block;
-	border: 2px solid $blue_color_1;
-	@include border_radius($border_radius_1);
-	background: transparent;
-	cursor: pointer;
-	color: $blue_color_1;
-	font-size: 14px;
-	font-family: 'ptsans-regular', sans-serif;
-	padding: $padding;
-}
-*/
-
-/* FONTS */
-/*
-@font-face {
-    font-family: 'ptsans-regular';
-    src: url('../fonts/pt_sans-web-regular-webfont.eot');
-    src: url('../fonts/pt_sans-web-regular-webfont.eot?#iefix') format('embedded-opentype'),
-         url('../fonts/pt_sans-web-regular-webfont.woff') format('woff'),
-         url('../fonts/pt_sans-web-regular-webfont.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'ptsans-bold';
-    src: url('../fonts/pt_sans-web-bold-webfont.eot');
-    src: url('../fonts/pt_sans-web-bold-webfont.eot?#iefix') format('embedded-opentype'),
-         url('../fonts/pt_sans-web-bold-webfont.woff') format('woff'),
-         url('../fonts/pt_sans-web-bold-webfont.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
-*/
-/*
-@font-face {
-    font-family: 'ptsans-italic';
-    src: url('../fonts/pt_sans-web-italic-webfont.eot');
-    src: url('../fonts/pt_sans-web-italic-webfont.eot?#iefix') format('embedded-opentype'),
-         url('../fonts/pt_sans-web-italic-webfont.woff') format('woff'),
-         url('../fonts/pt_sans-web-italic-webfont.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
-/**/
 @font-face {
     font-family: 'ptsans-bolditalic';
     src: url('../fonts/pt_sans-web-bolditalic-webfont.eot');
@@ -95,13 +49,10 @@ $block_width: 188px;
     font-style: normal;
 }
 
-
 * {
 	margin: 0;
 	padding: 0;
 }
-
-
 
 body {
 	font-family: Tahoma, Verdana, sans-serif;
@@ -303,6 +254,82 @@ span.required { @extend %c_d70000; }
 	@extend %italic;
 	margin-top: 3px;
 }
+
+.col-10 {
+	width: 10%;
+}
+
+.col-20 {
+	width: 20%;
+}
+
+.col-30 {
+	width: 30%;
+}
+
+.col-40 {
+	width: 40%;
+}
+
+.col-50 {
+	width: 50%;
+}
+
+.col-60 {
+	width: 60%;
+}
+
+.col-70 {
+	width: 70%;
+}
+
+.col-80 {
+	width: 80%;
+}
+
+.col-90 {
+	width: 90%;
+}
+
+.col-100 {
+	width: 100%;
+}
+
+.row {
+	@extend %border_box;
+	@extend .clearfix;
+
+	margin-left: -10px;
+	margin-right: -10px;
+	margin-bottom: 10px;
+
+	& > div {
+		@extend %border_box;
+		@extend %fl;
+
+		padding-left: 10px;
+		padding-right: 10px;
+
+		input[type="text"],
+		textarea {
+			@extend %border_box;
+			@extend %w_100;
+
+		}
+	}
+}
+
+p.row {
+	margin-left: 0;
+	margin-right: 0;
+	margin-bottom: 0;
+}
+
+.form-group {
+	margin-bottom: 15px;
+}
+
+
 
 
 .width-wrap {
@@ -627,4 +654,39 @@ span.required { @extend %c_d70000; }
 	right:50%;  
 	margin-right: -580px;
 	z-index:776;  
-}  
+}
+
+.floating{
+	animation-name: floating;
+	-webkit-animation-name: floating;
+
+	animation-duration: 1.0s;
+	-webkit-animation-duration: 1.0s;
+
+	animation-iteration-count: infinite;
+	-webkit-animation-iteration-count: infinite;
+}
+
+@keyframes floating {
+	0% {
+		transform: translateY(0%);
+	}
+	50% {
+		transform: translateY(15%);
+	}
+	100% {
+		transform: translateY(0%);
+	}
+}
+
+@-webkit-keyframes floating {
+	0% {
+		-webkit-transform: translateY(0%);
+	}
+	50% {
+		-webkit-transform: translateY(15%);
+	}
+	100% {
+		-webkit-transform: translateY(0%);
+	}
+}

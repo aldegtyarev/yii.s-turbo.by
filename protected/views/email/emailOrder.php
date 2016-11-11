@@ -31,11 +31,13 @@ $td_style = 'style="padding:10px;"';
 		<tbody>
 			<?php 
 				foreach($customer as $attr=>$val)	{
+					if($attr == 'positions') continue;
 					if($attr == 'type' && $val == Orders::CUSTOMER_TYPE_UR) {	?>
 						<tr>
 							<td style="vertical-align:top;padding:5px 10px 5px 0;font-family:Arial, sans-serif;color:#000;font-size:14px;font-weight:bold;" colspan="2">ДАННЫЕ ОРГАНИЗАЦИИ</td>
 						</tr>
-					<?php }	?>					
+					<?php }	?>
+
 					<?php if($val != '' && $attr != 'type') {	?>
 						<tr>
 							<td style="vertical-align:top;padding:5px 10px 5px 0;font-family:Arial, sans-serif;"><?= $model->getAttributeLabel($attr) ?></td>
@@ -43,6 +45,7 @@ $td_style = 'style="padding:10px;"';
 						</tr>
 
 					<?php }	?>
+
 					<?php if($attr == 'phone1_ur') {	?>
 						<tr>
 							<td style="vertical-align:top;padding:5px 10px 5px 0;font-family:Arial, sans-serif;color:#000;font-size:14px;font-weight:bold;" colspan="2"><br>КОНТАКТНОЕ ЛИЦО</td>
@@ -125,9 +128,6 @@ $td_style = 'style="padding:10px;"';
 	<br>
 
 	<p style="font-family:Arial, sans-serif;">Спасибо за покупки на <a href="<?= $app->getBaseUrl(true)?>"><?= $app->name ?></a></p>
-	<p style="font-family:Arial, sans-serif;line-height:22px;">
-		<img src="<?= $app->getBaseUrl(true) ?>/img/ico-mts.jpg" alt="мтс" style="width:17px;margin-right:3px;">+ 375 29 530 22 99<br>
-		<img src="<?= $app->getBaseUrl(true) ?>/img/ico-velcom.png" alt="велком" style="width:17px;margin-right:3px;">+ 375 44 530 22 99<br>
-		<img src="<?= $app->getBaseUrl(true) ?>/img/email-ico1.png" alt="email" style="width:17px;margin-right:3px;"><a href="mailto:info@s-turbo.by">info@s-turbo.by</a>
-	</p>
+
+    <? $this->renderPartial('_email-footer') ?>
 </div>

@@ -170,6 +170,7 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 			'ProductsRelations1' => array(self::HAS_MANY, 'ShopProductsRelations', 'product_related_id'),
 			'ProductsAdminCategories' => array(self::HAS_MANY, 'ShopProductsAdminCategories', 'product_id'),			
 			'ProductsEngines' => array(self::HAS_MANY, 'ProductsEngines', 'product_id'),
+			'comments' => array(self::HAS_MANY, 'ProductComments', 'product_id'),
 		);
     }
 
@@ -404,8 +405,6 @@ class ShopProducts extends CActiveRecord implements IECartPosition
         $criteria->compare('in_stock',$this->in_stock,true);
         $criteria->compare('delivery',$this->delivery,true);
         $criteria->compare('prepayment',$this->prepayment,true);		
-		
-		
 
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,
@@ -414,7 +413,6 @@ class ShopProducts extends CActiveRecord implements IECartPosition
 			'pagination'=>array(
 				'pageSize' => $app->params->pagination['products_per_page'],
 			),		
-			
         ));
     }
 
@@ -1730,4 +1728,48 @@ class ShopProducts extends CActiveRecord implements IECartPosition
         $this->product_url = $controller->createUrl('shopproducts/detail', $prod_params);
         return;
     }
+
+    /**
+     * строит модельный ряд
+     * @return string
+     */
+    public function buildModelInfo(&$app, &$connection, $url_params)
+    {
+        if(isset($url_params['marka']) && isset($url_params['model']) && isset($url_params['year'])) {
+            $select_marka = $url_params['marka'] ? $url_params['marka'] : -1;
+            $select_model = $url_params['model'] ? $url_params['model'] : -1;
+            $select_year = $url_params['year'] ? $url_params['year'] : -1;
+
+            if($select_marka != -1 && $select_model != -1 && $select_year != -1) {
+                $modelinfo = ShopModelsAuto::model()->getModelInfo($connection, $select_marka, $select_model, $select_year);
+            }	else	{
+                $modelinfo = array();
+            }
+
+        }	elseif(isset($app->session['autofilter.modelinfo']))	{
+            $modelinfo = json_decode($app->session['autofilter.modelinfo'], 1);
+        }	else	{
+            $modelinfo = array();
+        }
+
+        $modelinfoTxt = '';
+
+        if(count($modelinfo)) {
+            $modelinfoTxt .= ' для';
+            foreach($modelinfo as $k=>$i) {
+                if(isset($modelinfo[$k+1])) {
+                    //бывает что часть названия попадает в двух частях, поэтому отлавливаем этот момент
+                    $findme = $i['name'];
+                    $mystring = $modelinfo[$k+1]['name'];
+                    $pos = strpos($mystring, $findme);
+                    if ($pos === false) $modelinfoTxt .= ' ' . $i['name'];
+                }	else	{
+                    $modelinfoTxt .= ' ' . $i['name'];
+                }
+            }
+
+        }
+        return $modelinfoTxt;
+    }
+
 }

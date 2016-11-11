@@ -24,6 +24,10 @@ $cs->registerCoreScript('bootstrap-pack');
 $cs->registerScriptFile('/js/bootstrap.min.js', CClientScript::POS_END);
 $cs->registerScript('tooltip', "$('[data-toggle=\"tooltip\"]').tooltip();$('[data-toggle=\"popover\"]').tooltip()", CClientScript::POS_READY);
 */
+
+if(!Yii::app()->user->isGuest && Yii::app()->user->id == 1) $isAdmin = true;
+    else $isAdmin = false;
+
 ?>
 <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!--[if lt IE 9]>
@@ -71,36 +75,37 @@ echo Yii::app()->theme->baseUrl . '/assets/js/respond.min.js';
 						'visible'=>!Yii::app()->user->isGuest,
 						'items' => array(
 							array('label'=>'Товары', 'url'=>array('shopproducts/admin'), 'visible'=>!Yii::app()->user->isGuest),
-							array('label'=>'Адм. категории', 'url'=>array('shopadmincategories/admin'), 'visible'=>!Yii::app()->user->isGuest),
-							array('label'=>'Категории магазина', 'url'=>array('shopcategories/admin'), 'visible'=>!Yii::app()->user->isGuest),
-							array('label'=>'Модельный ряд', 'url'=>array('shopmodelsauto/admin'), 'visible'=>!Yii::app()->user->isGuest),			
-							array('label'=>'Фирмы', 'url'=>array('shopfirms/admin'), 'visible'=>!Yii::app()->user->isGuest),
-							array('label'=>'Группа товаров', 'url'=>array('shopproducttypes/admin'), 'visible'=>!Yii::app()->user->isGuest),
+							array('label'=>'Адм. категории', 'url'=>array('shopadmincategories/admin'), 'visible'=>$isAdmin),
+							array('label'=>'Категории магазина', 'url'=>array('shopcategories/admin'), 'visible'=>$isAdmin),
+							array('label'=>'Модельный ряд', 'url'=>array('shopmodelsauto/admin'), 'visible'=>$isAdmin),
+							array('label'=>'Фирмы', 'url'=>array('shopfirms/admin'), 'visible'=>$isAdmin),
+							array('label'=>'Группа товаров', 'url'=>array('shopproducttypes/admin'), 'visible'=>$isAdmin),
 							array('label'=>'Двигатели', 'url'=>array('engines/admin'), 'visible'=>!Yii::app()->user->isGuest),
-							
+							array('label'=>'Комментарии', 'url'=>array('productcomments/admin'), 'visible'=>$isAdmin),
+
 						),
 					),
 
 					array(
 						'label'=>'Страницы', 
 						'url'=>array('#'), 
-						'visible'=>!Yii::app()->user->isGuest,
+						'visible'=>$isAdmin,
 						'items' => array(
 							array('label'=>'Список страниц', 'url'=>array('pages/admin')),
 							array('label'=>'Категории', 'url'=>array('pagescategories/admin')),
 						),
 					),
 			
-					array('label'=>'Заказы', 'url'=>array('orders/admin'), 'visible'=>!Yii::app()->user->isGuest),		
-					array('label'=>'Доставка', 'url'=>array('delivery/admin'), 'visible'=>!Yii::app()->user->isGuest),		
-					array('label'=>'Оплата', 'url'=>array('payment/admin'), 'visible'=>!Yii::app()->user->isGuest),		
+					array('label'=>'Заказы', 'url'=>array('orders/admin'), 'visible'=>$isAdmin),
+					array('label'=>'Доставка', 'url'=>array('delivery/admin'), 'visible'=>$isAdmin),
+					array('label'=>'Оплата', 'url'=>array('payment/admin'), 'visible'=>$isAdmin),
 			
-					array('label'=>'Валюта', 'url'=>array('currencies/admin'), 'visible'=>!Yii::app()->user->isGuest),			
+					array('label'=>'Валюта', 'url'=>array('currencies/admin'), 'visible'=>$isAdmin),
 					
 					array(
 						'label'=>'Настройки', 
 						'url'=>array('#'), 
-						'visible'=>!Yii::app()->user->isGuest,
+						'visible'=>$isAdmin,
 						'items' => array(
 							array('label'=>'Meta', 'url'=>array('meta/admin')),
 							array('label'=>'Очистить кеш', 'url'=>array('site/cacheclear')),

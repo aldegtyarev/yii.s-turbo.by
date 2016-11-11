@@ -29,13 +29,12 @@ $ico-sprite-dimensions: true;
 @import "ico/*.png"; 
 @include all-ico-sprites;
 
-
-
-
 @import "_placeholders";
 @import "_common";	//общие стили 
 @import "_common-universal-classes";	//универсальные классы 
 @import "_common-font-families";	//шрифты 
+@import "_sturbo-fonts";	//шрифты
+//@import "_bs-grid-24";
 @import "_header";
 @import "_search-auto-block";
 @import "_left-menu";
@@ -51,6 +50,7 @@ $ico-sprite-dimensions: true;
 @import "_cart";
 @import "_advantages";
 @import "_page";
+@import "_question";
 
 
 

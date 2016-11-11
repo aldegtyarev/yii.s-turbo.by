@@ -35,7 +35,6 @@ class ShopProductsImages extends CActiveRecord
 			array('product_id', 'length', 'max'=>11),
 			array('image_file', 'length', 'max'=>255),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
 			array('image_id, product_id, image_file, ordering, main_foto', 'safe', 'on'=>'search'),
 		);
 	}

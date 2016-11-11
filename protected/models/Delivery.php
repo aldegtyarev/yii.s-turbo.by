@@ -51,7 +51,6 @@ class Delivery extends CActiveRecord
 			array('name, ico', 'length', 'max'=>2048),
 			//array('name', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
 			array('id, name, options', 'safe', 'on'=>'search'),
 		);
 	}
@@ -94,8 +93,6 @@ class Delivery extends CActiveRecord
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
@@ -263,7 +260,7 @@ class Delivery extends CActiveRecord
 	}
 	
 	/**
-	 * возвращает название доставки
+	 *
 	 */
 	public function getFreeDeliveryLimit()
 	{

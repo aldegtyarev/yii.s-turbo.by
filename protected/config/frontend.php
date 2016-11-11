@@ -43,7 +43,8 @@ return CMap::mergeArray(
 					'<_action:(lastviewed)>'=>'shopproducts/<_action>',
 					'product/buyoneclick'=>'shopproducts/buyoneclick',
 					'product/dostavka/<id:.+>'=>'shopproducts/delivery',
-					
+					'product/comments/<id:.+>'=>'shopproducts/comments',
+
 					
 					'product/marka<marka:.+>/model<model:.+>/year<year:.+>/<product:.+>'=>'shopproducts/detail',
 					'product/<uni:.+>/<product:.+>'=>'shopproducts/detail',

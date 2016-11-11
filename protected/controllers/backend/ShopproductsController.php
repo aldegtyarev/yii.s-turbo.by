@@ -7,6 +7,8 @@ class ShopProductsController extends Controller
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
 	public $layout='//layouts/column2';
+    public $defaultAction='admin';
+
 
 	/**
 	 * @return array action filters
@@ -49,7 +51,7 @@ class ShopProductsController extends Controller
 					'sitemapcreate',
 					'setuni',
 				),
-				'users'=>array('superman'),
+				'users'=>array('superman', 'superman2'),
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),

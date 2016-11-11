@@ -12,24 +12,7 @@ $clientScript = $app->clientScript;
 $clientScript->registerCoreScript('phone-input');
 $clientScript->registerCoreScript('fancybox');
 
-//$product_name = $model->product_name;
-
-//$model->product_name .= $modelinfoTxt;
-
 MetaHelper::setMeta($this, $model, 'product_name');
-/*
-
-if ($model->metatitle) $this->pageTitle = $model->metatitle;
-	else	$this->pageTitle = $model->product_name;
-
-//$this->pageTitle .= ' | '.$app->name;
-
-if ($model->metakey)	
-	$clientScript->registerMetaTag($model->metakey, 'keywords');
-
-if ($model->metadesc)		
-	$clientScript->registerMetaTag($model->metadesc, 'description');
-*/
 
 $params = $app->params;
 
@@ -37,20 +20,11 @@ $image_url = $app->getBaseUrl(true) . $params->product_images_liveUrl . 'full_'.
 $current_url = $app->getBaseUrl(true).$app->getRequest()->getUrl();
 
 $product_desc = $model->metadesc;
-/*
-$product_desc = '';
-if(!empty($model->side)) $product_desc .= $model->getAttributeLabel('side') . ': '.$model->ProductSideArray[$model->side]['name'].' ';
-if(!empty($model->lamps)) $product_desc .= $model->getAttributeLabel('lamps') . ': '.nl2br($model->lamps).' ';
-if(!empty($model->adjustment)) $product_desc .= $model->getAttributeLabel('adjustment') . ': '.$model->adjustment.' ';
-if(!empty($model->material)) $product_desc .= $model->getAttributeLabel('material') . ': '.$model->material.' ';
-if(!empty($model->product_s_desc)) $product_desc .= $model->getAttributeLabel('product_s_desc') . ': '.$model->product_s_desc.' ';
-$product_desc .= strip_tags($model->product_desc);
-*/
 
 if($product_desc != '') {
 	mb_internal_encoding('UTF-8');
 	$product_desc = mb_substr($product_desc, 0, 297).'...';
-}	else	{
+} else {
 	$product_desc = 'Описание товара';
 }
 
@@ -65,7 +39,6 @@ if (!$app->request->isAjaxRequest) {
 $product_classes = '';
 
 $model_images = $model->Images;
-
 
 if($model->product_override_price == 0) {
 	$prod_price = $model->product_price;
@@ -117,7 +90,7 @@ if($product_price >= $free_delivery_limit) $model->free_delivery = 1;
 			<div class="productdetails-wrapper-slider">		
 				<div class="productdetails-slider-images">
 					<ul class="clearfix">
-						<? 
+						<?php
 							foreach($model_images as $media_item)	{
 								if($media_item->image_file != $model->product_image)	{
 									echo CHtml::openTag('li');
@@ -142,10 +115,7 @@ if($product_price >= $free_delivery_limit) $model->free_delivery = 1;
 							<span class="label"><? echo $model->getAttributeLabel('product_price');?>:</span>
 							<div class="value" id="productPrice<?=$model->product_id?>">
 								<? if($model->percent_discount < 0)	{	?>
-
-
 									<p><span class="price-override"><?= PriceHelper::formatPrice($model->product_price, $data->currency_id, 3, $currency_info, true)?></span><span class="percent_discount"><?= $model->percent_discount ?>%</span></p>
-
 									<p class="price-byr"><?=PriceHelper::formatPrice($model->product_override_price, $model->currency_id, 3, $currency_info, true)?></p>
 									<p class="price"><?=PriceHelper::formatPrice($model->product_override_price, $model->currency_id, 0, $currency_info)?></p>
 								<?	}	else	{	?>
@@ -212,7 +182,8 @@ if($product_price >= $free_delivery_limit) $model->free_delivery = 1;
 					<?php echo CHtml::beginForm($this->createUrl('/cart/addtocart')); ?>
 						<?php echo Chtml::hiddenField('quantity', '1', array('class'=>'quantity', 'id'=>false)); ?>
 						<?php echo Chtml::hiddenField('product_id', $model->product_id, array('class'=>'product_id', 'id'=>false)); ?>
-						<?php if($model->free_delivery != 0)	{	?>
+
+                        <?php if($model->free_delivery != 0)	{	?>
 							<p class="productdetails-free-delivery">+ бесплатная доставка</p>
 						<?	}	else	{	?>
 							<p class="productdetails-delivery-cost">
@@ -221,7 +192,6 @@ if($product_price >= $free_delivery_limit) $model->free_delivery = 1;
 							</p>
 						<?	}	?>
 
-						<?php  ?>
 						<p class="to-cart-process pt-5 hidden">
 							<span class="ajax-loading font-10"><img class="v-middle" src="/img/loading.gif" /> Обработка...</span>
 						</p>
@@ -312,28 +282,23 @@ if($product_price >= $free_delivery_limit) $model->free_delivery = 1;
 		</div>
 	<? } ?>
 
-	<?php
+        <?php
+            $this->beginWidget('system.web.widgets.CClipWidget', array('id'=>"Установка"));
+            echo $model->installation;
+        ?>
 
-	//if($model->installation != '') {
-		$this->beginWidget('system.web.widgets.CClipWidget', array('id'=>"Установка"));
-		echo $model->installation;
-		?>
-		<div class="page-cnt">
-		<?php
-		echo $installation_page;
-		?>
-		</div>
-		<?php
+        <div class="page-cnt">
+            <?php echo $installation_page; ?>
+        </div>
+        <?php
 		
 		$this->renderPartial('_our-work', array(
 			'app'=>$app,
 			'dataProvider' => $ourWorkDataProvider,
 			'url_path' => $url_path,
 		));						 
-		
 
 		$this->endWidget();
-	//}
 
 	$tabParameters = array();
 
@@ -345,6 +310,34 @@ if($product_price >= $free_delivery_limit) $model->free_delivery = 1;
 
 	$this->widget('system.web.widgets.CTabView', array('tabs'=>$tabParameters, 'htmlOptions'=>array('class'=>'productdetails-view-tab clearfix', 'id'=>'productdetails-view-tab'), 'activeTab'=>"0"));
 	?>
+
+    <div class="question-response-cnt question-response-cnt--product">
+        <div class="quection-form-cnt">
+            <h3>Задать вопрос по товару</h3>
+			<div>
+				<?php $this->renderPartial('_questions-form', array(
+					'app'=>$app,
+					'model'=>$modelComment,
+				));?>
+			</div>
+        </div>
+
+        <?php if(count($commentsDataProvider->data) > 0) { ?>
+            <div class="questions-lst-cnt">
+                <?php $this->widget('zii.widgets.CListView', array(
+                    'id' => 'questions-lst',
+                    'dataProvider'=>$commentsDataProvider,
+                    'itemView'=>'_question-item',
+                    'ajaxUpdate'=>false,
+                    'template'=>"{items}",
+
+                    'itemsCssClass' => 'questions-lst clearfix',
+                )); ?>
+            </div>
+        <?php } ?>
+    </div>
+
+    <??>
 
 	<?php if(count($RelatedDataProvider->data))	{	?>
 		<div class="related-products new-positions clearfix">

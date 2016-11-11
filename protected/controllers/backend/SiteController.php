@@ -97,6 +97,8 @@ class SiteController extends Controller
 			Yii::app()->end();
 		}
 
+//		var_dump(Yii::app()->user->returnUrl);die;
+
 		// collect user input data
 		if(isset($_POST['LoginForm']))
 		{

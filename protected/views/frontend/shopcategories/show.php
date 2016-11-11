@@ -11,7 +11,7 @@ if ($engineTitle != null) {
 	$title = $category->name;
 }
 
-//echo'<pre>';print_r($meta_info->metatitle);echo'</pre>';//die;
+//echo'<pre>';print_r($meta_info);echo'</pre>';//die;
 
 $this->pageTitle = $title;
 /*
@@ -29,6 +29,7 @@ $cat_imgPath = Yii::getPathOfAlias($app->params->category_imagePath);
 
 //var_dump($select_engine);
 //var_dump($show_search_notice);
+//echo'<pre>';print_r($category);echo'</pre>';//die;
 
 //этот кусок нужен чтобы предупреждение появлялось после обновления страницы
 if($select_engine == true && $show_search_notice == false)	{
@@ -61,18 +62,18 @@ if($select_engine == true && $show_search_notice == false)	{
 	";
 	$cs->registerScript('tooltip', $js, CClientScript::POS_READY);
 }
-
 ?>
 
 <div class="category-view">
 	<?php if($show_search_notice == true)	{	?>
 		<div class="search-notice">
-			<img src="/img/notice-arrow-up.png" alt="Для точного поиска, выберите СВОЙ АВТОМОБИЛЬ">
+			<img class="floating"  src="/img/notice-arrow-up.png" alt="Для точного поиска, выберите СВОЙ АВТОМОБИЛЬ">
 			<p>Для точного поиска, выберите СВОЙ АВТОМОБИЛЬ</p>
 		</div>
 	<?php }	?>
 	
-	<h1<?= $show_search_notice ? ' class="h1-small"' : ''; if($engineImage != null) echo ' class="engine-h1"' ?>><?=$title?></h1>
+	<?/*<h1<?= $show_search_notice ? ' class="h1-small"' : ''; if($engineImage != null) echo ' class="engine-h1"' ?>><?=$title?></h1>*/?>
+	<h1<?php if($engineImage != null) echo ' class="engine-h1"' ?>><?=$title?></h1>
 
 <?php if(count($descendants))	{	?>
 	<div class="category-products-list child-categories products-list clearfix">
@@ -133,9 +134,11 @@ if($select_engine == true && $show_search_notice == false)	{
 	<div class="engine-info"><?=CHtml::image($app->params->product_images_liveUrl . DIRECTORY_SEPARATOR . $engineImage) ?></div>
 <?php	}	?>
 
+<?php	include('_producttypes-firms-block.php')?>
+
 <?php	if ((((count($dataProvider->data) && $model_auto_selected == true) || ($app->params['show_products_on_index'] == true)) && ($select_engine == false && $show_search_notice == false)) || $app->user->id == 1) {	?>
 	
-	<?php	include('_producttypes-firms-block.php')?>
+
 	<?php
 		$url_params = array('id'=>$category->id);
 		if($body_request != 0) $url_params['body'] = $body_request;
@@ -172,7 +175,8 @@ if($select_engine == true && $show_search_notice == false)	{
 			$this->renderPartial('_loop', array(
 				'app'=>$app,
 				'dataProvider'=>$dataProvider,
-				'itemView'=>$itemView,
+                'arQuestionsCount'=>$arQuestionsCount,
+                'itemView'=>$itemView,
 				'currency_info' => $currency_info,
 				'deliveries_list' => $deliveries_list,
 				'model_info_name' => $model_info_name,

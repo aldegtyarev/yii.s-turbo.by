@@ -24,9 +24,12 @@ class CheckoutUrForm extends CFormModel
 	public $phone2;	
 	public $email;
 	public $comment;
+    public $post_code;
+
+    public $positions;
 
 
-	public function rules()
+    public function rules()
 	{
 		return array(
 			array('name_ur, address_ur, unp, r_schet, bank_name, bank_address, bank_code, fio_director, na_osnovanii, phone1_ur, fio, phone1, email', 'required', 'message'=>'Укажите "{attribute}"'),
@@ -39,6 +42,10 @@ class CheckoutUrForm extends CFormModel
 			array('email', 'email'),
 			
 			array('comment', 'length', 'max'=>1024),
+            array('post_code', 'length', 'max'=>6),
+
+            array('positions', 'required', 'message'=>'Ошибка формирования заказа. Попробуйте добавить товар еще раз.'),
+            array('positions', 'numerical', 'integerOnly'=>true),
 
 		);
 	}
@@ -67,6 +74,7 @@ class CheckoutUrForm extends CFormModel
 			'phone2'=>'Доп. телефон',
 			'email'=>'E-mail',
 			'comment'=>'Комментарий к заказу',
+            'post_code'=>'Почтовый индекс <span class="required">*</span>',
 			//''=>'',
 		);
 	}

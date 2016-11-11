@@ -215,6 +215,7 @@ class ShopProductTypes extends CActiveRecord
 		}
 		
 		$result = CHtml::listData($categories, 'type_id','name');
+        //echo'<pre>';print_r($result);echo'</pre>';
 		
 		//Yii::app()->cache->set('DropDownlistCategories', $result, 300);		
 		
@@ -239,6 +240,7 @@ class ShopProductTypes extends CActiveRecord
 
 	/**
 	 * получаем типы товаров для списка товаров категории
+     *
 	 * @param $connection
 	 * @param array $product_ids
 	 * @param bool $get_null
@@ -247,14 +249,14 @@ class ShopProductTypes extends CActiveRecord
 	public function getProductTypesForProductList(&$connection, $product_ids = array(), $get_null = false )
 	{
 		if(count($product_ids))	{
-			
+
 			$sql = "
 SELECT pr.`type_id` AS id, pt.`name` AS name, pt.`parent_id`, count(pr.`product_id`)  AS count
 FROM {{shop_products}} AS pr INNER JOIN {{shop_product_types}} AS pt USING(`type_id`)
 WHERE pr.`product_id` IN (".implode(',', $product_ids).") ".($get_null ? " AND pt.`type_id` > 0" : "")." 
 GROUP BY pr.`type_id` ORDER BY pt.root, pt.lft
 			";
-			
+
 			$command = $connection->createCommand($sql);
 			$rows = $command->queryAll();
 		}	else	{

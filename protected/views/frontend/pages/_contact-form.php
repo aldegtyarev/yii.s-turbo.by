@@ -12,26 +12,26 @@
 
 	<?php echo $form->errorSummary($model); ?>
 
-	<div class="row">
+	<div class="form-group">
 		<?php echo $form->labelEx($model,'name'); ?>
 		<?php echo $form->textField($model,'name'); ?>
 		<?php echo $form->error($model,'name'); ?>
 	</div>
 
-	<div class="row">
+	<div class="form-group">
 		<?php echo $form->labelEx($model,'email'); ?>
 		<?php echo $form->textField($model,'email'); ?>
 		<?php echo $form->error($model,'email'); ?>
 	</div>
 
-	<div class="row">
+	<div class="form-group">
 		<?php echo $form->labelEx($model,'body'); ?>
 		<?php echo $form->textArea($model,'body',array('rows'=>6, 'cols'=>50)); ?>
 		<?php echo $form->error($model,'body'); ?>
 	</div>
 
 	<?php if(CCaptcha::checkRequirements()): ?>
-	<div class="row pos-rel">
+	<div class="form-group pos-rel">
 		<?php echo $form->labelEx($model,'verifyCode'); ?>
 		
 			<?php $this->widget('CCaptcha', array('clickableImage' => true, /*'showRefreshButton'=>false,*/ 'buttonLabel' => '+', 'buttonType' => 'button', 'id' => 'reload_captcha')); ?>
@@ -41,7 +41,7 @@
 	</div>
 	<?php endif; ?>
 
-	<div class="row buttons">
+	<div class="form-group buttons">
 		<?php echo CHtml::submitButton('Отправить', array('class'=>'button-red')); ?>
 	</div>
 

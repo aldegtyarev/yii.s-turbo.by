@@ -37,7 +37,7 @@ class EnginesController extends Controller
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions'=>array('admin','delete','modellist','createtomodel','updatetomodel','removeimg','removeimage','copy'),
-				'users'=>array('superman'),
+				'users'=>array('superman', 'superman2'),
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),

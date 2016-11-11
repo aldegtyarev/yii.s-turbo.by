@@ -61,16 +61,15 @@ switch($checkoutType) {
 		<div id="cart-checkout-list" class="cart-list pos-rel bg-fff clearfix p-20">
 
 			<h3 class="c_d70000">Контактные данные</h3>
-
 				<?php echo CHtml::radioButtonList('checkoutType', $checkoutType, array('checkout-fiz'=>'Физическое лицо','checkout-ur'=>'Юридическое лицо'),array('separator'=>' ')); ?>
 
 				<br>
 				<br>
 				<br>
 				
-				<? $this->renderPartial('_checkout-fiz', array('model'=>$modelFiz, 'form'=>$form, 'style_fiz'=>$style_fiz)) ?>
+				<? $this->renderPartial('_checkout-fiz', array('model'=>$modelFiz, 'form'=>$form, 'style_fiz'=>$style_fiz, 'delivery_id' => $delivery_id)) ?>
 
-				<? $this->renderPartial('_checkout-ur', array('model'=>$modelUr, 'form'=>$form, 'style_ur'=>$style_ur)) ?>
+				<? $this->renderPartial('_checkout-ur', array('model'=>$modelUr, 'form'=>$form, 'style_ur'=>$style_ur, 'delivery_id' => $delivery_id)) ?>
 				
 				<div class="row checkout-btns">
 					<? echo CHtml::link('Вернуться к товарам', $this->createUrl('shopcategories/index'), array('title' => 'Продолжать покупки', 'class'=>'db fLeft c_fff bold cart-btn cart-btn-continue')); ?>

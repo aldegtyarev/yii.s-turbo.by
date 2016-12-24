@@ -107,21 +107,28 @@ class FilesHelper
  
 	} # END create_watermark()
 
-	/**
-	 * сохранение имени файла фото
-	 */
-	public static function setFoto(&$connection, $filename, $id, $table)
+    /**
+     * сохранение имени файла фото
+     *
+     * @param $connection
+     * @param $filename
+     * @param $id
+     * @param $table
+     * @param string $field
+     * @return mixed
+     */
+	public static function setFoto(&$connection, $filename, $id, $table, $field = 'foto', $idField = 'id')
 	{
-		$sql = "UPDATE $table SET `foto` = :foto WHERE `id` = :id";
+		$sql = "UPDATE $table SET `$field` = :foto WHERE `$idField` = :id";
 		$command = $connection->createCommand($sql);
 		$command->bindParam(":id", $id);
 		$command->bindParam(":foto", $filename);
-		$res = $command->execute();		
+		return $command->execute();
 	}
 	
 	public static function removeFoto($path)
 	{
-		$app = Yii::app();
+//		$app = Yii::app();
 		$pages_imagePath = Yii::getPathOfAlias($path);
 		
 		$file_path = $pages_imagePath . DIRECTORY_SEPARATOR . 'full_'.$filename;

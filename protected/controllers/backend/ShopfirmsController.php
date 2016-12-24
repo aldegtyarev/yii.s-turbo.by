@@ -36,7 +36,7 @@ class ShopFirmsController extends Controller
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
+				'actions'=>array('admin','delete','removefoto'),
 				'users'=>array('superman'),
 			),
 			array('deny',  // deny all users
@@ -91,17 +91,33 @@ class ShopFirmsController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['ShopFirms']))
-		{
-			$model->attributes=$_POST['ShopFirms'];
-			if($model->save())
-				$this->redirect(array('admin'));
+		if(isset($_POST['ShopFirms'])) {
+            if($_FILES['ShopFirms']["name"]["uploading_foto"]) {
+                $model->scenario = ShopFirms::SCENARIO_UPLOADING_FOTO;
+                $model->removeFoto();
+                $model->uploading_foto = CUploadedFile::getInstance($model,'uploading_foto');
+            }
+
+            $model->attributes=$_POST['ShopFirms'];
+
+            if($model->save()) {
+                if(isset($_POST['save'])) $this->redirect(array('admin'));
+                    else  $this->redirect(array('update','id'=>$model->firm_id));
+            }
 		}
 
 		$this->render('update',array(
 			'model'=>$model,
 		));
 	}
+
+    public function actionRemovefoto($id)
+    {
+        $model = $this->loadModel($id);
+        $model->removeFoto();
+        $model->save();
+        $this->redirect(array('update','id'=>$model->firm_id));
+    }
 
 	/**
 	 * Deletes a particular model.

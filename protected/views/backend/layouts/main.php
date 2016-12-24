@@ -79,6 +79,7 @@ echo Yii::app()->theme->baseUrl . '/assets/js/respond.min.js';
 							array('label'=>'Категории магазина', 'url'=>array('shopcategories/admin'), 'visible'=>$isAdmin),
 							array('label'=>'Модельный ряд', 'url'=>array('shopmodelsauto/admin'), 'visible'=>$isAdmin),
 							array('label'=>'Фирмы', 'url'=>array('shopfirms/admin'), 'visible'=>$isAdmin),
+							array('label'=>'Группы фирм', 'url'=>array('shopfirmscategory/admin'), 'visible'=>$isAdmin),
 							array('label'=>'Группа товаров', 'url'=>array('shopproducttypes/admin'), 'visible'=>$isAdmin),
 							array('label'=>'Двигатели', 'url'=>array('engines/admin'), 'visible'=>!Yii::app()->user->isGuest),
 							array('label'=>'Комментарии', 'url'=>array('productcomments/admin'), 'visible'=>$isAdmin),
@@ -148,7 +149,7 @@ echo Yii::app()->theme->baseUrl . '/assets/js/respond.min.js';
 		Copyright &copy; <?php echo date('Y'); ?> by My Company.<br/>
 		All Rights Reserved.<br/>
 		<?php echo Yii::powered(); ?>
-		<div class="db-stat" style="display:none;"><? print_r(Yii::app()->db->getStats()); ?></div>
+		<div class="db-stat" style="display:none;"><? //print_r(Yii::app()->db->getStats()); ?></div>
 	</div><!-- footer -->
 
 </div><!-- page -->

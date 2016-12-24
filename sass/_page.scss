@@ -15,6 +15,10 @@
 	
 	background-color: #fff;
 	padding: 20px 10px 10px 10px;
+
+	&--brand {
+		@include border-radius(5px);
+	}
 	
 }
 
@@ -465,3 +469,22 @@
 	@extend %db;
 	@extend .mb-20;
 }
+
+.brand-page {
+    &__img {
+        @extend %db;
+
+        margin-bottom: 10px;
+    }
+
+    &__head {
+        margin-bottom: 10px;
+
+        h1 {
+            background: none;
+            padding: 0 10px 0 0;
+
+        }
+    }
+}
+

@@ -76,8 +76,7 @@ class PagesController extends Controller
 	 */
 	public function actionView($id)
 	{
-		
-		//подключаем класс для замены 
+		//подключаем класс для замены
 		//больших изображений на миниютюры со ссылками
 		$aadThumbnails = new AadThumbnails();	
 		

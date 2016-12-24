@@ -45,7 +45,7 @@ return array(
 			'class'=>'system.gii.GiiModule',
 			'password'=>'alexey27',
 			// If removed, Gii defaults to localhost only. Edit carefully to taste.
-			'ipFilters'=>array('127.0.0.1','::1', '178.121.40.28'),
+			'ipFilters'=>array('127.0.0.1','::1', '178.121.56.158'),
 		),
 		
 		'user'=>array(
@@ -231,6 +231,8 @@ return array(
 		'count_last_viewed_in_page' => '15',	// кол-во последних просмотренных в отдельной странице
 		'pages_imagePath' => 'webroot.images.pages',
 		'pages_images_liveUrl' => '/images/pages/',
+        'brands_imagePath' => 'webroot.images.brands',
+		'brands_images_liveUrl' => '/images/brands/',
 		'pages_rubriks' => array(
 			1=>'Статичная страница',
 			2=>'Новости магазина',

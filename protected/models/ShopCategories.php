@@ -249,10 +249,13 @@ class ShopCategories extends CActiveRecord
 		$this->foto = '';
 	}
 
-	//загрузка фото
+    /**
+     * загрузка фото
+     *
+     * @param int $no_watermark
+     */
 	public function uploadFoto($no_watermark = 0)
 	{
-		
 		if($this->uploading_foto != null)	{
 			$app = Yii::app();
 			

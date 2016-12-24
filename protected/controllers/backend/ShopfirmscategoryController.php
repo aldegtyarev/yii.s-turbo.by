@@ -1,6 +1,6 @@
 <?php
 
-class ShopModelsAutoController extends Controller
+class ShopFirmsCategoryController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -28,7 +28,7 @@ class ShopModelsAutoController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view','descendants'),
+				'actions'=>array('index','view'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -37,7 +37,7 @@ class ShopModelsAutoController extends Controller
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions'=>array('admin','delete'),
-				'users'=>array('admin'),
+				'users'=>array('superman'),
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
@@ -62,16 +62,16 @@ class ShopModelsAutoController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new ShopModelsAuto;
+		$model=new ShopFirmsCategory;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['ShopModelsAuto']))
+		if(isset($_POST['ShopFirmsCategory']))
 		{
-			$model->attributes=$_POST['ShopModelsAuto'];
+			$model->attributes=$_POST['ShopFirmsCategory'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+				$this->redirect(array('admin'));
 		}
 
 		$this->render('create',array(
@@ -91,11 +91,11 @@ class ShopModelsAutoController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['ShopModelsAuto']))
+		if(isset($_POST['ShopFirmsCategory']))
 		{
-			$model->attributes=$_POST['ShopModelsAuto'];
+			$model->attributes=$_POST['ShopFirmsCategory'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+				$this->redirect(array('admin'));
 		}
 
 		$this->render('update',array(
@@ -122,7 +122,7 @@ class ShopModelsAutoController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('ShopModelsAuto');
+		$dataProvider=new CActiveDataProvider('ShopFirmsCategory');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
@@ -133,10 +133,10 @@ class ShopModelsAutoController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model=new ShopModelsAuto('search');
+		$model=new ShopFirmsCategory('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['ShopModelsAuto']))
-			$model->attributes=$_GET['ShopModelsAuto'];
+		if(isset($_GET['ShopFirmsCategory']))
+			$model->attributes=$_GET['ShopFirmsCategory'];
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -147,12 +147,12 @@ class ShopModelsAutoController extends Controller
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer $id the ID of the model to be loaded
-	 * @return ShopModelsAuto the loaded model
+	 * @return ShopFirmsCategory the loaded model
 	 * @throws CHttpException
 	 */
 	public function loadModel($id)
 	{
-		$model=ShopModelsAuto::model()->findByPk($id);
+		$model=ShopFirmsCategory::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -160,63 +160,14 @@ class ShopModelsAutoController extends Controller
 
 	/**
 	 * Performs the AJAX validation.
-	 * @param ShopModelsAuto $model the model to be validated
+	 * @param ShopFirmsCategory $model the model to be validated
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='shop-models-auto-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='shop-firms-category-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
 	}
-	
-	public function actionDescendants()
-	{
-		$app = Yii::app();
-		$model_id = $app->request->getParam('model_id', 0);
-		$level = $app->request->getParam('level', 0);
-		
-		$model = $this->loadModel($model_id);
-		
-		
-		if($level > 1)	{
-			$descendants = $model->descendants()->findAll();
-			foreach($descendants as $c){
-				$separator = '';
-				for ($x=3; $x++ < $c->level;) $separator .= '- ';
-				$c->name = ' '.$separator.$c->name;
-			}			
-		}	else	{
-			$descendants = $model->children()->findAll();
-		}
-		
-		
-		$dropdownData = CHtml::listData($descendants, 'id','name');
-		$selected = null;
-		
-		switch($level) {
-			case 1:
-				$empty = 'Выберите модель';
-				$name = 'select-model';
-				unset($app->session['autofilter.year']);
-				unset($app->session['autofilter.model']);
-				break;
-			case 2:
-				$empty = 'Выберите год';
-				$name = 'select-year';
-				unset($app->session['autofilter.year']);
-				break;
-			default:
-				$empty = '';
-				break;
-		}
-		
-		
-		
-		echo CHtml::dropDownList($name, $selected, $dropdownData, array('empty' => $empty, 'class'=>'search-auto-form__border_white'));
-		
-		Yii::app()->end();
-	}
-	
 }

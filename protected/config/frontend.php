@@ -32,6 +32,8 @@ return CMap::mergeArray(
 				'urlFormat'=>'path',
 				'urlSuffix' => '.html',
 				'rules'=>array(
+					'brands'=>'brands/index',
+					'<_action:(brands)>/<alias:.+>'=>'brands/view',
 					'<_action:(news|our)>/<alias:.+>'=>'pages/<_action>',
 					'<_action:(dostavka|oplata|garantiya|kontakty|onas|townslist|news|our)>'=>'pages/<_action>',
 					'<_action:(backcall|buildsitemap)>'=>'site/<_action>',

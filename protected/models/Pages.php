@@ -59,8 +59,6 @@ class Pages extends CActiveRecord
 			array('intro', 'length', 'max'=>2000),
 			array('alias','ext.LocoTranslitFilter','translitAttribute'=>'name'), 
 			array('type', 'numerical', 'integerOnly'=>true),
-			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
 			array('id, name, alias, text, meta_title, meta_keywords, meta_description', 'safe', 'on'=>'search'),
 			array('uploading_foto', 'file', 'types'=>'GIF,JPG,JPEG,PNG', 'minSize' => 1024,'maxSize' => 1048576, 'wrongType'=>'Не формат. Только {extensions}', 'tooLarge' => 'Допустимый вес 1Мб', 'tooSmall' => 'Не формат', 'on'=>self::SCENARIO_UPLOADING_FOTO),
 		);
@@ -109,8 +107,6 @@ class Pages extends CActiveRecord
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
@@ -181,9 +177,12 @@ class Pages extends CActiveRecord
 		$this->foto = '';
 	}
 	
-	/**
-	 * возвращает список страниц заданной рубрики
-	 */
+    /**
+     * возвращает список страниц заданной рубрики
+     *
+     * @param int $category_id
+     * @return CActiveDataProvider
+     */
 	public function loadPages($category_id = 1)
 	{
 		$app = Yii::app();
@@ -213,7 +212,11 @@ class Pages extends CActiveRecord
 	}
 	
 	
-	//загрузка фото
+    /**
+     * загрузка фото
+     *
+     * @param int $no_watermark
+     */
 	public function uploadFoto($no_watermark = 0)
 	{
 		$app = Yii::app();
@@ -297,8 +300,7 @@ class Pages extends CActiveRecord
 		return '.'.$file_name_arr[(count($file_name_arr)-1)];
 	}
 	
-	
-	function create_watermark( $main_img_obj, $watermark_img_obj, $alpha_level = 100 )
+	public function create_watermark( $main_img_obj, $watermark_img_obj, $alpha_level = 100 )
 	{
 		$alpha_level	/= 100;	# convert 0-100 (%) alpha to decimal
 
@@ -390,12 +392,12 @@ class Pages extends CActiveRecord
 	} # END create_watermark()
 
 	# average two colors given an alpha
-	function _get_ave_color( $color_a, $color_b, $alpha_level ) {
+    public function _get_ave_color( $color_a, $color_b, $alpha_level ) {
 		return round( ( ( $color_a * ( 1 - $alpha_level ) ) + ( $color_b	* $alpha_level ) ) );
 	} # END _get_ave_color()
 
 	# return closest pallette-color match for RGB values
-	function _get_image_color($im, $r, $g, $b) {
+    public function _get_image_color($im, $r, $g, $b) {
 		$c=imagecolorexact($im, $r, $g, $b);
 		if ($c!=-1) return $c;
 		$c=imagecolorallocate($im, $r, $g, $b);
@@ -403,12 +405,13 @@ class Pages extends CActiveRecord
 		return imagecolorclosest($im, $r, $g, $b);
 	} # EBD _get_image_color()
 	
-	/**
-	 * возвращает ссылки на все материалы по сайту
-	 *
-	 * @param $id integer
-	 * @return string
-	 */
+    /**
+     * возвращает ссылки на все материалы по сайту
+     *
+     * @param $controller
+     * @param $connection
+     * @return array
+     */
 	public function getAllUrlsForSitemap(&$controller, &$connection)
 	{
 		$urls = array();
